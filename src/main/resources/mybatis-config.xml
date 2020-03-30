@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd" >
+<configuration>
+	<settings>
+		<setting name="jdbcTypeForNull" value="NULL"/>
+		<!-- null이 들어오면 빈칸이 아니라 NULL로 인식하겠다. -->
+	</settings>
+	
+	<typeAliases>
+		<typeAlias type="com.kh.cosmos.member.model.vo.Member" alias="Member"/>
+	</typeAliases>
+	
+	<mappers>
+		<mapper resource="mapper/member-mapper.xml"/>
+	</mappers>
+</configuration>
