@@ -14,7 +14,7 @@
 				<h1>home(홈) 입니다.</h1>
 			</div>
 			<div class="content">
-				내용 테스트
+				내용 테스트!!!
 			</div>
 		</div>
 	</div>
