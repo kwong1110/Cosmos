@@ -9,8 +9,8 @@
 	<typeAliases>
 		<typeAlias type="com.kh.cosmos.b_member.model.vo.Member" alias="Member"/>
 		<typeAlias type="com.kh.cosmos.e_seat.model.vo.Seat" alias="Seat"/>
-		<typeAlias type="com.kh.cosmos.f_studyGroup.model.vo.studyGroup" alias="studyGroup"/>
-		<typeAlias type="com.kh.cosmos.g_studyPlanner.model.vo.studyPlanner" alias="studyPlanner"/>
+		<typeAlias type="com.kh.cosmos.f_studyGroup.model.vo.StudyGroup" alias="studyGroup"/>
+		<typeAlias type="com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner" alias="studyPlanner"/>
 	</typeAliases>
 	
 	<mappers>
