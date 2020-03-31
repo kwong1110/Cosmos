@@ -1,9 +1,9 @@
-package com.kh.cosmos.member.model.dao;
+package com.kh.cosmos.b_member.model.dao;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.kh.cosmos.member.model.vo.Member;
+import com.kh.cosmos.b_member.model.vo.Member;
 
 @Repository("mDAO")
 public class MemberDAO {

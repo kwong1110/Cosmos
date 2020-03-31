@@ -1,4 +1,4 @@
-package com.kh.cosmos.member.model.vo;
+package com.kh.cosmos.b_member.model.vo;
 
 import java.sql.Date;
 

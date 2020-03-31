@@ -1,4 +1,4 @@
-package com.kh.cosmos.member.model.exception;
+package com.kh.cosmos.b_member.model.exception;
 
 public class MemberException extends RuntimeException {
 	

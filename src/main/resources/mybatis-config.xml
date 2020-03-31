@@ -7,10 +7,16 @@
 	</settings>
 	
 	<typeAliases>
-		<typeAlias type="com.kh.cosmos.member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.cosmos.b_member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.cosmos.e_seat.model.vo.Seat" alias="Seat"/>
+		<typeAlias type="com.kh.cosmos.f_studyGroup.model.vo.studyGroup" alias="studyGroup"/>
+		<typeAlias type="com.kh.cosmos.g_studyPlanner.model.vo.studyPlanner" alias="studyPlanner"/>
 	</typeAliases>
 	
 	<mappers>
 		<mapper resource="mapper/member-mapper.xml"/>
+		<mapper resource="mapper/seat-mapper.xml"/>
+		<mapper resource="mapper/studyGroup-mapper.xml"/>
+		<mapper resource="mapper/studyPlanner-mapper.xml"/>
 	</mappers>
 </configuration>
