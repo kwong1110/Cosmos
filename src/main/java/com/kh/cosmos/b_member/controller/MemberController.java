@@ -1,4 +1,4 @@
-package com.kh.cosmos.member.controller;
+package com.kh.cosmos.b_member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import com.kh.cosmos.member.model.exception.MemberException;
-import com.kh.cosmos.member.model.service.MemberService;
-import com.kh.cosmos.member.model.vo.Member;
+import com.kh.cosmos.b_member.model.exception.MemberException;
+import com.kh.cosmos.b_member.model.service.MemberService;
+import com.kh.cosmos.b_member.model.vo.Member;
 
 @SessionAttributes("loginUser")
 @Controller
