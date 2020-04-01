@@ -24,5 +24,61 @@
 		</div>
 	</div>
 	<c:import url="menubar.jsp"/>
+	
+	<!-- 페이징  -->
+	<nav>
+	  <ul class="pagination">
+	    <li>
+	      <a href="#" aria-label="Previous">
+	        <span aria-hidden="true">&laquo;</span>
+	      </a>
+	    </li>
+	    <li>
+	      <a href="#" aria-label="Previous">
+	        <span aria-hidden="true">&lt;</span>
+	      </a>
+	    </li>
+	    <li><a href="#">1</a></li>
+	    <li><a href="#">2</a></li>
+	    <li><a href="#">3</a></li>
+	    <li><a href="#">4</a></li>
+	    <li><a href="#">5</a></li>
+	    <li>
+	      <a href="#" aria-label="Next">
+	        <span aria-hidden="true">&gt;</span>
+	      </a>
+	    </li>
+	    <li>
+	      <a href="#" aria-label="Next">
+	        <span aria-hidden="true">&raquo;</span>
+	      </a>
+	    </li>
+	  </ul>
+  	</nav>
+  	
+  	<!-- 검색창 -->
+  	<!-- 드롭다운 + 검색 -->
+	<form method="get" action="">
+		<div class="row">
+			<div class="col-lg-6">
+				<div class="input-group">
+					<div class="input-group-btn">
+						<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">분류 <span class="caret"></span></button>
+						<ul class="dropdown-menu" role="menu">
+							<li><a href="#">분류</a></li>
+							<li><a href="#">111</a></li>
+							<li><a href="#">222</a></li>
+							<li class="divider"></li>
+							<li><a href="#">333</a></li>
+						</ul>
+					</div><!-- /btn-group -->
+					<input type="text" class="form-control" placeholder="검색어를 입력하세요.">
+					<span class="input-group-btn">
+						<button class="btn btn-default" type="button">검색</button>
+					</span>
+				</div><!-- /input-group -->
+			</div><!-- /.col-lg-6 -->
+		</div><!-- /.row -->
+	</form>
 </body>
 </html>
