@@ -10,7 +10,6 @@ import com.kh.cosmos.b_member.model.vo.Member;
 @Service("mService")
 public class MemberServiceImpl implements MemberService {
 
-	
 	@Autowired
 	private MemberDAO mDAO;
 	

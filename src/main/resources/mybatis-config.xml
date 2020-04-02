@@ -8,9 +8,15 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.cosmos.b_member.model.vo.Member" alias="Member"/>
+		<typeAlias type="com.kh.cosmos.d_adminPage.model.vo.Report" alias="Report"/>
+		<typeAlias type="com.kh.cosmos.d_adminPage.model.vo.Master" alias="Master"/>
 		<typeAlias type="com.kh.cosmos.e_seat.model.vo.Seat" alias="Seat"/>
-		<typeAlias type="com.kh.cosmos.f_studyGroup.model.vo.StudyGroup" alias="studyGroup"/>
-		<typeAlias type="com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner" alias="studyPlanner"/>
+		<typeAlias type="com.kh.cosmos.f_studyGroup.model.vo.StudyGroup" alias="StudyGroup"/>
+		<typeAlias type="com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner" alias="StudyPlanner"/>
+		<typeAlias type="com.kh.cosmos.h_viewBranch.model.vo.ViewBranch" alias="ViewBranch"/>
+		<typeAlias type="com.kh.cosmos.i_lecture.model.vo.Lecture" alias="Lecture"/>
+		<typeAlias type="com.kh.cosmos.c_myPage.model.vo.Coupon" alias="Coupon"/>
+		<typeAlias type="com.kh.cosmos.c_myPage.model.vo.Note" alias="Note"/>
 	</typeAliases>
 	
 	<mappers>
@@ -18,5 +24,9 @@
 		<mapper resource="mapper/seat-mapper.xml"/>
 		<mapper resource="mapper/studyGroup-mapper.xml"/>
 		<mapper resource="mapper/studyPlanner-mapper.xml"/>
+		<mapper resource="mapper/viewBranch-mapper.xml"/>
+		<mapper resource="mapper/lecture-mapper.xml"/>
+		<mapper resource="mapper/report-mapper.xml"/>
+		<mapper resource="mapper/note-mapper.xml"/>
 	</mappers>
 </configuration>
