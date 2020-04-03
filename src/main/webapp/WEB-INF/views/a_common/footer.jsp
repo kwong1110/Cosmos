@@ -8,9 +8,7 @@
 </head>
 <body>
 	<div class="footer">
-		<div class="footerBox">
-			  COPYRIGHT 1995~2019 @COSMOS™ coCORP. ALL RIHGT RESERVED
-		</div>
+		<span class="copyright"><span class="copy"> </span>copyright cosmos</span>
 	</div>
 </body>
 </html>
