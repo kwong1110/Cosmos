@@ -83,6 +83,7 @@ body {
 .pageTitle h1 {
 	font-size: 3.6rem;
 	font-family: 'Binggrae';
+	text-align: center;
 }
 
 .content, .btnBox {
