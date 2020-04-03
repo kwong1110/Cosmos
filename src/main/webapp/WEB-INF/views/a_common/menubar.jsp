@@ -16,27 +16,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <style>
-	/* .header{
-		float:left;
-		width: 12vw;
-		height: 100vh;
-		font-size: 18px;
-		background-color: rgb(23, 149, 95);
-	}
-	.oneLine a,.oneLine div{
-		display:inline-block;
-		margin: 0px 7px 0px 7px;
-	}
-	.menubar div{
-		margin: 10px 0px 10px 0px;
-		text-align: center;
-	}
-	.imageBox{
-		display:inline-block;
-		width: 12vw;
-		height: 9vw;
-  		align-items: center;
-	}*/
+
 	.loginTop,.loginMid{
 		display: flex;
   		justify-content: center;
@@ -64,7 +44,7 @@
         }
     } 
     
-    .menubar, .user-area, .master-area {
+    .user-area, .master-area {
     	width : 80%;
     	margin-left : auto;
     	margin-right : auto;
@@ -126,17 +106,40 @@
     .menubar {
     	font-family: 'Binggrae';
     	color : rgba(255, 255, 255, 0.9);
+    	width:100%;
     }
     
-    .menuTitle {
-    	padding : 10px 2px;
-    	border-bottom : 1px dotted rgba(255, 255, 255, 0.9);
+    .menuTitle > a,  .menuTitle > div > a{
+    	display:block;
+    	width:80%;
+    	margin-left : auto;
+    	margin-right:auto;
+    	/* border-bottom : 1px dotted rgba(255, 255, 255, 0.9); */
+    	padding : 12px 2px;
     }
     
-    .s-menu > div {
-    	padding : 10px 0 0px 23px;
+    .s-menu > div > a {
+    	display : block;
+    	width:80%;
+    	margin-left : auto;
+    	margin-right:auto;
     }
     
+    .s-menu{
+    	background-color:rgb(254, 245, 198);
+    	color : #444;
+    }
+    
+    .s-menu > div > a {
+    	padding : 12px 0 12px 23px;
+    }
+    
+    .menuTitle:hover{
+    	background-color:rgb(100, 222, 109);
+    }
+	.s-menu>div:hover {
+		background-color:rgba(228, 208, 106, 0.2);
+	}
 </style>
 <body>
 	<!-- contextPath를 변수로 만들어 활용하기 -->
@@ -156,20 +159,38 @@
 				</div>
 			</c:if>
 			<c:if test="${ !empty sessionScope.loginUser }">
-				<div class="oneLine">
-					<div>
-						<span class="cosmos"><c:out value="${ loginUser.name }"/></span>님
+				<c:if test="${ sessionScope.loginUser.grade == 1}">
+					<div class="oneLine">
+						<div>
+							<span class="cosmos"><c:out value="${ loginUser.name }"/></span>님
+						</div>
+						<c:url var="logout" value="logout.me"/>				
+						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
+						<div class="user-menu clear-fix">
+							<div><a href=""><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</a></div>
+							<div><a href=""><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</a></div>
+							<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>마이 페이지</a></div>
+						</div>
 					</div>
-					<c:url var="logout" value="logout.me"/>				
-					<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
-					<div class="user-menu clear-fix">
-						<div><a href=""><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</a></div>
-						<div><a href=""><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</a></div>
-						<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>마이 페이지</a></div>
+				</c:if>
+				<c:if test="${ sessionScope.loginUser.grade == 0}">
+					<div class="oneLine">
+						<div>
+							<span class="cosmos"><c:out value="${ loginUser.name }"/></span>님
+						</div>
+						<c:url var="logout" value="logout.me"/>				
+						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
+						<div class="user-menu clear-fix">
+							<div><a href=""><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</a></div>
+							<div><a href=""><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</a></div>
+							<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
+						</div>
 					</div>
-				</div>
+				</c:if>
 			</c:if>
 		</div>
+		<%-- 관리자 페이지 메뉴  --%>
+		<%-- 
 		<div class="master-area">
 			<c:if test="${ sessionScope.loginUser.grade == 0}">
 				<div class="menuTitle" id="myPage">
@@ -183,26 +204,27 @@
 					</div>
 				</div>
 			</c:if>
-		</div>
+		</div> 
+		--%>
 		
 		<hr class="bar">
 		
 		<div class="menubar">
-			<div class="menuTitle"><a href=""><span class="glyphicon glyphicon-education" aria-hidden="true"></span>좌석예약</a></div>
-			<div class="menuTitle"><a href=""><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>그룹목록</a></div>
+			<div class="menuTitle"><a href="${contextPath}/views/e_seat/seatReservation.jsp"><span class="glyphicon glyphicon-education" aria-hidden="true"></span>좌석예약</a></div>
+			<div class="menuTitle"><a href="#"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>그룹목록</a></div>
 			<div class="menuTitle">
-				<div><a href=""><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
+				<div><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
 				<div class="s-menu">
-					<div><a href="">나의 플래너</a></div>
-					<div><a href="">모두의 플래너</a></div>								
+					<div><a href="#">나의 플래너</a></div>
+					<div><a href="#">모두의 플래너</a></div>								
 				</div>
 			</div>
-			<div class="menuTitle"><a href=""><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
+			<div class="menuTitle"><a href="#"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
 			<div class="menuTitle">
-				<div><a href=""><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>강연</a></div>
+				<div><a href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
 				<div class="s-menu">
-					<div><a href="">강연 목록</a></div>
-					<div><a href="">강연자 신청</a></div>								
+					<div><a href="#">강연 목록</a></div>
+					<div><a href="#">강연자 신청</a></div>								
 				</div>
 			</div>
 		</div>
@@ -280,5 +302,48 @@
 	<% if(request.getParameter("msg") != null){ %>
 		alert('<%=request.getParameter("msg")%>');
 	<% } %>
+	
+	/* 메뉴 */
+	$(function(){
+		
+		/* 하위 메뉴 슬라이드 */
+		$(".s-menu").css({display:"none"});
+		
+		$(".menuTitle").click(function(){
+			$(".s-menu").each(function(){
+				if($(this).css("display") == "block"){
+					$(this).slideUp("fast");
+				}
+			});
+			
+			$(this).find(".s-menu").slideDown("fast");
+		});
+		
+		
+		/* 메뉴 고정 */
+		var subPage = new Array;
+		subPage[0] = "company";
+		subPage[1] = "event";
+		subPage[2] = "games";
+		subPage[3] = "games";
+		subPage[4] = "games";
+		var url = location.href;
+		var getAr0 = url.indexOf(subPage[0]);
+		var getAr1 = url.indexOf(subPage[1]);
+		var getAr2 = url.indexOf(subPage[2]);
+		var getAr3 = url.indexOf(subPage[2]);
+		var getAr4 = url.indexOf(subPage[2]);
+		if(getAr0 != -1){
+			$("li:eq(1) a").addClass("on")
+		};
+		if(getAr1 != -1){
+			$("li:eq(2) a").addClass("on")
+		};
+		if(getAr2 != -1){
+			$("li:eq(3) a").addClass("on")
+		};
+
+	});
+	
 </script>
 </html>
