@@ -189,7 +189,7 @@
 		
 		<div class="menubar">
 			<div class="menuTitle"><a href=""><span class="glyphicon glyphicon-education" aria-hidden="true"></span>좌석예약</a></div>
-			<div class="menuTitle"><a href=""><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>그룹목록</a></div>
+			<div class="menuTitle"><a href="insertView.sg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>그룹목록</a></div>
 			<div class="menuTitle">
 				<div><a href=""><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
 				<div class="s-menu">
