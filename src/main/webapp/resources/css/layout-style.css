@@ -1,0 +1,61 @@
+@charset "UTF-8";
+
+html, body {
+	height: 100%;
+	overflow: hidden;
+}
+
+.total-wrapper, .header, .wrapper, .footer{
+	height: 100%;
+}
+
+.total-wrapper {
+	display: flex;
+}
+.header {
+	flex: 1 1 auto;
+	
+	padding: 50px 0;
+	background-color:rgb(23, 149, 95);
+}
+.wrapper {
+	flex: 2 1 70%;
+	
+	display: flex;
+	flex-direction: column;
+}
+
+.main {
+	margin: 0 auto;
+	padding: 100px;
+	overflow: auto;
+	line-height: 2;
+	
+}
+
+.footer {
+	flex: 1 1 5%;
+	
+	background-color: rgb(254, 245, 198); 
+	font-family: 'Binggrae';
+	color: rgb(23, 149, 95);
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.footer .copyright {
+	writing-mode: vertical-rl;
+	font-weight: bold;
+}
+
+.footer .copy {
+	display: inline-block;
+	background:url("../image/copy.png") no-repeat center center;
+	width: 25px;
+	height: 25px;
+	background-size: contain;
+	padding-right: 5px;
+	transform: rotate(90deg);
+}

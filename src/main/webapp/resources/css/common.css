@@ -1,170 +1,201 @@
 @charset "UTF-8";
+
+@import url("fontello.css");
+
 /*
-		공통 CSS 
-	-색상 참고.
-	녹색  rgb(23, 149, 95);
-	연녹색 rgb(100, 222, 109);
-	
-	연노란색 rgb(254, 245, 198);
-	빨강색 rgb(255, 0, 0);
-	회색 rgb(196, 196, 196);
-	
-	margin/padding: 위       우      아래       좌   
+   공통 CSS 
+   -색상 참고.
+   녹색  rgb(23, 149, 95);
+   연녹색 rgb(100, 222, 109);
+   
+   연노란색 rgb(254, 245, 198);
+   빨강색 rgb(255, 0, 0);
+   회색 rgb(196, 196, 196);
+   
+   margin/padding: 위       우      아래       좌   
 */
 
-	/* 메인 폰트 : 빙그레체(후보) */
-@font-face{ 
-	font-family: 'Binggrae'; 
-	font-style: normal; 
-	font-weight: normal; 
-	src: url('//cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/Binggrae.woff') format('woff'); 
-}
-body{
-	font-family: 'Binggrae'; 
-	font-style: normal;
+/* 메인 폰트 : 빙그레체(후보) */
+@font-face {
+	font-family: 'Binggrae';
+	src: local('Binggrae');
+	src: url("../font/Binggrae.woff") format("woff"),
+		url("../font/Binggrae.ttf") format("truetype");
 }
 
-	/* 로고 */
-.logo{
+@font-face {
+	font-family: 'Binggrae-Bold';
+	src: local('Binggrae-Bold');
+	src: url("../font/Binggrae-Bold.woff") format("woff"),
+		url("../font/Binggrae-Bold.ttf") format("truetype");
+}
+
+/* 메인 폰트 : 나눔 고딕 */
+@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html {
+	font-size: 10px;
+}
+
+body {
+	font-family: 'Nanum Gothic', sans-serif;
+	font-size: 1.6rem;
+}
+
+/* 스크롤바(크롬에서만 적용) */
+::-webkit-scrollbar{width: 16px;}
+::-webkit-scrollbar-track {/*background-color:rgb(254, 245, 198);*/ background-image: linear-gradient(to right, transparent 0px, transparent 8px, rgb(23, 149, 95) 8px, rgb(23, 149, 95) 9px, transparent 9px, transparent 0px)}
+::-webkit-scrollbar-thumb {background-color:rgb(23, 149, 95);border-radius: 10px;}
+::-webkit-scrollbar-thumb:hover {background: rgb(23, 149, 95);}
+::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment {width:16px;height:16px;background:rgb(254, 245, 198); display: none;} 
+
+/* 로고 */
+.logo {
 	display: block;
-	margin: 0;
-	padding: 0;
 	background-size: contain;
-	background-image: url('../../resources/image/mainLogo.png');
+	background-image: url("../image/mainLogo.png");
 	background-repeat: no-repeat;
+	width: 250px;
+	height: 200px;
+	margin-left: auto;
+	margin-right: auto;
 }
-	/* 에러 */
-.error{
-	color: red;
-}
-	/* 내용(body상단) 부분 */
-.wrapper{
-	display: flex;
-  	justify-content: center;
+
+/* 내용(body상단) 부분 */
+.wrapper {
 	background-color: rgb(254, 245, 198);
-	height: 100vh;
-    margin: 0;
-    padding: 0;
 }
-.main{
-}	
-.pageTitle{
-	padding: 20px 0 10px 0; 
+
+.pageTitle, .content {
+	width: 90%;
+	margin: 0 auto;
+}
+
+.pageTitle {
+	padding: 20px 0 10px 0;
 	text-align: left
 }
-.content,.btnBox{
-  	padding: 10px 0 10px 0;
-	font-size: 14px;	
-	text-align: center
+
+.pageTitle h1 {
+	font-size: 3.6rem;
+	font-family: 'Binggrae';
 }
-ul {
-	list-style-type: none
+
+.content, .btnBox {
+	padding: 10px 0 10px 0;
+	text-align: justify
 }
-	/* 버튼 관리 */
-	/*
-		defaultBtn : 기본 버튼 디자인
-		btnL : 하단 왼쪽
-		btnR : 하단 오른쪽 위치
-		btnC : 하단 센터
-		btnS : sub 버튼 (내용 안쪽에 들어가는 버튼)
-		cancleBtn : rgb()
-		menuBtn : rgb() 
-	*/
-	
-	/* 게시판 내용 안에 들어가는 버튼*/
-.defaultBtn{
+
+/* 버튼 관리 */
+/*
+      defaultBtn : 기본 버튼 디자인
+      btnL : 하단 왼쪽
+      btnR : 하단 오른쪽 위치
+      btnC : 하단 센터
+      btnS : sub 버튼 (내용 안쪽에 들어가는 버튼)
+      cancleBtn : rgb()
+      menuBtn : rgb() 
+   */
+
+/* 게시판 내용 안에 들어가는 버튼*/
+.defaultBtn {
 	padding: 6px 9px 6px 9px;
 	border: 0;
 	background: rgb(100, 222, 109);
 	color: white;
-	font-size: 15px;
-  	font-weight: bold;
+	font-size: 1.5rem;
+	font-weight: bold;
 	cursor: pointer
 }
-.defaultBtn:hover{
+
+.defaultBtn:hover {
 	background: rgb(243, 171, 180)
 }
-.searchBtn{
+
+.searchBtn {
 	padding: 4px
 }
-.cancelBtn{
+
+.cancelBtn {
 	background: rgb(213, 213, 213)
 }
-.menuBtn{
+
+.menuBtn {
 	background: rgb(178, 204, 255)
 }
-.cancelBtn:hover{
+
+.cancelBtn:hover {
 	background: rgb(203, 203, 203)
 }
-.menuBtn:hover{
+
+.menuBtn:hover {
 	background: rgb(168, 194, 245)
 }
-.subBtn{
+
+.subBtn {
 	font-size: 13px;
 }
-	/* 최하단 버튼 위치 관리 */
-	/* '버튼 박스'에 넣어 줄것. */
-.btnL{
+
+/* 최하단 버튼 위치 관리 */
+/* '버튼 박스'에 넣어 줄것. */
+.btnL {
 	text-align: left
 }
-.btnR{
+
+.btnR {
 	text-align: right
 }
-.btnC{
+
+.btnC {
 	text-align: center
 }
 
-	/* 페이지네이션 */
-	/* 페이지네이션 박스 클래스명 .pagingArea 로 바꾸기 */
-.pagingArea{
+/* 페이지네이션 */
+/* 페이지네이션 박스 클래스명 .pagingArea 로 바꾸기 */
+.pagingArea {
 	padding: 30px 0;
 	text-decoration: none
 }
-.pagingArea button{
-	position: relative; 
+
+.pagingArea button {
+	position: relative;
 	margin: 1em auto;
-	border: 3px solid white; 
-	background: none; 
-	font-weight: bold; 
+	border: 3px solid white;
+	background: none;
+	font-weight: bold;
 	text-transform: uppercase;
 	cursor: pointer
 }
-.footer{
-	float: right;
-	height: 100vh;
-	position: absolute;
-	right: 0px;
-	display: flex;
-	align-items: center;
-  	justify-content: center;
-	background-color: lightgray;
-	writing-mode: tb-rl;
-	border: none;
-	color: white;
-}
-.footerBox{
-	margin: 0;
-	padding: 0
+
+/* 기타 */
+/* focus시 테두리 없애기*/
+*:focus {
+	outline: none
 }
 
- 	/* 기타 */
- 	/* focus시 테두리 없애기*/
-*:focus{ 
-	outline:none
+/* a태그
+       클릭하지않은것, 다녀간것, 호버시
+   */
+a {
+	color: inherit;
+	text-decoration: none
 }
 
-	/* a태그
-		 클릭하지않은것, 다녀간것, 호버시
-	*/
-a:link{
-	color: black;
+a:hover {
+	color: inherit;
 	text-decoration: none
 }
-a:visited{ 
-	color: black; 
-	text-decoration: none
+
+/* 부트스트랩 콤포넌트 오른쪽 간격 */
+.glyphicon {
+	padding-right : 5px;
+	
 }
-a:hover{ 
-	color: blue; 
-	text-decoration: none
-}
+
+
+
+
