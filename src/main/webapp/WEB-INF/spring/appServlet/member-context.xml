@@ -12,7 +12,7 @@
 	<resources mapping="/resources/**" location="/resources/" />
 
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<beans:property name="prefix" value="/WEB-INF/views/b_member" />
+		<beans:property name="prefix" value="/WEB-INF/views/b_member/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
