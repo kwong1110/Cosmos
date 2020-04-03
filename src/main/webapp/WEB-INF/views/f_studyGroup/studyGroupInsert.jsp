@@ -15,6 +15,7 @@
 	
 	#now_date{width:100px;}
 	
+	
 	.inputStyle{
 		border-radius: 4px;
 		box-shadow: none;
