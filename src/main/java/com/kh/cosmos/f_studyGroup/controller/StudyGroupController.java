@@ -10,4 +10,6 @@ public class StudyGroupController {
 
 	@Autowired
 	private StudyGroupService sgService;
+	
+	@RequestMapping("")
 }
