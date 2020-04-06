@@ -65,6 +65,28 @@ body {
 	margin-right: auto;
 }
 
+.logo_green {
+	display: block;
+	background-size: contain;
+	background-image: url("../image/mainLogo_green.png");
+	background-repeat: no-repeat;
+	width: 250px;
+	height: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.logo_bold_green {
+	display: block;
+	background-size: contain;
+	background-image: url("../image/mainLogo_bold_green.png");
+	background-repeat: no-repeat;
+	width: 250px;
+	height: 200px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /* 내용(body상단) 부분 */
 .wrapper {
 	background-color: rgb(254, 245, 198);

@@ -16,7 +16,6 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </head>
 <style>
-
 	.loginTop,.loginMid{
 		display: flex;
   		justify-content: center;
@@ -168,7 +167,7 @@
 						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
 						<div class="user-menu clear-fix">
 							<div><a href=""><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</a></div>
-							<div><a href=""><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</a></div>
+							<div data-toggle="modal" data-target="#myCupon"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
 							<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>마이 페이지</a></div>
 						</div>
 					</div>
@@ -182,7 +181,7 @@
 						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
 						<div class="user-menu clear-fix">
 							<div><a href=""><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</a></div>
-							<div><a href=""><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</a></div>
+							<div data-toggle="modal" data-target="#myCupon"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
 							<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
 						</div>
 					</div>
@@ -211,7 +210,7 @@
 		
 		<div class="menubar">
 			<div class="menuTitle"><a href=""><span class="glyphicon glyphicon-education" aria-hidden="true"></span>좌석예약</a></div>
-			<div class="menuTitle"><a href="insertView.sg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>그룹목록</a></div>
+			<div class="menuTitle"><a href="listView.sg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>그룹목록</a></div>
 			<div class="menuTitle">
 				<div><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
 				<div class="s-menu">
@@ -263,6 +262,101 @@
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+	
+	<!-- 쿠폰 모달 -->
+	<div id="myCupon" class="modal fade" role="dialog">
+		<div class="modal-dialog" style="width:45%;">
+			<div class="modal-content" style="background: lightgray;">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h2 class="modal-title" style="width:100%; text-align:center; margin:10px;">마이 쿠폰</h2>
+				</div>
+				
+				<div class="modal-body" style="width:100%; display:inline-block; text-align:center;">
+					
+					<div style="width:90%; min-height: 330px; margin-top:5%; margin-bottom:5%; display:inline-block; text-align:center; border-radius:10px; background:white;">
+						<div style="width:100%; height:120px; padding: 4%; padding-bottom: 1%;">
+							<div style="width:50%; height:100%; float:left; padding-left:3%;">
+								<div class="logo_green" style="height:100%; width:auto;"></div>
+							</div>
+							<div style="width:50%; height:100%; float:right; text-align:right; padding-right:5%; padding-top:3%;">
+								<label style="font-size:35px; font-weight:normal;">3/10</label>
+							</div>
+						</div>
+						
+						<div style="width:100%; text-align:center;">
+						<div style="width:85%; display:inline-block;">
+							<table style="width:100%; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.5em !important">
+								<tr>
+									<td style="display:inline-block; text-align:center;"><img src="${contextPath }/resources/image/alien.png" style="width:80px; height:auto; display:block;" /></td>
+									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+								</tr>
+								<tr>
+									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+								</tr>
+							</table>
+						</div>
+						</div>
+					</div>
+					
+					<div style="width:100%; text-align:center;">
+					<div style="width:80%; display:inline-block;">
+						<table style="width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important">
+							<tr>
+								<td>2020.00.00 00:00</td>
+								<td>쿠폰 발급</td>
+								<td>-10</td>
+							</tr>
+							<tr>
+								<td>2020.00.00 00:00</td>
+								<td>한남점 1인 3시간 좌석예약</td>
+								<td>+1</td>
+							</tr>
+							<tr>
+								<td>2020.00.00 00:00</td>
+								<td>노량진점 6인 3시간 좌석예약</td>
+								<td>+1</td>
+							</tr>
+						</table>
+					</div>
+					</div>
+				</div>
+
+				<div class="modal-footer" style="width:100%; text-align:center;">
+					<nav>
+						<ul class="pagination">
+							<li><a href="#" aria-label="Previous"> <span
+									aria-hidden="true">&laquo;</span>
+							</a></li>
+							<li><a href="#" aria-label="Previous"> <span
+									aria-hidden="true">&lt;</span>
+							</a></li>
+							<li><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#" aria-label="Next"> <span
+									aria-hidden="true">&gt;</span>
+							</a></li>
+							<li><a href="#" aria-label="Next"> <span
+									aria-hidden="true">&raquo;</span>
+							</a></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 쿠폰 모달 -->
+	
 </body>
 <script>
 	$('#login').click(function(e){
@@ -273,7 +367,6 @@
 	function loginUser(){
 		
 		var $errorDiv = $("<div class='error'>");
-
 		if($('#id').val().trim().length != 0){
 			$('.error').detach();
 		}
@@ -342,7 +435,6 @@
 		if(getAr2 != -1){
 			$("li:eq(3) a").addClass("on")
 		};
-
 	});
 	
 </script>

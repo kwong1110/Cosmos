@@ -12,8 +12,23 @@ public class StudyGroupController {
 	@Autowired
 	private StudyGroupService sgService;
 	
-	@RequestMapping("insertView.sg")
+	@RequestMapping("listView.sg")
+	public String StudyGroupListView() {
+		return "studyGroupList";
+	}
+	
+	@RequestMapping("insertGroupView.sg")
 	public String StudyGroupInsertView() {
 		return "studyGroupInsert";
+	}
+
+	@RequestMapping("insertRecView.sg")
+	public String RecruitInsertView() {
+		return "recruitInsert";
+	}
+
+	@RequestMapping("recruitDetailView.sg")
+	public String RecruitDetailView() {
+		return "recruitDetail";
 	}
 }
