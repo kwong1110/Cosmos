@@ -6,6 +6,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
+
 <style>
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
@@ -14,6 +17,7 @@
 	.tableLabel{width: 35%; text-align: center; font-size: 20px; font-weight: bold;}
 	#now_date{width:100px;}
 	
+	#groupSelect{width: 400px;}
 	#studyType{width: 200px;}
 	#recEndDate{width: 140px; display: inline-block;}
 	#recNum{width: 70px; display: inline-block;}
@@ -38,7 +42,7 @@
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
-					<h1>스터디 그룹 등록</h1>
+					<h1>스터디 그룹 모집 등록</h1>
 				</div>
 				<div class="content">
 					
@@ -46,33 +50,20 @@
 						<tr>
 							<td class="tableLabel">그룹 명</td>
 							<td>
-								<input type="text" class="form-control" id="groupName" name="groupName">
+								<select class="form-control" id="groupSelect" name="groupSelect">
+									<option>그룹명1</option>
+									<option>그룹명2</option>
+									<option>그룹명3</option>
+									<option>그룹명4</option>
+									<option>그룹명5</option>
+								</select>
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">공부 종류</td>
 							<td>
-								<!-- 
-								<div class="dropdown">
-									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-										공부종류
-										<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-								    	<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-								    	<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-								    	<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-								    	<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-								    </ul>
-								</div>
-								 -->
-								<select class="form-control" id="studyType" name="studyType">
-									<option>공부종류</option>
-									<option>공부종류1</option>
-									<option>공부종류2</option>
-									<option>공부종류3</option>
-									<option>공부종류4</option>
-								</select>
+								<p id="studyType">공부종류</p>
+								<!-- <input class="form-control" type="text" id="studyType" name="studyType" value="공부종류" disabled> -->
 							</td>
 						</tr>
 						<tr>
@@ -91,30 +82,27 @@
 						<tr>
 							<td class="tableLabel">모임 장소</td>
 							<td>
-								<select class="form-control" id="recLoc" name="recLoc">
-									<option>노량진점</option>
-									<option>부천점</option>
-									<option>성남점</option>
-									<option>신도림점</option>
-									<option>한남점</option>
-								</select>
+								<p id="recLoc">한남점</p>
+								<!-- <input class="form-control" type="text" id="recLoc" name="recLoc" value="한남점" disabled> -->
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">모임 날짜</td>
 							<td>
-								<input type="date" class="form-control" id="meetingDate" name="meetingDate">
+								<p id="meetingDate">월요일</p>
+								<!-- <input class="form-control" type="text" id="meetingDate" name="meetingDate" value="월요일" disabled> -->
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">그룹 목표</td>
 							<td>
-								<input type="text" class="form-control" id="groupGoal" name="groupGoal">
-								<label class="lengthAlert">0/100</label>
+								<p id="groupGoal">그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표</p>
+								<!-- <input type="text" class="form-control" id="groupGoal" name="groupGoal">
+								<label class="lengthAlert">0/100</label> -->
 							</td>
 						</tr>
 						<tr>
-							<td class="tableLabel">그룹 내용</td>
+							<td class="tableLabel">모집 내용</td>
 							<td class="topTd">
 								<textarea cols="50" rows="20" class="form-control resize"></textarea>
 								<label class="lengthAlert">0/2000</label>
@@ -155,8 +143,5 @@
 		$('[data-toggle="tooltip"]').tooltip()
 	})
 	</script>
-	
-	
-	
 </body>
 </html>
