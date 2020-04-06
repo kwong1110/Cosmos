@@ -6,14 +6,19 @@
 <head>
 <meta charset="UTF-8">
 <title>메뉴바</title>
+<script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/resources/css/reset.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/daterangepicker.css">
+	<!-- cosmos css -->
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/layout-style.css">
-<script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
-<script src="${contextPath}/resources/js/common.js"></script>
+	<!-- 부트스트랩 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<!-- cosmos js -->
+<script src="${contextPath}/resources/js/common.js"></script>
 </head>
 <style>
 
@@ -221,7 +226,7 @@
 			</div>
 			<div class="menuTitle"><a href="#"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
 			<div class="menuTitle">
-				<div><a href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
+				<div><a href="lectureCalendar.le"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
 				<div class="s-menu">
 					<div><a href="#">강연 목록</a></div>
 					<div><a href="#">강연자 신청</a></div>								

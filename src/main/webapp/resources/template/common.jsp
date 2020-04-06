@@ -11,7 +11,7 @@
 	<!-- view 초기 구조 -->
 	<!-- import 경로는 알아서 바꿔줄것. -->
 	<div class="total-wrapper">
-		<c:import url="menubar.jsp"/>
+		<c:import url="a_common/menubar.jsp"/>
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
@@ -86,5 +86,25 @@
 			</div><!-- /.col-lg-6 -->
 		</div><!-- /.row -->
 	</form>
+	
+	<!-- DateRange Pick -->
+	<div class="box-title m-t-30">Date Range Pick(여러개 선택)</div>
+	<input class="form-control input-daterange-datepicker" type="text" name="daterange">
+	
+	<!-- Autoclose Datepicker -->
+	<div class="box-title m-t-30">Autoclose Datedpicker(1개 선택)</div>
+		<div class="input-group">
+		<input type="text" class="form-control" id="datepicker-autoclose" placeholder="년/월/일"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
+	</div>
+	
+	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.ko.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/daterangepicker.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/form-pickers-init.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	
+	<!-- 둘중 하나를 사용하더라도 밑의 script는 다 넣어주어야함! -->
 </body>
 </html>
