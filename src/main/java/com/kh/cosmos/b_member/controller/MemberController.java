@@ -51,4 +51,18 @@ public class MemberController {
 		
 		return "redirect:/";
 	}
+	
+	// 이용약관 페이지 이동
+	@RequestMapping("agree.me")
+	public String agree() {
+		return "memberAgree";
+	}
+	
+	// 회원가입 페이지 이동
+	@RequestMapping("enroll.me")
+	public String enroll() {
+		return "memberInsertForm";
+	}
+	
+	
 }

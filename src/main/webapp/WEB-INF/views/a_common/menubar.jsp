@@ -158,7 +158,7 @@
 					<div id="login" class="btn btn-default">로그인</div>
 					<div class="user-menu">
 						<div id="find" class="find"><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span>아이디 &middot; 비밀번호 찾기</a></div> 
-						<div id="enroll" class="enroll"><a href="enroll.me"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>회원가입</a></div>
+						<div id="enroll" class="enroll"><a href="agree.me"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>회원가입</a></div>
 					</div>
 				</div>
 			</c:if>
