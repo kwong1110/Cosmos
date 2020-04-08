@@ -64,7 +64,7 @@
 					        	<div class="left-top"></div>
 					        	<div class="left-mid">
 					        		<table border="1" id="tab">
-					        			<c:forEach var="s" items="${ list }">
+					        			<c:forEach var="s" items="${ branchList }">
 					        				<tr>
 					        					<th rowspan="3">
 					        						<input type="radio">
