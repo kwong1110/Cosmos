@@ -4598,7 +4598,7 @@ Docs & License: https://fullcalendar.io/
         weekLabel: 'W',
         allDayText: 'all-day',
         eventLimitText: 'more',
-        noEventsMessage: 'No events to display'
+        noEventsMessage: '등록된 일정이 없습니다.'
     };
     function parseRawLocales(explicitRawLocales) {
         var defaultCode = explicitRawLocales.length > 0 ? explicitRawLocales[0].code : 'en';
