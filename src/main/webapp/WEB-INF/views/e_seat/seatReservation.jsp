@@ -41,34 +41,13 @@
     
   	nav{margin-left:20px;}
   	
-  	.modal-dialog.modal-80size {
-  width: 85%;
-  height: 90%;
-  margin: 0;
-  padding: 0;
-}
-
-.modal-content.modal-80size {
-  height: auto;
-  min-height: 90%;
-}
-
-.modal {
-  text-align: center;
-}
-@media screen and (min-width: 768px) {
-  .modal:before {
-    display: inline-block;
-    vertical-align: middle;
-    content: " ";
-    height: 95%;
-  }
-}
-.modal-dialog {
-  display: inline-block;
-  text-align: left;
-  vertical-align: middle;
-}
+  	.modal-dialog.modal-80size {width: 85%; height: 90%; margin: 0; padding: 0;}
+	.modal-content.modal-80size {height: auto; min-height: 90%;}
+	.modal {text-align: center;}
+	@media screen and (min-width: 768px) {
+  	.modal:before {display: inline-block; vertical-align: middle; content: " ";height: 95%;}
+	}
+	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
 </style>
 </head>
 <body>
@@ -83,7 +62,32 @@
 						<div class="wrap-div form-inline" >
 					        <div class="div-left">
 					        	<div class="left-top"></div>
-					        	<div class="left-mid"></div>
+					        	<div class="left-mid">
+					        		<table border="1" id="tab">
+					        			<c:forEach var="s" items="${ list }">
+					        				<tr>
+					        					<th rowspan="3">
+					        						<input type="radio">
+					        					</th>
+					        					<th>${ s.branchName }</th>
+					        				</tr>
+					        				<tr>
+					        					<td>
+					        					</td>
+					        					<td>
+					        						${ s.branchAddress }
+					        					</td>
+					        				</tr>
+					        				<tr>
+					        					<td>
+					        					</td>
+					        					<td>
+					        						${ s.branchTel }
+					        					</td>
+					        				</tr>
+					        			</c:forEach>
+					        		</table>
+					        	</div>
 					            <div class="left-bot ">
 					            	<nav>
 									  <ul class="pagination">
@@ -146,13 +150,13 @@
 					            		<div class="left-name">
 					            			<div class="cl">● 이름</div>
 					            			<div class="cr">
-					            				<input type="text" name="name" class="form-control" >
+					            				<input type="text" name="name" class="form-control" placeholder="이름을 입력해주세요">
 					            			</div>
 					            		</div>
 					            		<div class="left-phone">
 					            			<div class="cl">● 휴대폰번호</div>
 					            			<div class="cr">
-					            				<input type="text" name="phone" class="form-control">
+					            				<input type="text" name="phone" class="form-control" placeholder="번호를 입력해주세요">
 					            			</div>
 					            		</div>
 					            	</div>
