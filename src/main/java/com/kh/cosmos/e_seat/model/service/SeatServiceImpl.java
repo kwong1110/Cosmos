@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.e_seat.model.dao.SeatDAO;
 import com.kh.cosmos.e_seat.model.vo.Seat;
+import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Service("sService")
 public class SeatServiceImpl implements SeatService{
@@ -21,11 +22,18 @@ public class SeatServiceImpl implements SeatService{
 
 	@Override
 	public int getListCount() {
-		return 0;
+		return sDAO.getListCount(sqlSession);
 	}
 
 	@Override
-	public ArrayList<Seat> selectList(PageInfo pi) {
-		return null;
+	public ArrayList<ViewBranch> selectBranchList(PageInfo pi) {
+		return sDAO.selectBranchList(sqlSession, pi);
 	}
+
+	@Override
+	public ArrayList<Seat> selectSeatList() {
+		return sDAO.selectSeatList(sqlSession);
+	}
+
+	
 }

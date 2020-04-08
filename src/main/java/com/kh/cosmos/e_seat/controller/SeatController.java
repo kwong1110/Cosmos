@@ -10,8 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
+import com.kh.cosmos.e_seat.model.exception.SeatException;
 import com.kh.cosmos.e_seat.model.service.SeatService;
 import com.kh.cosmos.e_seat.model.vo.Seat;
+import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Controller
 public class SeatController {
@@ -19,7 +21,7 @@ public class SeatController {
 	private SeatService sService;
 	
 	@RequestMapping("reservation.se")
-	public String ReservationView(@RequestParam(value="page", required=false) Integer page, ModelAndView mv ) {
+	public ModelAndView ReservationView(@RequestParam(value="page", required=false) Integer page, ModelAndView mv ) {
 		
 		int currentPage = 1;
 		
@@ -31,9 +33,20 @@ public class SeatController {
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		ArrayList<Seat> list = sService.selectList(pi);
+		ArrayList<ViewBranch> branchList = sService.selectBranchList(pi);
 		
-		return "seatReservation";
+		ArrayList<Seat> seatList = sService.selectSeatList();
+		
+		if(branchList != null) {
+			mv.addObject("branchList", branchList);
+			mv.addObject("seatList", seatList);
+			mv.addObject("pi", pi);
+			mv.setViewName("seatReservation");
+		} else {
+			throw new SeatException("지점리스트 전체 조회에 실패하였습니다.");
+		}
+		
+		return mv;
 	}
 	
 	
