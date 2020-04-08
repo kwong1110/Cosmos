@@ -219,15 +219,15 @@
 			<div class="menuTitle">
 				<div><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
 				<div class="s-menu">
-					<div><a href="#">나의 플래너</a></div>
+					<div><a href="myPlannerList.sp">나의 플래너</a></div>
 					<div><a href="#">모두의 플래너</a></div>								
 				</div>
 			</div>
 			<div class="menuTitle"><a href="#"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
 			<div class="menuTitle">
-				<div><a href="lectureCalendar.le"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
+				<div><a href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
 				<div class="s-menu">
-					<div><a href="#">강연 목록</a></div>
+					<div><a href="lectureCalendar.le">강연 목록</a></div>
 					<div><a href="#">강연자 신청</a></div>								
 				</div>
 			</div>

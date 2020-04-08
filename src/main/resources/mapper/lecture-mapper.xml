@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="lectureMapper">
+	<select id="getLectureList" resultMap="lectureResultSet">
+		select *
+		from lecture
+		where lecture_status='OPEN'
+		order by lecture_date
+	</select>
+	
+	<resultMap id="lectureResultSet" type="Lecture">
+		<id property="lectureNo" column="LECTURE_NO"/>
+		<result property="lectureRecord" column="LECTURE_RECORD"/>
+		<result property="lectureTitle" column="LECTURE_TITLE"/>
+		<result property="lectureContent" column="LECTURE_CONTENT"/>
+		<result property="lectureFee" column="LECTURE_FEE"/>
+		<result property="maxpeople" column="MAXPEOPLE"/>
+		<result property="attendpeople" column="ATTENDPEOPLE"/>
+		<result property="lectureDate" column="LECTURE_DATE"/>
+		<result property="lectureTime" column="LECTURE_TIME"/>
+		<result property="lectureStatus" column="LECTURE_STATUS"/>
+		<result property="id" column="ID"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+	</resultMap>
 </mapper>

@@ -53,28 +53,18 @@ document.addEventListener('DOMContentLoaded', function() {
 		editable: false,				// 등록된 스케쥴의 위치 이동
 		selectable: false,				// 날짜에 드래그 사용
 		events: [						// 스케쥴 데이터를 넣는 곳
-<%-- <% 
-	for (int i = 0; i < list.size(); i++) {
-	ScheduleDTO dto = (ScheduleDTO)list.get(i);
-%>	
-		{
-			title : '<%= dto.getSubject() %>',
-			start : '<%= dto.getStartDate() %>',
-			end : '<%= dto.getEndDate() %>'
-		},
-<%
-	}
-	%> --%>
-		{
-			title : '강연!!',
-			start : "2020-04-08",
-			end : "2020-04-08"
-		}
-      ]
-		});
-
-		calendar.render();
+			<c:forEach var="l" items="${ list }">
+				{
+					title :	"${ l.lectureTitle }",
+					start : "${ l.lectureDate }",	
+					end : "${ l.lectureDate }"
+				},			
+			</c:forEach>
+      	]
 	});
+
+	calendar.render();
+});
 </script>
 </head>
 <body>

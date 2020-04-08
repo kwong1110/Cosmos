@@ -11,7 +11,7 @@
 	<!-- view 초기 구조 -->
 	<!-- import 경로는 알아서 바꿔줄것. -->
 	<div class="total-wrapper">
-		<c:import url="a_common/menubar.jsp"/>
+		<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
@@ -28,7 +28,7 @@
 				</div>
 			</div>
 		</div>
-		<c:import url="a_common/footer.jsp"/>
+		<c:import url="../a_common/footer.jsp"/>
 	</div>
 	
 	<!-- 페이징  -->
