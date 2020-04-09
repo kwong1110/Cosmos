@@ -38,7 +38,6 @@
 
 	<div class="total-wrapper">
 		<c:import url="../a_common/menubar.jsp"/>
-		
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
@@ -69,7 +68,8 @@
 						<tr>
 							<td class="tableLabel">모집 기간</td>
 							<td class="inline">
-								<label id="now_date"></label> ~ &nbsp;&nbsp;<input type="date" class="form-control" id="recEndDate" name="recEndDate">
+								<label id="now_date"></label> ~ &nbsp;&nbsp;<input type="text" class="form-control" id="datepicker-autoclose" placeholder="년/월/일">
+								<input type="date" class="form-control" id="recEndDate" name="recEndDate">
 							</td>
 						</tr>
 						<tr>
@@ -125,6 +125,7 @@
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 	
+	
 	<script>
 	$(function() {
 		var today = new Date();
@@ -143,5 +144,13 @@
 		$('[data-toggle="tooltip"]').tooltip()
 	})
 	</script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.ko.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/daterangepicker.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/form-pickers-init.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	
 </body>
 </html>

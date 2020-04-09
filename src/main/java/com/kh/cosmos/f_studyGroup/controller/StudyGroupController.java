@@ -1,8 +1,11 @@
 package com.kh.cosmos.f_studyGroup.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cosmos.f_studyGroup.model.service.StudyGroupService;
 
@@ -18,8 +21,15 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping("insertGroupView.sg")
-	public String StudyGroupInsertView() {
-		return "studyGroupInsert";
+	public ModelAndView StudyGroupInsertView(ModelAndView mv) {
+		ArrayList studyList = sgService.getStudyList();
+		ArrayList branchList = sgService.getBranchList();
+		
+		mv.addObject("studyList", studyList);
+		mv.addObject("branchList", branchList);
+		mv.setViewName("studyGroupInsert");
+		
+		return mv;
 	}
 
 	@RequestMapping("insertRecView.sg")
