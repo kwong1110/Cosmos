@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4a8fa7e4a9e7170fa234c76a796cecab"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4a8fa7e4a9e7170fa234c76a796cecab&libraries=services"></script>
 <title>Insert title here</title>
 <style>
 .wrap-div{width:100%; height:850px; margin:0 auto; }
@@ -50,10 +50,10 @@
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
 </style>
 </head>
-<body>
+<body ><!-- onload="branchAddress();" -->
 <div class="total-wrapper">
 		<c:import url="../a_common/menubar.jsp"/>
-		<div class="wrapper">
+		<div class="wrapper"> 
 			<div class="main" style="padding:0;">
 				<div class="pageTitle">
 					<h1>좌석예약</h1>
@@ -63,30 +63,32 @@
 					        <div class="div-left">
 					        	<div class="left-top"></div>
 					        	<div class="left-mid">
-					        		<table border="1" id="tab">
+					        		
 					        			<c:forEach var="s" items="${ branchList }">
-					        				<tr>
-					        					<th rowspan="3">
-					        						<input type="radio">
+					        				<%-- <tr>
+					        					<th rowspan="3" style="width:10%; vertical-align:middle;">
+					        						<input type="radio" name="branchAddress" checked="checked" value="${ s.branchAddress }" style="width:20px; height:20px; text-align:center;">
 					        					</th>
-					        					<th>${ s.branchName }</th>
+					        					<th style="width:90%;">${ s.branchName }</th>
 					        				</tr>
 					        				<tr>
-					        					<td>
-					        					</td>
-					        					<td>
+					        					<td style="width:90%;">
 					        						${ s.branchAddress }
 					        					</td>
 					        				</tr>
 					        				<tr>
-					        					<td>
-					        					</td>
-					        					<td>
+					        					
+					        					<td style="width:90%;">
 					        						${ s.branchTel }
 					        					</td>
-					        				</tr>
+					        				</tr> --%>
+					        				<div style="margin-left:20px;">
+					        					<div style="margin-left:38px;"><b>${ s.branchName }</b></div>
+					        					<div><input type="radio" name="branchAddress" style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
+					        					<div style="margin-left:38px;">${ s.branchTel }</div>
+					        				</div>
 					        			</c:forEach>
-					        		</table>
+					        		
 					        	</div>
 					            <div class="left-bot ">
 					            	<nav>
@@ -123,7 +125,63 @@
 					        <div class="div-right">
 					            <div class="right-top"></div>
 					       		<div id="right-map" >
+					       			
+										<!-- <div id="map" style="width:100%;height:100%;"></div> -->
+										
 									<script>
+									function branchAddress(e){
+										var address1 = $(e).parent()[0].innerText;
+										var name = $(e).parent().eq(1)[0];
+										console.log(address1);
+										console.log(name);
+										var zonecode="";
+										
+										var mapContainer = document.getElementById('right-map'), // 지도를 표시할 div 
+										    mapOption = {
+										        center: new kakao.maps.LatLng(37.49898969752637, 127.03285209192696), // 지도의 중심좌표
+										        level: 3 // 지도의 확대 레벨
+										    };  
+										
+										// 지도를 생성합니다    
+										var map = new kakao.maps.Map(mapContainer, mapOption); 
+										
+										// 주소-좌표 변환 객체를 생성합니다
+										var geocoder = new kakao.maps.services.Geocoder();
+										
+										// 주소로 좌표를 검색합니다
+										geocoder.addressSearch(address1, function(result, status) {
+										
+										    // 정상적으로 검색이 완료됐으면 
+										     if (status === kakao.maps.services.Status.OK) {
+										
+										        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+										
+										        // 결과값으로 받은 위치를 마커로 표시합니다
+										        var marker = new kakao.maps.Marker({
+										            map: map,
+										            position: coords
+										        });
+										
+										        // 인포윈도우로 장소에 대한 설명을 표시합니다
+										        var infowindow = new kakao.maps.InfoWindow({
+										            content: '<div style="width:150px; text-align:center; padding:6px 0;"> '+ name +'</div>'
+										        });
+										        infowindow.open(map, marker);
+										
+										        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+										        map.setCenter(coords);
+										    } 
+										});    
+									}
+									
+									
+									/* var address=$("div.left-mid").children().eq(0).children().eq(1)[0].innerText;
+									console.log(address);
+									console.log($("div.left-mid").children().eq(0).children().eq(1).children().eq(0)); */
+									/* console.log($("div.left-mid").children().eq(0).children().eq(1).children().eq(0)[0].checked); */
+									
+									</script>
+									<!-- <script>
 										var mapContainer = document.getElementById('right-map'), // 지도를 표시할 div 
 									    mapOption = { 
 									        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -132,7 +190,7 @@
 									
 									// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
 										var map = new kakao.maps.Map(mapContainer, mapOption); 
-								</script>
+								</script> -->
 					       		</div>
 					            <div class="right-content">
 					            	<div class="right-content-left">
