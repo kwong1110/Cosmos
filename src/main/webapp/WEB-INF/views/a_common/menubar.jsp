@@ -418,29 +418,72 @@
 		});
 		
 		
-		/* 메뉴 고정 */
-		var subPage = new Array;
-		subPage[0] = "company";
-		subPage[1] = "event";
-		subPage[2] = "games";
-		subPage[3] = "games";
-		subPage[4] = "games";
+		/* 메뉴 고정 : 모든 메뉴 완성되면 구현하기 */
 		var url = location.href;
-		var getAr0 = url.indexOf(subPage[0]);
-		var getAr1 = url.indexOf(subPage[1]);
-		var getAr2 = url.indexOf(subPage[2]);
-		var getAr3 = url.indexOf(subPage[2]);
-		var getAr4 = url.indexOf(subPage[2]);
-		if(getAr0 != -1){
-			$("li:eq(1) a").addClass("on")
+		
+		// 메인메뉴
+		var mainMenu = new Array;
+		mainMenu[0] = "company";
+		mainMenu[1] = "event";
+		mainMenu[2] = "games";
+		mainMenu[3] = "board";
+		mainMenu[4] = "lecture";
+		var getMain0 = url.indexOf(mainMenu[0]);
+		var getMain1 = url.indexOf(mainMenu[1]);
+		var getMain2 = url.indexOf(mainMenu[2]);
+		var getMain3 = url.indexOf(mainMenu[3]);
+		var getMain4 = url.indexOf(mainMenu[4]);
+		
+		// 서브메뉴 가지고 있는 메뉴1
+		var gamesSub = new Array;
+		gamesSub[0] = "games/sub3.html";
+		gamesSub[1] = "games/sub4.html";
+		var getGamesSub0 = url.indexOf(gamesSub[0]);
+		var getGamesSub1 = url.indexOf(gamesSub[1]);
+		
+		// 서브메뉴 가지고 있는 메뉴2
+		var lectureSub = new Array;
+		lectureSub[0] = "lecture/sub6.html";
+		lectureSub[1] = "lecture/sub7.html";
+		var getLectureSub0 = url.indexOf(lectureSub[0]);
+		var getLectureSub1 = url.indexOf(lectureSub[1]);
+		
+		if (getMain0 != -1) {
+			$(".menuTitle:eq(0) > a").addClass("on");
 		};
-		if(getAr1 != -1){
-			$("li:eq(2) a").addClass("on")
+		if (getMain1 != -1) {
+			$(".menuTitle:eq(1) > a").addClass("on");
 		};
-		if(getAr2 != -1){
-			$("li:eq(3) a").addClass("on")
+		if (getMain2 != -1) {
+			$(".menuTitle:eq(2) > div > a").addClass("on");
+			if(getGamesSub0 != -1){
+				$(".menuTitle:eq(2) > .s-menu > div:first-child > a").addClass("on");
+			} 
+			if(getGamesSub1 != -1){
+				$(".menuTitle:eq(2) > .s-menu > div:last-child > a").addClass("on");
+			} 
+		};
+		if (getMain3 != -1) {
+			$(".menuTitle:eq(3) > a").addClass("on");
+		};
+		if (getMain4 != -1) {
+			$(".menuTitle:eq(4) > div > a").addClass("on");
+			if(getLectureSub0 != -1){
+				$(".menuTitle:eq(4) > .s-menu > div:first-child > a").addClass("on");
+			} 
+			if(getLectureSub1 != -1){
+				$(".menuTitle:eq(4) > .s-menu > div:last-child > a").addClass("on");
+			} 
 		};
 	});
+	
+	// 회원가입 성공시 로그인 창 바로 뜨기
+	window.onload = function(){
+		if( <%= request.getParameter("success") %> == 1){
+			$("#login").trigger("click");
+		}
+	}
+	
 	
 </script>
 </html>
