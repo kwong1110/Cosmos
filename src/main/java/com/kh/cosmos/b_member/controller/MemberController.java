@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -64,5 +66,29 @@ public class MemberController {
 		return "memberInsertForm";
 	}
 	
+	@RequestMapping("minsert.me")
+	public String memberInsert(@ModelAttribute Member m, Model model) {
+		System.out.println(m);
+//		certifyNum
+//		certifyStatus : 인증상태
+
+		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
+		m.setPwd(encPwd);
+	
+		int result = mService.insertMember(m);
+		Member loginUser = mService.memberLogin(m);
+		
+		if(result > 0) {
+			int success = 1;
+			
+			model.addAttribute("msg", "회원가입에 성공했습니다.");
+			model.addAttribute("success",  success);
+			return "redirect:/";
+			
+		} else {
+			throw new MemberException("회원가입에 실패하였습니다.");
+		}
+		
+	}
 	
 }
