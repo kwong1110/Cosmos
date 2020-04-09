@@ -44,6 +44,9 @@
 		margin: 0;
 	}
 	
+	.once{background-color: #70B667; color: #fff; margin-right:20px;}
+	.long{background-color: #135D36; color: #fff; margin-right:20px;}
+	
 	#listArea{width:100%; display: block; text-align:center; background:lightgray;}
 	.recGroup{width:75%; display: inline-block; margin-bottom:8%; text-align:left; background:white; cursor: pointer;}
 	.firstInfo{}
@@ -55,9 +58,6 @@
 	.infoContent{margin-right:20px; font-size: 15px; font-weight:normal; vertical-align: middle;}
 	.goalStyle{font-size: 15px; font-weight:normal; text-overflow:ellipsis; white-space:nowrap; max-width:80%; overflow:hidden; vertical-align: middle;}
 	.groupContentStyle{font-size: 15px; max-width:88%; vertical-align: middle; font-size:1em; overflow:hidden; text-overflow:ellipsis; line-height:1.5; height:3em; word-wrap:break-word; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
-	
-	.once{background-color: #70B667; color: #fff; margin-right:20px;}
-	.long{background-color: #135D36; color: #fff; margin-right:20px;}
 	
 	#bottomArea{width:100%; text-align:center; margin-top:5%;}
 	#insertBtnArea{width:20%; display:inline; float:right;}
@@ -162,16 +162,23 @@
 									</div>
 								</div>
 								
-								<div id="typeDiv" class="categoryDiv">
+								<div id="typeDiv" class="categoryDiv" style="width:65%; float:left; display:inline-block;">
 									<label class="categoryLabel">once</label>
 									<label class="categoryLabel">long</label>
 								</div>
 								
+								<div style="width:35%; min-height:40px; float:right; display:inline-block; padding-top:8px; padding-left:10px; vertical-align: top;">
+									<input type="button" class="defaultBtn" value="초기화" style="width:37%; height:100%;">
+									<input type="button" class="defaultBtn" value="검색" style="width:59%; height:100%; margin-left:3px;">
+								</div>
+								
+								<!-- 
 								<div id="confirmArea">
 									<input type="button" class="defaultBtn" value="초기화">
 									&nbsp;
 									<input type="button" class="defaultBtn" value="검색">
 								</div>
+								 -->
 							</div>
 							
 						</div>

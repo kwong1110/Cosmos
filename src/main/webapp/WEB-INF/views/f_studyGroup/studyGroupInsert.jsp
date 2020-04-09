@@ -15,7 +15,7 @@
 	#now_date{width:100px;}
 	
 	#studyType{width: 200px;}
-	#recEndDate{width: 140px; display: inline-block;}
+	#datepicker-autoclose{width: 140px; display: inline-block;}
 	#recNum{width: 70px; display: inline-block;}
 	#recLoc{width: 200px;}
 	#meetingDate{width: 140px; display: inline-block;}
@@ -52,33 +52,18 @@
 						<tr>
 							<td class="tableLabel">공부 종류</td>
 							<td>
-								<!-- 
-								<div class="dropdown">
-									<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-										공부종류
-										<span class="caret"></span>
-									</button>
-									<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-								    	<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Action</a></li>
-								    	<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Another action</a></li>
-								    	<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Something else here</a></li>
-								    	<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Separated link</a></li>
-								    </ul>
-								</div>
-								 -->
 								<select class="form-control" id="studyType" name="studyType">
-									<option>공부종류</option>
-									<option>공부종류1</option>
-									<option>공부종류2</option>
-									<option>공부종류3</option>
-									<option>공부종류4</option>
+									 <c:forEach var="item" items="${ studyList }">
+									 	<option>${ item }</option>
+									 </c:forEach>
 								</select>
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">모집 기간</td>
 							<td class="inline">
-								<label id="now_date"></label> ~ &nbsp;&nbsp;<input type="date" class="form-control" id="recEndDate" name="recEndDate">
+								<!-- <input class="form-control input-daterange-datepicker" type="text" id="recEndDate" name="recEndDate" style="width:200px;"> -->
+								<label id="now_date"></label> ~ &nbsp;&nbsp;<input type="text" class="form-control" id="datepicker-autoclose" name="recEndDate" placeholder="년/월/일">
 							</td>
 						</tr>
 						<tr>
@@ -92,32 +77,30 @@
 							<td class="tableLabel">모임 장소</td>
 							<td>
 								<select class="form-control" id="recLoc" name="recLoc">
-									<option>노량진점</option>
-									<option>부천점</option>
-									<option>성남점</option>
-									<option>신도림점</option>
-									<option>한남점</option>
+									 <c:forEach var="item" items="${ branchList }">
+									 	<option>${ item }</option>
+									 </c:forEach>
 								</select>
 							</td>
 						</tr>
-						<tr>
+						<!-- <tr>
 							<td class="tableLabel">모임 날짜</td>
 							<td>
-								<input type="date" class="form-control" id="meetingDate" name="meetingDate">
+								<input type="text" class="form-control" id="datepicker-autoclose" name="meetingDate" placeholder="년/월/일" style="width:120px;">
 							</td>
-						</tr>
+						</tr> -->
 						<tr>
 							<td class="tableLabel">그룹 목표</td>
 							<td>
 								<input type="text" class="form-control" id="groupGoal" name="groupGoal">
-								<label class="lengthAlert">0/100</label>
+								<label class="lengthAlert" id="goalAlert"><span id="goalCount">0</span>/200</label>
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">그룹 내용</td>
 							<td class="topTd">
-								<textarea cols="50" rows="20" class="form-control resize"></textarea>
-								<label class="lengthAlert">0/2000</label>
+								<textarea rows="20" class="form-control resize" id="groupContent" name="groupContent"></textarea>
+								<label class="lengthAlert" id="contentAlert"><span id="contentCount">0</span>/2000</label>
 							</td>
 						</tr>
 						<tr>
@@ -152,11 +135,48 @@
 		$('#now_date').text(today);
 		console.log(today);
 
-		$('[data-toggle="tooltip"]').tooltip()
+		$('[data-toggle="tooltip"]').tooltip();
+		
+		$('#groupGoal').keyup(function (e){
+	          var content = $(this).val();
+	          if(content.length < 200) {
+	        	  $('#goalAlert').css('color', 'black');
+		          $('#goalCount').html(content.length);
+	          } else if(content.length == 200) {
+	        	  $('#goalAlert').css('color', 'red');
+		          $('#goalCount').html(content.length);
+	          } else {
+	        	  $('#groupGoal').val(content.substr(0, 200));
+	        	  $('#goalAlert').css('color', 'red');
+	          }
+	    });
+
+		$('#groupContent').keyup(function (e){
+	          var content = $(this).val();
+	          if(content.length < 2000) {
+	        	  $('#contentAlert').css('color', 'black');
+		          $('#contentCount').html(content.length);
+	          } else if(content.length == 2000) {
+	        	  $('#contentAlert').css('color', 'red');
+		          $('#contentCount').html(content.length);
+	          } else {
+	        	  $('#groupContent').val(content.substr(0, 2000));
+	        	  $('#contentAlert').css('color', 'red');
+	          }
+	    });
+		
 	})
+	
 	</script>
 	
 	
-	
+	<!-- DatePicker -->
+	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.ko.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/daterangepicker.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/form-pickers-init.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </body>
 </html>

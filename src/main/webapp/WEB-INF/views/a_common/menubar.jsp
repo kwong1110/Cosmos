@@ -144,6 +144,30 @@
 	.s-menu>div:hover {
 		background-color:rgba(228, 208, 106, 0.2);
 	}
+	
+	/* 쿠폰 모달 스타일 */
+	.myCuponSize{width: 45%;}
+	.myCuponColor{background: lightgray;}
+	.myCuponTitle{width:100%; text-align:center; margin:10px;}
+	.myCuponBody{width:100%; display:inline-block; text-align:center;}
+	#cuponArea{width:80%; min-height: 330px; margin-top:5%; margin-bottom:5%; display:inline-block; text-align:center; border-radius:10px; background:white;}
+	#cuponAreaTop{width:100%; height:120px; padding: 4%; padding-bottom: 1%;}
+	#cuponLogo{width:50%; height:100%; float:left; padding-left:3%;}
+	#cuponLogo div{height:100%; width:auto;}
+	#cuponStampCount{width:50%; height:100%; float:right; text-align:right; padding-right:5%; padding-top:3%;}
+	#cuponStampCount label{font-size:35px; font-weight:normal;}
+	#stampArea{width:100%; text-align:center;}
+	#stampArea>div{width:85%; display:inline-block;}
+	#stampArea>div table{width:100%; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.5em !important}
+	
+	.emptyStamp{width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;}
+	.iconStamp{display:inline-block; text-align:center;}
+	.iconStamp img{width:80px; height:auto; display:block;}
+	
+	#stampListArea{width:100%; text-align:center;}
+	#stampListArea>div{width:80%; display:inline-block;}
+	#stampListArea>div table{width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
+	/* 쿠폰 모달 스타일 끝 */
 </style>
 <body>
 	<!-- contextPath를 변수로 만들어 활용하기 -->
@@ -270,67 +294,67 @@
 	
 	<!-- 쿠폰 모달 -->
 	<div id="myCupon" class="modal fade" role="dialog">
-		<div class="modal-dialog" style="width:45%;">
-			<div class="modal-content" style="background: lightgray;">
+		<div class="modal-dialog myCuponSize">
+			<div class="modal-content myCuponColor">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title" style="width:100%; text-align:center; margin:10px;">마이 쿠폰</h2>
+					<h2 class="modal-title myCuponTitle">마이 쿠폰</h2>
 				</div>
 				
-				<div class="modal-body" style="width:100%; display:inline-block; text-align:center;">
+				<div class="modal-body myCuponBody">
 					
-					<div style="width:90%; min-height: 330px; margin-top:5%; margin-bottom:5%; display:inline-block; text-align:center; border-radius:10px; background:white;">
-						<div style="width:100%; height:120px; padding: 4%; padding-bottom: 1%;">
-							<div style="width:50%; height:100%; float:left; padding-left:3%;">
-								<div class="logo_green" style="height:100%; width:auto;"></div>
+					<div id="cuponArea">
+						<div id="cuponAreaTop">
+							<div id="cuponLogo">
+								<div class="logo_green"></div>
 							</div>
-							<div style="width:50%; height:100%; float:right; text-align:right; padding-right:5%; padding-top:3%;">
-								<label style="font-size:35px; font-weight:normal;">3/10</label>
+							<div id="cuponStampCount">
+								<label>3/10</label>
 							</div>
 						</div>
 						
-						<div style="width:100%; text-align:center;">
-						<div style="width:85%; display:inline-block;">
-							<table style="width:100%; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.5em !important">
+						<div id="stampArea">
+						<div>
+							<table>
 								<tr>
-									<td style="display:inline-block; text-align:center;"><img src="${contextPath }/resources/image/alien.png" style="width:80px; height:auto; display:block;" /></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
 								</tr>
 								<tr>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
 								</tr>
 							</table>
 						</div>
 						</div>
 					</div>
 					
-					<div style="width:100%; text-align:center;">
-					<div style="width:80%; display:inline-block;">
-						<table style="width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important">
-							<tr>
-								<td>2020.00.00 00:00</td>
-								<td>쿠폰 발급</td>
-								<td>-10</td>
-							</tr>
-							<tr>
-								<td>2020.00.00 00:00</td>
-								<td>한남점 1인 3시간 좌석예약</td>
-								<td>+1</td>
-							</tr>
-							<tr>
-								<td>2020.00.00 00:00</td>
-								<td>노량진점 6인 3시간 좌석예약</td>
-								<td>+1</td>
-							</tr>
-						</table>
-					</div>
+					<div id="stampListArea">
+						<div>
+							<table>
+								<tr>
+									<td>2020.00.00 00:00</td>
+									<td>쿠폰 발급</td>
+									<td>-10</td>
+								</tr>
+								<tr>
+									<td>2020.00.00 00:00</td>
+									<td>한남점 1인 3시간 좌석예약</td>
+									<td>+1</td>
+								</tr>
+								<tr>
+									<td>2020.00.00 00:00</td>
+									<td>노량진점 6인 3시간 좌석예약</td>
+									<td>+1</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
 
