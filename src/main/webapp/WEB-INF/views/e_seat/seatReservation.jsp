@@ -50,7 +50,7 @@
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
 </style>
 </head>
-<body ><!-- onload="branchAddress();" -->
+<body onload="brAddress();"><!-- onload="brAddress();" -->
 <div class="total-wrapper">
 		<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper"> 
@@ -82,7 +82,7 @@
 					        						${ s.branchTel }
 					        					</td>
 					        				</tr> --%>
-					        				<div style="margin-left:20px;">
+					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black;">
 					        					<div style="margin-left:38px;"><b>${ s.branchName }</b></div>
 					        					<div><input type="radio" name="branchAddress" style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
@@ -128,10 +128,50 @@
 					       			
 										<!-- <div id="map" style="width:100%;height:100%;"></div> -->
 										
+										<script>
+										function brAddress(){
+												var mapContainer = document.getElementById('right-map'), // 지도를 표시할 div 
+											    mapOption = {
+											        center: new kakao.maps.LatLng(37.49898969752637, 127.03285209192696), // 지도의 중심좌표
+											        level: 3 // 지도의 확대 레벨
+											    };  
+											
+											// 지도를 생성합니다    
+											var map = new kakao.maps.Map(mapContainer, mapOption); 
+											
+											// 주소-좌표 변환 객체를 생성합니다
+											var geocoder = new kakao.maps.services.Geocoder();
+											
+											// 주소로 좌표를 검색합니다
+											geocoder.addressSearch('서울 강남구 테헤란로14길 6', function(result, status) {
+											
+											    // 정상적으로 검색이 완료됐으면 
+											     if (status === kakao.maps.services.Status.OK) {
+											
+											        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+											
+											        // 결과값으로 받은 위치를 마커로 표시합니다
+											        var marker = new kakao.maps.Marker({
+											            map: map,
+											            position: coords
+											        });
+											
+											        // 인포윈도우로 장소에 대한 설명을 표시합니다
+											        var infowindow = new kakao.maps.InfoWindow({
+											            content: '<div style="width:150px;text-align:center;padding:6px 0;">KH정보교육원</div>'
+											        });
+											        infowindow.open(map, marker);
+											
+											        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+											        map.setCenter(coords);
+											    } 
+											});    
+										}
+										</script>
 									<script>
 									function branchAddress(e){
 										var address1 = $(e).parent()[0].innerText;
-										var name = $(e).parent().eq(1)[0];
+										var name = $(e).parent().parent().children().eq(0)[0].innerText;
 										console.log(address1);
 										console.log(name);
 										var zonecode="";
@@ -173,30 +213,13 @@
 										    } 
 										});    
 									}
-									
-									
-									/* var address=$("div.left-mid").children().eq(0).children().eq(1)[0].innerText;
-									console.log(address);
-									console.log($("div.left-mid").children().eq(0).children().eq(1).children().eq(0)); */
-									/* console.log($("div.left-mid").children().eq(0).children().eq(1).children().eq(0)[0].checked); */
-									
 									</script>
-									<!-- <script>
-										var mapContainer = document.getElementById('right-map'), // 지도를 표시할 div 
-									    mapOption = { 
-									        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-									        level: 3 // 지도의 확대 레벨
-									    };
-									
-									// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
-										var map = new kakao.maps.Map(mapContainer, mapOption); 
-								</script> -->
 					       		</div>
 					            <div class="right-content">
 					            	<div class="right-content-left">
 					            		<div class="left-spot">
 					            			<div class="cl">● 예약지점</div>
-					            			<div class="cr">부천점</div>
+					            			<div class="cr"></div>
 					            		</div>
 					            		<div class="left-date">
 					            			<div class="cl">● 예약일자</div>
@@ -229,7 +252,7 @@
 					            		<div class="right-seat">
 					            			<div class="cl">● 좌석선택</div>
 					            			<div class="cr">
-					            				<div id="seatChoose" class="btn btn-default">선택</div>
+					            				<div id="seatChoose" class="btn btn-default" style="width:150px;">선택</div>
 					            			</div>
 					            			<script>
 					            			$('#seatChoose').click(function(e){
