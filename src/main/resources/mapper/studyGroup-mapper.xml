@@ -6,8 +6,29 @@
 		from study_category
 	</select>
 	
-	<select id="getBranchList" resultType="string">
-		select branch_name
+	<select id="getBranchList" resultMap="branchResultMap">
+		select branch_no, branch_name
 		from branch
 	</select>
+	
+	<resultMap id="branchResultMap" type="ViewBranch">
+		<id column="BRANCH_NO" property="branchNo"/>
+		<result column="BRANCH_NAME" property="branchName"/>
+	</resultMap>
+	
+	<select id="getStudyNo" parameterType="string" resultType="_int">
+		select study_no
+		from study_category
+		where study_name = #{studyname}
+	</select>
+	
+	<insert id="insertGroup" parameterType="StudyGroup">
+		insert into sgroup
+		values(seq_sgid.nextval, #{sgName}, #{sgGoal}, #{sgContent}, default, #{branchNo}, #{id}, #{studyNo})
+	</insert>
+	
+	<insert id="insertRecruit">
+		insert into rec_sgroup
+		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, #{recMettingDate}, seq_sgid.currval)
+	</insert>
 </mapper>

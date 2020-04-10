@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.cosmos.f_studyGroup.model.dao.StudyGroupDAO;
+import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
+import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
+import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Service("sgService")
 public class StudyGroupServiceImpl implements StudyGroupService{
@@ -23,8 +26,18 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public ArrayList getBranchList() {
+	public ArrayList<ViewBranch> getBranchList() {
 		return sgDAO.getBranchList(sqlSession);
+	}
+
+	@Override
+	public int insertGroup(StudyGroup sg) {
+		return sgDAO.insertGroup(sqlSession, sg);
+	}
+
+	@Override
+	public int insertRecruit(StudyRecruit sr) {
+		return sgDAO.insertRecruit(sqlSession, sr);
 	}
 
 }
