@@ -16,12 +16,15 @@ public class Lecture {
 	private String lectureStatus;
 	private String id;
 	private int branchNo;
+	private String lectureJob;
+	private Date lectureEnd;
 	
 	public Lecture() {}
 
 	public Lecture(int lectureNo, String lectureRecord, String lectureTitle, String lectureContent, int lectureFee,
 			int maxpeople, int attendpeople, Date lectureDate, String lectureTime, String lectureStatus, String id,
-			int branchNo) {
+			int branchNo, String lectureJob, Date lectureEnd) {
+		super();
 		this.lectureNo = lectureNo;
 		this.lectureRecord = lectureRecord;
 		this.lectureTitle = lectureTitle;
@@ -34,8 +37,10 @@ public class Lecture {
 		this.lectureStatus = lectureStatus;
 		this.id = id;
 		this.branchNo = branchNo;
+		this.lectureJob = lectureJob;
+		this.lectureEnd = lectureEnd;
 	}
-
+	
 	public int getLectureNo() {
 		return lectureNo;
 	}
@@ -132,11 +137,29 @@ public class Lecture {
 		this.branchNo = branchNo;
 	}
 
+	public String getLectureJob() {
+		return lectureJob;
+	}
+
+	public void setLectureJob(String lectureJob) {
+		this.lectureJob = lectureJob;
+	}
+
+	public Date getLectureEnd() {
+		return lectureEnd;
+	}
+
+	public void setLectureEnd(Date lectureEnd) {
+		this.lectureEnd = lectureEnd;
+	}
+
 	@Override
 	public String toString() {
 		return "Lecture [lectureNo=" + lectureNo + ", lectureRecord=" + lectureRecord + ", lectureTitle=" + lectureTitle
 				+ ", lectureContent=" + lectureContent + ", lectureFee=" + lectureFee + ", maxpeople=" + maxpeople
 				+ ", attendpeople=" + attendpeople + ", lectureDate=" + lectureDate + ", lectureTime=" + lectureTime
-				+ ", lectureStatus=" + lectureStatus + ", id=" + id + ", branchNo=" + branchNo + "]";
+				+ ", lectureStatus=" + lectureStatus + ", id=" + id + ", branchNo=" + branchNo + ", lectureJob="
+				+ lectureJob + ", lectureEnd=" + lectureEnd + "]";
 	}
+	
 }

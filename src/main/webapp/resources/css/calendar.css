@@ -31,4 +31,7 @@
 	word-break: keep-all !important;
 	/* text-overflow: ellipsis;  */ /* 생략기호로 보여주기 */
 }
+.fc-day-header{
+	background-color: lightgray;
+}
 

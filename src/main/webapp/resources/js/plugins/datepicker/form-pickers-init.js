@@ -73,7 +73,7 @@
     	 startDate: moment(),
          endDate: moment().subtract(-1, 'days'),
     	"locale": {
-    		format: 'YYYY/MM/DD',
+    		format: 'YYYY-MM-DD',
     		buttonClasses: ['btn'],
     		applyClass: 'okBtn',
     		cancelClass: 'cancelBtn',
@@ -105,16 +105,42 @@
     });
     $('.input-daterange-timepicker').daterangepicker({
         timePicker: true,
-        format: 'YYYY/MM/DD h:mm A',
         timePickerIncrement: 30,
-        timePicker12Hour: true,
+        timePicker12Hour: false,
         timePickerSeconds: false,
-        buttonClasses: ['btn', 'btn-sm'],
-        applyClass: 'btn-danger',
-        cancelClass: 'btn-inverse'
+       	"locale": {
+       		format: 'YYYY-MM-DD h:mm',
+       		buttonClasses: ['btn'],
+       		applyClass: 'okBtn',
+       		cancelClass: 'cancelBtn',
+       		"daysOfWeek": [
+                   "일",
+                   "월",
+                   "화",
+                   "수",
+                   "목",
+                   "금",
+                   "토"
+               ],
+               "monthNames": [
+                   "1월",
+                   "2월",
+                   "3월",
+                   "4월",
+                   "5월",
+                   "6월",
+                   "7월",
+                   "8월",
+                   "9월",
+                   "10월",
+                   "11월",
+                   "12월"
+               ],
+               "firstDay": 1
+       	}
     });
     $('.input-limit-datepicker').daterangepicker({
-        format: 'YYYY/MM/DD',
+        format: 'YYYY-MM-DD',
         minDate: '06/01/2015',
         maxDate: '06/30/2015',
         buttonClasses: ['btn', 'btn-sm'],

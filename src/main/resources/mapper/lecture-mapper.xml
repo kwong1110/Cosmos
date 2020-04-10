@@ -21,5 +21,7 @@
 		<result property="lectureStatus" column="LECTURE_STATUS"/>
 		<result property="id" column="ID"/>
 		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="lectureJob" column="LECTURE_JOB"/>
+		<result property="lectureEnd" column="LECTURE_END"/>
 	</resultMap>
 </mapper>
