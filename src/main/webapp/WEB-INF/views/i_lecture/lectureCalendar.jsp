@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				{
 					title :	"${ l.lectureTitle }",
 					start : "${ l.lectureDate }",	
-					end : "${ l.lectureDate }"
+					end : "${ l.lectureEnd }"
 				},			
 			</c:forEach>
       	]

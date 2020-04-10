@@ -79,11 +79,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 <body>
 	<div class="total-wrapper">
-		<c:import url="../a_common/menubar.jsp"/>
+		<c:import url="../../a_common/menubar.jsp"/>
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
-					<h1>강연</h1>
+					<h1>나의 플래너</h1>
 				</div>
 				<div class="content">
 					<div class="row">
@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				</div>
 			</div>
 		</div>
-		<c:import url="../a_common/footer.jsp"/>
+		<c:import url="../../a_common/footer.jsp"/>
 	</div>
 </body>
 </html>
