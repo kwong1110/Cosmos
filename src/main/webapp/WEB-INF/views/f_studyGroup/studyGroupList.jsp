@@ -114,15 +114,36 @@
 							
 							<div id="categoryHiddenArea">
 								<div id="locDiv" class="categoryDiv">
-									<label class="categoryLabel">노량진점</label>
-									<label class="categoryLabel">부천점</label>
-									<label class="categoryLabel">성남점</label>
-									<label class="categoryLabel">신도림점</label>
-									<label class="categoryLabel">한남점</label>
+									<c:forEach var="item" items="${ branchList }">
+										<label class="categoryLabel">${ item.branchName }</label>
+									</c:forEach>
+									<!-- <label class="categoryLabel">노량진점</label>
+										<label class="categoryLabel">부천점</label>
+										<label class="categoryLabel">성남점</label>
+										<label class="categoryLabel">신도림점</label>
+										<label class="categoryLabel">한남점</label> -->
 								</div>
 								
 								<div id="studyDiv" class="categoryDiv">
-									<div class="categoryLabel">
+									<c:forEach items="${ studyList }" var="item" varStatus="status">
+										<script>
+											console.log("status.count : ${status.count}");
+											console.log("status.count mod 5 : ${status.count mod 5}");
+											console.log("item : ${item}");
+										</script>
+										<c:if test="${ (status.count mod 5) eq 1 }">
+											<div class="categoryLabel">
+												<label class="pointer">${ item }</label><br>
+										</c:if>
+										<c:if test="${ (status.count mod 5) ne 1 && (status.count mod 5) ne 0 }">
+												<label class="pointer">${ item }</label><br>
+										</c:if>
+										<c:if test="${ (status.count mod 5) eq 0 }">
+												<label class="pointer">${ item }</label>
+											</div>
+										</c:if>
+									</c:forEach>
+									<!-- <div class="categoryLabel">
 										<label class="pointer">대학생 학점관리</label><br>
 										<label class="pointer">일반/학사 편입</label><br>
 										<label class="pointer">대학원생</label><br>
@@ -159,7 +180,7 @@
 									</div>
 									<div class="categoryLabel">
 										<label class="pointer">기타</label>
-									</div>
+									</div> -->
 								</div>
 								
 								<div id="typeDiv" class="categoryDiv" style="width:65%; float:left; display:inline-block;">
