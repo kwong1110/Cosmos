@@ -17,6 +17,7 @@
     	
     .div-right{width:70%; height:inherit; float:right;}
     	.right-top{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-left:0;}
+    	#right-top{line-height:55px; font-size:25px;}
     	#right-map{width:100%; height:51%; border:1px solid #000; box-sizing: border-box; border-top:0; border-left:0; border-bottom:0;}
     	.right-content{width:100%; height:35%; border:1px solid #000; box-sizing: border-box;border-left:0; border-bottom:0; }
     		.right-content-left{width:60%; height:100%;  box-sizing: border-box; float:left; 
@@ -37,7 +38,8 @@
     		.ri-ag{width:40%; height:100%;  box-sizing: border-box; float:right; line-height:55px;padding-left:0px; }
     		.ra-left{width:70%; float:left; font-size:16px;}
     		.ra-right{width:30%;float:right;}
-    .che{width:15px;height:15px;}
+   
+    .che{width:15px;height:15px;} /* 인원선택 체크박스 css */
     
   	nav{margin-left:20px;}
   	
@@ -48,9 +50,11 @@
   	.modal:before {display: inline-block; vertical-align: middle; content: " ";height: 95%;}
 	}
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
+	
+	
 </style>
 </head>
-<body onload="brAddress();"><!-- onload="brAddress();" -->
+<body><!-- onload="brAddress();" -->
 <div class="total-wrapper">
 		<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper"> 
@@ -61,7 +65,8 @@
 				<div class="content">
 						<div class="wrap-div form-inline" >
 					        <div class="div-left">
-					        	<div class="left-top"></div>
+					        	<div class="left-top">
+					        	</div>
 					        	<div class="left-mid">
 					        		
 					        			<c:forEach var="s" items="${ branchList }">
@@ -84,7 +89,7 @@
 					        				</tr> --%>
 					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black;">
 					        					<div style="margin-left:38px;"><b>${ s.branchName }</b></div>
-					        					<div><input type="radio" name="branchAddress" style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
+					        					<div><input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress" value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
 					        			</c:forEach>
@@ -123,12 +128,20 @@
 					            </div>
 					        </div>
 					        <div class="div-right">
-					            <div class="right-top"></div>
+					            <div class="right-top" id="right-top"> 
+					            	<script>
+						        		$('input[type=radio][name=branchAddress]').on('click',function(){
+			            					var tmp = $('input[type=radio][name=branchAddress]:checked').val();
+			            						/* $("#branchAddress").parent().parent().children().eq(0)[0].innerText; */
+			            					$("#right-top").text(tmp);
+			            				});
+					        		</script>
+					            </div>
 					       		<div id="right-map" >
 					       			
 										<!-- <div id="map" style="width:100%;height:100%;"></div> -->
 										
-										<script>
+										<script type="text/javascript">
 										function brAddress(){
 												var mapContainer = document.getElementById('right-map'), // 지도를 표시할 div 
 											    mapOption = {
@@ -167,8 +180,9 @@
 											    } 
 											});    
 										}
+										window.onload=brAddress;
 										</script>
-									<script>
+									<script >
 									function branchAddress(e){
 										var address1 = $(e).parent()[0].innerText;
 										var name = $(e).parent().parent().children().eq(0)[0].innerText;
@@ -219,7 +233,27 @@
 					            	<div class="right-content-left">
 					            		<div class="left-spot">
 					            			<div class="cl">● 예약지점</div>
-					            			<div class="cr"></div>
+					            			<div class="cr" id="reserStore">
+					            				<script>
+					            				/* function branchAddress(e){
+					            					var checkedVal=$(e).parent().parent().children().eq(0)[0].innerText;
+					            					$("#reserStore").html(checkedVal);
+					            				} */
+					            				/*var st = $("input:radio[name=branchAddress]:checked").val();
+					            				console.log(st);
+					            				$("#reserStore").html(st);*/
+					            				/* var tmp = $("#branchAddress").parent().parent().children().eq(0)[0].innerText;
+					            				console.log(tmp);
+					            				console.log(${ s.branchAddress });
+					            				$("#reserStore").text(tmp); */
+					            				$('input[type=radio][name=branchAddress]').on('click',function(){
+					            					var tmp = $('input[type=radio][name=branchAddress]:checked').parent().parent().children().eq(0)[0].innerText;
+					            					console.log(tmp);
+					            						/* $("#branchAddress").parent().parent().children().eq(0)[0].innerText; */
+					            					$("#reserStore").text(tmp);
+					            				});
+					            				</script>
+					            			</div>
 					            		</div>
 					            		<div class="left-date">
 					            			<div class="cl">● 예약일자</div>
@@ -306,7 +340,7 @@
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 	
-	<div class="modal fade" id="seatModal">
+	<div class="modal fade" id="seatModal"> <!-- 좌석 모달창 부분 -->
 	  <div class="modal-dialog modal-80size" role="document">
 	    <div class="modal-content modal-80size ">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
