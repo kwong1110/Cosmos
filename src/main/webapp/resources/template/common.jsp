@@ -78,11 +78,12 @@
 							<li><a href="#">333</a></li>
 						</ul>
 					</div><!-- /btn-group -->
-					<input type="text" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
-					<span class="input-group-btn">
-						<button class="btn" type="button">검색</button>
-					</span>
-				</div><!-- /input-group -->
+					<input type="text" class="form-control" style="border:none;" placeholder="검색어를 입력하세요.">
+						<span class="input-group-btn">
+							<button class="btn search-submit" type="button">검색</button>
+						</span>
+				</div>
+				<!-- /input-group -->
 			</div><!-- /.col-lg-6 -->
 		</div><!-- /.row -->
 	</form>

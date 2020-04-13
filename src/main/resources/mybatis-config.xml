@@ -29,5 +29,6 @@
 		<mapper resource="mapper/lecture-mapper.xml"/>
 		<mapper resource="mapper/report-mapper.xml"/>
 		<mapper resource="mapper/note-mapper.xml"/>
+		<mapper resource="mapper/myPage-mapper.xml"/>
 	</mappers>
 </configuration>

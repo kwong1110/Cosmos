@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="myPageMapper">
+	<select id="getMemberMyGroupCount" parameterType="string" resultType="_int">
+		select count(*)
+		from ap_sgroup
+		where asg_status not in ('N', 'R') and id=#{id}
+	</select>
+	
+	<select id="getBossMyGroupCount" parameterType="string" resultType="_int">
+		select count(*)
+		from sgroup
+		where id=#{id}
+	</select>
+</mapper>

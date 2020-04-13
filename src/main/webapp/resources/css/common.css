@@ -142,15 +142,18 @@ body {
 .defaultBtn {
 	padding: 6px 9px 6px 9px;
 	border: 0;
-	background: rgb(100, 222, 109);
+	/*background: rgb(100, 222, 109);*/
+	background: #135D36;
 	color: white;
-	font-size: 1.5rem;
+	font-size: 1.7rem;
 	font-weight: bold;
-	cursor: pointer
+	border-radius:8px;
+	cursor: pointer;
 }
 
 .defaultBtn:hover {
-	background: rgb(243, 171, 180)
+	/*background: rgb(243, 171, 180)*/
+	background: #000000;
 }
 
 .searchBtn {
@@ -247,3 +250,28 @@ a:active, a:focus {
 }
 
 /* 부트스트랩 Datepicker */
+
+/* 테이블 */
+.table-hover th{
+	text-align: center;
+	background: #67A261;
+	font-size: 19px;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+.table-hover tr{
+	height: 50px;
+}
+
+.table-hover tr:hover{
+	background: rgba(103,162,97,0.2) !important;
+}
+/* 테이블 */
+
+/* 검색 */
+.dropdown-toggle,.search-submit{
+	background: #67A261;
+	font-weight:bold;
+}
+/* 검색 */
