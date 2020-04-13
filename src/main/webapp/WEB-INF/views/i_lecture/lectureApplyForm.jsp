@@ -38,6 +38,7 @@
 	.input-daterange-timepicker{
 		background-color: rgb(255, 255, 224) !important;
 	}
+	<!-- .input readonly 진하게 추가하기 -->
 </style>
 </head>
 <body>
@@ -52,20 +53,20 @@
 					<form action="lectureApply.le" method="post" onsubmit="">
 						<table class="inner table">
 							<tr>
-								<th>이름</th>
-								<td><input type="text" name="id"></td>
+								<th>이름<input type="hidden" value="${ loginUser.id }" name="id"></th>
+								<td><input type="text" value="${ loginUser.name }" readonly></td>
 								<th colspan="5">이력 사항 / 강연 경험</th>
 							</tr>
 							<tr>
 								<th>핸드폰 번호</th>
-								<td><input type="text"></td>
+								<td><input type="text" value="${ loginUser.phone }" readonly></td>
 								<td rowspan="3" colspan="5">
 									<textarea name="lectureRecord"></textarea>
 								</td>
 							</tr>
 							<tr>
 								<th>이메일</th>
-								<td><input type="email"></td>
+								<td><input type="email" value="${ loginUser.email }" readonly></td>
 							</tr>
 							<tr>
 								<th>직업</th>

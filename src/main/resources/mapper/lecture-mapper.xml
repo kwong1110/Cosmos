@@ -5,7 +5,7 @@
 		select *
 		from lecture
 		where lecture_status='OPEN'
-		order by lecture_date
+		order by lecture_Start
 	</select>
 	
 	<resultMap id="lectureResultSet" type="Lecture">
@@ -23,5 +23,12 @@
 		<result property="branchNo" column="BRANCH_NO"/>
 		<result property="lectureJob" column="LECTURE_JOB"/>
 		<result property="lectureEnd" column="LECTURE_END"/>
+		<result property="lectureStart" column="LECTURE_START"/>
 	</resultMap>
+	
+	<insert id="lectureApply" parameterType="Lecture">
+		insert into lecture
+		values(seq_lid.nextval, #{lectureRecord}, #{lectureTitle}, #{lectureContent}, #{lectureFee}, #{maxpeople},
+		       0, sysdate, #{lectureTime}, default, #{id}, #{branchNo}, #{lectureJob}, #{lectureEnd}, #{lectureStart}) 
+	</insert>
 </mapper>
