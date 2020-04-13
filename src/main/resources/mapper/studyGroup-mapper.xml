@@ -1,4 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="studyGroupMapper">
+	<select id="getStudyList" resultType="string">
+		select study_name
+		from study_category
+	</select>
+	
+	<select id="getBranchList" resultMap="branchResultMap">
+		select branch_no, branch_name
+		from branch
+	</select>
+	
+	<resultMap id="branchResultMap" type="ViewBranch">
+		<id column="BRANCH_NO" property="branchNo"/>
+		<result column="BRANCH_NAME" property="branchName"/>
+	</resultMap>
+	
+	<select id="getStudyNo" parameterType="string" resultType="_int">
+		select study_no
+		from study_category
+		where study_name = #{studyname}
+	</select>
+	
+	<insert id="insertGroup" parameterType="StudyGroup">
+		insert into sgroup
+		values(seq_sgid.nextval, #{sgName}, #{sgGoal}, #{sgContent}, default, #{branchNo}, #{id}, #{studyNo})
+	</insert>
+	
+	<insert id="insertRecruit">
+		insert into rec_sgroup
+		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, #{recMettingDate}, seq_sgid.currval)
+	</insert>
 </mapper>

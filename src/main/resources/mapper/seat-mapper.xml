@@ -1,4 +1,46 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="seatMapper">
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from branch
+	</select>
+	<select id="selectBranchList" resultMap="branchResultSet">
+		select *
+		from branch
+		order by branch_no desc
+	</select>
+	
+	<resultMap id="branchResultSet" type="ViewBranch">
+		<id property="branchNo" column="BRANCH_NO"/>
+		<result property="branchName" column="BRANCH_NAME"/>
+		<result property="branchAddress" column="BRANCH_ADDRESS"/>
+		<result property="branchTel" column="BRANCH_TEL"/>
+		<result property="branchContent" column="BRANCH_CONTENT"/>
+		<result property="branchTime" column="BRANCH_TIME"/>
+		<result property="branchRest" column="BRANCH_REST"/>
+	</resultMap>
+	
+	<select id="selectSeatList" resultMap="seatResultSet">
+		select * 
+		from reser
+		where reser_yn='N'
+		<!-- order by reser_no desc -->
+	</select>
+	
+	<resultMap id="seatResultSet" type="Seat">
+		<id property="reserNo" column="RESER_NO"/>
+		<result property="reserPeople" column="RESER_PEOPLE"/>
+		<result property="reserDay" column="RESER_DAY"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+		<result property="reserYn" column="RESER_YN"/>
+		<result property="seatNo" column="SEAT_NO"/>
+		<result property="reserFee" column="RESER_FEE"/>
+		<result property="id" column="ID"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+	
+	</resultMap>
+	
+	
 </mapper>

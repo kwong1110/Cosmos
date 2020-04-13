@@ -8,15 +8,16 @@
 <title>메뉴바</title>
 <script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/resources/css/reset.css"/>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/bootstrap-datepicker.min.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/bootstrap-timepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/daterangepicker.css">
 	<!-- cosmos css -->
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/layout-style.css">
 	<!-- 부트스트랩 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<!-- cosmos js -->
 <script src="${contextPath}/resources/js/common.js"></script>
 </head>
@@ -144,6 +145,30 @@
 	.s-menu>div:hover {
 		background-color:rgba(228, 208, 106, 0.2);
 	}
+	
+	/* 쿠폰 모달 스타일 */
+	.myCuponSize{width: 45%;}
+	.myCuponColor{background: lightgray;}
+	.myCuponTitle{width:100%; text-align:center; margin:10px;}
+	.myCuponBody{width:100%; display:inline-block; text-align:center;}
+	#cuponArea{width:80%; min-height: 330px; margin-top:5%; margin-bottom:5%; display:inline-block; text-align:center; border-radius:10px; background:white;}
+	#cuponAreaTop{width:100%; height:120px; padding: 4%; padding-bottom: 1%;}
+	#cuponLogo{width:50%; height:100%; float:left; padding-left:3%;}
+	#cuponLogo div{height:100%; width:auto;}
+	#cuponStampCount{width:50%; height:100%; float:right; text-align:right; padding-right:5%; padding-top:3%;}
+	#cuponStampCount label{font-size:35px; font-weight:normal;}
+	#stampArea{width:100%; text-align:center;}
+	#stampArea>div{width:85%; display:inline-block;}
+	#stampArea>div table{width:100%; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.5em !important}
+	
+	.emptyStamp{width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;}
+	.iconStamp{display:inline-block; text-align:center;}
+	.iconStamp img{width:80px; height:auto; display:block;}
+	
+	#stampListArea{width:100%; text-align:center;}
+	#stampListArea>div{width:80%; display:inline-block;}
+	#stampListArea>div table{width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
+	/* 쿠폰 모달 스타일 끝 */
 </style>
 <body>
 	<!-- contextPath를 변수로 만들어 활용하기 -->
@@ -215,21 +240,21 @@
 		<hr class="bar">
 		
 		<div class="menubar">
-			<div class="menuTitle"><a href=""><span class="glyphicon glyphicon-education" aria-hidden="true"></span>좌석예약</a></div>
+			<div class="menuTitle"><a href="reservation.se"><span class="glyphicon glyphicon-education" aria-hidden="true"></span>좌석예약</a></div>
 			<div class="menuTitle"><a href="listView.sg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>그룹목록</a></div>
 			<div class="menuTitle">
 				<div><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
 				<div class="s-menu">
-					<div><a href="#">나의 플래너</a></div>
+					<div><a href="myPlannerList.sp">나의 플래너</a></div>
 					<div><a href="#">모두의 플래너</a></div>								
 				</div>
 			</div>
 			<div class="menuTitle"><a href="#"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
 			<div class="menuTitle">
-				<div><a href="lectureCalendar.le"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
+				<div><a href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
 				<div class="s-menu">
-					<div><a href="#">강연 목록</a></div>
-					<div><a href="#">강연자 신청</a></div>								
+					<div><a href="lectureCalendar.le">강연 목록</a></div>
+					<div><a href="lectureApplyGuide.le">강연자 신청</a></div>								
 				</div>
 			</div>
 		</div>
@@ -270,67 +295,67 @@
 	
 	<!-- 쿠폰 모달 -->
 	<div id="myCupon" class="modal fade" role="dialog">
-		<div class="modal-dialog" style="width:45%;">
-			<div class="modal-content" style="background: lightgray;">
+		<div class="modal-dialog myCuponSize">
+			<div class="modal-content myCuponColor">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title" style="width:100%; text-align:center; margin:10px;">마이 쿠폰</h2>
+					<h2 class="modal-title myCuponTitle">마이 쿠폰</h2>
 				</div>
 				
-				<div class="modal-body" style="width:100%; display:inline-block; text-align:center;">
+				<div class="modal-body myCuponBody">
 					
-					<div style="width:90%; min-height: 330px; margin-top:5%; margin-bottom:5%; display:inline-block; text-align:center; border-radius:10px; background:white;">
-						<div style="width:100%; height:120px; padding: 4%; padding-bottom: 1%;">
-							<div style="width:50%; height:100%; float:left; padding-left:3%;">
-								<div class="logo_green" style="height:100%; width:auto;"></div>
+					<div id="cuponArea">
+						<div id="cuponAreaTop">
+							<div id="cuponLogo">
+								<div class="logo_green"></div>
 							</div>
-							<div style="width:50%; height:100%; float:right; text-align:right; padding-right:5%; padding-top:3%;">
-								<label style="font-size:35px; font-weight:normal;">3/10</label>
+							<div id="cuponStampCount">
+								<label>3/10</label>
 							</div>
 						</div>
 						
-						<div style="width:100%; text-align:center;">
-						<div style="width:85%; display:inline-block;">
-							<table style="width:100%; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.5em !important">
+						<div id="stampArea">
+						<div>
+							<table>
 								<tr>
-									<td style="display:inline-block; text-align:center;"><img src="${contextPath }/resources/image/alien.png" style="width:80px; height:auto; display:block;" /></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
 								</tr>
 								<tr>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
-									<td><div style="width:70px; height:70px; display:inline-block; background:#A6A6A6; border-radius:50%;"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
+									<td><div class="emptyStamp"></div></td>
 								</tr>
 							</table>
 						</div>
 						</div>
 					</div>
 					
-					<div style="width:100%; text-align:center;">
-					<div style="width:80%; display:inline-block;">
-						<table style="width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important">
-							<tr>
-								<td>2020.00.00 00:00</td>
-								<td>쿠폰 발급</td>
-								<td>-10</td>
-							</tr>
-							<tr>
-								<td>2020.00.00 00:00</td>
-								<td>한남점 1인 3시간 좌석예약</td>
-								<td>+1</td>
-							</tr>
-							<tr>
-								<td>2020.00.00 00:00</td>
-								<td>노량진점 6인 3시간 좌석예약</td>
-								<td>+1</td>
-							</tr>
-						</table>
-					</div>
+					<div id="stampListArea">
+						<div>
+							<table>
+								<tr>
+									<td>2020.00.00 00:00</td>
+									<td>쿠폰 발급</td>
+									<td>-10</td>
+								</tr>
+								<tr>
+									<td>2020.00.00 00:00</td>
+									<td>한남점 1인 3시간 좌석예약</td>
+									<td>+1</td>
+								</tr>
+								<tr>
+									<td>2020.00.00 00:00</td>
+									<td>노량진점 6인 3시간 좌석예약</td>
+									<td>+1</td>
+								</tr>
+							</table>
+						</div>
 					</div>
 				</div>
 
@@ -418,29 +443,72 @@
 		});
 		
 		
-		/* 메뉴 고정 */
-		var subPage = new Array;
-		subPage[0] = "company";
-		subPage[1] = "event";
-		subPage[2] = "games";
-		subPage[3] = "games";
-		subPage[4] = "games";
+		/* 메뉴 고정 : 모든 메뉴 완성되면 구현하기 */
 		var url = location.href;
-		var getAr0 = url.indexOf(subPage[0]);
-		var getAr1 = url.indexOf(subPage[1]);
-		var getAr2 = url.indexOf(subPage[2]);
-		var getAr3 = url.indexOf(subPage[2]);
-		var getAr4 = url.indexOf(subPage[2]);
-		if(getAr0 != -1){
-			$("li:eq(1) a").addClass("on")
+		
+		// 메인메뉴
+		var mainMenu = new Array;
+		mainMenu[0] = "company";
+		mainMenu[1] = "event";
+		mainMenu[2] = "games";
+		mainMenu[3] = "board";
+		mainMenu[4] = "lecture";
+		var getMain0 = url.indexOf(mainMenu[0]);
+		var getMain1 = url.indexOf(mainMenu[1]);
+		var getMain2 = url.indexOf(mainMenu[2]);
+		var getMain3 = url.indexOf(mainMenu[3]);
+		var getMain4 = url.indexOf(mainMenu[4]);
+		
+		// 서브메뉴 가지고 있는 메뉴1
+		var gamesSub = new Array;
+		gamesSub[0] = "games/sub3.html";
+		gamesSub[1] = "games/sub4.html";
+		var getGamesSub0 = url.indexOf(gamesSub[0]);
+		var getGamesSub1 = url.indexOf(gamesSub[1]);
+		
+		// 서브메뉴 가지고 있는 메뉴2
+		var lectureSub = new Array;
+		lectureSub[0] = "lecture/sub6.html";
+		lectureSub[1] = "lecture/sub7.html";
+		var getLectureSub0 = url.indexOf(lectureSub[0]);
+		var getLectureSub1 = url.indexOf(lectureSub[1]);
+		
+		if (getMain0 != -1) {
+			$(".menuTitle:eq(0) > a").addClass("on");
 		};
-		if(getAr1 != -1){
-			$("li:eq(2) a").addClass("on")
+		if (getMain1 != -1) {
+			$(".menuTitle:eq(1) > a").addClass("on");
 		};
-		if(getAr2 != -1){
-			$("li:eq(3) a").addClass("on")
+		if (getMain2 != -1) {
+			$(".menuTitle:eq(2) > div > a").addClass("on");
+			if(getGamesSub0 != -1){
+				$(".menuTitle:eq(2) > .s-menu > div:first-child > a").addClass("on");
+			} 
+			if(getGamesSub1 != -1){
+				$(".menuTitle:eq(2) > .s-menu > div:last-child > a").addClass("on");
+			} 
+		};
+		if (getMain3 != -1) {
+			$(".menuTitle:eq(3) > a").addClass("on");
+		};
+		if (getMain4 != -1) {
+			$(".menuTitle:eq(4) > div > a").addClass("on");
+			if(getLectureSub0 != -1){
+				$(".menuTitle:eq(4) > .s-menu > div:first-child > a").addClass("on");
+			} 
+			if(getLectureSub1 != -1){
+				$(".menuTitle:eq(4) > .s-menu > div:last-child > a").addClass("on");
+			} 
 		};
 	});
+	
+	// 회원가입 성공시 로그인 창 바로 뜨기
+	window.onload = function(){
+		if( <%= request.getParameter("success") %> == 1){
+			$("#login").trigger("click");
+		}
+	}
+	
 	
 </script>
 </html>

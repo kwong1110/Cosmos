@@ -9,6 +9,7 @@ public class StudyGroup {
 	private int branchNo;
 	private String id;
 	private int studyNo;
+	private String studyName;
 	
 	public StudyGroup() {}
 	
@@ -88,11 +89,18 @@ public class StudyGroup {
 		this.studyNo = studyNo;
 	}
 
+	public String getStudyName() {
+		return studyName;
+	}
+
+	public void setStudyName(String studyName) {
+		this.studyName = studyName;
+	}
+
 	@Override
 	public String toString() {
 		return "StudyGroup [sgNo=" + sgNo + ", sgName=" + sgName + ", sgGoal=" + sgGoal + ", sgContent=" + sgContent
-				+ ", sgStatus=" + sgStatus + ", branchNo=" + branchNo + ", id=" + id + ", studyNo=" + studyNo + "]";
+				+ ", sgStatus=" + sgStatus + ", branchNo=" + branchNo + ", id=" + id + ", studyNo=" + studyNo
+				+ ", studyName=" + studyName + "]";
 	}
-	
-	
 }
