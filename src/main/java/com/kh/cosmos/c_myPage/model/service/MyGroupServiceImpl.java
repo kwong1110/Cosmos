@@ -14,4 +14,14 @@ public class MyGroupServiceImpl implements MyGroupService {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+
+	@Override
+	public int getMemberListCount(String id) {
+		return mgDAO.getMemberListCount(sqlSession, id);
+	}
+
+	@Override
+	public int getBossListCount(String id) {
+		return mgDAO.getBossListCount(sqlSession, id);
+	}
 }

@@ -50,11 +50,9 @@
 							<td class="tableLabel">그룹 명</td>
 							<td>
 								<select class="form-control" id="groupSelect" name="groupSelect">
-									<option>그룹명1</option>
-									<option>그룹명2</option>
-									<option>그룹명3</option>
-									<option>그룹명4</option>
-									<option>그룹명5</option>
+									<c:forEach var="item" items="${ sgList }">
+										<option>${ item }</option>
+									</c:forEach>
 								</select>
 							</td>
 						</tr>

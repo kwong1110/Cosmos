@@ -142,15 +142,18 @@ body {
 .defaultBtn {
 	padding: 6px 9px 6px 9px;
 	border: 0;
-	background: rgb(100, 222, 109);
+	/*background: rgb(100, 222, 109);*/
+	background: #135D36;
 	color: white;
-	font-size: 1.5rem;
+	font-size: 1.7rem;
 	font-weight: bold;
-	cursor: pointer
+	border-radius:8px;
+	cursor: pointer;
 }
 
 .defaultBtn:hover {
-	background: rgb(243, 171, 180)
+	/*background: rgb(243, 171, 180)*/
+	background: #000000;
 }
 
 .searchBtn {

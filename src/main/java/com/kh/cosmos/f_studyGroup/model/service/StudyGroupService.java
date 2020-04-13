@@ -15,5 +15,7 @@ public interface StudyGroupService {
 	int insertGroup(StudyGroup sg);
 
 	int insertRecruit(StudyRecruit sr);
+
+	ArrayList<StudyGroup> getStudyGroupList(String id);
 	
 }
