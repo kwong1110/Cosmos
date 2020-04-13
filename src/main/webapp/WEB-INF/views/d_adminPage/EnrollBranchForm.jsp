@@ -67,10 +67,33 @@ table.inner td {
 							<tr>
 								<th>지점명</th>
 								<td>
-									<input type="text" class="form-control" placeholder="지점명을 입력하세요" style="padding:5px;  width:60%" >
+									<input type="text" class="form-control" placeholder="지점명을 입력하세요" style="padding:5px;  width:50%" >
 								</td>
 							</tr>
+						 	<tr>
+               					<th>우편번호</th>
+               					<td>
+                  					<input type="text" name="post" class="postcodify_postcode5" value="" size="6" readonly>
+                  					<button type="button" id="postcodify_search_button">검색</button>
+               					</td>
+            				</tr>
 							<tr>
+              					 <th>도로명 주소</th>
+             					 <td><input type="text" name="address1" class="postcodify_address" value="" style="width:50%"></td>
+            				</tr>
+            				<tr>
+               					<th>상세 주소</th>
+               					<td><input type="text" name="address2" class="postcodify_extra_info" value="" style="width:50%"></td>
+            				</tr>
+            				<!-- jQuery와 Postcodify를 로딩한다. -->
+            				<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
+            				<script>
+               				// 검색 단추를 누르면 팝업 레이어가 열리도록 설정한다.
+               				$(function(){
+                  				$("#postcodify_search_button").postcodifyPopUp();
+               				});
+               				</script>
+ 						<!--	<tr>
 								<th>지점주소</th>
 								<td>
 									<input type="text"  id="zonecodeInput" name="zonecodeInput" style="width:28%" readonly >
@@ -78,12 +101,13 @@ table.inner td {
 									<br>
 								    <input type="text" id="addressInput" name="addressInput" style="width:50%" readonly >
  								    <input type="text" id="detailAddressInput" name="detailAddressInput" placeholder="상세주소">
-									<!-- 지도가 생길공간 div로 만들어주기 -->
+									지도가 생길공간 div로 만들어주기
 									<div id="wrap">
    
  									</div>
  								 </td> 
-							</tr>
+							</tr> -->
+							
 							<tr>
 								<th>지점연락처</th>
 								<td>
@@ -126,7 +150,8 @@ table.inner td {
 							<tr>
 								<th>지점소개</th>
 								<td>
-									<textarea id="description">ㄹㄹ</textarea>
+									<textarea id="summernote" name="branchIntroduce"></textarea>
+									<c:import url="../a_common/summernote.jsp"/>
 								</td>	
 							</tr>	
 						</table>
