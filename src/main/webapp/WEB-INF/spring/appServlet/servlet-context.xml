@@ -19,10 +19,12 @@
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
+		
+		
 	</beans:bean>
 	
 	<context:component-scan base-package="com.kh.cosmos" />
-	
-	
+	<!-- 지점등록 editor추가_한솔 -->
+	<resources location="/WEB-INF/views/summernote/" mapping="/summernote/**"></resources>	
 	
 </beans:beans>
