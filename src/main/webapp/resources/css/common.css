@@ -246,3 +246,28 @@ a:active, a:focus {
 }
 
 /* 부트스트랩 Datepicker */
+
+/* 테이블 */
+.table-hover th{
+	text-align: center;
+	background: #67A261;
+	font-size: 19px;
+	font-weight: bold;
+	vertical-align: middle;
+}
+
+.table-hover tr{
+	height: 50px;
+}
+
+.table-hover tr:hover{
+	background: rgba(103,162,97,0.2) !important;
+}
+/* 테이블 */
+
+/* 검색 */
+.dropdown-toggle,.search-submit{
+	background: #67A261;
+	font-weight:bold;
+}
+/* 검색 */
