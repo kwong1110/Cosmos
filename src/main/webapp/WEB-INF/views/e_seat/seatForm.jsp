@@ -28,14 +28,14 @@
    	 						vertical-align:middle; border-radius: 10px 10px 10px 10px; background:brown; color:white;}
     .div-right1{width:55%; height:inherit; float:right;}
     	.right-top1{width:100%; height:57%; border:1px solid #000; box-sizing: border-box; border-bottom:0; border-left:0;}
-    		.right-top1-bigclass{display:table; float:right;margin-left:70px;  }
-    			.bigger{display:table-row; border: 1px solid black; }
+    		.right-top1-bigclass{display:table; float:right;margin-left:70px;margin-right:60px;  }
+    			.bigger{display:table-row; border: 1px solid black;  }
     			.big{display:table-cell; border: 1px solid black; width:760px;height:200px; 
     				 vertical-align:middle; border-top:0; border-right:0; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
     		.right-top1-sixclass1{display:table; float:left; margin-left:74px; margin-top:65px;}
     			.sixpeople{display:table-row; border: 1px solid black;}
     			.six1{display:table-cell; border: 1px solid black; width:300px; height:230px; vertical-align:middle; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
-    		.right-top1-sixclass2{display:table; float:right; margin-top:65px;}
+    		.right-top1-sixclass2{display:table; float:right; margin-top:65px; margin-right:60px;}
     			.sixpeople{display:table-row; border: 1px solid black;}
     			.six2{display:table-cell; border: 1px solid black; width:300px; height:230px; vertical-align:middle; border-right:0; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}	
     	.right-bottom1{width:100%; height:43%; border:1px solid #000; box-sizing: border-box; border-top:0; border-left:0;}
@@ -43,7 +43,7 @@
     			.fourperson1{display:table-row; border: 1px solid black;}
     			.four1{display:table-cell; border: 1px solid black; width:300px; height: 150px; 
     				   vertical-align:middle; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
-    		.right-bot-fourclass2{display:table; float:right; margin-top:25px;}	
+    		.right-bot-fourclass2{display:table; float:right; margin-top:25px; margin-right:60px;}	
     			.fourperson1{display:table-row; border: 1px solid black;}
     			.four2{display:table-cell; border: 1px solid black; width:300px; height: 150px; 
     				   vertical-align:middle; border-right:0; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
@@ -51,7 +51,7 @@
     			.fourperson2{display:table-row; border: 1px solid black;}
     			.four3{display:table-cell; border: 1px solid black; width:300px; height: 150px; 
     			 	   vertical-align:middle; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
-    		.right-bot-fourclass4{display:table; float:right; margin-top:30px;}	
+    		.right-bot-fourclass4{display:table; float:right; margin-top:30px; margin-right:60px;}	
     			.fourperson2{display:table-row; border: 1px solid black;}
     			.four4{display:table-cell; border: 1px solid black; width:300px; height: 150px; 
     				   vertical-align:middle; border-right:0; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}		

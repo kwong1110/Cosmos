@@ -12,13 +12,13 @@
 .wrap-div{width:100%; height:850px; margin:0 auto; }
     .div-left{width:30%; height:inherit; float:left;}
     	.left-top{width:100%; height:7%; border:1px solid #000; box-sizing: border-box;}
-    	.left-mid{width:100%; height:86%; border:1px solid #000; box-sizing: border-box; border-top:0; border-bottom:0;}
-    	.left-bot{width:100%; height:7%; border:1px solid #000; box-sizing: border-box;}
+    	.left-mid{width:100%; height:93%; border:1px solid #000; box-sizing: border-box; border-bottom:0;}
+    	.left-bot{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-top:0;}
     	
     .div-right{width:70%; height:inherit; float:right;}
     	.right-top{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-left:0;}
     	#right-top{line-height:55px; font-size:25px;}
-    	#right-map{width:100%; height:51%; border:1px solid #000; box-sizing: border-box; border-top:0; border-left:0; border-bottom:0;}
+    	#right-map{width:100%; height:58%; border:1px solid #000; box-sizing: border-box; border-left:0; border-bottom:0;}
     	.right-content{width:100%; height:35%; border:1px solid #000; box-sizing: border-box;border-left:0; border-bottom:0; }
     		.right-content-left{width:60%; height:100%;  box-sizing: border-box; float:left; 
     							line-height:70px; padding-left:50px;}
@@ -43,6 +43,7 @@
     
   	nav{margin-left:20px;}
   	
+  	
   	.modal-dialog.modal-80size {width: 85%; height: 90%; margin: 0; padding: 0;}
 	.modal-content.modal-80size {height: auto; min-height: 90%;}
 	.modal {text-align: center;}
@@ -65,8 +66,8 @@
 				<div class="content">
 						<div class="wrap-div form-inline" >
 					        <div class="div-left">
-					        	<div class="left-top">
-					        	</div>
+					        	<!-- <div class="left-top">
+					        	</div> -->
 					        	<div class="left-mid">
 					        		
 					        			<c:forEach var="s" items="${ branchList }">
@@ -87,8 +88,8 @@
 					        						${ s.branchTel }
 					        					</td>
 					        				</tr> --%>
-					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black;">
-					        					<div style="margin-left:38px;"><b>${ s.branchName }</b></div>
+					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:100px;">
+					        					<div style="margin-left:38px;"><b>코스모스 스터디센터 ${ s.branchName }</b></div>
 					        					<div><input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress" value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
@@ -128,7 +129,7 @@
 					            </div>
 					        </div>
 					        <div class="div-right">
-					            <div class="right-top" id="right-top"> 
+					            <!-- <div class="right-top" id="right-top"> 
 					            	<script>
 						        		$('input[type=radio][name=branchAddress]').on('click',function(){
 			            					var tmp = $('input[type=radio][name=branchAddress]:checked').val();
@@ -136,7 +137,7 @@
 			            					$("#right-top").text(tmp);
 			            				});
 					        		</script>
-					            </div>
+					            </div> -->
 					       		<div id="right-map" >
 					       			
 										<!-- <div id="map" style="width:100%;height:100%;"></div> -->
@@ -218,7 +219,7 @@
 										
 										        // 인포윈도우로 장소에 대한 설명을 표시합니다
 										        var infowindow = new kakao.maps.InfoWindow({
-										            content: '<div style="width:150px; text-align:center; padding:6px 0;"> '+ name +'</div>'
+										            content: '<div style="width:170px; text-align:center; padding:6px 0;"> '+ name +'</div>'
 										        });
 										        infowindow.open(map, marker);
 										
@@ -279,7 +280,7 @@
 					            		<div class="right-choose">
 					            			<div class="cl">● 인원선택</div>
 					            			<div class="cr">
-					            				<input type="checkbox" class="che" name="onep">1인 &nbsp;&nbsp;&nbsp;
+					            				<input type="checkbox" class="che" name="onep">1인 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 					            				<input type="checkbox" class="che" name="manyp">다인
 					            			</div>
 					            		</div>
@@ -322,11 +323,17 @@
 					            <div class="right-agree">
 					            	<div class="le-ag">
 					            		<div class="ra-left"><input type="checkbox" class="che">개인정보 수집 및 이용에 관한 동의(필수)</div>
-					            		<div class="ra-right">[내용보기]</div>
+					            		<div class="ra-right" id="personInfo">[내용보기]</div>
+					            		<script>
+					            			$('#personInfo').click(function(e){
+				            					e.preventDefault();
+				            					$('#personInfoModal').modal("show");
+				            				});
+					            		</script>
 					            	</div>
 					            	<div class="ri-ag">
-					            		<div class="ra-left"><input type="checkbox" class="che">마케팅  수신 동의(필수)</div>
-					            		<div class="ra-right">[내용보기]</div>
+					            		<div class="ra-left"><input type="checkbox" class="che">마케팅  수신 동의(선택)</div>
+					            		<div class="ra-right"><a>[내용보기]</a></div>
 					            	</div>
 					            </div>
 					        </div>
@@ -340,8 +347,8 @@
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 	
-	<div class="modal fade" id="seatModal"> <!-- 좌석 모달창 부분 -->
-	  <div class="modal-dialog modal-80size" role="document">
+	<div class="modal fade" id="seatModal" role="dialog"> <!-- 좌석 모달창 부분 -->
+	  <div class="modal-dialog modal-80size" >
 	    <div class="modal-content modal-80size ">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         		<div >
@@ -353,6 +360,27 @@
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+	
+	<div class="modal fade" id="personInfoModal" role="dialog"> <!-- 개인정보내용 -->
+	  <div class="modal-dialog" >
+	    <div class="modal-content">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<div >
+        			<h3 class="color_red" style="background:red; color:white; height:30px;">개인정보 수집 이용 동의 전문</h3>
+        		</div>
+					<div class="layer_conts">
+						<p class="sub_title">토즈는 부스예약 신청 시, <br>아래와 같이 고객님의 개인정보를 수집하고 있습니다.</p>
+						<ul>
+							<li>개인정보 수집범위 : 예약지점, 성별, 방문희망 일자</li>
+							<li>개인정보 수집 및 이용목적 : 예약 확인</li>
+							<li>개인정보 수집 및 보유기간 : 이용자의 개인정보는 원칙적으로 개인정보의 수집 및 이용 목적이 달성되면 지체 없이 파기하며 보유기간은 최대 3년을 넘기지 않는 것을 원칙으로 한다.</li>
+						</ul>
+        			
+		       </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
 	
 </body>
 	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
