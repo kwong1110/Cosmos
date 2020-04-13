@@ -35,6 +35,9 @@ table.inner td {
    	cursor:pointer;
 }
 
+#bottomArea{
+	margin-top: 50px;
+}
 
 </style>
 </head>
@@ -45,7 +48,7 @@ table.inner td {
 				<div class="main">
 					<div class="pageTitle" align="center">
 						<h1>신고회원 리스트(관리자)</h1>
-						<h3 align="center">총 신고된 회원 수 :<%--  ${ pi.listCount } --%> 10</h3>
+						<h4 align="center">총 신고된 회원 수 :<%--  ${ pi.listCount } --%> 10</h4>
 					</div>
 					
 					<div class="content" align="center">
@@ -106,16 +109,10 @@ table.inner td {
 								<td>user02</td>
 							</tr>
 							<tr>
-								<td>2</td>
-								<td>user01</td>
-								<td>타인비하</td>
-								<td>user02</td>
+								<td>2</td> <td>user01</td> <td>타인비하</td> <td>user02</td>
 							</tr>
 							<tr>
-								<td>1</td>
-								<td>user01</td>
-								<td>분위기를 흐림</td>
-								<td>user02</td>
+								<td>1</td> <td>user01</td> <td>분위기를 흐림</td> <td>user02</td>
 							</tr>
 <%-- 							<c:forEach var="r" items="${ list }">
 							<tr class="contentTR">
@@ -145,7 +142,7 @@ table.inner td {
 							</tr>
 							</c:forEach> --%>
 						</table>
-						<div id="bottomArea" class="inner">
+						<div id="bottomArea" class="inner" align="center">
 						<!-- 페이징  -->
 						<nav>
 							<ul class="pagination">
@@ -171,7 +168,8 @@ table.inner td {
 					</div>
 				</div>
 			</div>
-		<c:import url="../a_common/footer.jsp"/>	
+		</div>
+		<c:import url="../a_common/footer.jsp"/>
 	</div>
 </body>
 </html>
