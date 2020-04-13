@@ -20,5 +20,9 @@ public class LectureDAO {
 		return (ArrayList)sqlSession.selectList("seatMapper.selectBranchList");
 	}
 
+	public int lectureApply(SqlSessionTemplate sqlSession, Lecture l) {
+		return sqlSession.insert("lectureMapper.lectureApply", l);
+	}
+
 
 }
