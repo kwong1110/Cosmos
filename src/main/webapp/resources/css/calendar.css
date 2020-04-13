@@ -27,11 +27,17 @@
 	background-color: black;
 }
 .fc-content{
+	background-color: rgb(252, 211, 63);
 	white-space:pre-wrap !important;
 	word-break: keep-all !important;
 	/* text-overflow: ellipsis;  */ /* 생략기호로 보여주기 */
 }
+.fc-content:hover {
+  background: rgb(242, 201, 53);
+  cursor: pointer;
+}
 .fc-day-header{
 	background-color: lightgray;
 }
+
 
