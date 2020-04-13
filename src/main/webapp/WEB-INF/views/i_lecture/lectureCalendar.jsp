@@ -17,8 +17,7 @@
 	<script src='resources/js/plugins/fullcalendar/packages/daygrid/main.js'></script>
 	<script src='resources/js/plugins/fullcalendar/packages/timegrid/main.js'></script>
 	<script src='resources/js/plugins/fullcalendar/packages/list/main.js'></script>
-<!-- 템플릿 custom end -->
-
+<!-- 템플릿 custom end -->	
 <style>
 	.fc-event{
 		border-color: white;
@@ -31,6 +30,69 @@
 		background-color: orange;
 		font-family: 'Binggrae-Bold';
 		text-align: center;
+	}
+	
+	.modal-dialog.modal-80size {
+		width: 60%; 
+		height: auto; 
+		margin: 0; 
+		padding: 0;
+	}
+	.modal-content.modal-80size {
+		height: auto; 
+	}
+	.modal {
+		text-align: center;
+	}
+	@media screen and (min-width: 768px) {
+  	.modal:before {
+  		display: inline-block; 
+  		vertical-align: middle; 
+  		content: " ";height: 95%;}
+	}
+	.modal-dialog {
+		display: inline-block; 
+		text-align: left; 
+		vertical-align: middle;
+	}
+	
+	/* 배경색 변경 */
+	.modal-content{
+		background-color: rgb(254, 245, 198) !important;
+	}
+	table>tbody>tr>th,table>tbody>tr>td{
+		text-align: center;
+		vertical-align: middle !important;
+	}
+	table>tbody>tr>th{
+		background-color: rgb(247, 239, 193);
+		letter-spacing: 0.1em;
+	}
+	table>tbody>tr>td{
+		line-height: 10px;
+	}
+	table>tbody>tr>td>input,
+	table>tbody>tr>th>input,
+	table>tbody>tr>td>select{
+		width: 100%;
+		height: auto;
+		line-height: auto;
+		border: 0;
+		background-color: rgb(255, 255, 224);
+	}
+	table>tbody>tr>td>textarea{
+		width: 99%;
+		height: 139px;
+		margin: 0 5px 0 5px;
+		border: 0;
+		resize: none;
+		background-color: rgb(255, 255, 224);
+	}
+	.input-daterange-timepicker{
+		background-color: rgb(255, 255, 224) !important;
+	}
+	input:read-only {
+		background-color: rgb(247, 239, 193);
 	}
 </style>
 <script>
@@ -57,29 +119,54 @@
 					{
 						title :	"${ l.lectureTitle }",
 						start : "${ l.lectureStart }",	
-						end : "${ l.lectureEnd }",
-						url : "lectureView.le?lectureNo=${ l.lectureNo }"
+						end : "${ l.lectureEnd }" ,
+						id: '${ l.lectureNo }',
+						extendedProps: {
+				        	record: '${ l.lectureRecord }',
+				        	content: '${ l.lectureContent }',
+				        	fee: '${ l.lectureFee }',
+				        	maxPeople: '${ l.maxpeople }',
+				        	attendPeople: '${ l.attendpeople }',
+				        	createDate: '${ l.lectureDate }',
+				        	time: '${ l.lectureTime }',
+				        	status: '${ l.lectureStatus }',
+				        	userId: '${ l.id }',
+				        	job: '${ l.lectureJob }',
+				        	name: '${ l.name }',
+				        	branchName: '${ l.branchName }',
+				        	startDate: '${  l.lectureStart }',
+				        	endDate: '${ l.lectureEnd }'
+						}
 					},			
 				</c:forEach>
-	      	]
-			, eventClick: function (event) {
-				if(event.url) {
-					$.ajax({
-						type: "get",
-						url: event.url,
-						data: {
-						
-						},
-						success: function(data) {
-							
-						}
-					});
-				}
-			}
+	      	],
+	      	// 이벤트 클릭시 모달창에 값전달 후 모달 보여주기.
+	      	eventClick: function (info) {
+				$('#userId').text(info.event.extendedProps.name + "(" + info.event.extendedProps.userId + ")");
+				$('#job').text(info.event.extendedProps.job);
+				$('#record').val(info.event.extendedProps.record);
+				$('#title').text(info.event.title);
+				$('#branchName').text(info.event.extendedProps.branchName);
+				$('#fee').text(info.event.extendedProps.fee);
+				$('#lectureDate').text(info.event.extendedProps.startDate + "~" + info.event.extendedProps.endDate
+										+ "(" + info.event.extendedProps.time + ")");
+				$('#maxPeople').text(info.event.extendedProps.maxPeople);
+				$('#attendPeople').text(info.event.extendedProps.attendPeople);
+				$('#content').val(info.event.extendedProps.content);
+				$('#viewModal').modal("show");
+			},
+			//일정에 hover시 요약 (popover, tooltip을 못불러온다..)
+			/* eventRender: function(info) {
+				var tooltip = new Tooltip(info.el, {
+			        title: info.event.extendedProps.record,
+			        placement: 'top',
+			        container: 'body'
+			   	});
+			} */
 		});
 	
 		calendar.render();
-	});
+	});	
 </script>
 </head>
 <body>
@@ -88,7 +175,7 @@
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
-					<h1>강연</h1>
+					<h1>강연</h1>			
 				</div>
 				<div class="content">
 					<div class="row">
@@ -103,74 +190,62 @@
           				</div>
 					</div>
 					<!-- 강연 상세보기 MODAL -->
-			        <div class="modal fade" tabindex="-1" role="dialog" id="viewModal">
-			            <div class="modal-dialog" role="document">
-			                <div class="modal-content">
+			        <div id="viewModal" class="modal fade" tabindex="-1" role="dialog" >
+			            <div class="modal-dialog modal-80size" role="document">
+			                <div class="modal-content modal-80size">
 			                    <div class="modal-header">
 			                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 			                                aria-hidden="true">&times;</span></button>
-			                        <h4 class="modal-title"></h4>
+			                        <h4 class="modal-title">강연 상세 보기</h4>
 			                    </div>
-			                    <div class="modal-body">
+			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
-			                        <table class="inner table">
-										<tr>
-											<th>이름<input type="hidden" value="${ loginUser.id }" name="id"></th>
-											<td><input type="text" value="${ loginUser.name }" readonly></td>
-											<th colspan="5">이력 사항 / 강연 경험</th>
-										</tr>
-										<tr>
-											<th>핸드폰 번호</th>
-											<td><input type="text" value="${ loginUser.phone }" readonly></td>
-											<td rowspan="3" colspan="5">
-												<textarea name="lectureRecord"></textarea>
-											</td>
-										</tr>
-										<tr>
-											<th>이메일</th>
-											<td><input type="email" value="${ loginUser.email }" readonly></td>
-										</tr>
-										<tr>
-											<th>직업</th>
-											<td><input type="text" name="lectureJob"></td>
-										</tr>
-										<tr>
-											<th rowspan="2">강연 제목</th>
-											<td rowspan="2"><input type="text" name="lectureTitle"></td>
-											<th>강연 일시</th>
-											<td colspan="2">
-												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange">
-												<input id="startDate" name="startDate" type="hidden"/>
-												<input id="endDate" name="endDate" type="hidden"/>
-											</td>
-											<th>강연 장소</th>
-											<td>
-												<select id="placeSelect" name="branchNo">
-													<c:forEach var="s" items="${ branchList }">
-														<option value="${ s.branchNo }">${ s.branchName }</option>
-													</c:forEach>
-												</select>
-											</td>
-										</tr>
-										<tr>
-											<th>참가비</th>
-											<td colspan="1"><input type="number" step="1000" min="0" placeholder="1000 단위 입력 가능" name="lectureFee"></td>
-											<th>강연 인원</th>
-											<td colspan="2"><input type="number" step="10" min="0" max="30" placeholder="10 단위 입력 가능" name="maxpeople"></td>
-										</tr>
-										<tr>
-											<th colspan="8">강연 내용</th>
-										</tr>
-										<tr>
-											<td colspan="8" style="padding: 0;">
-												<textarea id="summernote" style="resize: none" name="lectureContent"></textarea>
-												<c:import url="../a_common/summernote.jsp"/>
-											</td>
-										</tr>
-									</table>
+			                        <form action="lectureAttendApply.le" method="post" onsubmit="">
+				                        <table class="table">
+											<tr>
+												<th colspan="2">이름</th>
+												<td colspan="2" id="userId"></td>
+												<th colspan="2">이력 사항 / 강연 경험</th>
+											</tr>
+											<tr>
+												<th colspan="2">직업</th>
+												<td colspan="2" id="job"></td>
+												<td rowspan="3" colspan="2">
+													<textarea id="record" name="lectureRecord" readonly></textarea>
+												</td>
+											</tr>
+											<tr>
+												<th colspan="2">강연 제목</th>
+												<td colspan="2" id="title"></td>
+											</tr>
+											<tr>
+												<th>강연 장소</th>
+												<td id="branchName"></td>
+												<th>강연 인원</th>
+												<td id="maxPeople"></td>
+											</tr>
+											<tr>
+												<th>참가비</th>
+												<td id="fee"></td>
+												<th>참가 인원</th>
+												<td id="attendPeople"></td>
+												<th>강연 일시</th>
+												<td id="lectureDate"></td>
+											</tr>
+											<tr>
+												<th colspan="6">강연 내용</th>
+											</tr>
+											<tr>
+												<td colspan="6" style="padding: 0;">
+													<textarea id="content" style="resize: none" name="lectureContent" readonly></textarea>
+												</td>
+											</tr>
+										</table>
+									</form>
 			                    </div>
-			                    <div class="modal-footer modalBtnContainer-modifyEvent">
-			                        <button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+			                    <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
+			                    	<div>*참가 신청을 누르면 결제페이지로 이동합니다.</div>
+			                        <button type="button" class="btn defaultBtn" data-dismiss="modal">참가신청</button>
 			                    </div>
 			                </div><!-- /.modal-content -->
 			            </div><!-- /.modal-dialog -->

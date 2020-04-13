@@ -75,19 +75,13 @@ public class LectureController {
 		l.setLectureStart(startDateSql);
 		l.setLectureEnd(endDateSql);
 		l.setLectureTime(startTime + "~" + endTime);
-		System.out.println(l);
+		// System.out.println(l);
 		
 		int result = lService.lectureApply(l);
 		
+		
+		// 사진 등록 추가,
 		// 마이페이지 강연 조회로 넘어가야함.
 		return "";
-	}
-	
-	@RequestMapping("lectureView.le")
-	public String lectureView(@RequestParam("lectureNo") String lectureNo) {
-		
-		System.out.println(lectureNo);
-		
-		return "lectureCalendar";
 	}
 }

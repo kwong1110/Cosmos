@@ -23,6 +23,4 @@ public class LectureDAO {
 	public int lectureApply(SqlSessionTemplate sqlSession, Lecture l) {
 		return sqlSession.insert("lectureMapper.lectureApply", l);
 	}
-
-
 }

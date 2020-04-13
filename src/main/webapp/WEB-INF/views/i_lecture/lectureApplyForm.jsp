@@ -38,7 +38,10 @@
 	.input-daterange-timepicker{
 		background-color: rgb(255, 255, 224) !important;
 	}
-	<!-- .input readonly 진하게 추가하기 -->
+	
+	input:read-only {
+		background-color: rgb(247, 239, 193);
+	}
 </style>
 </head>
 <body>
@@ -50,7 +53,7 @@
 					<h1>강연 등록 신청</h1>
 				</div>
 				<div class="content">
-					<form action="lectureApply.le" method="post" onsubmit="">
+					<form action="lectureApply.le" method="post" onsubmit="return checkEmptyValues(job, title, lectureFee, maxpeople, summernote, record);">
 						<table class="inner table">
 							<tr>
 								<th>이름<input type="hidden" value="${ loginUser.id }" name="id"></th>
@@ -61,7 +64,7 @@
 								<th>핸드폰 번호</th>
 								<td><input type="text" value="${ loginUser.phone }" readonly></td>
 								<td rowspan="3" colspan="5">
-									<textarea name="lectureRecord"></textarea>
+									<textarea id="record" name="lectureRecord" placeholder="이력 사항을 입력해주세요."></textarea>
 								</td>
 							</tr>
 							<tr>
@@ -70,16 +73,14 @@
 							</tr>
 							<tr>
 								<th>직업</th>
-								<td><input type="text" name="lectureJob"></td>
+								<td><input type="text" id="job" name="lectureJob" placeholder="직업을 입력해주세요."></td>
 							</tr>
 							<tr>
 								<th rowspan="2">강연 제목</th>
-								<td rowspan="2"><input type="text" name="lectureTitle"></td>
+								<td rowspan="2"><input type="text" id="title" name="lectureTitle" placeholder="제목을 입력해주세요."></td>
 								<th>강연 일시</th>
 								<td colspan="2">
 									<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange">
-									<input id="startDate" name="startDate" type="hidden"/>
-									<input id="endDate" name="endDate" type="hidden"/>
 								</td>
 								<th>강연 장소</th>
 								<td>
@@ -92,9 +93,9 @@
 							</tr>
 							<tr>
 								<th>참가비</th>
-								<td colspan="1"><input type="number" step="1000" min="0" placeholder="1000 단위 입력 가능" name="lectureFee"></td>
+								<td colspan="1"><input type="number" id="lectureFee" name="lectureFee" step="1000" min="0" placeholder="1000 단위 입력 가능"></td>
 								<th>강연 인원</th>
-								<td colspan="2"><input type="number" step="10" min="0" max="30" placeholder="10 단위 입력 가능" name="maxpeople"></td>
+								<td colspan="2"><input type="number" id="maxpeople" name="maxpeople" step="10" min="0" max="30" placeholder="10 단위 입력 가능"></td>
 							</tr>
 							<tr>
 								<th colspan="8">강연 내용</th>

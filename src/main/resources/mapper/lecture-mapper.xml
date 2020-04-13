@@ -2,8 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="lectureMapper">
 	<select id="getLectureList" resultMap="lectureResultSet">
-		select *
+		select LECTURE_NO, LECTURE_RECORD, LECTURE_TITLE, LECTURE_CONTENT, LECTURE_FEE, MAXPEOPLE, 
+       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_TIME, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
+       		   LECTURE_END, LECTURE_START, NAME, BRANCH_NAME
 		from lecture
+    		join member using(id)
+    		join branch using(branch_no)
 		where lecture_status='OPEN'
 		order by lecture_Start
 	</select>
@@ -24,6 +28,7 @@
 		<result property="lectureJob" column="LECTURE_JOB"/>
 		<result property="lectureEnd" column="LECTURE_END"/>
 		<result property="lectureStart" column="LECTURE_START"/>
+		<result property="branchName" column="BRANCH_NAME"/>
 	</resultMap>
 	
 	<insert id="lectureApply" parameterType="Lecture">

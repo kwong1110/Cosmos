@@ -244,6 +244,10 @@ a:active, a:focus {
 .error {
 	color:red;
 }
+.error::placeholder {
+	color:red;
+	font-weight: bold;
+}
 
 /* 부트스트랩 Datepicker */
 

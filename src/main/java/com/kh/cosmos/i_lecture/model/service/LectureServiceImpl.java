@@ -33,5 +33,4 @@ public class LectureServiceImpl implements LectureService {
 	public int lectureApply(Lecture l) {
 		return lDAO.lectureApply(sqlSession, l);
 	}
-
 }
