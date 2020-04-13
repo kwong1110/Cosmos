@@ -8,7 +8,7 @@
 	<select id="selectBranchList" resultMap="branchResultSet">
 		select *
 		from branch
-		order by branch_no desc
+		order by branch_no
 	</select>
 	
 	<resultMap id="branchResultSet" type="ViewBranch">
