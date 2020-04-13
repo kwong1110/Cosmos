@@ -31,4 +31,10 @@
 		insert into rec_sgroup
 		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, #{recMettingDate}, seq_sgid.currval)
 	</insert>
+	
+	<select id="getStudyGroup" parameterType="string">
+		select sg_no, sg_name
+		from sgroup
+		where id=#{id} and sg_status='Y'
+	</select>
 </mapper>

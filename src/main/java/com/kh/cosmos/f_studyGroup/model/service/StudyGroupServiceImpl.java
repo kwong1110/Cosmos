@@ -40,4 +40,9 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 		return sgDAO.insertRecruit(sqlSession, sr);
 	}
 
+	@Override
+	public ArrayList<StudyGroup> getStudyGroupList(String id) {
+		return sgDAO.getStudyGroupList(sqlSession, id);
+	}
+
 }

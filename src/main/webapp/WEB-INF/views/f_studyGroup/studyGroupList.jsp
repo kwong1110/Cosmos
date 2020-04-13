@@ -13,11 +13,13 @@
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
-	#searchArea{width:100%; display:block; margin-bottom: 10%;}
+	#searchArea{width:100%; display:inline-block; text-align:center;}
+	#searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:5%;}
+	#settingArea{width:100%; display:block; margin-bottom: 2%;}
 	#categoryBtn{width:200px; display:inline-block; text-align:center;}
 	
 	#categoryHiddenArea{width:100%; display:inline; text-align:center;}
-	.categoryDiv{width:100%; min-height:40px; margin-top:5px; padding-top:10px; padding-bottom:10px; padding-left:30px; vertical-align: middle; display:inline-block; text-align:left; background-color:lightgray;}
+	.categoryDiv{width:100%; min-height:40px; border-radius:8px; margin-top:5px; padding-top:10px; padding-bottom:10px; padding-left:30px; vertical-align: middle; display:inline-block; text-align:left; background-color:lightgray;}
 	.categoryLabel{width:11%; cursor:pointer; margin:0; padding:0; margin-right:50px;float:left; line-height:1.7;}
 	
 	.pointer{cursor:pointer;}
@@ -47,8 +49,8 @@
 	.once{background-color: #70B667; color: #fff; margin-right:20px;}
 	.long{background-color: #135D36; color: #fff; margin-right:20px;}
 	
-	#listArea{width:100%; display: block; text-align:center; background:lightgray;}
-	.recGroup{width:75%; display: inline-block; margin-bottom:8%; text-align:left; background:white; cursor: pointer;}
+	#listArea{width:100%; display: block; text-align:center; /* background:lightgray; */}
+	.recGroup{width:85%; display: inline-block; margin-bottom:8%; text-align:left; background:white; cursor: pointer;}
 	.firstInfo{}
 	.secondInfo{}
 	.thirdInfo{}
@@ -78,11 +80,11 @@
 					
 					<!-- 검색창 -->
 				  	<!-- 드롭다운 + 검색 -->
-					<div class="inner" style="width:100%; display:block; text-align:center;">
-					<form method="get" action="" style="width:50%;">
+					<div class="inner" id="searchArea">
+					<form method="get" action="" id="searchForm">
 						<div class="input-group">
 							<div class="input-group-btn">
-								<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">분류 <span class="caret"></span></button>
+								<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">분류 <span class="caret"></span></button>
 								<ul class="dropdown-menu" role="menu">
 									<li>그룹 명</li>
 									<li>그룹장 닉네임</li>
@@ -90,15 +92,15 @@
 									<li>그룹 목표</li>
 								</ul>
 							</div><!-- /btn-group -->
-							<input type="text" class="form-control" placeholder="검색어를 입력하세요.">
+							<input type="text" class="form-control" style="border:none;" placeholder="검색어를 입력하세요.">
 							<span class="input-group-btn">
-								<button class="btn btn-default" type="button">검색</button>
+								<button class="btn" type="button">검색</button>
 							</span>
 						</div><!-- /input-group -->
 					</form>
 					</div>
 					
-					<div id="searchArea" class="inner">
+					<div id="settingArea" class="inner">
 						<div id="categoryArea">
 							<input type="button" class="defaultBtn" id="categoryBtn" value="카테고리">
 							
@@ -313,8 +315,10 @@
 		$('#categoryBtn').click(function() {
 			if($('#categoryHiddenArea').css('display') == 'none') {
 				$('#categoryHiddenArea').css('display', 'block');
+				$('#listArea').css('margin-top', '7%');
 			} else {
 				$('#categoryHiddenArea').css('display', 'none');
+				$('#listArea').css('margin-top', '0%');
 			}
 		})
 		
