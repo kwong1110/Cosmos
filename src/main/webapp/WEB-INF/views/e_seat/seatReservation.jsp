@@ -260,19 +260,19 @@
 					            			<div class="cl">● 예약일자</div>
 					            			<div class="cr">
 					            				<div class="box-title m-t-30"></div>
-												<input class="form-control input-daterange-datepicker" type="text" name="daterange">
+												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:270px;">
 					            			</div>
 					            		</div>
 					            		<div class="left-name">
 					            			<div class="cl">● 이름</div>
 					            			<div class="cr">
-					            				<input type="text" name="name" class="form-control" placeholder="이름을 입력해주세요">
+					            				<input type="text" name="name" class="form-control" placeholder="이름을 입력해주세요" style="width:270px;">
 					            			</div>
 					            		</div>
 					            		<div class="left-phone">
 					            			<div class="cl">● 휴대폰번호</div>
 					            			<div class="cr">
-					            				<input type="text" name="phone" class="form-control" placeholder="번호를 입력해주세요">
+					            				<input type="text" name="phone" class="form-control" placeholder="번호를 입력해주세요" style="width:270px;">
 					            			</div>
 					            		</div>
 					            	</div>
@@ -287,7 +287,7 @@
 					            		<div class="right-seat">
 					            			<div class="cl">● 좌석선택</div>
 					            			<div class="cr">
-					            				<div id="seatChoose" class="btn btn-default" style="width:150px;">선택</div>
+					            				<div id="seatChoose" class="btn defaultBtn" style="width:150px;">선택</div>
 					            			</div>
 					            			<script>
 					            			$('#seatChoose').click(function(e){
@@ -297,24 +297,9 @@
 					            			</script>
 					            		</div>
 					            		<div class="right-time">
-					            			<div class="cl">● 이용시간</div>
-					            			<div class="cr">
-					            				<select style="width:150px;">
-					            					<option selected>시간선택</option>
-					            					<option>09:00 ~ 10:00</option>
-					            					<option>10:00 ~ 11:00</option>
-					            					<option>11:00 ~ 12:00</option>
-					            					<option>12:00 ~ 13:00</option>
-					            					<option>13:00 ~ 14:00</option>
-					            					<option>14:00 ~ 15:00</option>
-					            					<option>15:00 ~ 16:00</option>
-					            					<option>16:00 ~ 17:00</option>
-					            					<option>17:00 ~ 18:00</option>
-					            					<option>18:00 ~ 19:00</option>
-					            					<option>19:00 ~ 20:00</option>
-					            					<option>20:00 ~ 21:00</option>
-					            					
-					            				</select>
+					            			<div class="cl">● 선택좌석</div>
+					            			<div class="cr" id="chooseSeat">
+					            				
 					            			</div>
 					            		</div>
 					            		
@@ -356,6 +341,17 @@
         		</div>
 		        	<form action="/reservation.se" method="post">
 		        		<jsp:include page = "seatForm.jsp"/>
+		        		<script>
+					    	 $('.left-top1-table-cell, .big, .six1, .six2, .four1, .four2, .four3, .four4').on('click',function(){
+					    		var chooseSeat = $(this).children().val();
+					    		$("#chooseSeat").text(chooseSeat);
+					    		// console.log(chooseSeat);
+					    		var check = confirm(chooseSeat + "자리를 선택하시겠습니까?");
+					    		if(check == true){
+					    			$('#seatModal').modal("hide");
+					    		}
+					    	}); 
+					    </script>
 		        	</form>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
