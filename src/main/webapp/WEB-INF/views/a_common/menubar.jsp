@@ -157,7 +157,8 @@
 					<div><span class="cosmos">코스모스</span>에 오신 것을 환영합니다.</div>
 					<div id="login" class="btn btn-default">로그인</div>
 					<div class="user-menu">
-						<div id="find" class="find"><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span>아이디 &middot; 비밀번호 찾기</a></div> 
+						<div id="find" class="find">
+							<a href="find.me"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>아이디 &middot;비밀번호 찾기</div> 
 						<div id="enroll" class="enroll"><a href="agree.me"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>회원가입</a></div>
 					</div>
 				</div>
@@ -194,22 +195,22 @@
 			</c:if>
 		</div>
 		<%-- 관리자 페이지 메뉴  --%>
-		<%-- 
+	
 		<div class="master-area">
 			<c:if test="${ sessionScope.loginUser.grade == 0}">
 				<div class="menuTitle" id="myPage">
 					<div><a href="">관리자페이지</a></div>
 					<div class="s-menu">	
-						<div><a href="">신고목록</a></div>
+						<div><a href="reportList.ap">신고목록</a></div>
 						<div><a href="">강연관리</a></div>
 						<div><a href="">좌석예약조회</a></div>
 						<div><a href="">회원목록</a></div>
-						<div><a href="">지점등록</a></div>
+						<div><a href="enrollBranch.ap">지점등록</a></div>
 					</div>
 				</div>
 			</c:if>
 		</div> 
-		--%>
+	
 		
 		<hr class="bar">
 		
@@ -257,8 +258,7 @@
 		       					</div>
 		       				</div>
 			        		<div class="btnBox">
-				        		<button type="button" class="btn">아이디 찾기</button>
-				        		<button type="button" class="btn">비밀번호 찾기</button>
+				        		<button type="button" class="btn" onclick="location.href=''">아이디 / 비밀번호 찾기</button>
 				        		<button type="button" class="btn">회원가입</button>
 							</div>
 						</form>

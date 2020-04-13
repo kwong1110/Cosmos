@@ -64,5 +64,10 @@ public class MemberController {
 		return "memberInsertForm";
 	}
 	
-	
+	// 아이디 비밀번호 찾기 페이지 이동
+	@RequestMapping("find.me")
+	public String find() {
+		return "FindIdPwd";
+		
+	}
 }
