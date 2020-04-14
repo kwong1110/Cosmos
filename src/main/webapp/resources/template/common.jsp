@@ -62,7 +62,7 @@
 	  </ul>
   	</nav>
   	
-  	<!-- 검색창 -->
+  	<!-- 기존 검색창 -->
   	<!-- 드롭다운 + 검색 -->
 	<form method="get" action="">
 		<div class="row">
@@ -88,6 +88,29 @@
 		</div><!-- /.row -->
 	</form>
 	
+	<!-- 수정 검색창 -->
+	<form method="get" action="">
+		<div class="row">
+			<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
+			<select style="width: 25%;" class="form-control search-select">
+				<option>분류</option>
+				<option>111</option>
+				<option>222</option>
+				<option>333</option>
+			</select>
+			<div class="input-group search-text" style="width: 73%;">
+				<input type="text" class="form-control" style="border: none;" placeholder="검색어를 입력하세요."> <span class="input-group-btn">
+					<button class="btn search-submit" type="button">검색</button>
+				</span>
+			</div>
+			<!-- /input-group -->
+		</div>
+	</form>
+	
+	<!-- ON, OFF 스위치 -->
+	<input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
+	<label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="cb3"></label>
+
 	<!-- DateRange Pick -->
 	<div class="box-title m-t-30">Date Range Pick(여러개 선택)</div>
 	<input class="form-control input-daterange-datepicker" type="text" name="daterange">

@@ -26,16 +26,16 @@ public class MyGroupController {
 	
 	@RequestMapping("myGroup.mp")
 	public String myGroupView(HttpServletRequest request, @RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
-		HttpSession session = request.getSession();
-		String id = ((Member)session.getAttribute("loginUser")).getId();
-		
-		int currentPage = 1;
-		if(page != null) {
-			currentPage = page;
-		}
-		int listCount = mgService.getMemberListCount(id) + mgService.getBossListCount(id);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		
+//		HttpSession session = request.getSession();
+//		String id = ((Member)session.getAttribute("loginUser")).getId();
+//		
+//		int currentPage = 1;
+//		if(page != null) {
+//			currentPage = page;
+//		}
+//		int listCount = mgService.getMemberListCount(id) + mgService.getBossListCount(id);
+//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+//		
 //		ArrayList<StudyGroup> groupList = mgService.getMyGroup(id);
 //		
 //		if(groupList != null) {
@@ -45,6 +45,8 @@ public class MyGroupController {
 //				groupMap.keySet(groupList.get(i));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
 //			}
 //		}
+		
+		
 		
 		return "/myPage/myGroup";
 	}
