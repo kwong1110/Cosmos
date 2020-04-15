@@ -11,4 +11,5 @@ public interface LectureService {
 
 	ArrayList<ViewBranch> selectBranchList();
 
+	int lectureApply(Lecture l);
 }

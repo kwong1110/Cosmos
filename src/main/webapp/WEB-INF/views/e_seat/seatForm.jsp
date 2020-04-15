@@ -11,7 +11,8 @@
     	.left-top1{width:100%; height:60%; border:1px solid #000; box-sizing: border-box; border-bottom:0; border-right:0;}
     		.left-top1-table1{display:table; float:left; margin-left:70px; margin-top:20px; }
     			.left-top1-table-row{display:table-row; border: 1px solid black;}
-    			.left-top1-table-cell{display:table-cell; border: 1px solid black; width:100px; height:60px; vertical-align:middle; background:#135D36; color:white;}
+    			.left-top1-table-cell{display:table-cell; border: 1px solid black; width:100px; height:60px; 
+    								  vertical-align:middle; background:#135D36; color:white; cursor:pointer;}
     		.left-top1-table2{display:table; float:right; margin-right:70px; margin-top:20px;}
     			.left-top1-table-row{display:table-row; border: 1px solid black;}
     			.left-top1-table-cell{display:table-cell; border: 1px solid black; width:100px; height:60px; vertical-align:middle; border-radius:10px;}	
@@ -28,32 +29,34 @@
    	 						vertical-align:middle; border-radius: 10px 10px 10px 10px; background:brown; color:white;}
     .div-right1{width:55%; height:inherit; float:right;}
     	.right-top1{width:100%; height:57%; border:1px solid #000; box-sizing: border-box; border-bottom:0; border-left:0;}
-    		.right-top1-bigclass{display:table; float:right;margin-left:70px;  }
-    			.bigger{display:table-row; border: 1px solid black; }
-    			.big{display:table-cell; border: 1px solid black; width:760px;height:200px; 
+    		.right-top1-bigclass{display:table; float:right;margin-left:70px;margin-right:60px;  }
+    			.bigger{display:table-row; border: 1px solid black;  }
+    			.big{display:table-cell; border: 1px solid black; width:760px;height:200px; cursor:pointer;
     				 vertical-align:middle; border-top:0; border-right:0; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
     		.right-top1-sixclass1{display:table; float:left; margin-left:74px; margin-top:65px;}
     			.sixpeople{display:table-row; border: 1px solid black;}
-    			.six1{display:table-cell; border: 1px solid black; width:300px; height:230px; vertical-align:middle; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
-    		.right-top1-sixclass2{display:table; float:right; margin-top:65px;}
+    			.six1{display:table-cell; border: 1px solid black; width:300px; height:230px; cursor:pointer;
+    				  vertical-align:middle; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
+    		.right-top1-sixclass2{display:table; float:right; margin-top:65px; margin-right:60px;}
     			.sixpeople{display:table-row; border: 1px solid black;}
-    			.six2{display:table-cell; border: 1px solid black; width:300px; height:230px; vertical-align:middle; border-right:0; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}	
+    			.six2{display:table-cell; border: 1px solid black; width:300px; height:230px; cursor:pointer;
+    				  vertical-align:middle; border-right:0; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}	
     	.right-bottom1{width:100%; height:43%; border:1px solid #000; box-sizing: border-box; border-top:0; border-left:0;}
     		.right-bot-fourclass1{display:table; float:left; margin-left:74px; margin-top:25px;}	
     			.fourperson1{display:table-row; border: 1px solid black;}
-    			.four1{display:table-cell; border: 1px solid black; width:300px; height: 150px; 
+    			.four1{display:table-cell; border: 1px solid black; width:300px; height: 150px; cursor:pointer;
     				   vertical-align:middle; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
-    		.right-bot-fourclass2{display:table; float:right; margin-top:25px;}	
+    		.right-bot-fourclass2{display:table; float:right; margin-top:25px; margin-right:60px;}	
     			.fourperson1{display:table-row; border: 1px solid black;}
-    			.four2{display:table-cell; border: 1px solid black; width:300px; height: 150px; 
+    			.four2{display:table-cell; border: 1px solid black; width:300px; height: 150px; cursor:pointer;
     				   vertical-align:middle; border-right:0; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
     		.right-bot-fourclass3{display:table; float:left; margin-left:74px; margin-top:30px;}	
     			.fourperson2{display:table-row; border: 1px solid black;}
-    			.four3{display:table-cell; border: 1px solid black; width:300px; height: 150px; 
+    			.four3{display:table-cell; border: 1px solid black; width:300px; height: 150px; cursor:pointer;
     			 	   vertical-align:middle; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}
-    		.right-bot-fourclass4{display:table; float:right; margin-top:30px;}	
+    		.right-bot-fourclass4{display:table; float:right; margin-top:30px; margin-right:60px;}	
     			.fourperson2{display:table-row; border: 1px solid black;}
-    			.four4{display:table-cell; border: 1px solid black; width:300px; height: 150px; 
+    			.four4{display:table-cell; border: 1px solid black; width:300px; height: 150px; cursor:pointer;
     				   vertical-align:middle; border-right:0; border-radius: 10px 10px 10px 10px; background:#135D36; color:white;}		
 </style>
 </head>
@@ -63,132 +66,145 @@
         	<div class="left-top1">
         		<div class="left-top1-table1">
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell" >
+        				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-1">
         				1인석
         				</div>
         				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        			</div>
-        			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-2">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-3">
         				1인석
         				</div>
         				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        			</div>
-        			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-4">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-5">
         				1인석
         				</div>
         				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        			</div>
-        			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-6">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-7">
         				1인석
         				</div>
         				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-8">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-9">
         				1인석
         				</div>
         				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-10">
+        				1인석
+        				</div>
+        			</div>
+        			<div class="left-top1-table-row">
+        				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-11">
+        				1인석
+        				</div>
+        				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-12">
+        				1인석
+        				</div>
+        			</div>
+        			<div class="left-top1-table-row">
+        				<div class="left-top1-table-cell">
+        				<input type="hidden" value="A-13">
+        				1인석
+        				</div>
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-14">
+        				1인석
+        				</div>
+        			</div>
+        			<div class="left-top1-table-row">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-15">
+        				1인석
+        				</div>
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-16">
         				1인석
         				</div>
         			</div>
         		</div>
         		<div class="left-top1-table2">
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-17">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        			</div>
-        			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-18">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-19">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        			</div>
-        			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-20">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-21">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        			</div>
-        			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				1인석
-        				</div>
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-22">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-23">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-24">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-25">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-26">
+        				1인석
+        				</div>
+        			</div>
+        			<div class="left-top1-table-row">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-27">
+        				1인석
+        				</div>
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-28">
+        				1인석
+        				</div>
+        			</div>
+        			<div class="left-top1-table-row">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-29">
+        				1인석
+        				</div>
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-30">
+        				1인석
+        				</div>
+        			</div>
+        			<div class="left-top1-table-row">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-31">
+        				1인석
+        				</div>
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-32">
         				1인석
         				</div>
         			</div>
@@ -220,21 +236,21 @@
             <div class="right-top1">
             	<div class="right-top1-bigclass">
             		<div class="bigger">
-            			<div class="big">
+            			<div class="big"><input type="hidden" value="D-1">
             				대규모 강연동(30인석)
             			</div>
             		</div>	
             	</div>
             	<div class="right-top1-sixclass1">
             		<div class="sixpeople">
-            			<div class="six1">
+            			<div class="six1"><input type="hidden" value="C-1">
             				6인실
             			</div>
             		</div>
             	</div>
             	<div class="right-top1-sixclass2">
             		<div class="sixpeople">
-            			<div class="six2">
+            			<div class="six2"><input type="hidden" value="C-2">
             				6인실
             			</div>
             		</div>
@@ -243,28 +259,28 @@
             <div class="right-bottom1">
             	<div class="right-bot-fourclass1">
             		<div class="fourperson1">
-            			<div class="four1">
+            			<div class="four1"><input type="hidden" value="B-1">
             				4인실
             			</div>
             		</div>
             	</div>
             	<div class="right-bot-fourclass2">
             		<div class="fourperson1">
-            			<div class="four2">
+            			<div class="four2"><input type="hidden" value="B-2">
             				4인실
             			</div>
             		</div>
             	</div>
             	<div class="right-bot-fourclass3">
             		<div class="fourperson2">
-            			<div class="four3">
+            			<div class="four3"><input type="hidden" value="B-3">
             				4인실
             			</div>
             		</div>
             	</div>
             	<div class="right-bot-fourclass4">
             		<div class="fourperson2">
-            			<div class="four4">
+            			<div class="four4"><input type="hidden" value="B-4">
             				4인실
             			</div>
             		</div>
