@@ -5,8 +5,9 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4a8fa7e4a9e7170fa234c76a796cecab&libraries=services"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <title>Insert title here</title>
 <style>
 .wrap-div{width:100%; height:850px; margin:0 auto; }
@@ -280,8 +281,9 @@
 					            		<div class="right-choose">
 					            			<div class="cl">● 인원선택</div>
 					            			<div class="cr">
-					            				<input type="checkbox" class="che" name="onep">1인 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="manyp">다인
+					            				<input type="checkbox" class="che" name="onep">1인 &nbsp;&nbsp;
+					            				<input type="checkbox" class="che" name="fourp">4인 &nbsp;&nbsp;
+					            				<input type="checkbox" class="che" name="sixp">6인
 					            			</div>
 					            		</div>
 					            		<div class="right-seat">
@@ -324,7 +326,7 @@
 					        </div>
 					    </div>
 					<div class="btnBox inner">
-						<button class="defaultBtn" onclick=""></button>
+						<button class="defaultBtn" onclick="buy()" value="결제">결제</button>
 					</div>
 				</div>
 			</div>
@@ -376,8 +378,36 @@
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-	
-	
+		<!-- <script>
+			var IMP = window.IMP; 
+			IMP.init('imp05073510'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+			IMP.request_pay({
+			    pg : 'html5_inicis', 
+			    pay_method : 'card',
+			    merchant_uid : 'merchant_' + new Date().getTime(),
+			    name : '주문명:결제테스트',
+			    amount : 14000,
+			    buyer_email : 'iamport@siot.do',
+			    buyer_name : '구매자이름',
+			    buyer_tel : '010-1234-5678',
+			    buyer_addr : '서울특별시 강남구 삼성동',
+			    buyer_postcode : '123-456',
+			    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+			}, function(rsp) {
+			    if ( rsp.success ) {
+			        var msg = '결제가 완료되었습니다.';
+			        msg += '고유ID : ' + rsp.imp_uid;
+			        msg += '상점 거래ID : ' + rsp.merchant_uid;
+			        msg += '결제 금액 : ' + rsp.paid_amount;
+			        msg += '카드 승인번호 : ' + rsp.apply_num;
+			    } else {
+			        var msg = '결제에 실패하였습니다.';
+			        msg += '에러내용 : ' + rsp.error_msg;
+			    }
+			    alert(msg);
+			});
+		</script>
+	 -->
 </body>
 	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>

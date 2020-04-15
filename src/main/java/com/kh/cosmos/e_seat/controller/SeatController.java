@@ -37,6 +37,8 @@ public class SeatController {
 		
 		ArrayList<Seat> seatList = sService.selectSeatList();
 		
+		
+		
 		if(branchList != null) {
 			mv.addObject("branchList", branchList);
 			mv.addObject("seatList", seatList);
