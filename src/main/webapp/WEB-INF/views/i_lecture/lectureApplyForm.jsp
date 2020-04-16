@@ -7,12 +7,7 @@
 <meta charset="UTF-8">
 <title>강연 등록 신청</title>
 <style>
-	table>tbody>tr>th,table>tbody>tr>td{
-		text-align: center;
-		vertical-align: middle !important;
-	}
 	table>tbody>tr>th{
-		background-color: rgb(247, 239, 193);
 		letter-spacing: 0.1em;
 	}
 	table>tbody>tr>td{
