@@ -42,5 +42,15 @@
 	
 	</resultMap>
 	
+	<select id="selectSortList" resultMap="sortResultSet">
+		select *
+		from sort_table
+	</select>
+	
+	<resultMap id="sortResultSet" type="SortTable">
+		<id property="reserSort" column="RESER_SORT"/>
+		<result property="reserFee" column="RESER_FEE"/>
+	</resultMap>
+	
 	
 </mapper>
