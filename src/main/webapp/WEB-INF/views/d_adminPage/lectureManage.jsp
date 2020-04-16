@@ -1,0 +1,233 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>강연 관리</title>
+</head>
+<body>
+	<div class="total-wrapper">
+		<c:import url="../a_common/menubar.jsp"/>
+		<div class="wrapper">
+			<div class="main">
+				<div class="pageTitle">
+					<h1>강연관리</h1>
+				</div>
+				<div class="content">
+					<table class="table-hover inner">
+						<tr>
+							<th>No.</th>
+							<th>이름(ID)</th>
+							<th>제목</th>
+							<th>강연장소</th>
+							<th>신청날짜</th>
+							<th>강연날짜/시간</th>
+							<th>참가비</th>
+							<th>상태</th>
+						</tr>
+						<c:forEach var="l" items="${ list }">
+							<tr class="contentTR">
+								<td>${ l.lectureNo }</td>
+								<td>${ l.name }(${ l.id })</td>
+								<td>${ l.lectureTitle }</td>
+								<td>${ l.branchName }</td>
+								<td>${ l.lectureDate }</td>
+								<c:if test="${ l.lectureStart eq l.lectureEnd }">
+									<td>${ l.lectureStart } / ${ l.lectureTime }</td>
+								</c:if>
+								<c:if test="${ l.lectureStart ne l.lectureEnd }">
+									<td>${ l.lectureStart }~${ l.lectureEnd } / ${ l.lectureTime }</td>
+								</c:if>
+								<td>${ l.lectureFee }</td>
+								<td>
+									<c:choose>
+										<c:when test="${ l.lectureStatus eq 'APPLY' }">
+											신청
+										</c:when>
+										<c:when test="${ l.lectureStatus eq 'OPEN' }">
+											모집중
+										</c:when>
+										<c:when test="${ l.lectureStatus eq 'CLOSE' }">
+											정원초과
+										</c:when>
+										<c:when test="${ l.lectureStatus eq 'REJECT' }">
+											거절
+										</c:when>
+										<c:when test="${ l.lectureStatus eq 'DELETE' }">
+											삭제
+										</c:when>
+									</c:choose>
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+					<!-- 페이징 -->
+					<div class="inner">
+						<ul class="pagination">
+							<li>
+								<c:if test="${ pi.currentPage eq pi.startPage }">
+									<a aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</c:if>
+								<c:if test="${ pi.currentPage ne pi.startPage }">
+									<c:url var="start" value="lectureManage.ap">
+										<c:param name="page" value="${ pi.startPage }"/>
+									</c:url>
+									<a href="${ start }" aria-label="Previous">
+										<span aria-hidden="true">&laquo;</span>
+									</a>
+								</c:if>
+							</li>
+							<li>
+								<c:if test="${ pi.currentPage <= 1 }">
+									<a aria-label="Previous">
+										<span aria-hidden="true">&lt;</span>
+									</a>
+								</c:if>
+								<c:if test="${ pi.currentPage > 1 }">
+									<c:url var="before" value="lectureManage.ap">
+										<c:param name="page" value="${ pi.currentPage - 1 }"/>
+									</c:url>
+									<a href="${ before }" aria-label="Previous">
+										<span aria-hidden="true">&lt;</span>
+									</a>
+								</c:if>
+							</li>
+							<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+								<c:if test="${ p eq pi.currentPage }">
+									<li><a>${ p }</a></li>
+								</c:if>
+								<c:if test="${ p ne pi.currentPage }">
+									<c:url var="pagination" value="lectureManage.ap">
+										<c:param name="page" value="${ p }"/>
+									</c:url>
+									<li><a href="${ pagination }">${ p }</a></li>
+								</c:if>
+							</c:forEach>
+							<li>
+								<c:if test="${ pi.currentPage >= pi.maxPage }">
+									<a aria-label="Next">
+										<span aria-hidden="true">&gt;</span>
+									</a>
+								</c:if>
+								<c:if test="${ pi.currentPage < pi.maxPage }">
+									<c:url var="after" value="lectureManage.ap">
+										<c:param name="page" value="${ pi.currentPage + 1 }"/>
+									</c:url>
+									<a href="${ after }" aria-label="Next">
+										<span aria-hidden="true">&gt;</span>
+									</a>
+								</c:if>
+							</li>
+							<li>
+								<c:if test="${ pi.currentPage eq maxPage }">
+									<a href="#" aria-label="Next">
+										<span aria-hidden="true">&raquo;</span>
+									</a>
+								</c:if>
+								<c:if test="${ pi.currentPage ne maxPage }">
+									<c:url var="max" value="lectureManage.ap">
+										<c:param name="page" value="${ pi.maxPage }"/>
+									</c:url>
+									<a href="${ max }" aria-label="Next">
+										<span aria-hidden="true">&raquo;</span>
+									</a>
+								</c:if>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+		<c:import url="../a_common/footer.jsp"/>
+	</div>
+	<!-- 강연 상세보기 MODAL -->
+	
+    <div id="viewModal" class="modal fade" tabindex="-1" role="dialog" >
+        <div class="modal-dialog modal-80size" role="document">
+            <div class="modal-content modal-80size">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">강연 상세 보기</h4>
+                </div>
+                <div id="modalBody" class="modal-body">
+                	<!-- 내용 -->
+					<table class="inner table">
+						<tr>
+							<th>이름</th>
+							<td><input type="text" value="${ lectureUser.name }(${ lectureUser.id })" readonly></td>
+							<th colspan="5">이력 사항 / 강연 경험</th>
+						</tr>
+						<tr>
+							<th>핸드폰 번호</th>
+							<td><input type="text" value="${ lectureUser.phone }" readonly></td>
+							<td rowspan="3" colspan="5">
+								<textarea id="record" name="lectureRecord" readonly>${ l.lectureRecord }</textarea>
+							</td>
+						</tr>
+						<tr>
+							<th>이메일</th>
+							<td><input type="email" value="${ lectureUser.email }" readonly></td>
+						</tr>
+						<tr>
+							<th>직업</th>
+							<td><input type="text" id="job" name="lectureJob" value="${ l.lectureJob }" readonly></td>
+						</tr>
+						<tr>
+							<th rowspan="2">강연 제목</th>
+							<td rowspan="2"><input type="text" id="title" name="lectureTitle" value="${ l.lectureTitle }" readonly></td>
+							<th>강연 일시</th>
+							<td colspan="2">
+								<input type="text" name="lectureDate" id="lectureDate" value="${ l.lectureStart } ~ ${ l.lectureEnd } / ${ l.lectureTime }" readonly>
+							</td>
+							<th>강연 장소</th>
+							<td>
+								<input type="text" name="branchName" id="branchName" value="${ l.branchName }" readonly>
+							</td>
+						</tr>
+						<tr>
+							<th>참가비</th>
+							<td colspan="1"><input type="number" id="lectureFee" name="lectureFee" value="${ l.lectureFee }" readonly></td>
+							<th>강연 인원</th>
+							<td colspan="2"><input type="number" id="maxpeople" name="maxpeople" value="${ l.maxpeople }" readonly></td>
+						</tr>
+						<tr>
+							<th colspan="8">강연 내용</th>
+						</tr>
+						<tr>
+							<td colspan="8" style="padding: 0;">
+								<textarea style="resize: none" id="summernote" name="lectureContent" readonly>${ l.lectureContent }</textarea>
+							</td>
+						</tr>
+					</table>
+                </div>
+                <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
+                    <button type="button" id="ok" class="btn defaultBtn" data-dismiss="modal">수락</button>
+                    <button type="button" id="no" class="btn btn-danger" data-dismiss="modal">거절</button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+</body>
+<script>
+	$(document).ready(function(){
+		$('.contentTR').click(function(){
+			$('#viewModal').modal("show");
+			var lNo = $(this).children('td').eq(0).text();
+			var page = ${ pi.currentPage };
+			$.ajax({
+				url: "lectureManage.ap",
+				data: {lNo:lNo, page:page},
+				success: function(data){
+					
+				}
+			});
+			/* location.href="lectureManage.ap?lNo="+lNo+"&page="+${ pi.currentPage }; */
+		});
+	});
+</script>
+</html>

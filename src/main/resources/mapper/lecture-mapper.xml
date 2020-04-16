@@ -9,7 +9,7 @@
     		join member using(id)
     		join branch using(branch_no)
 		where lecture_status='OPEN'
-		order by lecture_Start
+		order by lecture_Start desc
 	</select>
 	
 	<resultMap id="lectureResultSet" type="Lecture">
@@ -36,4 +36,29 @@
 		values(seq_lid.nextval, #{lectureRecord}, #{lectureTitle}, #{lectureContent}, #{lectureFee}, #{maxpeople},
 		       0, sysdate, #{lectureTime}, default, #{id}, #{branchNo}, #{lectureJob}, #{lectureEnd}, #{lectureStart}) 
 	</insert>
+	
+	<select id="getLectureManageList" resultMap="lectureResultSet">
+		select LECTURE_NO, LECTURE_RECORD, LECTURE_TITLE, LECTURE_CONTENT, LECTURE_FEE, MAXPEOPLE, 
+       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_TIME, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
+       		   LECTURE_END, LECTURE_START, NAME, BRANCH_NAME
+		from lecture
+    		join member using(id)
+    		join branch using(branch_no)
+		order by lecture_Start desc
+	</select>
+	
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from lecture
+	</select>
+	
+	<select id="selectLecture" parameterType="_int" resultMap="lectureResultSet">
+		select LECTURE_NO, LECTURE_RECORD, LECTURE_TITLE, LECTURE_CONTENT, LECTURE_FEE, MAXPEOPLE, 
+       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_TIME, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
+       		   LECTURE_END, LECTURE_START, NAME, BRANCH_NAME
+		from lecture
+    		join member using(id)
+    		join branch using(branch_no)
+    	where LECTURE_NO=#{ lNo }
+	</select>
 </mapper>

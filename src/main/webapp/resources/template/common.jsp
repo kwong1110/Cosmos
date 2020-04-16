@@ -93,14 +93,15 @@
 	<input class="form-control input-daterange-datepicker" type="text" name="daterange">
 
 	<!-- DateRangeTime pick -->
-	<div class="box-title m-t-30">Date Range With Time</div>
+	<div class="box-title m-t-30">Date Range With Time(여러개 + 시간)</div>
 	<input type="text" class="form-control input-daterange-timepicker" name="daterange">
 
 	<!-- Autoclose Datepicker -->
-	<div class="box-title m-t-30">Autoclose Datedpicker(1개 선택)</div>
+	<div class="box-title m-t-30">Autoclose Datedpicker(1개 선택 )</div>
 		<div class="input-group">
 		<input type="text" class="form-control" id="datepicker-autoclose" placeholder="년/월/일"> <span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
 	</div>
+	
 	
 	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
@@ -112,5 +113,30 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
 	<!-- 둘중 하나를 사용하더라도 밑의 script는 다 넣어주어야함! -->
+	
+	<!-- 타임 피커 time picker -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.css"/>
+	
+	<input type="text" class="timepicker" name="startTime"/>
+	
+	<script>
+		(function($) {
+		    $(function() {
+		        $('input.timepicker').timepicker({
+		        	timeFormat: 'h:mm p',
+		            interval: 60,
+		            minTime: '10',
+		            maxTime: '6:00pm',
+		            defaultTime: '11',
+		            startTime: '10:00',
+		            dynamic: false,
+		            dropdown: true,
+		            scrollbar: true
+		        });
+		    });
+		})(jQuery);
+	</script>
+	<!-- 밑의 연결은 맨위에 둘것. -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/timepicker/1.3.5/jquery.timepicker.min.js"></script>
 </body>
 </html>
