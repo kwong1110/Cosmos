@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.e_seat.model.dao.SeatDAO;
 import com.kh.cosmos.e_seat.model.vo.Seat;
+import com.kh.cosmos.e_seat.model.vo.SortTable;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Service("sService")
@@ -35,5 +36,11 @@ public class SeatServiceImpl implements SeatService{
 		return sDAO.selectSeatList(sqlSession);
 	}
 
+	@Override
+	public ArrayList<SortTable> selectSortList() {
+		return sDAO.selectSortList(sqlSession);
+	}
+
+	
 	
 }
