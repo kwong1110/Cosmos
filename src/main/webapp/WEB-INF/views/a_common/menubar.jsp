@@ -227,7 +227,7 @@
 					<div><a href="">관리자페이지</a></div>
 					<div class="s-menu">	
 						<div><a href="reportList.ap">신고목록</a></div>
-						<div><a href="">강연관리</a></div>
+						<div><a href="lectureManage.ap">강연관리</a></div>
 						<div><a href="">좌석예약조회</a></div>
 						<div><a href="">회원목록</a></div>
 						<div><a href="enrollBranch.ap">지점등록</a></div>

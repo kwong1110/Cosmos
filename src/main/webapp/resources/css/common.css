@@ -252,12 +252,12 @@ a:active, a:focus {
 /* 부트스트랩 Datepicker */
 
 /* 테이블 */
-.table-hover th{
+.table-hover th,.table th{
 	text-align: center;
 	background: #67A261;
 	font-size: 19px;
 	font-weight: bold;
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
 
 .table-hover tr{
@@ -267,7 +267,12 @@ a:active, a:focus {
 .table-hover tr:hover{
 	background: rgba(103,162,97,0.2) !important;
 }
-/* 테이블 */
+
+.table-hover td,.table td{
+	text-align: center;
+	vertical-align: middle !important;
+}
+/* 테이블 끝*/
 
 /* 검색 */
 .dropdown-toggle,.search-submit{
