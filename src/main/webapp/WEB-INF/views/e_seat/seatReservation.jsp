@@ -364,9 +364,9 @@
 					    			var fullDate = $('#daterange').val();
 					    			
 					    			var startDate = fullDate.substr(0,10);
-					    			var startTime = fullDate.substr(11,6);
+					    			var startTime = fullDate.substr(11,5);
 					    			var endDate = fullDate.substr(19,10);
-					    			var endTime = fullDate.substr(30,5);
+					    			var endTime = fullDate.substr(29,6);
 					    			console.log(fullDate);
 					    			console.log(startDate);
 					    			console.log(startTime);
@@ -435,7 +435,7 @@
 		</script>
 	 -->
 </body>
-	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script> <!-- 데이트피커필요한스크립트 -->
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.ko.min.js"></script>
