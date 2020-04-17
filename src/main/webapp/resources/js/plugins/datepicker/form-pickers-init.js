@@ -105,8 +105,8 @@
     });
     $('.input-daterange-timepicker').daterangepicker({
         timePicker: true,
-        timePickerIncrement: 30,
-        timePicker12Hour: false,
+        timePickerIncrement: 60,
+        timePicker24Hour: true,
         timePickerSeconds: false,
        	"locale": {
        		format: 'YYYY-MM-DD h:mm',
