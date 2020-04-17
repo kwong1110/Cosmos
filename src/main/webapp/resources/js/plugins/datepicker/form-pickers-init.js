@@ -109,7 +109,7 @@
         timePicker24Hour: true,
         timePickerSeconds: false,
        	"locale": {
-       		format: 'YYYY-MM-DD h:mm',
+       		format: 'YYYY-MM-DD H:mm',
        		buttonClasses: ['btn'],
        		applyClass: 'okBtn',
        		cancelClass: 'cancelBtn',
