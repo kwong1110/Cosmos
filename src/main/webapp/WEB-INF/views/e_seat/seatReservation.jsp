@@ -5,20 +5,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4a8fa7e4a9e7170fa234c76a796cecab&libraries=services"></script>
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <title>Insert title here</title>
 <style>
 .wrap-div{width:100%; height:850px; margin:0 auto; }
     .div-left{width:30%; height:inherit; float:left;}
     	.left-top{width:100%; height:7%; border:1px solid #000; box-sizing: border-box;}
-    	.left-mid{width:100%; height:86%; border:1px solid #000; box-sizing: border-box; border-top:0; border-bottom:0;}
-    	.left-bot{width:100%; height:7%; border:1px solid #000; box-sizing: border-box;}
+    	.left-mid{width:100%; height:93%; border:1px solid #000; box-sizing: border-box; border-bottom:0;}
+    	.left-bot{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-top:0;}
     	
     .div-right{width:70%; height:inherit; float:right;}
     	.right-top{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-left:0;}
     	#right-top{line-height:55px; font-size:25px;}
-    	#right-map{width:100%; height:51%; border:1px solid #000; box-sizing: border-box; border-top:0; border-left:0; border-bottom:0;}
+    	#right-map{width:100%; height:58%; border:1px solid #000; box-sizing: border-box; border-left:0; border-bottom:0;}
     	.right-content{width:100%; height:35%; border:1px solid #000; box-sizing: border-box;border-left:0; border-bottom:0; }
     		.right-content-left{width:60%; height:100%;  box-sizing: border-box; float:left; 
     							line-height:70px; padding-left:50px;}
@@ -32,7 +33,8 @@
     							 line-height:70px;padding-left:15px;}
     			.right-choose{width:100%; height:25%; box-sizing: border-box;}
     			.right-seat{width:100%; height:25%; box-sizing: border-box;}
-    			.right-time{width:100%; height:25%; box-sizing: border-box;}
+    			.right-chooseSeat{width:100%; height:25%; box-sizing: border-box;}
+    			.right-price{width:100%; height:25%; box-sizing: border-box;}
     	.right-agree{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-top:0; border-left:0;}
     		.le-ag{width:60%; height:100%;  box-sizing: border-box; float:left; line-height:55px; padding-left:50px; }
     		.ri-ag{width:40%; height:100%;  box-sizing: border-box; float:right; line-height:55px;padding-left:0px; }
@@ -42,6 +44,7 @@
     .che{width:15px;height:15px;} /* 인원선택 체크박스 css */
     
   	nav{margin-left:20px;}
+  	
   	
   	.modal-dialog.modal-80size {width: 85%; height: 90%; margin: 0; padding: 0;}
 	.modal-content.modal-80size {height: auto; min-height: 90%;}
@@ -65,8 +68,8 @@
 				<div class="content">
 						<div class="wrap-div form-inline" >
 					        <div class="div-left">
-					        	<div class="left-top">
-					        	</div>
+					        	<!-- <div class="left-top">
+					        	</div> -->
 					        	<div class="left-mid">
 					        		
 					        			<c:forEach var="s" items="${ branchList }">
@@ -87,8 +90,8 @@
 					        						${ s.branchTel }
 					        					</td>
 					        				</tr> --%>
-					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black;">
-					        					<div style="margin-left:38px;"><b>${ s.branchName }</b></div>
+					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:100px;">
+					        					<div style="margin-left:38px;"><b>코스모스 스터디센터 ${ s.branchName }</b></div>
 					        					<div><input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress" value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
@@ -128,7 +131,7 @@
 					            </div>
 					        </div>
 					        <div class="div-right">
-					            <div class="right-top" id="right-top"> 
+					            <!-- <div class="right-top" id="right-top"> 
 					            	<script>
 						        		$('input[type=radio][name=branchAddress]').on('click',function(){
 			            					var tmp = $('input[type=radio][name=branchAddress]:checked').val();
@@ -136,7 +139,7 @@
 			            					$("#right-top").text(tmp);
 			            				});
 					        		</script>
-					            </div>
+					            </div> -->
 					       		<div id="right-map" >
 					       			
 										<!-- <div id="map" style="width:100%;height:100%;"></div> -->
@@ -218,7 +221,7 @@
 										
 										        // 인포윈도우로 장소에 대한 설명을 표시합니다
 										        var infowindow = new kakao.maps.InfoWindow({
-										            content: '<div style="width:150px; text-align:center; padding:6px 0;"> '+ name +'</div>'
+										            content: '<div style="width:170px; text-align:center; padding:6px 0;"> '+ name +'</div>'
 										        });
 										        infowindow.open(map, marker);
 										
@@ -259,19 +262,19 @@
 					            			<div class="cl">● 예약일자</div>
 					            			<div class="cr">
 					            				<div class="box-title m-t-30"></div>
-												<input class="form-control input-daterange-datepicker" type="text" name="daterange">
+												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:270px;">
 					            			</div>
 					            		</div>
 					            		<div class="left-name">
 					            			<div class="cl">● 이름</div>
 					            			<div class="cr">
-					            				<input type="text" name="name" class="form-control" placeholder="이름을 입력해주세요">
+					            				<input type="text" name="name" class="form-control" placeholder="이름을 입력해주세요" style="width:270px;">
 					            			</div>
 					            		</div>
 					            		<div class="left-phone">
 					            			<div class="cl">● 휴대폰번호</div>
 					            			<div class="cr">
-					            				<input type="text" name="phone" class="form-control" placeholder="번호를 입력해주세요">
+					            				<input type="text" name="phone" class="form-control" placeholder="번호를 입력해주세요" style="width:270px;">
 					            			</div>
 					            		</div>
 					            	</div>
@@ -279,14 +282,15 @@
 					            		<div class="right-choose">
 					            			<div class="cl">● 인원선택</div>
 					            			<div class="cr">
-					            				<input type="checkbox" class="che" name="onep">1인 &nbsp;&nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="manyp">다인
+					            				<input type="checkbox" class="che" name="onep">1인 &nbsp;&nbsp;
+					            				<input type="checkbox" class="che" name="fourp">4인 &nbsp;&nbsp;
+					            				<input type="checkbox" class="che" name="sixp">6인
 					            			</div>
 					            		</div>
 					            		<div class="right-seat">
 					            			<div class="cl">● 좌석선택</div>
 					            			<div class="cr">
-					            				<div id="seatChoose" class="btn btn-default" style="width:150px;">선택</div>
+					            				<div id="seatChoose" class="btn defaultBtn" style="width:150px;">선택</div>
 					            			</div>
 					            			<script>
 					            			$('#seatChoose').click(function(e){
@@ -295,44 +299,41 @@
 					            			});
 					            			</script>
 					            		</div>
-					            		<div class="right-time">
-					            			<div class="cl">● 이용시간</div>
-					            			<div class="cr">
-					            				<select style="width:150px;">
-					            					<option selected>시간선택</option>
-					            					<option>09:00 ~ 10:00</option>
-					            					<option>10:00 ~ 11:00</option>
-					            					<option>11:00 ~ 12:00</option>
-					            					<option>12:00 ~ 13:00</option>
-					            					<option>13:00 ~ 14:00</option>
-					            					<option>14:00 ~ 15:00</option>
-					            					<option>15:00 ~ 16:00</option>
-					            					<option>16:00 ~ 17:00</option>
-					            					<option>17:00 ~ 18:00</option>
-					            					<option>18:00 ~ 19:00</option>
-					            					<option>19:00 ~ 20:00</option>
-					            					<option>20:00 ~ 21:00</option>
-					            					
-					            				</select>
+					            		<div class="right-chooseSeat">
+					            			<div class="cl">● 선택좌석</div>
+					            			<div class="cr" id="chooseSeat">
+					            				
 					            			</div>
 					            		</div>
 					            		
+					            		<div class="right-price">
+					            			<div class="cl">● 이용요금</div>
+					            			<div class="cr" id="userPrice">
+					            				 <%-- ${ sortList } --%>
+					            			</div>
+					            		</div>
 					            	</div>
 					            </div>
 					            <div class="right-agree">
 					            	<div class="le-ag">
 					            		<div class="ra-left"><input type="checkbox" class="che">개인정보 수집 및 이용에 관한 동의(필수)</div>
-					            		<div class="ra-right">[내용보기]</div>
+					            		<div class="ra-right" id="personInfo">[내용보기]</div>
+					            		<script>
+					            			$('#personInfo').click(function(e){
+				            					e.preventDefault();
+				            					$('#personInfoModal').modal("show");
+				            				});
+					            		</script>
 					            	</div>
 					            	<div class="ri-ag">
-					            		<div class="ra-left"><input type="checkbox" class="che">마케팅  수신 동의(필수)</div>
-					            		<div class="ra-right">[내용보기]</div>
+					            		<div class="ra-left"><input type="checkbox" class="che">마케팅  수신 동의(선택)</div>
+					            		<div class="ra-right"><a>[내용보기]</a></div>
 					            	</div>
 					            </div>
 					        </div>
 					    </div>
 					<div class="btnBox inner">
-						<button class="defaultBtn" onclick=""></button>
+						<button class="defaultBtn" onclick="buy()" value="결제">결제</button>
 					</div>
 				</div>
 			</div>
@@ -340,8 +341,8 @@
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 	
-	<div class="modal fade" id="seatModal"> <!-- 좌석 모달창 부분 -->
-	  <div class="modal-dialog modal-80size" role="document">
+	<div class="modal fade" id="seatModal" role="dialog"> <!-- 좌석 모달창 부분 -->
+	  <div class="modal-dialog modal-80size" >
 	    <div class="modal-content modal-80size ">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         		<div >
@@ -349,13 +350,97 @@
         		</div>
 		        	<form action="/reservation.se" method="post">
 		        		<jsp:include page = "seatForm.jsp"/>
+		        		<script>
+					    	 $('.left-top1-table-cell, .big, .six1, .six2, .four1, .four2, .four3, .four4').on('click',function(){
+					    		var chooseSeat = $(this).children().val();
+					    		$("#chooseSeat").text(chooseSeat);
+					    		// console.log(chooseSeat);
+					    		var check = confirm(chooseSeat + "자리를 선택하시겠습니까?");
+					    		if(check == true){
+					    			$('#seatModal').modal("hide");
+					    			var price =  $('#chooseSeat').text();
+					    			var strPrice = price.split('-');
+					    			
+					    			var fullDate = $('#daterange').val();
+					    			
+					    			var startDate = fullDate.substr(0,10);
+					    			var startTime = fullDate.substr(11,2);
+					    			var endDate = fullDate.substr(18,11).trim();
+					    			var endTime = fullDate.substr(29,3).trim();
+					    			console.log(fullDate);
+					    			console.log(startDate);
+					    			console.log(startTime);
+					    			console.log(endDate);
+					    			console.log(endTime);
+					    			
+					    			<c:forEach var="d" items="${ sortList }">
+				    				if(strPrice[0] == "${ d.reserSort }"){
+				    					result = (endTime-startTime) * "${d.reserFee}"
+				    				};
+				    				</c:forEach>
+					    			
+					    			$('#userPrice').text(result+'원');
+					    		}
+					    		/* var price =  $('#chooseSeat').text();
+            				 	console.log(price); */
+					    	}); 
+					    </script>
 		        	</form>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
 	
+	<div class="modal fade" id="personInfoModal" role="dialog"> <!-- 개인정보내용 -->
+	  <div class="modal-dialog" >
+	    <div class="modal-content">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<div >
+        			<h3 class="color_red" style="background:red; color:white; height:30px;">개인정보 수집 이용 동의 전문</h3>
+        		</div>
+					<div class="layer_conts">
+						<p class="sub_title">부스예약 신청 시, <br>아래와 같이 고객님의 개인정보를 수집하고 있습니다.</p>
+						<ul>
+							<li>개인정보 수집범위 : 예약지점, 성별, 방문희망 일자</li>
+							<li>개인정보 수집 및 이용목적 : 예약 확인</li>
+							<li>개인정보 수집 및 보유기간 : 이용자의 개인정보는 원칙적으로 개인정보의 수집 및 이용 목적이 달성되면 지체 없이 파기하며 보유기간은 최대 3년을 넘기지 않는 것을 원칙으로 한다.</li>
+						</ul>
+        			
+		       </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+		<!-- <script>
+			var IMP = window.IMP; 
+			IMP.init('imp05073510'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
+			IMP.request_pay({
+			    pg : 'html5_inicis', 
+			    pay_method : 'card',
+			    merchant_uid : 'merchant_' + new Date().getTime(),
+			    name : '주문명:결제테스트',
+			    amount : 14000,
+			    buyer_email : 'iamport@siot.do',
+			    buyer_name : '구매자이름',
+			    buyer_tel : '010-1234-5678',
+			    buyer_addr : '서울특별시 강남구 삼성동',
+			    buyer_postcode : '123-456',
+			    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+			}, function(rsp) {
+			    if ( rsp.success ) {
+			        var msg = '결제가 완료되었습니다.';
+			        msg += '고유ID : ' + rsp.imp_uid;
+			        msg += '상점 거래ID : ' + rsp.merchant_uid;
+			        msg += '결제 금액 : ' + rsp.paid_amount;
+			        msg += '카드 승인번호 : ' + rsp.apply_num;
+			    } else {
+			        var msg = '결제에 실패하였습니다.';
+			        msg += '에러내용 : ' + rsp.error_msg;
+			    }
+			    alert(msg);
+			});
+		</script>
+	 -->
 </body>
-	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script> <!-- 데이트피커필요한스크립트 -->
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.ko.min.js"></script>

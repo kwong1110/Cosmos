@@ -42,22 +42,23 @@ function checkDetail() {
  */
 function checkEmptyValues(){
 	
-	var $errorDiv = $("<div class='error'>");
+	// 이걸로 안하고 placeholder가 빛나는걸로 
+	// var $errorDiv = $("<div class='error'>");
 	
 	for(var i=0; i < arguments.length; i++){
 		if($(arguments[i]).val().trim().length != 0){
-			$('.error').detach();
+			$(arguments[i]).removeClass('error');
 		}
 	}
 	
 	for(var i=0; i < arguments.length; i++){
 
-		var msg = $(arguments[i]).prev().text();
+		var msg = $(arguments[i]).attr('placeholder');
 		
 		if($(arguments[i]).val().trim().length == 0){
-			if(!$(arguments[i]).next().is($('.error'))){
-				$(arguments[i]).parent().append($errorDiv);
-				$('.error').text(msg + '를 입력해주세요!');
+			if(!$(arguments[i]).is($('.error'))){
+				$(arguments[i]).addClass('error');
+				$('.error').text(msg);
 				$(arguments[i]).focus();
 			}
 			return false;

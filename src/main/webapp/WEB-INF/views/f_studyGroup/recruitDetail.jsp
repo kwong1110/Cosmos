@@ -174,19 +174,15 @@
 					</div>
 					
 					
-					<div class="partStyle inner">
+					<!-- <div class="partStyle inner" style="width:60%;"> -->
+					<div class="inner" style="width:60%;">
 						<label class="subTitle">그룹 규칙</label>
 						<ul>
 							<li>그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙</li>
-							<li>그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙</li>
+							<li>그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙</li>
 							<li>그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙</li>
 						</ul>
 					</div>
-						<ul>
-							<li>그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙</li>
-							<li>그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙</li>
-							<li>그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙그룹규칙</li>
-						</ul>
 
 					<div class="partStyle inner">
 						<label class="subTitle">그룹 내용</label>
@@ -211,7 +207,8 @@
 					<div class="partStyle inner">
 						<label class="subTitle">참가 신청 리스트</label>
 						<div id="approachListArea">
-							<table id="approachListTable">
+							<!-- <table id="approachListTable" class="table table-hover"> -->
+							<table class="table table-hover">
 								<tr>
 									<th>No</th>
 									<th>참가 신청 날짜</th>

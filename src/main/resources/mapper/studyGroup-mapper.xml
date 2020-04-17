@@ -24,11 +24,17 @@
 	
 	<insert id="insertGroup" parameterType="StudyGroup">
 		insert into sgroup
-		values(seq_sgid.nextval, #{sgName}, #{sgGoal}, #{sgContent}, default, #{branchNo}, #{id}, #{studyNo})
+		values(seq_sgid.nextval, #{sgName}, #{sgGoal}, #{sgContent}, default, #{branchNo}, #{id}, #{studyNo}, default)
 	</insert>
 	
 	<insert id="insertRecruit">
 		insert into rec_sgroup
 		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, #{recMettingDate}, seq_sgid.currval)
 	</insert>
+	
+	<select id="getStudyGroup" parameterType="string">
+		select sg_no, sg_name
+		from sgroup
+		where id=#{id} and sg_status='Y'
+	</select>
 </mapper>

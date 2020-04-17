@@ -12,7 +12,7 @@ public class Pagination {
 		int maxPage;
 		int startPage;
 		int endPage;
-		int boardLimit = 5;
+		int boardLimit = 10;
 		
 		maxPage = (int)((double)listCount / boardLimit + 0.9);
 		

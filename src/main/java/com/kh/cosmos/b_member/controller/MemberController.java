@@ -1,5 +1,7 @@
 package com.kh.cosmos.b_member.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -7,13 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import com.kh.cosmos.b_member.model.exception.MemberException;
 import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.b_member.model.vo.Member;
+import com.kh.cosmos.b_member.model.vo.Preview;
+import com.kh.cosmos.b_member.model.vo.StudyCategory;
 
 @SessionAttributes("loginUser")
 @Controller
@@ -62,7 +65,14 @@ public class MemberController {
 	
 	// 회원가입 페이지 이동
 	@RequestMapping("enroll.me")
-	public String enroll() {
+	public String enroll(@ModelAttribute StudyCategory sc, Model model) {
+		
+		// 공부 카테고리(StudyCategory) 에서 공부 목록 받아와서 view 에 뿌리기
+		ArrayList<StudyCategory> sList = mService.selectStudyCategoryList(sc);
+		if(sList != null) {
+			model.addAttribute("sList", sList);
+		}
+		
 		return "memberInsertForm";
 	}
 	
@@ -73,7 +83,7 @@ public class MemberController {
 		return "FindIdPwd";
 		
 	}
-	
+  
 	// 아이디찾기_한솔 
 	@RequestMapping("findId.me")
 	public String findId() {
@@ -89,9 +99,9 @@ public class MemberController {
 		
 		return "FindPwd";
 	}
-  
+	 
 	@RequestMapping("minsert.me")
-	public String memberInsert(@ModelAttribute Member m, Model model) {
+	public String memberInsert(@ModelAttribute Member m, @ModelAttribute Preview p, @ModelAttribute StudyCategory sc, Model model) {
 		System.out.println(m);
 //		certifyNum
 //		certifyStatus : 인증상태

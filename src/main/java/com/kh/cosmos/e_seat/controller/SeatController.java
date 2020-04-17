@@ -13,6 +13,7 @@ import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.e_seat.model.exception.SeatException;
 import com.kh.cosmos.e_seat.model.service.SeatService;
 import com.kh.cosmos.e_seat.model.vo.Seat;
+import com.kh.cosmos.e_seat.model.vo.SortTable;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Controller
@@ -37,10 +38,13 @@ public class SeatController {
 		
 		ArrayList<Seat> seatList = sService.selectSeatList();
 		
+		ArrayList<SortTable> sortList = sService.selectSortList();
+		
 		if(branchList != null) {
 			mv.addObject("branchList", branchList);
 			mv.addObject("seatList", seatList);
 			mv.addObject("pi", pi);
+			mv.addObject("sortList", sortList);
 			mv.setViewName("seatReservation");
 		} else {
 			throw new SeatException("지점리스트 전체 조회에 실패하였습니다.");

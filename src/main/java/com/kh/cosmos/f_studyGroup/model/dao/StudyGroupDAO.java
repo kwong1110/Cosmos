@@ -24,13 +24,15 @@ public class StudyGroupDAO {
 		String studyname = sg.getStudyName();
 		int studyno = sqlSession.selectOne("studyGroupMapper.getStudyNo", studyname);
 		sg.setStudyNo(studyno);
-		System.out.println(sg);
-		
 		return sqlSession.insert("studyGroupMapper.insertGroup", sg);
 	}
 
 	public int insertRecruit(SqlSessionTemplate sqlSession, StudyRecruit sr) {
 		return sqlSession.insert("studyGroupMapper.insertRecruit", sr);
+	}
+
+	public ArrayList<StudyGroup> getStudyGroupList(SqlSessionTemplate sqlSession, String id) {
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getStudyGroup", id);
 	}
 
 }

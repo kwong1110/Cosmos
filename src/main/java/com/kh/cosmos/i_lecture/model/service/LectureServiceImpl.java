@@ -29,4 +29,8 @@ public class LectureServiceImpl implements LectureService {
 		return lDAO.selectBranchList(sqlSession);
 	}
 
+	@Override
+	public int lectureApply(Lecture l) {
+		return lDAO.lectureApply(sqlSession, l);
+	}
 }

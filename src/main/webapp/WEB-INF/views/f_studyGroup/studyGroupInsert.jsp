@@ -15,7 +15,7 @@
 	#now_date{width:100px;}
 	
 	#studyName{width: 200px;}
-	#datepicker-autoclose{width: 140px; display: inline-block;}
+	#recTerm{width: 200px; display: inline-block;}
 	#recNum{width: 70px; display: inline-block;}
 	#branchNo{width: 200px;}
 	#meetingDate{width: 140px; display: inline-block;}
@@ -67,7 +67,7 @@
 								<!-- <input class="form-control input-daterange-datepicker" type="text" id="recEndDate" name="recEndDate" style="width:200px;"> -->
 								<!-- <label id="now_date"></label> ~ &nbsp;&nbsp;<input type="text" class="form-control" id="datepicker-autoclose" name="recEndDate" placeholder="년/월/일">
 								<input type="hidden" id="recStartDate" name="recStartDate"> -->
-								<input class="form-control input-daterange-datepicker" type="text" name="recTerm">
+								<input class="form-control input-daterange-datepicker" type="text" id="recTerm" name="recTerm">
 							</td>
 						</tr>
 						<tr>
@@ -156,12 +156,13 @@
 	        	  $('#goalAlert').css('color', 'red');
 	          }
 	    });
-
+		
 		$('#sgContent').keyup(function (e){
 	          var content = $(this).val();
 	          if(content.length < 2000) {
 	        	  $('#contentAlert').css('color', 'black');
 		          $('#contentCount').html(content.length);
+	          } else if(content.length == 2000) {
 	        	  $('#contentAlert').css('color', 'red');
 		          $('#contentCount').html(content.length);
 	          } else {

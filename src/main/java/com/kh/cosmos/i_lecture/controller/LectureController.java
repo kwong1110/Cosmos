@@ -70,14 +70,18 @@ public class LectureController {
 		
 		Date startDateSql = Date.valueOf(startDate);
 		Date endDateSql = Date.valueOf(endDate);
-		//System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
+		// System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
 		
-		l.setLectureDate(startDateSql);
+		l.setLectureStart(startDateSql);
 		l.setLectureEnd(endDateSql);
 		l.setLectureTime(startTime + "~" + endTime);
-		System.out.println(l);
+		// System.out.println(l);
 		
+		int result = lService.lectureApply(l);
+		
+		
+		// 사진 등록 추가,
+		// 마이페이지 강연 조회로 넘어가야함.
 		return "";
 	}
-	
 }

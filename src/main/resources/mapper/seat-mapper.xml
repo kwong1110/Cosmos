@@ -8,7 +8,7 @@
 	<select id="selectBranchList" resultMap="branchResultSet">
 		select *
 		from branch
-		order by branch_no desc
+		order by branch_no
 	</select>
 	
 	<resultMap id="branchResultSet" type="ViewBranch">
@@ -40,6 +40,16 @@
 		<result property="id" column="ID"/>
 		<result property="branchNo" column="BRANCH_NO"/>
 	
+	</resultMap>
+	
+	<select id="selectSortList" resultMap="sortResultSet">
+		select *
+		from sort_table
+	</select>
+	
+	<resultMap id="sortResultSet" type="SortTable">
+		<id property="reserSort" column="RESER_SORT"/>
+		<result property="reserFee" column="RESER_FEE"/>
 	</resultMap>
 	
 	

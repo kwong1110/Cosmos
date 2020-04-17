@@ -18,12 +18,15 @@ public class Lecture {
 	private int branchNo;
 	private String lectureJob;
 	private Date lectureEnd;
+	private Date lectureStart;
+	private String name;
+	private String branchName;
 	
 	public Lecture() {}
 
 	public Lecture(int lectureNo, String lectureRecord, String lectureTitle, String lectureContent, int lectureFee,
 			int maxpeople, int attendpeople, Date lectureDate, String lectureTime, String lectureStatus, String id,
-			int branchNo, String lectureJob, Date lectureEnd) {
+			int branchNo, String lectureJob, Date lectureEnd, Date lectureStart, String name, String branchName) {
 		super();
 		this.lectureNo = lectureNo;
 		this.lectureRecord = lectureRecord;
@@ -39,6 +42,9 @@ public class Lecture {
 		this.branchNo = branchNo;
 		this.lectureJob = lectureJob;
 		this.lectureEnd = lectureEnd;
+		this.lectureStart = lectureStart;
+		this.name = name;
+		this.branchName = branchName;
 	}
 	
 	public int getLectureNo() {
@@ -152,6 +158,30 @@ public class Lecture {
 	public void setLectureEnd(Date lectureEnd) {
 		this.lectureEnd = lectureEnd;
 	}
+	
+	public Date getLectureStart() {
+		return lectureStart;
+	}
+
+	public void setLectureStart(Date lectureStart) {
+		this.lectureStart = lectureStart;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getBranchName() {
+		return branchName;
+	}
+
+	public void setBranchName(String branchName) {
+		this.branchName = branchName;
+	}
 
 	@Override
 	public String toString() {
@@ -159,7 +189,6 @@ public class Lecture {
 				+ ", lectureContent=" + lectureContent + ", lectureFee=" + lectureFee + ", maxpeople=" + maxpeople
 				+ ", attendpeople=" + attendpeople + ", lectureDate=" + lectureDate + ", lectureTime=" + lectureTime
 				+ ", lectureStatus=" + lectureStatus + ", id=" + id + ", branchNo=" + branchNo + ", lectureJob="
-				+ lectureJob + ", lectureEnd=" + lectureEnd + "]";
+				+ lectureJob + ", lectureEnd=" + lectureEnd + ", lectureStart=" + lectureStart + "<br>이름(조인) : " + name + "지점이름(조인)" + branchName + "]";
 	}
-	
 }
