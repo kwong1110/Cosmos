@@ -69,8 +69,25 @@ public class MemberController {
 	// 아이디 비밀번호 찾기 페이지 이동
 	@RequestMapping("find.me")
 	public String find() {
+			
 		return "FindIdPwd";
 		
+	}
+	
+	// 아이디찾기_한솔 
+	@RequestMapping("findId.me")
+	public String findId() {
+		
+		return "FindId";
+		
+	}
+
+	// 비밀번호 찾기_한솔
+	@RequestMapping("findPwd.me")
+	public String findPwd() {
+		
+		
+		return "FindPwd";
 	}
   
 	@RequestMapping("minsert.me")
@@ -95,6 +112,7 @@ public class MemberController {
 		} else {
 			throw new MemberException("회원가입에 실패하였습니다.");
 		}
-		
 	}
+	
+	
 }

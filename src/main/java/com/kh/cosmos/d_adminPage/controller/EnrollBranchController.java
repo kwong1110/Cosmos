@@ -16,4 +16,9 @@ public class EnrollBranchController {
 	public String EnrollBranchView() {
 		return "EnrollBranchForm";
 	}
+	
+	@RequestMapping("branchList.ap")
+	public String branchList() {
+		return "BranchList";
+	}
 }
