@@ -364,17 +364,22 @@
 					    			var fullDate = $('#daterange').val();
 					    			
 					    			var startDate = fullDate.substr(0,10);
-					    			var startTime = fullDate.substr(11,5);
-					    			var endDate = fullDate.substr(19,10);
-					    			var endTime = fullDate.substr(29,6);
+					    			var startTime = fullDate.substr(11,2);
+					    			var endDate = fullDate.substr(18,11).trim();
+					    			var endTime = fullDate.substr(29,3).trim();
 					    			console.log(fullDate);
 					    			console.log(startDate);
 					    			console.log(startTime);
 					    			console.log(endDate);
 					    			console.log(endTime);
 					    			
+					    			<c:forEach var="d" items="${ sortList }">
+				    				if(strPrice[0] == "${ d.reserSort }"){
+				    					result = (endTime-startTime) * "${d.reserFee}"
+				    				};
+				    				</c:forEach>
 					    			
-					    			$('#userPrice').text(strPrice[0]);
+					    			$('#userPrice').text(result+'원');
 					    		}
 					    		/* var price =  $('#chooseSeat').text();
             				 	console.log(price); */
