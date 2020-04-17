@@ -105,11 +105,11 @@
     });
     $('.input-daterange-timepicker').daterangepicker({
         timePicker: true,
-        timePickerIncrement: 30,
-        timePicker12Hour: false,
+        timePickerIncrement: 60,
+        timePicker24Hour: true,
         timePickerSeconds: false,
        	"locale": {
-       		format: 'YYYY-MM-DD h:mm',
+       		format: 'YYYY-MM-DD H:mm',
        		buttonClasses: ['btn'],
        		applyClass: 'okBtn',
        		cancelClass: 'cancelBtn',

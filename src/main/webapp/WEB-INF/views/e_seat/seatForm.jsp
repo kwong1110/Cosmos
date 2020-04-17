@@ -66,68 +66,55 @@
         	<div class="left-top1">
         		<div class="left-top1-table1">
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-1">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-1">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-2">
-        				1인석
-        				</div>
-        			</div>
-        			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-3">
-        				1인석
-        				</div>
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-4">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-2">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-5">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-3">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-6">
-        				1인석
-        				</div>
-        			</div>
-        			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-7">
-        				1인석
-        				</div>
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-8">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-4">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-9">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-5">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-10">
-        				1인석
-        				</div>
-        			</div>
-        			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-11">
-        				1인석
-        				</div>
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-12">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-6">
         				1인석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
-        				<div class="left-top1-table-cell">
-        				<input type="hidden" value="A-13">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-7">
+        				1인석
+        				</div>
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-8">
+        				1인석
+        				</div>
+        			</div>
+        			<div class="left-top1-table-row">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-9">
+        				1인석
+        				</div>
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-10">
+        				1인석
+        				</div>
+        			</div>
+        			<div class="left-top1-table-row">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-11">
+        				1인석
+        				</div>
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-12">
+        				1인석
+        				</div>
+        			</div>
+        			<div class="left-top1-table-row">
+        				<div class="left-top1-table-cell"><input type="hidden" value="A-13">
         				1인석
         				</div>
         				<div class="left-top1-table-cell"><input type="hidden" value="A-14">
@@ -148,7 +135,7 @@
         				<div class="left-top1-table-cell"><input type="hidden" value="A-17">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell"><input type="hidden" value="A-18">
+        				<div class="left-top1-table-cell" style="background:#2E4559"><input type="hidden" value="Z-18">
         				1인석
         				</div>
         			</div>
@@ -156,7 +143,7 @@
         				<div class="left-top1-table-cell"><input type="hidden" value="A-19">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell"><input type="hidden" value="A-20">
+        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-20">
         				1인석
         				</div>
         			</div>
@@ -164,7 +151,7 @@
         				<div class="left-top1-table-cell"><input type="hidden" value="A-21">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell"><input type="hidden" value="A-22">
+        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-22">
         				1인석
         				</div>
         			</div>
@@ -172,7 +159,7 @@
         				<div class="left-top1-table-cell"><input type="hidden" value="A-23">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell"><input type="hidden" value="A-24">
+        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-24">
         				1인석
         				</div>
         			</div>
@@ -180,7 +167,7 @@
         				<div class="left-top1-table-cell"><input type="hidden" value="A-25">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell"><input type="hidden" value="A-26">
+        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-26">
         				1인석
         				</div>
         			</div>
@@ -188,7 +175,7 @@
         				<div class="left-top1-table-cell"><input type="hidden" value="A-27">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell"><input type="hidden" value="A-28">
+        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-28">
         				1인석
         				</div>
         			</div>
@@ -196,7 +183,7 @@
         				<div class="left-top1-table-cell"><input type="hidden" value="A-29">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell"><input type="hidden" value="A-30">
+        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-30">
         				1인석
         				</div>
         			</div>
@@ -204,7 +191,7 @@
         				<div class="left-top1-table-cell"><input type="hidden" value="A-31">
         				1인석
         				</div>
-        				<div class="left-top1-table-cell"><input type="hidden" value="A-32">
+        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-32">
         				1인석
         				</div>
         			</div>

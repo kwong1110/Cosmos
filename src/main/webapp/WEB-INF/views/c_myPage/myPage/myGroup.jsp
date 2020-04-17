@@ -93,9 +93,9 @@
 				
 					<div id="topArea">
 						<div id="categoryArea">
-							<label>once</label>
+							<span id="categoryOnce">once</span>
 							&nbsp;&nbsp;|&nbsp;&nbsp;
-							<label>long</label>
+							<span id="categoryLong">long</span>
 						</div>
 						
 						<div id="optionArea">
@@ -112,69 +112,25 @@
 					</div>
 					
 					<table id="groupTable" class="table table-hover">
+						<thead>
 						<tr>
-							<th>No</th>
-							<th>그룹유형</th>
-							<th>공부 종류</th>
+							<th style="width:5%;">No</th>
+							<th style="width:9%;">그룹유형</th>
+							<th style="width:15%;">공부 종류</th>
 							<th>그룹 명</th>
-							<th>그룹장</th>
-							<th>그룹 상태</th>
+							<th style="width:14%;">그룹장</th>
+							<th style="width:16%;">상태</th>
 						</tr>
-						<tr data-toggle="modal" data-target="#groupModal">
-							<td>4</td>
-							<td><span class="typeBadge long">long</span></td>
-							<td>자격증</td>
-							<td>그룹명 블라블라4</td>
-							<td>그룹장닉네임4</td>
-							<td>추가 모집 중</td>
-						</tr>
-						<tr data-toggle="modal" data-target="#groupBossModal">
-							<td>3</td>
-							<td><span class="typeBadge long">long</span></td>
-							<td>JAVA</td>
-							<td>그룹명 블라블라3</td>
-							<td>그룹장닉네임3</td>
-							<td>스터디 종료 (나감)</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td><span class="typeBadge long">long</span></td>
-							<td>대학생 학점관리</td>
-							<td>그룹명 블라블라2</td>
-							<td>그룹장닉네임2</td>
-							<td>스터디 진행 중</td>
-						</tr>
-						<tr>
-							<td>1</td>
-							<td><span class="typeBadge once">once</span></td>
-							<td>JAVA</td>
-							<td>그룹명 블라블라1</td>
-							<td>그룹장닉네임1</td>
-							<td>스터디 종료 (강퇴)</td>
-						</tr>
+						</thead>
+						
+						<tbody>
+						</tbody>
 					</table>
 					
 					<div id="bottomArea">
 						<!-- 페이징  -->
 						<nav>
-							<ul class="pagination">
-								<li><a href="#" aria-label="Previous"> <span
-										aria-hidden="true">&laquo;</span>
-								</a></li>
-								<li><a href="#" aria-label="Previous"> <span
-										aria-hidden="true">&lt;</span>
-								</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#" aria-label="Next"> <span
-										aria-hidden="true">&gt;</span>
-								</a></li>
-								<li><a href="#" aria-label="Next"> <span
-										aria-hidden="true">&raquo;</span>
-								</a></li>
+							<ul class="pagination" id="pageUl">
 							</ul>
 						</nav>
 						
@@ -367,9 +323,247 @@
 	<!-- 그룹장 모달 -->
 	
 	<script>
+		var trigerBox;
+		
 		$(function() {
 			$('#hiddenOption').css('display', 'none');
+			
+			trigerBox = 'false';
+			getGroupList('false'); //-> 실시간 업데이트가 목적이 아니라 옵션을 위해서니까 setinterval안쓰고 진행
+			getGroupListPage('false');
 		});
+		
+		function getGroupList(triger) {
+			var userId = "${ loginUser.id }";
+			var category = "";
+			if($('#categoryLong').css('font-weight') == 'bold') {
+				category = "long";
+			} else if($('#categoryOnce').css('font-weight') == 'bold') {
+				category = "once";
+			}
+			
+			$.ajax({
+				url: "groupList.mp",
+				data: {userId:userId, triger:triger, category:category},
+				dataType: 'json',
+				success: function(data) {
+					$tableBody = $('#groupTable tbody');
+					$tableBody.html('');
+					
+					var $tr;
+					var $td;
+					var $img;
+					var $span;
+					var $no;
+					var $sgStatus;
+					var $studyName;
+					var $sgName;
+					var $bossNick;
+					var $appStatus;
+					
+					if(data.length > 0) {
+						for(var i in data) {
+							$tr = $('<tr>');
+							$td = $('<td>');
+							
+							$no = $('<td>').text(data[i].no);
+							
+							console.log(data[i].sgStatus);
+							if(data[i].sgStatus == 'Y' || data[i].sgStatus == 'D') {//다회
+								$td = $('<td>');
+								$span = $('<span class="typeBadge long">').text('long');
+								$td.append($span);
+								
+								$sgStatus = $td;
+							} else {//일회
+								$td = $('<td>');
+								$span = $('<span class="typeBadge once">').text('once');
+								$td.append($span);
+								
+								$sgStatus = $td;
+							}
+							
+							$studyName = $('<td>').text(decodeURIComponent(data[i].studyName.replace(/\+/g, ' ')));
+
+							if(userId == data[i].id) {
+								var $label;
+								$td = $('<td>');
+								$label = $('<label>').text(decodeURIComponent(data[i].sgName.replace(/\+/g, ' ')));
+								$img = $('<img src="${contextPath}/resources/image/studyGroup/user.png" style="width:15px; height:auto; />"');
+								
+								$label.append($img);
+								$td.append($label);
+								$sgName = $td;
+								$tr = $('<tr onclick="openGroupBossModal();">');
+							} else {
+								$sgName = $('<td>').text(decodeURIComponent(data[i].sgName.replace(/\+/g, ' ')));
+							}
+							
+							$bossNick = $('<td>').text(decodeURIComponent(data[i].nick.replace(/\+/g, ' ')));
+							
+							var print = "";
+							if(data[i].appStatus == 'Y') {//수락된 경우
+								if(data[i].sgStatus == 'D' || data[i].sgStatus == 'E') { //그룹장이 스터디 종료 or 다회로 변경되지 않음
+									print = '스터디 종료';
+									$tr = $('<tr onclick="openGroupModal();">');
+								} else {
+									print = '스터디 진행 중';
+									$tr = $('<tr onclick="openGroupModal();">');
+								}
+							} else if(data[i].appStatus == 'E') { //수락 후 스스로 나간 경우
+								print = '스터디 종료 /(나감/)';
+							} else if(data[i].appStatus == 'O') { //수락 후 강퇴당한 경우
+								print = '스터디 종료 /(강퇴/)';
+							} else if(data[i].appStatus == 'R') { //수락 후 강퇴당한 경우
+								print = '대기 중';
+							} else if(data[i].appStatus == 'N') { //거절된 경우
+								print = '거절';
+							} else { //로그인 유저가 그룹장일 때
+								if(data[i].sgStatus == 'D' || data[i].sgStatus == 'E') { //그룹장이 스터디 종료 or 다회로 변경되지 않음
+									print = '스터디 종료';
+									$tr = $('<tr onclick="openGroupModal();">');
+								} else {
+									print = '스터디 진행 중';
+									$tr = $('<tr onclick="openGroupModal();">');
+								}
+							}
+							$appStatus = $('<td>').text(print);
+							
+							$tr.append($no);
+							$tr.append($sgStatus);
+							$tr.append($studyName);
+							$tr.append($sgName);
+							$tr.append($bossNick);
+							$tr.append($appStatus);
+							$tableBody.append($tr);
+							//추가 모집 중 경우 나누려면 모집 기간에 해당되는지 또 조인하고 확인해야됨.. 그냥 상세 들어가서 알아서 확인하는 걸로
+						}
+						
+					} else {
+						$tr = $('<tr>');
+						$rContent = $('<td colspan=6>').text("그룹 리스트가 없습니다.");
+						
+						$tr.append($rContent);
+						$tableBody.append($tr);
+					}
+					
+				}
+			})
+		}
+		
+		function getGroupListPage(triger) {
+			var userId = "${ loginUser.id }";
+			var category = "";
+			if($('#categoryLong').css('font-weight') == 'bold') {
+				category = "long";
+			} else if($('#categoryOnce').css('font-weight') == 'bold') {
+				category = "once";
+			}
+			
+			$.ajax({
+				url: "groupListPage.mp",
+				data: {userId:userId, triger:triger, category:category},
+				dataType: 'json',
+				success: function(data) {
+					console.log('page:' + data);
+
+					$pageUl = $('#pageUl');
+					$pageUl.html('');
+					
+					var $li;
+					var $a;
+					var $span;
+					var $b;
+					
+					$li = $('<li>');
+					
+					//맨 처음으로, 이전
+					if(data.currentPage <= 1) {
+						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
+						$span = $('<span aria-hidden="true">').text('≪');
+						
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+						
+						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
+						$span = $('<span aria-hidden="true">').text('＜');
+
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+					}
+					else if(data.currentPage > 1) {
+						$a = $('<a href="groupList.mp" aria-label="Previous">');
+						$span = $('<span aria-hidden="true">').text('≪');
+
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+						
+						$a = $('<a href="groupList.mp?page=' + data.currentPage - 1 + '" aria-label="Previous">');
+						$span = $('<span aria-hidden="true">').text('≫');
+						
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+					}
+					
+					//페이지
+					for(var i = data.startPage; i <= data.endPage; i++) {
+						console.log(i);
+						
+						if(i == data.currentPage)
+							$a = $('<a href="#" onclick="return false;">').text(i);
+						else
+							$a = $('<a href="groupList.mp?page=' + i + '">').text(i);
+
+						$li.append($a);
+						$pageUl.append($li);
+					}
+
+					//맨 마지막으로, 다음
+					if(data.currentPage >= data.maxPage) {
+						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
+						$span = $('<span aria-hidden="true">').text('>');
+						
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+						
+						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
+						$span = $('<span aria-hidden="true">').text('≫');
+
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+					}
+					else if(data.currentPage < data.maxPage) {
+						$a = $('<a href="groupList.mp?page=' + data.currentPage + 1 + '" aria-label="Next">');
+						$span = $('<span aria-hidden="true">').text('>');
+
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+						
+						$a = $('<a href="groupList.mp?page=' + data.maxPage + '"  aria-label="Next">');
+						$span = $('<span aria-hidden="true">').text('≫');
+						
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+					}
+				}
+			})
+		}
+		
+		function openGroupModal(e) {
+			$('#groupModal').modal("show");
+		}
+
+		function openGroupBossModal(e) {
+			$('#groupBossModal').modal("show");
+		}
 		
 		$('#openOption').click(function() {
 			if($('#hiddenOption').css('display') == 'none') {
@@ -388,6 +582,50 @@
 		}).mouseout(function() {
 			$('.modalTitle').css('color', 'black');
 		})
+		
+		$('#cb3').click(function() {
+			if( $(this).prop('checked') ) {
+				trigerBox = 'true';
+				getGroupList('true');
+				getGroupListPage('true');
+			} else {
+				trigerBox = 'false';
+				getGroupList('false');
+				getGroupListPage('false');
+			}
+		});
+		
+		$('#categoryOnce').click(function() {
+			if($('#categoryOnce').css('font-weight') == 'bold') {
+				$('#categoryOnce').css('font-weight', 'normal');
+				
+				getGroupList(trigerBox);
+				getGroupListPage(trigerBox);
+			} else {
+				$('#categoryOnce').css('font-weight', 'bold');
+
+				getGroupList(trigerBox);
+				getGroupListPage(trigerBox);
+			}
+		})
+		
+		$('#categoryLong').click(function() {
+			if($('#categoryLong').css('font-weight') == 'bold') {
+				$('#categoryLong').css('font-weight', 'normal');
+				
+				getGroupList(trigerBox);
+				getGroupListPage(trigerBox);
+			} else {
+				$('#categoryLong').css('font-weight', 'bold');
+				
+				getGroupList(trigerBox);
+				getGroupListPage(trigerBox);
+			}
+		})
+		
+		function getMemberList() {
+			
+		}
 		
 		/* $('#groupTable tr').mouseover(function() {
 			$(this).css('background','rgba(103,162,97,0.2)');

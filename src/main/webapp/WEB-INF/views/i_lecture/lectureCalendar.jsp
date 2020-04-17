@@ -60,12 +60,9 @@
 	.modal-content{
 		background-color: rgb(254, 245, 198) !important;
 	}
-	table>tbody>tr>th,table>tbody>tr>td{
-		text-align: center;
-		vertical-align: middle !important;
-	}
+	
+	/* 테이블 */
 	table>tbody>tr>th{
-		background-color: rgb(247, 239, 193);
 		letter-spacing: 0.1em;
 	}
 	table>tbody>tr>td{
@@ -91,6 +88,7 @@
 	.input-daterange-timepicker{
 		background-color: rgb(255, 255, 224) !important;
 	}
+	
 	input:read-only {
 		background-color: rgb(247, 239, 193);
 	}

@@ -24,7 +24,7 @@
 	
 	<insert id="insertGroup" parameterType="StudyGroup">
 		insert into sgroup
-		values(seq_sgid.nextval, #{sgName}, #{sgGoal}, #{sgContent}, default, #{branchNo}, #{id}, #{studyNo})
+		values(seq_sgid.nextval, #{sgName}, #{sgGoal}, #{sgContent}, default, #{branchNo}, #{id}, #{studyNo}, default)
 	</insert>
 	
 	<insert id="insertRecruit">

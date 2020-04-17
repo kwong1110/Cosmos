@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.e_seat.model.vo.Seat;
+import com.kh.cosmos.e_seat.model.vo.SortTable;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Repository("sDAO")
@@ -27,5 +28,11 @@ public class SeatDAO {
 	public ArrayList<Seat> selectSeatList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("seatMapper.selectSeatList");
 	}
+
+	public ArrayList<SortTable> selectSortList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("seatMapper.selectSortList");
+	}
+
+	
 
 }

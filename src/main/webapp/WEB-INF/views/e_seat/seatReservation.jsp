@@ -33,7 +33,8 @@
     							 line-height:70px;padding-left:15px;}
     			.right-choose{width:100%; height:25%; box-sizing: border-box;}
     			.right-seat{width:100%; height:25%; box-sizing: border-box;}
-    			.right-time{width:100%; height:25%; box-sizing: border-box;}
+    			.right-chooseSeat{width:100%; height:25%; box-sizing: border-box;}
+    			.right-price{width:100%; height:25%; box-sizing: border-box;}
     	.right-agree{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-top:0; border-left:0;}
     		.le-ag{width:60%; height:100%;  box-sizing: border-box; float:left; line-height:55px; padding-left:50px; }
     		.ri-ag{width:40%; height:100%;  box-sizing: border-box; float:right; line-height:55px;padding-left:0px; }
@@ -298,13 +299,19 @@
 					            			});
 					            			</script>
 					            		</div>
-					            		<div class="right-time">
+					            		<div class="right-chooseSeat">
 					            			<div class="cl">● 선택좌석</div>
 					            			<div class="cr" id="chooseSeat">
 					            				
 					            			</div>
 					            		</div>
 					            		
+					            		<div class="right-price">
+					            			<div class="cl">● 이용요금</div>
+					            			<div class="cr" id="userPrice">
+					            				 <%-- ${ sortList } --%>
+					            			</div>
+					            		</div>
 					            	</div>
 					            </div>
 					            <div class="right-agree">
@@ -351,7 +358,31 @@
 					    		var check = confirm(chooseSeat + "자리를 선택하시겠습니까?");
 					    		if(check == true){
 					    			$('#seatModal').modal("hide");
+					    			var price =  $('#chooseSeat').text();
+					    			var strPrice = price.split('-');
+					    			
+					    			var fullDate = $('#daterange').val();
+					    			
+					    			var startDate = fullDate.substr(0,10);
+					    			var startTime = fullDate.substr(11,2);
+					    			var endDate = fullDate.substr(18,11).trim();
+					    			var endTime = fullDate.substr(29,3).trim();
+					    			console.log(fullDate);
+					    			console.log(startDate);
+					    			console.log(startTime);
+					    			console.log(endDate);
+					    			console.log(endTime);
+					    			
+					    			<c:forEach var="d" items="${ sortList }">
+				    				if(strPrice[0] == "${ d.reserSort }"){
+				    					result = (endTime-startTime) * "${d.reserFee}"
+				    				};
+				    				</c:forEach>
+					    			
+					    			$('#userPrice').text(result+'원');
 					    		}
+					    		/* var price =  $('#chooseSeat').text();
+            				 	console.log(price); */
 					    	}); 
 					    </script>
 		        	</form>
@@ -367,7 +398,7 @@
         			<h3 class="color_red" style="background:red; color:white; height:30px;">개인정보 수집 이용 동의 전문</h3>
         		</div>
 					<div class="layer_conts">
-						<p class="sub_title">토즈는 부스예약 신청 시, <br>아래와 같이 고객님의 개인정보를 수집하고 있습니다.</p>
+						<p class="sub_title">부스예약 신청 시, <br>아래와 같이 고객님의 개인정보를 수집하고 있습니다.</p>
 						<ul>
 							<li>개인정보 수집범위 : 예약지점, 성별, 방문희망 일자</li>
 							<li>개인정보 수집 및 이용목적 : 예약 확인</li>
@@ -409,7 +440,7 @@
 		</script>
 	 -->
 </body>
-	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
+	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script> <!-- 데이트피커필요한스크립트 -->
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.ko.min.js"></script>
