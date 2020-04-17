@@ -1,15 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="myPageMapper">
-	<select id="getMemberMyGroupCount" parameterType="string" resultType="_int">
+	<select id="getMemberMyGroupCount" parameterType="hashMap" resultType="_int">
 		select count(*)
 		from ap_sgroup
-		where asg_status not in ('N', 'R') and id=#{id}
+		<if test='#{1}.equals("false")'>
+			where id=#{id}
+		</if>
+		<if test='#{1}.equals("true")'>
+			where id=#{userId} and asg_status='Y'
+		</if>
 	</select>
 	
-	<select id="getBossMyGroupCount" parameterType="string" resultType="_int">
+	<select id="getBossMyGroupCount" parameterType="hashMap" resultType="_int">
 		select count(*)
 		from sgroup
-		where id=#{id}
+		<if test='#{1}.equals("false")'>
+			where id=#{id}
+		</if>
+		<if test='#{1}.equals("true")'>
+			where id=#{userId} and (sg_status='Y' or sg_status='N')
+		</if>
 	</select>
+	
+	<select id="getGroupList" parameterType="hashMap" resultMap="ApproachGroupResultSet">
+		SELECT *
+		FROM APPSGLIST
+		<if test='#{1}.equals("false")'>
+			WHERE userId = #{0} or id = #{0}
+		</if>
+		<if test='#{1}.equals("true")'>
+			WHERE (userId = #{userId} and asg_status='Y' and (sg_status='Y'or sg_status='N'))
+				  or (id = #{userId} and (sg_status='Y'or sg_status='N'))
+		</if>
+	</select>
+	
+	<!-- <select id="getAttendGroupList" parameterType="string" resultMap="ApproachGroupResultSet">
+		SELECT *
+		FROM APPSGLIST
+		where (userId = #{userId}
+				and asg_status='Y'
+				and (sg_status='Y'or sg_status='N'))
+			or (id = #{userId}
+			and (sg_status='Y'or sg_status='N'))
+	</select> -->
+	
+	<resultMap type="StudyGroupApproach" id="ApproachGroupResultSet">
+		<id property="no" column="rnum"/>
+		<result property="sgNo" column="sg_no"/>
+		<result property="sgName" column="sg_name"/>
+		<result property="studyName" column="study_name"/>
+		<result property="sgStatus" column="sg_status"/>
+		<result property="userId" column="userId"/>
+		<result property="id" column="id"/>
+		<result property="nick" column="nick"/>
+		<result property="sortDate" column="sort_date"/>
+		<result property="appStatus" column="asg_status"/>
+	</resultMap>
 </mapper>
