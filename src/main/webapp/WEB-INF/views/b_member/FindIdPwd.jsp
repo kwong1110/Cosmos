@@ -11,18 +11,18 @@
 .id_pw_srh {width:100%;overflow:hidden}
 .id_pw_srh li {float:left;width:50%}
 .id_pw_srh li .srh_box {padding:23px 41px 34px}
-.id_pw_srh li .or {border-style:solid none solid solid;border-width:1px 0 1px 1px;border-color:#d8d8d8;}
-.id_pw_srh li .or h2 {margin-bottom:10px;font-size:22px;font-weight:900;color:#da6700}
-.id_pw_srh li .br h2 {margin-bottom:10px;font-size:22px;font-weight:900;color:#816950}
-.id_pw_srh li .br {border-style:solid;border-width:1px;border-color:#d8d8d8;  }
+.id_pw_srh li .ID {border-style:solid none solid solid;border-width:1px 0 1px 1px;border-color:#d8d8d8;}
+.id_pw_srh li .ID h2 {margin-bottom:10px;font-size:22px;font-weight:900; color:#816950}
+.id_pw_srh li .PW h2 {margin-bottom:10px;font-size:22px;font-weight:900; color:#816950}
+.id_pw_srh li .PW {border-style:solid;border-width:1px;border-color:#d8d8d8;  }
 
 .id_pw_srh li .srh_box .srh_top {text-align:center;font-size:13px}
 .id_pw_srh li .srh_box .info {margin-top:24px;padding-top:20px;border-top:1px dashed #d2d2d2}
 .id_pw_srh li .srh_box .info label {display:inline-block;width:83px;margin-right:12px;vertical-align:middle;font-weight:900;font-size:13px;color:#333333}
 .id_pw_srh li .srh_box .info p {margin-bottom:5px}
 .id_pw_srh li .srh_box .info p input {width:167px;height:21px;border:1px solid #d4d6d6}
-.id_pw_srh li .or button {display:block;width:145px;margin:26px auto 0;padding:7px 0;border:1px solid black;background-color:black;font-family:'Malgun Gothic','맑은 고딕';color:#FFFFFF}
-.id_pw_srh li .br button {display:block;width:145px;margin:26px auto 0;padding:7px 0;border:1px solid black;background-color:black;font-family:'Malgun Gothic','맑은 고딕';color:#FFFFFF}
+.id_pw_srh li .ID button {display:block;width:145px;margin:26px auto 0;padding:7px 0;border:1px solid black;background-color:black;font-family:'Malgun Gothic','맑은 고딕';color:#FFFFFF}
+.id_pw_srh li .PW button {display:block;width:145px;margin:26px auto 0;padding:7px 0;border:1px solid black;background-color:black;font-family:'Malgun Gothic','맑은 고딕';color:#FFFFFF}
 
 
 </style>
@@ -40,7 +40,7 @@
 				<div class="content">
 					<ul class="id_pw_srh">
 					<li>
-						<div class="srh_box or">
+						<div class="srh_box ID">
 							<div class="srh_top">
 								<h2>ID찾기</h2>
 								회원가입시 등록한 정보로<br> 아이디를 찾을 수 있습니다.
@@ -64,7 +64,7 @@
 					</li>
 					
 					<li>
-						<div class="srh_box br">
+						<div class="srh_box PW">
 							<div class="srh_top">
 								<h2>비밀번호 찾기</h2>
 								회원가입시 등록한 정보로<br> 비밀번호를 재설정할 수 있습니다.

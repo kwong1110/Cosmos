@@ -8,6 +8,9 @@
 <title>branchInsert</title>	
 <script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
 
+<!-- branch css불러오기 -->
+<link href="${contextPath}/resources/css/branch.css" rel="stylesheet" type="text/css">
+
 <!-- *summernote가져오기 -->
 <!-- include libraries(jQuery, bootstrap) -->
 <!-- summernote홈페이지에서 받은 summernote를 사용하기 위한 코드를 추가 -->
@@ -19,36 +22,6 @@
 <!-- 이 css와 js는 로컬에 있는 것들을 링크시킨 것이다. -->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
-
-
-<style>
- table.inner{
-  	width: 100%;
-    border-spacing: 1px;
-    text-align: left;
-    line-height: 1.5;
-    border-top: 1px solid #ccc;
- /*  margin : 20px 10px; */
-  valign:middle-aign;	
-}
-table.inner th {
-    width: 150px;
-    text-align: center;
-    font-weight: bold;
-    vertical-align: top;
-    border-bottom: 1px solid #ccc;
-    valign:middle-aign;
-    line-height: 50px;
-}
-table.inner td {
-    width: 350px;
-    padding: 10px;
-    vertical-align: top;
-    border-bottom: 1px solid #ccc;
-} 
-
-
-</style>
 
 </head>
 <body>
@@ -67,23 +40,26 @@ table.inner td {
 							<tr>
 								<th>지점명</th>
 								<td>
-									<input type="text" class="form-control" placeholder="지점명을 입력하세요" style="padding:5px;  width:50%" >
+									<input type="text" class="form-control" placeholder="지점명을 입력하세요" style="padding:5px; width:50%";>
+									 <span class="guide ok" style="color:gray">*이 지점명은 사용 가능합니다.</span>
+					                 <span class="guide error">*이 지점명은 사용 불가능합니다.</span>
+					                 <input type="hidden" name="idDuplicateCheck" value="0">
 								</td>
 							</tr>
 						 	<tr>
                					<th>우편번호</th>
-               					<td>
-                  					<input type="text" name="post" class="postcodify_postcode5" value="" size="6" readonly>
+               					<td colspan="2">
+                  					<input type="text" name="post" class="postcodify_postcode5" value="" readonly style="background:#e9ecf2">
                   					<button type="button" id="postcodify_search_button">검색</button>
                					</td>
             				</tr>
 							<tr>
               					 <th>도로명 주소</th>
-             					 <td><input type="text" name="address1" class="postcodify_address" value="" style="width:50%"></td>
+             					 <td><input type="text" name="address1" class="postcodify_address" value="" style="width:50%; background:#e9ecf2 "readonly></td>
             				</tr>
             				<tr>
                					<th>상세 주소</th>
-               					<td><input type="text" name="address2" class="postcodify_extra_info" value="" style="width:50%"></td>
+               					<td><input type="text" name="address2" class="postcodify_extra_info" value="" style="width:50%;"></td>
             				</tr>
             				<!-- jQuery와 Postcodify를 로딩한다. -->
             				<script src="//d1p7wdleee1q2z.cloudfront.net/post/search.min.js"></script>
@@ -93,25 +69,11 @@ table.inner td {
                   				$("#postcodify_search_button").postcodifyPopUp();
                				});
                				</script>
- 						<!--	<tr>
-								<th>지점주소</th>
-								<td>
-									<input type="text"  id="zonecodeInput" name="zonecodeInput" style="width:28%" readonly >
-									<input type="button"  onClick="openDaumZipAddress();"  style="width:25%"  value="우편번호" >
-									<br>
-								    <input type="text" id="addressInput" name="addressInput" style="width:50%" readonly >
- 								    <input type="text" id="detailAddressInput" name="detailAddressInput" placeholder="상세주소">
-									지도가 생길공간 div로 만들어주기
-									<div id="wrap">
-   
- 									</div>
- 								 </td> 
-							</tr> -->
 							
 							<tr>
 								<th>지점연락처</th>
 								<td>
-									<select style="padding:5px;">
+									<select style="padding:5px;" class="brc_tel" >
 										<option>지역번호</option>
 										<option>02</option>
 										<option>031</option> <option>032</option> <option>033</option>
@@ -119,7 +81,7 @@ table.inner td {
 										<option>051</option> <option>052</option> <option>053</option> <option>054</option> <option>055</option>
 										<option>061</option> <option>062</option> <option>063</option> <option>064</option>
 									</select>
-									- <input type="text" size=6  style="padding:4px;" numberonly> - <input type="text" size=10  style="padding:4px;" numberonly>
+									- <input type="text"  style="padding:4px;" class="brc_tel" numberonly> - <input type="text"  style="padding:4px;"  class="brc_tel" numberonly>
 									<p style="font-size:2; color:gray;">*숫자만 입력 가능합니다.</p>		
 								</td>
 							</tr>
@@ -128,20 +90,20 @@ table.inner td {
 								<td>
 									<form method="post" enctype="multipart/form-data" action="imgup.jsp">
 										<input type="file" name="filename1" size=40>
-										<input type="submit" value="업로드">
 									</form>
 								</td>
 							</tr>
 							<tr>
 								<th>이용시간</th>
 								<td>
-									<input type="text" size=7 style="padding:5px" placeholder="00:00"> ~ <input type="text" size=7 style="padding:5px" placeholder="00:00">
+									<input type="text" onKeyup="inputTimeColon(this);" placeholder="00:00" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;"> ~
+									<input type="text" onKeyup="inputTimeColon(this);" placeholder="00:00" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;">
 								</td>	
 							</tr>
 							<tr>
 								<th>휴무일</th>
 								<td>
-									<select style="padding:5px">
+									<select style="padding:5px" class="closeday">
 										<option>월요일</option> <option>화요일</option> <option>수요일</option> <option>목요일</option>
 										<option>금요일</option> <option>토요일</option> <option>일요일</option>
 									</select>
@@ -158,7 +120,8 @@ table.inner td {
 						</form>
 						<div class="inner" align="center" >
 							<div class="btnBox">
-								<button type="submit" class="defaultBtn" onclick="">등록</button>		
+								<button type="submit" class="defaultBtn" onclick="">등록</button>
+								<button name="취소" onclick={$ contextpath} class="defaultBtn">취소</button>	
 							</div> 
 						</div>
 					</div>
@@ -242,6 +205,77 @@ table.inner td {
     		$(this).val($(this).val().replace(/[^0-9]/g,""));
 		});
    </script>
+	
+   <!-- 지점시간 숫자만 입력가능한 스크립트  -->
+   <script>
+	     function inputTimeColon(time) {
+	
+	       // replace 함수를 사용하여 콜론( : )을 공백으로 치환한다.
+	       var replaceTime = time.value.replace(/\:/g, "");
+	
+	       // 텍스트박스의 입력값이 4~5글자 사이가 되는 경우에만 실행한다.
+	       if(replaceTime.length >= 4 && replaceTime.length < 5) {
+	
+	           var hours = replaceTime.substring(0, 2);      // 선언한 변수 hours에 시간값을 담는다.
+	           var minute = replaceTime.substring(2, 4);    // 선언한 변수 minute에 분을 담는다.
+	
+	
+	           // isFinite함수를 사용하여 문자가 선언되었는지 확인한다.
+	           // '숫자만 입력해 주세요' 알럿 띄우기
+	           if(isFinite(hours + minute) == false) {
+	               alert("문자는 입력하실 수 없습니다.");
+	               time.value = "00:00";
+	               return false;
+	           }
+	
+	           // 두 변수의 시간과 분을 합쳐 입력한 시간이 24시가 넘는지를 체크한다.
+	           if(hours + minute > 2400) {
+	               alert("시간은 24시를 넘길 수 없습니다.");
+	               time.value = "24:00";
+	               return false;
+	           }
+	
+	           // 입력한 분의 값이 60분을 넘는지 체크한다.
+	           if(minute > 60) {
+	               alert("분은 60분을 넘길 수 없습니다.");
+	               time.value = hours + ":00";
+	               return false;
+	           }
+	
+	           time.value = hours + ":" + minute;
+	       }
+	   }
+	     
+         // 지점명 중복 확인	
+         $('#userId').on('keyup', function(){
+      	   var userId = $(this).val().trim();
+      	   
+      	   if(userId.length < 4){
+      		   $('.guide').hide();
+      		   $('#idDuplicateCheck').val(0);
+      		   
+      		   return;
+      	   }
+      	   
+      	   $.ajax({
+      		   url: 'dupid.me',
+      		   data: {id:userId},
+      		   success: function(data){
+      			   if(data == 'true'){ //print로 보냈으므로 boolean아닌 String으로 넘어옴 그래서 user라는 아이디가없음에도 에러가뜸
+      				   $('.guide.error').hide();
+      				   $('.guide.ok').show();
+      				   $('#idDuplicateCheck').val(1);
+      			   } else{
+      				   $('.guide.error').show();
+      				   $('.guide.ok').hide();
+      				   $('#idDuplicateCheck').val(0);
+      			   }
+      		   }
+      	   });
+         });  ㅣ
+	     
+   </script>
+	
 	
 	
 </body>

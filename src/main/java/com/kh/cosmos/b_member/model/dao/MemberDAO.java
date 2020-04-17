@@ -22,6 +22,5 @@ public class MemberDAO {
 	public ArrayList<StudyCategory> selectStudyCategoryList(SqlSessionTemplate sqlSession, StudyCategory sc) {
 		return (ArrayList)sqlSession.selectList("memberMapper.selectList", sc);
 	}
-
-
+  
 }
