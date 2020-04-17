@@ -26,6 +26,16 @@
 		<result property="gender" column="GENDER"/>	
 	</resultMap>
 	
+	<!-- 공부카테고리 -->
+	<select id="selectList" parameterType="StudyCategory" resultMap="studyCategoryResultSet"> 
+		select *
+		from study_category 
+	</select>
+	<resultMap type="StudyCategory" id="studyCategoryResultSet">
+		<id property="studyNo" column="STUDY_NO"/>
+		<result property="studyName" column="STUDY_NAME"/>
+	</resultMap>
+	
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="Member">
 		insert into Member

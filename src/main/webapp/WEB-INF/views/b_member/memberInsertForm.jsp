@@ -86,75 +86,38 @@
 									<th><label>공부 중인 항목</label></th>
 									<td>
 										<div class="categoryLabel">
-											<input type="checkbox" id="" name="studyGroup" value="대학생 학점 관리"><label for="">대학생 학점관리</label>
-											<input type="checkbox" id="" name="studyGroup" value="일반/학사 편입"><label for="">일반/학사 편입</label>
-											<input type="checkbox" id="" name="studyGroup" value="대학원생"><label for="">대학원생</label>
-											<input type="checkbox" id="" name="studyGroup" value="로스쿨생"><label for="">로스쿨생</label>
-											<input type="checkbox" id="" name="studyGroup" value="자격증"><label for="">자격증</label>
+											<c:forEach var="scl" begin="0" end="4" items="${ sList }">
+												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<input type="checkbox" id="" name="studyGroup" value="공무원"><label for="">공무원</label>
-											<input type="checkbox" id="" name="studyGroup" value="임용 초등"><label for="">임용 초등</label>
-											<input type="checkbox" id="" name="studyGroup" value="임용 중등"><label for="">임용 중등</label>
-											<input type="checkbox" id="" name="studyGroup" value="임용 유아"><label for="">임용 유아</label>
-											<input type="checkbox" id="" name="studyGroup" value="임용 특수"><label for="">임용 특수</label>
+											<c:forEach var="scl" begin="5" end="9" items="${ sList }">
+												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<input type="checkbox" id="" name="studyGroup" value="공인화계사"><label for="">공인화계사</label>
-											<input type="checkbox" id="" name="studyGroup" value="공인중계사"><label for="">공인중계사</label>
-											<input type="checkbox" id="" name="studyGroup" value="세무사"><label for="">세무사</label>
-											<input type="checkbox" id="" name="studyGroup" value="고시"><label for="">고시</label>
-											<input type="checkbox" id="" name="studyGroup" value="취업"><label for="">취업</label>
+											<c:forEach var="scl" begin="10" end="14" items="${ sList }">
+												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<input type="checkbox" id="" name="studyGroup" value="이직"><label for="">이직</label>
-											<input type="checkbox" id="" name="studyGroup" value="어학"><label for="">어학</label>
-											<input type="checkbox" id="" name="studyGroup" value="PEET"><label for="">PEET</label>
-											<input type="checkbox" id="" name="studyGroup" value="MEET"><label for="">MEET</label>
-											<input type="checkbox" id="" name="studyGroup" value="LEET"><label for="">LEET</label>
+											<c:forEach var="scl" begin="15" end="19" items="${ sList }">
+												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<input type="checkbox" id="" name="studyGroup" value="자바"><label for="">JAVA</label>
-											<input type="checkbox" id="" name="studyGroup" value="C"><label for="">C</label>
-											<input type="checkbox" id="" name="studyGroup" value="파이썬"><label for="">PYTHON</label>
-											<input type="checkbox" id="" name="studyGroup" value="데이터베이스"><label for="">DATABASE</label>
-											<input type="checkbox" id="" name="studyGroup" value="해킹/보안"><label for="">해킹/보안</label>
-										
+											<c:forEach var="scl" begin="20" end="24" items="${ sList }">
+												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											</c:forEach>
 										</div>
-										<div class="categoryLabel">
-											<input type="checkbox" id="" name="studyGroup" value="기타"><label for="">기타</label>
-											<input type="text" id="" name="stydyGroup" value="">
-										</div>
+
 									</td>
 								</tr>
 								<tr>
 									<th>공부기간</th>
-									<td>
+									<td id="category-area">
 										<p>해당 학업에서 본인이 공부한 기간을 입력해 주세요.</p>
-										<span><label for="">대학생 학점관리 : </label>
-										<select name="studyTerm">
-											<option value="0 ~ 3개월">0 ~ 3개월</option>
-											<option value="3개월 이상 ~ 1년 이하">3개월 이상 ~ 1년 이하</option>
-											<option value="1년 이상 ~ 2년 이하">1년 이상 ~ 2년 이하</option>
-											<option value="2년 이상 ~ 3년 이하">2년 이상 ~ 3년 이하</option>
-										</select>
-										</span>
-										<span><label for="">공인화계사 : </label>
-										<select name="studyTerm">
-											<option value="0 ~ 3개월">0 ~ 3개월</option>
-											<option value="3개월 이상 ~ 1년 이하">3개월 이상 ~ 1년 이하</option>
-											<option value="1년 이상 ~ 2년 이하">1년 이상 ~ 2년 이하</option>
-											<option value="2년 이상 ~ 3년 이하">2년 이상 ~ 3년 이하</option>
-										</select>
-										</span>
-										<span><label for="">자바 : </label>
-										<select name="studyTerm">
-											<option value="0 ~ 3개월">0 ~ 3개월</option>
-											<option value="3개월 이상 ~ 1년 이하">3개월 이상 ~ 1년 이하</option>
-											<option value="1년 이상 ~ 2년 이하">1년 이상 ~ 2년 이하</option>
-											<option value="2년 이상 ~ 3년 이하">2년 이상 ~ 3년 이하</option>
-										</select>
-										</span>
+										
 									</td>
 								</tr>
 							</table>
@@ -172,6 +135,60 @@
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 	
+	<script>
+	<!-- 유효성 검증 스크립트 -->
+	function validate(){
+		if($('#idDuplicateCheck').val() == 0){
+			alert('사용 가능한 아이디를 입력해 주세요.');
+			$('#userId').focus();
+			return false;
+		} else{
+			$('#joinForm').submit();
+		}
+	}
+
+	$(function(){
+		var category = document.getElementsByName("studyGroup"); // 공부 과목 카테고리
+		var etcCheck = document.getElementById("studyEtcTitle"); // 기타(id="studyEtcTitle" name="studyGroup")
+		var $area = $("#category-area");
+			
+		var val = "";
+		var text = "";
+		
+		$(category).change(function(){
+			console.log($(this));
+			val = $(this).val().replace(/[\s/]/g, '');
+			text = $(this).attr('id');
+			
+			var $div = $("<div id='" + val + "'>");
+			var $result = text;
+			var $select = $("<select>");
+			var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
+			var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
+			var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
+			var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상 ~ 3년 이하");
+			
+			if($(this).is(":checked")){
+				$area.append($div);
+				$div.append($result);
+				$div.append($select);
+				$select.append($value1);
+				$select.append($value2);
+				$select.append($value3);
+				$select.append($value4);
+			} else {
+				$("div#" + val).remove();
+			}
+		});
+			
+		/* 
+		$('#id').val().replace(/ /g, ''); -> 모든 공백 없어짐.﻿ 
+		$('#id').val().replace(/,/g, ''); -> 모든 콤마(,) 없어짐.﻿ 
+		*/ 
+	});
+
+	</script>
+	
 	<!-- 달력과 관련된 스크립트 -->
 	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
@@ -181,17 +198,5 @@
 	<script src="${contextPath}/resources/js/plugins/datepicker/form-pickers-init.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 	
-	<!-- 유효성 검증 스크립트 -->
-	<script>
-		function validate(){
-			if($('#idDuplicateCheck').val() == 0){
-				alert('사용 가능한 아이디를 입력해 주세요.');
-				$('#userId').focus();
-				return false;
-			} else{
-				$('#joinForm').submit();
-			}
-		}
-	</script>
 </body>
 </html>
