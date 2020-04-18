@@ -39,4 +39,9 @@ public class LectureManageServiceImpl implements LectureManageService{
 	public Member selectLectureUser(Member m) {
 		return lmDAO.selectLectureUser(sqlSession, m);
 	}
+
+	@Override
+	public int updateLecture(Lecture l) {
+		return lmDAO.updateLecture(sqlSession, l);
+	}
 }

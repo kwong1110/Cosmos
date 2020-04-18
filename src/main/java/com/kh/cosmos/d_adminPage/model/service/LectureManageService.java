@@ -16,4 +16,6 @@ public interface LectureManageService {
 
 	Member selectLectureUser(Member m);
 
+	int updateLecture(Lecture l);
+
 }
