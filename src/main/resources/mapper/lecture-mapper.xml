@@ -61,4 +61,10 @@
     		join branch using(branch_no)
     	where LECTURE_NO=#{ lNo }
 	</select>
+	
+	<update id="updateLecture">
+		update lecture
+		set lecture_status=#{lectureStatus}
+		where lecture_no=#{lectureNo}
+	</update>
 </mapper>

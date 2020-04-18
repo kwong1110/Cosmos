@@ -30,6 +30,10 @@ public class LectureController {
 		
 		if(list != null) {
 			model.addAttribute("list", list);
+			for(Lecture l : list) {
+				// Fullcalander를 쓰게되면 바로 <textarea>로 값이 들어가는게 아니라 치환을 해주어야 정상적으로 출력된다.
+				l.setLectureRecord(l.getLectureRecord().replaceAll("\r\n", "<br>"));
+			}
 			return "lectureCalendar";
 		} else {
 			throw new LectureException("강연 전체 조회에 실패하였습니다.");
@@ -77,6 +81,8 @@ public class LectureController {
 		l.setLectureTime(startTime + "~" + endTime);
 		// System.out.println(l);
 		
+//		// textarea의 띄어쓰기, 공백을 치환한다. -> 받아올떄도 똑같이 치환하여 받아와주어야함.
+//		l.setLectureRecord(l.getLectureRecord().replaceAll("\n", "<br/>"));
 		int result = lService.lectureApply(l);
 		
 		

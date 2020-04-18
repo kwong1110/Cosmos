@@ -31,7 +31,7 @@
 		font-family: 'Binggrae-Bold';
 		text-align: center;
 	}
-	
+	/* 모달 스타일 */
 	.modal-dialog.modal-80size {
 		width: 60%; 
 		height: auto; 
@@ -142,7 +142,8 @@
 	      	eventClick: function (info) {
 				$('#userId').text(info.event.extendedProps.name + "(" + info.event.extendedProps.userId + ")");
 				$('#job').text(info.event.extendedProps.job);
-				$('#record').val(info.event.extendedProps.record);
+					// 치환해준것을 다시 줄바꿈으로 바꾸는 과정
+				$('#record').val(info.event.extendedProps.record.replace(/<br>/gi,"\r\n"));
 				$('#title').text(info.event.title);
 				$('#branchName').text(info.event.extendedProps.branchName);
 				$('#fee').text(info.event.extendedProps.fee);
