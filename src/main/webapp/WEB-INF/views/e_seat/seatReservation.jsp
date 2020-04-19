@@ -10,7 +10,7 @@
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <title>Insert title here</title>
 <style>
-.wrap-div{width:100%; height:850px; margin:0 auto; }
+.wrap-div{width:100%; height:870px; margin:0 auto; }
     .div-left{width:30%; height:inherit; float:left;}
     	.left-top{width:100%; height:7%; border:1px solid #000; box-sizing: border-box;}
     	.left-mid{width:100%; height:93%; border:1px solid #000; box-sizing: border-box; border-bottom:0;}
@@ -19,25 +19,26 @@
     .div-right{width:70%; height:inherit; float:right;}
     	.right-top{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-left:0;}
     	#right-top{line-height:55px; font-size:25px;}
-    	#right-map{width:100%; height:58%; border:1px solid #000; box-sizing: border-box; border-left:0; border-bottom:0;}
-    	.right-content{width:100%; height:35%; border:1px solid #000; box-sizing: border-box;border-left:0; border-bottom:0; }
-    		.right-content-left{width:60%; height:100%;  box-sizing: border-box; float:left; 
-    							line-height:70px; padding-left:50px;}
-    			.left-spot{width:100%; height:25%; box-sizing: border-box;}
-    			.left-date{width:100%; height:25%; box-sizing: border-box;}
-    			.left-name{width:100%; height:25%; box-sizing: border-box;}
-    			.left-phone{width:100%; height:25%; box-sizing: border-box;}
+    	#right-map{width:100%; height:54%; border:1px solid #000; box-sizing: border-box; border-left:0; border-bottom:0;}
+    	.right-content{width:100%; height:39%; border:1px solid #000; box-sizing: border-box;border-left:0; border-bottom:0; }
+    		.right-content-left{width:57%; height:100%;  box-sizing: border-box; float:left; 
+    							line-height:70px; padding-left:40px;}
+    			.left-spot{width:100%; height:20%; box-sizing: border-box;}
+    			.left-period{width:100%; height:20%; box-sizing: border-box;}
+    			.left-date{width:100%; height:20%; box-sizing: border-box;}
+    			.left-name{width:100%; height:20%; box-sizing: border-box;}
+    			.left-phone{width:100%; height:20%; box-sizing: border-box;}
     				.cl{width:30%;height:100%; box-sizing: border-box; float:left;}
     				.cr{width:70%;height:100%; box-sizing: border-box; float:right; }
-    		.right-content-right{width:40%; height:100%;  box-sizing: border-box; float:right; 
-    							 line-height:70px;padding-left:15px;}
-    			.right-choose{width:100%; height:25%; box-sizing: border-box;}
-    			.right-seat{width:100%; height:25%; box-sizing: border-box;}
-    			.right-chooseSeat{width:100%; height:25%; box-sizing: border-box;}
-    			.right-price{width:100%; height:25%; box-sizing: border-box;}
+    		.right-content-right{width:43%; height:100%;  box-sizing: border-box; float:right; 
+    							 line-height:70px;padding-left:5px;}
+    			.right-choose{width:100%; height:20%; box-sizing: border-box;}
+    			.right-seat{width:100%; height:20%; box-sizing: border-box;}
+    			.right-chooseSeat{width:100%; height:20%; box-sizing: border-box;}
+    			.right-price{width:100%; height:20%; box-sizing: border-box;}
     	.right-agree{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-top:0; border-left:0;}
-    		.le-ag{width:60%; height:100%;  box-sizing: border-box; float:left; line-height:55px; padding-left:50px; }
-    		.ri-ag{width:40%; height:100%;  box-sizing: border-box; float:right; line-height:55px;padding-left:0px; }
+    		.le-ag{width:57%; height:100%;  box-sizing: border-box; float:left; line-height:55px; padding-left:40px; }
+    		.ri-ag{width:43%; height:100%;  box-sizing: border-box; float:right; line-height:55px;padding-left:0px; }
     		.ra-left{width:70%; float:left; font-size:16px;}
     		.ra-right{width:30%;float:right;}
    
@@ -258,23 +259,31 @@
 					            				</script>
 					            			</div>
 					            		</div>
+					            		<div class="left-period">
+					            			<div class="cl">● 예약유형</div>
+					            			<div class="cr">
+					            				<input type="checkbox" class="che" name="onePeriod"> 1일권 &nbsp;&nbsp;
+					            				<input type="checkbox" class="che" name="sevenPeriod"> 7일권 &nbsp;&nbsp;
+					            				<input type="checkbox" class="che" name="thirtyPeriod"> 30일권 
+					            			</div>
+					            		</div>
 					            		<div class="left-date">
 					            			<div class="cl">● 예약일자</div>
 					            			<div class="cr">
 					            				<div class="box-title m-t-30"></div>
-												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:270px;">
+												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:265px;">
 					            			</div>
 					            		</div>
 					            		<div class="left-name">
 					            			<div class="cl">● 이름</div>
 					            			<div class="cr">
-					            				<input type="text" name="name" class="form-control" placeholder="이름을 입력해주세요" style="width:270px;">
+					            				<input type="text" name="name" class="form-control" placeholder="이름을 입력해주세요" style="width:265px;">
 					            			</div>
 					            		</div>
 					            		<div class="left-phone">
 					            			<div class="cl">● 휴대폰번호</div>
 					            			<div class="cr">
-					            				<input type="text" name="phone" class="form-control" placeholder="번호를 입력해주세요" style="width:270px;">
+					            				<input type="text" name="phone" class="form-control" placeholder="번호를 입력해주세요" style="width:265px;">
 					            			</div>
 					            		</div>
 					            	</div>
@@ -282,9 +291,9 @@
 					            		<div class="right-choose">
 					            			<div class="cl">● 인원선택</div>
 					            			<div class="cr">
-					            				<input type="checkbox" class="che" name="onep">1인 &nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="fourp">4인 &nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="sixp">6인
+					            				<input type="checkbox" class="che" name="onep"> 1인 &nbsp;&nbsp;
+					            				<input type="checkbox" class="che" name="fourp"> 4인 &nbsp;&nbsp;
+					            				<input type="checkbox" class="che" name="sixp"> 6인
 					            			</div>
 					            		</div>
 					            		<div class="right-seat">
@@ -305,7 +314,9 @@
 					            				
 					            			</div>
 					            		</div>
+					            		<div class="right-">
 					            		
+					            		</div>
 					            		<div class="right-price">
 					            			<div class="cl">● 이용요금</div>
 					            			<div class="cr" id="userPrice">
