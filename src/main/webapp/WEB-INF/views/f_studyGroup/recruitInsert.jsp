@@ -51,7 +51,7 @@
 							<td>
 								<select class="form-control" id="groupSelect" name="groupSelect">
 									<c:forEach var="item" items="${ sgList }">
-										<option>${ item }</option>
+										<option value="${ item.sgNo }">${ item.sgName }</option>
 									</c:forEach>
 								</select>
 							</td>
@@ -73,8 +73,8 @@
 						<tr>
 							<td class="tableLabel">모집 인원</td>
 							<td>
-								<input type="number" min="1" class="form-control" id="recNum" name="recNum">
-								<button class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 모집 할 인원을 입력해주세요.">?</button>
+								<input type="number" min="1" max="7" class="form-control" id="recNum" name="recNum">
+								<button class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 모집 인원을 입력해주세요. 1인 이상, 7인 이하.">?</button>
 							</td>
 						</tr>
 						<tr>
@@ -85,25 +85,31 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="tableLabel">모임 날짜</td>
+							<td class="tableLabel">모임 주기</td>
 							<td>
-								<p id="meetingDate">월요일</p>
+								<p id="meetingDate">모임 주기</p>
 								<!-- <input class="form-control" type="text" id="meetingDate" name="meetingDate" value="월요일" disabled> -->
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">그룹 목표</td>
 							<td>
-								<p id="groupGoal">그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표그룹목표</p>
+								<p id="groupGoal">그룹 목표</p>
 								<!-- <input type="text" class="form-control" id="groupGoal" name="groupGoal">
 								<label class="lengthAlert">0/100</label> -->
 							</td>
 						</tr>
 						<tr>
-							<td class="tableLabel">모집 내용</td>
+							<td class="tableLabel">그룹 조건</td>
+							<td>
+								<ul id="groupRule">
+								</ul>
+							</td>
+						</tr>
+						<tr>
+							<td class="tableLabel">그룹 내용</td>
 							<td class="topTd">
-								<textarea cols="50" rows="20" class="form-control resize"></textarea>
-								<label class="lengthAlert">0/2000</label>
+								<pre id="groupContent"></pre>
 							</td>
 						</tr>
 						<tr>
@@ -126,6 +132,8 @@
 	
 	<script>
 	$(function() {
+		getGroupInfo();
+		
 		var today = new Date();
 		var dd = today.getDate();
 		var mm = today.getMonth()+1; // Jan is 0
@@ -139,8 +147,47 @@
 		$('#now_date').text(today);
 		console.log(today);
 
-		$('[data-toggle="tooltip"]').tooltip()
+		$('[data-toggle="tooltip"]').tooltip();
 	})
+	
+	$('#groupSelect').change(function() {
+		getGroupInfo();
+	})
+	
+	function getGroupInfo() {
+		var sgno = $('#groupSelect').val();
+		console.log(sgno);
+		
+		$.ajax({
+			url:"getStudyGroupInfo.sg",
+			data:{sgno:sgno},
+			dataType: 'json',
+			success: function(data) {
+				$('#studyType').text(decodeURIComponent(data.studyName.replace(/\+/g, ' ')));
+				$('#recLoc').text(decodeURIComponent(data.branchName.replace(/\+/g, ' ')));
+				$('#meetingDate').text(decodeURIComponent(data.msgMetRule.replace(/\+/g, ' ')));
+				$('#groupGoal').text(decodeURIComponent(data.sgGoal.replace(/\+/g, ' ')));
+				
+				var $roleUl = $('#groupRule');
+				$roleUl.html('');
+				
+				var $li = $('<li>').text(decodeURIComponent(data.msgRule1.replace(/\+/g, ' ')));
+				$roleUl.append($li);
+				
+				if(data.msgRule2 != null) {
+					$li = $('<li>').text(decodeURIComponent(data.msgRule2.replace(/\+/g, ' ')));
+					$roleUl.append($li);
+					
+					if(data.msgRule3 != null) {
+						$li = $('<li>').text(decodeURIComponent(data.msgRule3.replace(/\+/g, ' ')));
+						$roleUl.append($li);
+					}
+				}
+				
+				$('#groupContent').text(data.groupContent);
+			}
+		});
+	}
 	</script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>

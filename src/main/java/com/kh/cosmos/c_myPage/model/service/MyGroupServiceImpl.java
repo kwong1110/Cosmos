@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.c_myPage.model.dao.MyGroupDAO;
-import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupApproach;
+import com.kh.cosmos.f_studyGroup.model.vo.MyStudyGroup;
 
 @Service("mgService")
 public class MyGroupServiceImpl implements MyGroupService {
@@ -21,32 +21,33 @@ public class MyGroupServiceImpl implements MyGroupService {
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public int getMemberListCount(HashMap<Integer, String> map) {
+	public int getMemberListCount(HashMap<String, String> map) {
 		return mgDAO.getMemberListCount(sqlSession, map);
 	}
 
 	@Override
-	public int getBossListCount(HashMap<Integer, String> map) {
+	public int getBossListCount(HashMap<String, String> map) {
 		return mgDAO.getBossListCount(sqlSession, map);
 	}
 
 	@Override
-	public ArrayList<StudyGroupApproach> getGroupList(HashMap<Integer, String> map, PageInfo pi) {
+	public ArrayList<MyStudyGroup> getGroupList(HashMap<String, String> map, PageInfo pi) {
 		return mgDAO.getGroupList(sqlSession, map, pi);
 	}
 
-//	@Override
-//	public int getAttendMemberListCount(String userId) {
-//		return mgDAO.getAttendMemberListCount(sqlSession, userId);
-//	}
-//
-//	@Override
-//	public int getAttendBossListCount(String userId) {
-//		return mgDAO.getAttendBossListCount(sqlSession, userId);
-//	}
+	@Override
+	public ArrayList<MyStudyGroup> getMemberList(int sgno) {
+		return mgDAO.getMemberList(sqlSession, sgno);
+	}
 
 	@Override
-	public ArrayList<StudyGroupApproach> getAttendGroupList(String userId, PageInfo pi) {
-		return mgDAO.getAttendGroupList(sqlSession, userId, pi);
+	public int deleteMember(HashMap<String, String> map) {
+		return mgDAO.deleteMember(sqlSession, map);
 	}
+
+	@Override
+	public ArrayList<MyStudyGroup> getRecList(int sgno) {
+		return mgDAO.getRecList(sqlSession, sgno);
+	}
+
 }

@@ -4,16 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.cosmos.a_common.PageInfo;
-import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupApproach;
+import com.kh.cosmos.f_studyGroup.model.vo.MyStudyGroup;
 
 public interface MyGroupService {
 
-	int getMemberListCount(HashMap<Integer, String> map);
+	int getMemberListCount(HashMap<String, String> map);
 
-	int getBossListCount(HashMap<Integer, String> map);
+	int getBossListCount(HashMap<String, String> map);
 
-	ArrayList<StudyGroupApproach> getGroupList(HashMap<Integer, String> map, PageInfo pi);
+	ArrayList<MyStudyGroup> getGroupList(HashMap<String, String> map, PageInfo pi);
 
-	ArrayList<StudyGroupApproach> getAttendGroupList(String userId, PageInfo pi);
+	ArrayList<MyStudyGroup> getMemberList(int sgno);
+
+	int deleteMember(HashMap<String, String> map);
+
+	ArrayList<MyStudyGroup> getRecList(int sgno);
 
 }
