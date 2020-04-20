@@ -86,38 +86,40 @@
 									<th><label>공부 중인 항목</label></th>
 									<td>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="0" end="4" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="0" end="4" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="5" end="9" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="5" end="9" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="10" end="14" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="10" end="14" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="15" end="19" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="15" end="19" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="20" end="24" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="20" end="24" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
-
+										<div class="categoryLabel">
+												<p>기타 항목을 입력해 주세요</p> 
+												<input type="text" id="studyEtc" name="studyEtc" value=""><button type="button">추가</button>
+										</div>
 									</td>
 								</tr>
 								<tr>
 									<th>공부기간</th>
 									<td id="category-area">
 										<p>해당 학업에서 본인이 공부한 기간을 입력해 주세요.</p>
-										
 									</td>
 								</tr>
 							</table>
@@ -149,20 +151,17 @@
 
 	$(function(){
 		var category = document.getElementsByName("studyGroup"); // 공부 과목 카테고리
-		var etcCheck = document.getElementById("studyEtcTitle"); // 기타(id="studyEtcTitle" name="studyGroup")
 		var $area = $("#category-area");
-			
-		var val = "";
-		var text = "";
-		
+
 		$(category).change(function(){
-			console.log($(this));
-			val = $(this).val().replace(/[\s/]/g, '');
-			text = $(this).attr('id');
+			var valAfter = $(this).val().replace(/[\s/]/g, '');
+			var valBefore = $(this).val();
+			var val = $(this).attr('id');
 			
-			var $div = $("<div id='" + val + "'>");
-			var $result = text;
-			var $select = $("<select>");
+			var $div = $("<div id='" + valAfter + "'>");
+			var $result = valBefore + " ";
+			var $rHidden = $("<input type='hidden' name='studyGroupChk' value='" + val + "'>");
+			var $select = $("<select name='term'>");
 			var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
 			var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
 			var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
@@ -171,14 +170,28 @@
 			if($(this).is(":checked")){
 				$area.append($div);
 				$div.append($result);
+				$div.append($rHidden);
 				$div.append($select);
 				$select.append($value1);
 				$select.append($value2);
 				$select.append($value3);
 				$select.append($value4);
+				
 			} else {
-				$("div#" + val).remove();
+				$("div#" + valAfter).remove();
 			}
+			
+			if($(".etc").is(":checked")){
+				$area.append("<div id='기타'>");
+				$div.append($("#studyEtc").val());
+				$div.append($rHidden);
+				$div.append($select);
+				$select.append($value1);
+				$select.append($value2);
+				$select.append($value3);
+				$select.append($value4);
+			}
+			
 		});
 			
 		/* 

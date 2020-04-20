@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -63,7 +64,7 @@ public class MemberController {
 		return "memberAgree";
 	}
 	
-	// 회원가입 페이지 이동
+	// 회원가입 뷰 페이지 이동
 	@RequestMapping("enroll.me")
 	public String enroll(@ModelAttribute StudyCategory sc, Model model) {
 		
@@ -99,17 +100,31 @@ public class MemberController {
 		
 		return "FindPwd";
 	}
-	 
+	
+	// 회원가입 컨트롤러
 	@RequestMapping("minsert.me")
-	public String memberInsert(@ModelAttribute Member m, @ModelAttribute Preview p, @ModelAttribute StudyCategory sc, Model model) {
-		System.out.println(m);
+	public String memberInsert(@ModelAttribute Member m, 
+							   @RequestParam("studyGroupChk") int[] chkSname, 
+							   @RequestParam("term") String[] t, Model model) {
+		
 //		certifyNum
 //		certifyStatus : 인증상태
 
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		m.setPwd(encPwd);
-	
-		int result = mService.insertMember(m);
+		
+		ArrayList<Preview> pList = new ArrayList<Preview>();
+		for(int i = 0; i < chkSname.length; i++) {
+			Preview p = new Preview();
+			p.setId(m.getId());
+			p.setStudyNo(chkSname[i]);
+			for(int j = 0; j <= i; j++) {
+				p.setSpTerm(t[j]);
+			}
+			pList.add(p);
+		}
+		
+		int result = mService.insertMember(m, pList);
 		Member loginUser = mService.memberLogin(m);
 		
 		if(result > 0) {
@@ -122,6 +137,12 @@ public class MemberController {
 		} else {
 			throw new MemberException("회원가입에 실패하였습니다.");
 		}
+	}
+	
+	// 마이페이지 이동
+	@RequestMapping("myPage.me")
+	public String myPage() {
+		return "myPage";
 	}
 	
 	
