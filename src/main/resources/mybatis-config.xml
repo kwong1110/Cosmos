@@ -8,7 +8,8 @@
 	
 	<typeAliases>
 		<typeAlias type="com.kh.cosmos.b_member.model.vo.Member" alias="Member"/>
-    <typeAlias type="com.kh.cosmos.b_member.model.vo.StudyCategory" alias="StudyCategory"/>
+    	<typeAlias type="com.kh.cosmos.b_member.model.vo.StudyCategory" alias="StudyCategory"/>
+    	<typeAlias type="com.kh.cosmos.b_member.model.vo.Preview" alias="Preview"/>
 		<typeAlias type="com.kh.cosmos.d_adminPage.model.vo.Report" alias="Report"/>
 		<typeAlias type="com.kh.cosmos.d_adminPage.model.vo.Master" alias="Master"/>
 		<typeAlias type="com.kh.cosmos.e_seat.model.vo.Seat" alias="Seat"/>

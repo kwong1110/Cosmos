@@ -28,7 +28,7 @@
 	
 	<!-- 공부카테고리 -->
 	<select id="selectList" parameterType="StudyCategory" resultMap="studyCategoryResultSet"> 
-		select *
+		select study_no, study_name
 		from study_category 
 	</select>
 	<resultMap type="StudyCategory" id="studyCategoryResultSet">
@@ -36,11 +36,21 @@
 		<result property="studyName" column="STUDY_NAME"/>
 	</resultMap>
 	
+	
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="Member">
 		insert into Member
 		values(#{id}, #{pwd}, #{name}, #{nick}, #{birth}, #{email}, #{phone}, sysdate, null, default, default, default, #{gender})
+		<!-- 																  enroll, certifyNum, certifyStatus, grade, gender -->
 	</insert>
 	
-	
+	<insert id="insertPreview" parameterType="java.util.List">
+		insert all
+		<foreach collection="list" item="item" separator=" ">
+			into Preview (id, study_no, sp_term) values
+			(#{item.id}, #{item.studyNo}, #{item.spTerm})
+		</foreach>
+		select * from dual
+	</insert>
+		
 </mapper>
