@@ -223,22 +223,22 @@
             <div class="right-top1">
             	<div class="right-top1-bigclass">
             		<div class="bigger">
-            			<div class="big"><input type="hidden" value="D-1">
+            			<div class="big"><input type="hidden" value="E-1">
             				대규모 강연동(30인석)
             			</div>
             		</div>	
             	</div>
             	<div class="right-top1-sixclass1">
             		<div class="sixpeople">
-            			<div class="six1"><input type="hidden" value="C-1">
-            				6인실
+            			<div class="six1"><input type="hidden" value="D-1">
+            				8인실
             			</div>
             		</div>
             	</div>
             	<div class="right-top1-sixclass2">
             		<div class="sixpeople">
-            			<div class="six2"><input type="hidden" value="C-2">
-            				6인실
+            			<div class="six2"><input type="hidden" value="D-2">
+            				8인실
             			</div>
             		</div>
             	</div>
@@ -246,15 +246,15 @@
             <div class="right-bottom1">
             	<div class="right-bot-fourclass1">
             		<div class="fourperson1">
-            			<div class="four1"><input type="hidden" value="B-1">
-            				4인실
+            			<div class="four1"><input type="hidden" value="C-1">
+            				6인실
             			</div>
             		</div>
             	</div>
             	<div class="right-bot-fourclass2">
             		<div class="fourperson1">
-            			<div class="four2"><input type="hidden" value="B-2">
-            				4인실
+            			<div class="four2"><input type="hidden" value="c-2">
+            				6인실
             			</div>
             		</div>
             	</div>

@@ -9,6 +9,7 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
 .wrap-div{width:100%; height:870px; margin:0 auto; }
     .div-left{width:30%; height:inherit; float:left;}
@@ -32,6 +33,7 @@
     				.cr{width:70%;height:100%; box-sizing: border-box; float:right; }
     		.right-content-right{width:43%; height:100%;  box-sizing: border-box; float:right; 
     							 line-height:70px;padding-left:5px;}
+    			.right-group{width:100%; height:20%; box-sizing: border-box;}				 
     			.right-choose{width:100%; height:20%; box-sizing: border-box;}
     			.right-seat{width:100%; height:20%; box-sizing: border-box;}
     			.right-chooseSeat{width:100%; height:20%; box-sizing: border-box;}
@@ -43,7 +45,7 @@
     		.ra-right{width:30%;float:right;}
    
     .che{width:15px;height:15px;} /* 인원선택 체크박스 css */
-    
+    .rad{width:15px;height:15px;}
   	nav{margin-left:20px;}
   	
   	
@@ -91,9 +93,9 @@
 					        						${ s.branchTel }
 					        					</td>
 					        				</tr> --%>
-					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:100px;">
+					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
 					        					<div style="margin-left:38px;"><b>코스모스 스터디센터 ${ s.branchName }</b></div>
-					        					<div><input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress" value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
+					        					<div style="overflow: hidden;white-space:nowrap;text-overflow : ellipsis;"><input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress" value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
 					        			</c:forEach>
@@ -262,16 +264,59 @@
 					            		<div class="left-period">
 					            			<div class="cl">● 예약유형</div>
 					            			<div class="cr">
-					            				<input type="checkbox" class="che" name="onePeriod"> 1일권 &nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="sevenPeriod"> 7일권 &nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="thirtyPeriod"> 30일권 
+					            				<input type="radio" class="rad" id="onePeriod" name="period" value="1"   > 시간권 &nbsp;&nbsp;
+					            				<input type="radio" class="rad" id="sevenPeriod" name="period"   > 7일권 &nbsp;&nbsp;
+					            				<input type="radio" class="rad" id="thirtyPeriod" name="period"  > 30일권 
 					            			</div>
 					            		</div>
+					            				<script>
+					            				$('#onePeriod').on('click',function(){
+					            					console.log($('#onePeriod')[0].checked);
+					            					if($('#onePeriod')[0].checked){
+				            							$('.input-daterange-timepicker').css('display', 'block');
+				            						}else {
+				            							$('.input-daterange-timepicker').prop.css('display', 'none');
+				            						}	
+				            					}); 
+					            				
+					            				
+					            				$('#sevenPeriod').on('click',function(){
+				            						if($('#sevenPeriod')[0].checked){
+				            							$('.input-single-timepicker').css('display', 'block');
+				            						}else {
+				            							$('.input-single-timepicker').css('display', 'none');
+				            						}	
+				            					}); 
+					            				$('#thirtyPeriod').on('click',function(){
+				            						if($('#thirtyPeriod')[0].checked){
+				            							$('.input-single-timepicker').css('display', 'block');
+				            						}else {
+				            							$('.input-single-timepicker').css('display', 'none');
+				            						}	
+				            					}); 
+					            				/* function doOpenCheck(chk){
+					            				    var obj = document.getElementsByName("period");
+					            				    for(var i=0; i<obj.length; i++){
+					            				        if(obj[i] != chk){
+					            				            obj[i].checked = false;
+					            				        }
+					            				    }
+					            				} */
+					            				/* 	$('input[type=checkbox][name=onePeriod]').on('click',function(){
+					            						console.log($('input[type=checkbox][name=onePeriod]').eq(0)[0].checked);
+					            						if($('input[type=checkbox][name=onePeriod]').eq(0)[0].checked){
+					            							$('.input-single-timepicker').css('visibility', 'visible');
+					            						}else {
+					            							$('.input-single-timepicker').css('visibility', 'hidden');
+					            						}	
+					            					});  */
+					            				</script>
 					            		<div class="left-date">
 					            			<div class="cl">● 예약일자</div>
-					            			<div class="cr">
+					            			<div class="cr" id="cr1" style="padding-top:16px;">
 					            				<div class="box-title m-t-30"></div>
-												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:265px;">
+												<input type="text" class="form-control input-single-timepicker" name="daterange" id="daterange" style="width:265px; display:none; text-align:center;" >
+												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:265px; display:none;">
 					            			</div>
 					            		</div>
 					            		<div class="left-name">
@@ -288,12 +333,19 @@
 					            		</div>
 					            	</div>
 					            	<div class="right-content-right">
+					            		<div class="right-group">
+					            			<div class="cl">● 그룹선택</div>
+					            			<div class="cr">
+					            				
+					            			</div>
+					            		</div>
 					            		<div class="right-choose">
 					            			<div class="cl">● 인원선택</div>
 					            			<div class="cr">
-					            				<input type="checkbox" class="che" name="onep"> 1인 &nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="fourp"> 4인 &nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="sixp"> 6인
+					            				<input type="radio" class="rad" id="onep" name="people"> 1인 &nbsp;
+					            				<input type="radio" class="rad" id="fourp" name="people"> 4인 &nbsp;
+					            				<input type="radio" class="rad" id="sixp" name="people"> 6인 &nbsp;
+					            				<input type="radio" class="rad" id="eightp" name="people"> 8인
 					            			</div>
 					            		</div>
 					            		<div class="right-seat">
@@ -372,7 +424,7 @@
 					    			var price =  $('#chooseSeat').text();
 					    			var strPrice = price.split('-');
 					    			
-					    			var fullDate = $('#daterange').val();
+					    			var fullDate = $('.input-daterange-timepicker').val();
 					    			
 					    			var startDate = fullDate.substr(0,10);
 					    			var startTime = fullDate.substr(11,2);
@@ -451,6 +503,12 @@
 		</script>
 	 -->
 </body>
+	<!-- 싱글타임피커 -->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+	<!-- 데이트레인지피커 -->
 	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script> <!-- 데이트피커필요한스크립트 -->
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
@@ -458,4 +516,5 @@
 	<script src="${contextPath}/resources/js/plugins/datepicker/daterangepicker.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/form-pickers-init.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 </html>
