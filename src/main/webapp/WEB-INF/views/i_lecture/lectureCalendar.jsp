@@ -17,7 +17,7 @@
 	<script src='resources/js/plugins/fullcalendar/packages/daygrid/main.js'></script>
 	<script src='resources/js/plugins/fullcalendar/packages/timegrid/main.js'></script>
 	<script src='resources/js/plugins/fullcalendar/packages/list/main.js'></script>
-<!-- 템플릿 custom end -->	
+<!-- fullcalendar end -->
 <style>
 	.fc-event{
 		border-color: white;
@@ -64,6 +64,7 @@
 	/* 테이블 */
 	table>tbody>tr>th{
 		letter-spacing: 0.1em;
+		white-space: nowrap;
 	}
 	table>tbody>tr>td{
 		line-height: 10px;
@@ -151,8 +152,18 @@
 										+ "(" + info.event.extendedProps.time + ")");
 				$('#maxPeople').text(info.event.extendedProps.maxPeople);
 				$('#attendPeople').text(info.event.extendedProps.attendPeople);
-				$('#content').val(info.event.extendedProps.content);
+				//$('#content').val(info.event.extendedProps.content);
 				$('#viewModal').modal("show");
+				
+				$('#content').summernote({
+					toolbar: false,
+					height: 800,                 	// 에디터 높이
+					minHeight: null,             	// 최소 높이  
+					maxHeight: null,             	// 최대 높이
+					lang: "ko-KR",					// 한글 설정
+				});
+				$('#content').summernote('code',info.event.extendedProps.content);
+				$('#content').summernote('disable');
 			},
 			//일정에 hover시 요약 (popover, tooltip을 못불러온다..)
 			/* eventRender: function(info) {
@@ -236,7 +247,8 @@
 											</tr>
 											<tr>
 												<td colspan="6" style="padding: 0;">
-													<textarea id="content" style="resize: none" name="lectureContent" readonly></textarea>
+													<div id="content"></div>
+													<c:import url="../a_common/summernote.jsp"/>
 												</td>
 											</tr>
 										</table>

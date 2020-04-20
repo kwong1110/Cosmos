@@ -38,6 +38,7 @@
 	/* 테이블 */
 	table>tbody>tr>th{
 		letter-spacing: 0.1em;
+		white-space: nowrap;
 	}
 	table>tbody>tr>td{
 		line-height: 10px;
@@ -220,57 +221,58 @@
 						<tr>
 							<th>강연번호</th>
 							<td><input type="text" id="lectureNo" name="lectureNo" readonly></td>
+							<th>분류</th>
+							<td><input type="text" id="lectureCategory" readonly></td>
 							<th colspan="7">이력 사항 / 강연 경험</th>
 						</tr>
 						<tr>
 							<th>이름</th>
-							<td><input type="text" id="userId"  readonly></td>
-							<td rowspan="4" colspan="7">
+							<td><input type="text" id="userId" readonly></td>
+							<th>연락처</th>
+							<td><input type="text" id="userPhone" readonly></td>
+							<td rowspan="2" colspan="7">
 								<textarea id="record" name="lectureRecord" readonly></textarea>
 							</td>
 						</tr>
 						<tr>
-							<th>핸드폰 번호</th>
-							<td><input type="text" id="userPhone" readonly></td>
-						</tr>
-						<tr>
+							<th>직업</th>
+							<td><input type="text" id="job" name="lectureJob" readonly></td>
 							<th>이메일</th>
 							<td><input type="email" id="userEmail" readonly></td>
 						</tr>
 						<tr>
-							<th>직업</th>
-							<td><input type="text" id="job" name="lectureJob" readonly></td>
-						</tr>
-						<tr>
-							<th>신청 날짜</th>
+							<th>신청일</th>
 							<td><input type="text" id="lectureDate" name="lectureDate" readonly></td>
-							<th>강연 일시</th>
-							<td colspan="2">
-								<input type="text" id="lectureStart" name="lectureStart" readonly>
-							</td>
-							<th>강연 장소</th>
+							<th>장소</th>
 							<td>
 								<input type="text" id="branchName" name="branchName" readonly>
 							</td>
+							<th>일시</th>
+							<td colspan="6">
+								<input type="text" id="lectureStart" name="lectureStart" readonly>
+							</td>
+						</tr>
+						<tr>
+							<th>상태</th>
+							<td><input type="text" id="lectureStatus" name="lectureStatus" readonly></td>
 							<th>참가비</th>
 							<td colspan="1"><input type="number" id="lectureFee" name="lectureFee" readonly></td>
-						</tr>
-						<tr>
-							<th>강연 상태</th>
-							<td colspan="1"><input type="text" id="lectureStatus" name="lectureStatus" readonly></td>
-							<th>강연 제목</th>
-							<td colspan="2"><input type="text" id="title" name="lectureTitle" readonly></td>
 							<th>강연 인원</th>
-							<td colspan="1"><input type="number" id="maxpeople" name="maxpeople" readonly></td>
+							<td><input type="number" id="maxpeople" name="maxpeople" readonly></td>
 							<th>신청 인원</th>
-							<td colspan="1"><input type="number" id="attendpeople" name="attendpeople" readonly></td>
+							<td><input type="number" id="attendpeople" name="attendpeople" readonly></td>
 						</tr>
 						<tr>
-							<th colspan="9">강연 내용</th>
+							<th colspan="2">강연 제목</th>
+							<td colspan="9"><input type="text" id="title" name="lectureTitle" readonly></td>
 						</tr>
 						<tr>
-							<td colspan="9" style="padding: 0;">
-								<textarea style="resize: none" id="content" name="lectureContent" readonly></textarea>
+							<th colspan="11">강연 내용</th>
+						</tr>
+						<tr>
+							<td rowspan="5" colspan="11" style="padding: 0;">
+								<div id="content"></div>
+								<c:import url="../a_common/summernote.jsp"/>							
 							</td>
 						</tr>
 					</table>
@@ -305,7 +307,7 @@
 					$('#branchName').val(decodeURIComponent(data.branchName.replace(/\+/g, ' ')));
 					$('#lectureFee').val(data.lectureFee);
 					$('#maxpeople').val(data.maxpeople);
-					$('#content').val(decodeURIComponent(data.lectureContent.replace(/\+/g, ' ')));
+					//$('#content').val(decodeURIComponent(data.lectureContent.replace(/\+/g, ' ')));
 					$('#lectureNo').val(data.lectureNo);
 					$('#attendpeople').val(data.attendpeople);
 					$('#lectureDate').val(data.lectureDate);
@@ -318,14 +320,29 @@
 					case 'DELETE': data.lectureStatus = '삭제'; break;
 					}
 					$('#lectureStatus').val(data.lectureStatus);
+					
+					// sumernote 상세보기			
+					$('#content').summernote({
+						toolbar: false,
+						height: 800,                 	// 에디터 높이
+						minHeight: null,             	// 최소 높이  
+						maxHeight: null,             	// 최대 높이
+						lang: "ko-KR",					// 한글 설정
+					});
+					$('#content').summernote('code',decodeURIComponent(data.lectureContent.replace(/\+/g, ' ')));
+					$('#content').summernote('disable');
 				}
 			});
 		});
 	});
 	
+	// 강연상태 업데이트
 	function lectureUpdate(state){	
 		var lNo = $('#lectureNo').val();
 		location.href="lectureUpdate.ap?lectureStatus=" + state + "&lNo=" + lNo;
 	}
+	
+	
+	
 </script>
 </html>

@@ -31,7 +31,46 @@
 		focus: true,                 	// 에디터 로딩후 포커스를 맞출지 여부
 		lang: "ko-KR",					// 한글 설정
 		// placeholder: ''				//placeholder 설정
+		/* toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ], */
+		callbacks: {					// 이미지를 첨부하는 부분
+			onImageUpload : function(files) {
+				uploadSummernoteImageFile(files[0],this);
+			}
+		}
 	});
+	
+	/**
+	* 이미지 파일 업로드
+	* 업로드 페이지에 아래의 스크립트 추가 후 folderRoot만 저장될 폴더명으로 바꿔준다.
+	* 혹시, datepicker를 사용 하면 common.min.js가 script추가 되어있다면 주석처리.
+	*      주석처리하여도 datepicker는 제대로 작동함.
+	*	   summernote와 충돌하기떄문.
+	*/
+	/* function uploadSummernoteImageFile(file, editor) {
+		data = new FormData();
+		data.append("file", file);
+		folderRoot = "lecture"
+		$.ajax({
+			data : {data:data, folderRoot:folderRoot},
+			type : "POST",
+			url : "uploadSummernoteImageFile.cm",
+			contentType : false,
+			processData : false,
+			success : function(data) {
+				console.log("url확인 : " + data.url);
+            	//항상 업로드된 파일의 url이 있어야 한다.
+				$(editor).summernote('insertImage', "${ contextPath }/resources/" + data.url);
+			}
+		});
+	} */
 </script>
 
 </body>
