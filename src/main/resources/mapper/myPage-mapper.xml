@@ -1,51 +1,163 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="myPageMapper">
+	
+	<!-- @@@@ 마이 그룹 관련 시작 @@@@ -->
 	<select id="getMemberMyGroupCount" parameterType="hashMap" resultType="_int">
 		select count(*)
-		from ap_sgroup
-		<if test='#{1}.equals("false")'>
-			where id=#{id}
-		</if>
-		<if test='#{1}.equals("true")'>
-			where id=#{userId} and asg_status='Y'
-		</if>
+		from ap_sgroup a
+			 left join sgroup g using(sg_no)
+		<choose>
+			<when test="triger == 'false'">
+				where a.id=#{userId}
+				<if test="category == 'long'">
+					and (sg_status='Y' or sg_status='D')
+				</if>
+				<if test="category == 'once'">
+					and (sg_status='N' or sg_status='E')
+				</if>
+			</when>
+			<when test="triger == 'true'">
+				where a.id=#{userId} and asg_status='Y'
+				<if test="category == 'long'">
+					and (sg_status='Y' or sg_status='D')
+				</if>
+				<if test="category == 'once'">
+					and (sg_status='N' or sg_status='E')
+				</if>
+			</when>
+		</choose>
 	</select>
 	
 	<select id="getBossMyGroupCount" parameterType="hashMap" resultType="_int">
 		select count(*)
 		from sgroup
-		<if test='#{1}.equals("false")'>
-			where id=#{id}
-		</if>
-		<if test='#{1}.equals("true")'>
-			where id=#{userId} and (sg_status='Y' or sg_status='N')
-		</if>
+		<choose>
+			<when test="triger == 'false'">
+				where id=#{userId}
+				<if test="category == 'long'">
+					and (sg_status='Y' or sg_status='D')
+				</if>
+				<if test="category == 'once'">
+					and (sg_status='N' or sg_status='E')
+				</if>
+			</when>
+			<when test="triger == 'true'">
+				where id=#{userId} <!-- and (sg_status='Y' or sg_status='N') -->
+				<if test="category == 'long'">
+					and sg_status='Y'
+				</if>
+				<if test="category == 'once'">
+					and sg_status='N'
+				</if>
+				<if test="category != 'once' and category != 'long'">
+					and (sg_status='Y' or sg_status='N')
+				</if>
+			</when>
+		</choose>
 	</select>
 	
-	<select id="getGroupList" parameterType="hashMap" resultMap="ApproachGroupResultSet">
+	<!-- <select id="getGroupList" parameterType="hashMap" resultMap="ApproachGroupResultSet">
 		SELECT *
 		FROM APPSGLIST
-		<if test='#{1}.equals("false")'>
-			WHERE userId = #{0} or id = #{0}
-		</if>
-		<if test='#{1}.equals("true")'>
-			WHERE (userId = #{userId} and asg_status='Y' and (sg_status='Y'or sg_status='N'))
-				  or (id = #{userId} and (sg_status='Y'or sg_status='N'))
-		</if>
-	</select>
-	
-	<!-- <select id="getAttendGroupList" parameterType="string" resultMap="ApproachGroupResultSet">
-		SELECT *
-		FROM APPSGLIST
-		where (userId = #{userId}
-				and asg_status='Y'
-				and (sg_status='Y'or sg_status='N'))
-			or (id = #{userId}
-			and (sg_status='Y'or sg_status='N'))
+		<choose>
+			<when test="triger == 'false'">
+				WHERE (userId = #{userId} or id = #{userId})
+				<if test="category == 'long'">
+					and (sg_status='Y' or sg_status='D')
+				</if>
+				<if test="category == 'once'">
+					and (sg_status='N' or sg_status='E')
+				</if>
+			</when>
+			<when test="triger == 'true'">
+				WHERE (userId = #{userId} and asg_status='Y' and (sg_status='Y'or sg_status='N'))
+					  or (id = #{userId} and (sg_status='Y'or sg_status='N'))
+				WHERE (userId = #{userId}
+					  and asg_status='Y'
+					  	<if test="category == 'long'">
+							and sg_status='Y'
+						</if>
+						<if test="category == 'once'">
+							and sg_status='N'
+						</if>
+						<if test="category != 'once' and category != 'long'">
+							and (sg_status='Y' or sg_status='N')
+						</if>)
+					  or (id = #{userId}
+					  	<if test="category == 'long'">
+							and sg_status='Y'
+						</if>
+						<if test="category == 'once'">
+							and sg_status='N'
+						</if>
+						<if test="category != 'once' and category != 'long'">
+							and (sg_status='Y' or sg_status='N')
+						</if>)
+			</when>
+		</choose>
 	</select> -->
 	
-	<resultMap type="StudyGroupApproach" id="ApproachGroupResultSet">
+	<select id="getGroupList" parameterType="hashMap" resultMap="ApproachGroupResultSet">
+		select nvl(a.sg_no,g.sg_no) as sg_no, sg_name, sg_status, study_name, a.id as userId, g.id, nick,
+		      (case when a.id = #{userId} then asg_date
+		            when g.id = #{userId} then GROUP_INSERT_DATE end) as sort_date, asg_status
+		from ap_sgroup a
+		    right join sgroup g on(a.sg_no = g.sg_no)
+		    join study_category s on(g.study_no = s.study_no)
+		    join member m on(g.id = m.id)
+		<choose>
+			<when test="triger == 'false'">
+				WHERE (a.id = #{userId} or id = #{userId})
+				<if test="category == 'long'">
+					and (sg_status='Y' or sg_status='D')
+				</if>
+				<if test="category == 'once'">
+					and (sg_status='N' or sg_status='E')
+				</if>
+			</when>
+			<when test="triger == 'true'">
+				WHERE (a.id = #{userId}
+					  and asg_status='Y'
+					  	<if test="category == 'long'">
+							and sg_status='Y'
+						</if>
+						<if test="category == 'once'">
+							and sg_status='N'
+						</if>
+						<if test="category != 'once' and category != 'long'">
+							and (sg_status='Y' or sg_status='N')
+						</if>)
+					  or (id = #{userId}
+					  	<if test="category == 'long'">
+							and sg_status='Y'
+						</if>
+						<if test="category == 'once'">
+							and sg_status='N'
+						</if>
+						<if test="category != 'once' and category != 'long'">
+							and (sg_status='Y' or sg_status='N')
+						</if>)
+			</when>
+		</choose>
+		order by sort_date desc
+	</select>
+	
+	<select id="getMemberList" parameterType="_int" resultMap="ApproachGroupResultSet">
+		select id, nick, asg_dl_date
+		from ap_sgroup
+			join member using(id)
+		where sg_no = #{sgno} and asg_status='Y'
+		order by asg_dl_date desc
+	</select>
+	
+	<select id="getRecList" parameterType="_int" resultMap="ApproachGroupResultSet">
+		SELECT RSG_INSERT_DATE, RSG_TERM, RSG_NUM
+		FROM REC_SGROUP
+		WHERE SG_NO = #{SGNO}
+	</select>
+	
+	<resultMap type="MyStudyGroup" id="ApproachGroupResultSet">
 		<id property="no" column="rnum"/>
 		<result property="sgNo" column="sg_no"/>
 		<result property="sgName" column="sg_name"/>
@@ -56,5 +168,16 @@
 		<result property="nick" column="nick"/>
 		<result property="sortDate" column="sort_date"/>
 		<result property="appStatus" column="asg_status"/>
+		<result property="appDlDate" column="asg_dl_date"/>
+		<result property="recEnrollDate" column="RSG_INSERT_DATE"/>
+		<result property="recTerm" column="RSG_TERM"/>
+		<result property="recNum" column="RSG_NUM"/>
 	</resultMap>
+	
+	<update id="deleteMember" parameterType="hashMap">
+		update ap_sgroup
+		set asg_status = 'O'
+		where sg_no = #{sgno} and id = #{id}
+	</update>
+	<!-- @@@@ 마이 그룹 관련 끝 @@@@ -->
 </mapper>

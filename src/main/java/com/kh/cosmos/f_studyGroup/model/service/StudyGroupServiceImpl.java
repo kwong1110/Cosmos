@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.cosmos.f_studyGroup.model.dao.StudyGroupDAO;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
+import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
@@ -43,6 +44,16 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	@Override
 	public ArrayList<StudyGroup> getStudyGroupList(String id) {
 		return sgDAO.getStudyGroupList(sqlSession, id);
+	}
+
+	@Override
+	public StudyGroupRecruit getStudyGroupRecruit(int sgno) {
+		return sgDAO.getStudyGroupRecruit(sqlSession, sgno);
+	}
+
+	@Override
+	public StudyGroupRecruit getGroupInfoForRec(int sgno) {
+		return sgDAO.getGroupInfoForRec(sqlSession, sgno);
 	}
 
 }

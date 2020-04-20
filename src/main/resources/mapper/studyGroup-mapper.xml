@@ -32,9 +32,50 @@
 		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, #{recMettingDate}, seq_sgid.currval)
 	</insert>
 	
-	<select id="getStudyGroup" parameterType="string">
+	<select id="getStudyGroup" parameterType="string" resultMap="studyGroupResultSet">
 		select sg_no, sg_name
 		from sgroup
 		where id=#{id} and sg_status='Y'
 	</select>
+	
+	<resultMap type="StudyGroup" id="studyGroupResultSet">
+		<id property="sgNo" column="SG_NO"/>
+		<result property="sgName" column="SG_NAME"/>
+		<!-- <result property="sgGoal" column="SG_GOAL"/>
+		<result property="sgContent" column="SG_CONTENT"/>
+		<result property="sgStatus" column="SG_STATUS"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="id" column="ID"/>
+		<result property="studyNo" column="STUDY_NO"/>
+		<result property="studyName" column="GROUP_INSERT_DATE"/> -->
+	</resultMap>
+	
+	<select id="getStudyGroupRecruit" parameterType="_int" resultMap="groupRecruitResultSet">
+		select sg_no, sg_status
+		from sgroup
+		where sg_no = #{sgno}
+	</select>
+	
+	<select id="getGroupInfoForRec" parameterType="_int" resultMap="groupRecruitResultSet">
+		select sg_no, study_name, msg_num, branch_name, msg_met_rule, sg_goal, msg_rule1, msg_rule2, msg_rule3, sg_content
+		from sgroup
+			join study_category using(study_no)
+			join branch using(branch_no)
+			join m_sgroup using(sg_no)
+		where sg_no = #{sg_no}
+	</select>
+	
+	<resultMap type="StudyGroupRecruit" id="groupRecruitResultSet">
+		<id property="sgNo" column="SG_NO"/>
+		<id property="sgStatus" column="SG_STATUS"/>
+		<id property="studyName" column="STUDY_NAME"/>
+		<id property="msgNum" column="MSG_NUM"/>
+		<id property="branchName" column="BRANCH_NAME"/>
+		<id property="msgMetRule" column="MSG_MET_RULE"/>
+		<id property="sgGoal" column="SG_GOAL"/>
+		<id property="msgRule1" column="MSG_RULE1"/>
+		<id property="msgRule2" column="MSG_RULE2"/>
+		<id property="msgRule3" column="MSG_RULE3"/>
+		<id property="sgContent" column="SG_CONTENT"/>
+	</resultMap>
 </mapper>

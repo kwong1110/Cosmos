@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
+import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
@@ -33,6 +34,14 @@ public class StudyGroupDAO {
 
 	public ArrayList<StudyGroup> getStudyGroupList(SqlSessionTemplate sqlSession, String id) {
 		return (ArrayList)sqlSession.selectList("studyGroupMapper.getStudyGroup", id);
+	}
+
+	public StudyGroupRecruit getStudyGroupRecruit(SqlSessionTemplate sqlSession, int sgno) {
+		return sqlSession.selectOne("studyGroupMapper.getStudyGroupRecruit", sgno);
+	}
+
+	public StudyGroupRecruit getGroupInfoForRec(SqlSessionTemplate sqlSession, int sgno) {
+		return sqlSession.selectOne("studyGroupMapper.getGroupInfoForRec", sgno);
 	}
 
 }
