@@ -56,8 +56,6 @@
   	.modal:before {display: inline-block; vertical-align: middle; content: " ";height: 95%;}
 	}
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
-	
-	
 </style>
 </head>
 <body><!-- onload="brAddress();" -->
@@ -74,28 +72,12 @@
 					        	<!-- <div class="left-top">
 					        	</div> -->
 					        	<div class="left-mid">
-					        		
 					        			<c:forEach var="s" items="${ branchList }">
-					        				<%-- <tr>
-					        					<th rowspan="3" style="width:10%; vertical-align:middle;">
-					        						<input type="radio" name="branchAddress" checked="checked" value="${ s.branchAddress }" style="width:20px; height:20px; text-align:center;">
-					        					</th>
-					        					<th style="width:90%;">${ s.branchName }</th>
-					        				</tr>
-					        				<tr>
-					        					<td style="width:90%;">
-					        						${ s.branchAddress }
-					        					</td>
-					        				</tr>
-					        				<tr>
-					        					
-					        					<td style="width:90%;">
-					        						${ s.branchTel }
-					        					</td>
-					        				</tr> --%>
 					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
 					        					<div style="margin-left:38px;"><b>코스모스 스터디센터 ${ s.branchName }</b></div>
-					        					<div style="overflow: hidden;white-space:nowrap;text-overflow : ellipsis;"><input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress" value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
+					        					<div style="overflow: hidden;white-space:nowrap;text-overflow : ellipsis;">
+					        						<input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
+					        					</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
 					        			</c:forEach>
@@ -144,10 +126,7 @@
 					        		</script>
 					            </div> -->
 					       		<div id="right-map" >
-					       			
-										<!-- <div id="map" style="width:100%;height:100%;"></div> -->
-										
-										<script type="text/javascript">
+									<script type="text/javascript">
 										function brAddress(){
 												var mapContainer = document.getElementById('right-map'), // 지도를 표시할 div 
 											    mapOption = {
@@ -264,23 +243,48 @@
 					            		<div class="left-period">
 					            			<div class="cl">● 예약유형</div>
 					            			<div class="cr">
-					            				<input type="radio" class="rad" id="onePeriod" name="period" value="1"   > 시간권 &nbsp;&nbsp;
-					            				<input type="radio" class="rad" id="sevenPeriod" name="period"   > 7일권 &nbsp;&nbsp;
-					            				<input type="radio" class="rad" id="thirtyPeriod" name="period"  > 30일권 
+					            				<input type="radio" class="rad" id="onePeriod" name="period"  value="시간" > 시간권 &nbsp;&nbsp;
+					            				<input type="radio" class="rad" id="sevenPeriod" name="period" value="7일"> 7일권 &nbsp;&nbsp;
+					            				<input type="radio" class="rad" id="thirtyPeriod" name="period" value="30일" > 30일권 
 					            			</div>
 					            		</div>
 					            				<script>
-					            				$('#onePeriod').on('click',function(){
-					            					console.log($('#onePeriod')[0].checked);
+					            				$("input:radio[name='period']").on('click',function(){
+					            					// console.log($(this).val());
+					            					switch($(this).val()){
+					            					case'시간': $('.input-single-timepicker').css('display', 'none'); 
+					            							  $('.input-daterange-timepicker').css('display', 'block'); 
+					            							  $("input[name='people']").attr('disabled',false).prop('checked',false);break; 
+					            					case'7일': $('.input-daterange-timepicker').css('display', 'none');
+					            							  $('.input-single-timepicker').css('display', 'block'); 
+					            							  $("input[name='people']").attr('disabled',true).prop('checked',false); 
+					            							  break;
+					            					case'30일': $('.input-daterange-timepicker').css('display', 'none');
+					            							    $('.input-single-timepicker').css('display', 'block');
+					            							    $("input[name='people']").attr('disabled',true).prop('checked',false); break;
+					            					}
+				            					});
+					            				/* $('#onePeriod').on('click',function(){
+					            					console.log($("input:radio[name='period']:checked").val());
+					            					if($('#onePeriod')[0].checked == true){
+					            						$('.input-daterange-timepicker').css('display', 'block');
+					            					} else {
+					            						$('.input-daterange-timepicker').css('display', 'none');
+					            					}
+
+					            					// 해제하기
+				            					}); */
+					            				
+					            				/* $('#onePeriod').on('click',function(){
 					            					if($('#onePeriod')[0].checked){
 				            							$('.input-daterange-timepicker').css('display', 'block');
-				            						}else {
-				            							$('.input-daterange-timepicker').prop.css('display', 'none');
+				            						}else(){
+				            							$('.input-daterange-timepicker').css('display', 'none');
 				            						}	
-				            					}); 
+				            					});  */
 					            				
-					            				
-					            				$('#sevenPeriod').on('click',function(){
+					            				/* 방금 */
+					            				/* $('#sevenPeriod').on('click',function(){
 				            						if($('#sevenPeriod')[0].checked){
 				            							$('.input-single-timepicker').css('display', 'block');
 				            						}else {
@@ -293,7 +297,8 @@
 				            						}else {
 				            							$('.input-single-timepicker').css('display', 'none');
 				            						}	
-				            					}); 
+				            					});  */
+				            					
 					            				/* function doOpenCheck(chk){
 					            				    var obj = document.getElementsByName("period");
 					            				    for(var i=0; i<obj.length; i++){
