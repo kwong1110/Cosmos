@@ -9,6 +9,7 @@
 <style>
 	table>tbody>tr>th{
 		letter-spacing: 0.1em;
+		white-space: nowrap;
 	}
 	table>tbody>tr>td{
 		line-height: 10px;
@@ -112,7 +113,31 @@
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 </body>
-	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>
+<script>
+	/**
+	* 이미지 파일 업로드
+	*/
+	function uploadSummernoteImageFile(file, editor) {
+		data = new FormData();
+		data.append("file", file);
+		folderRoot = "lecture"
+		data.append("folderRoot", folderRoot);
+		$.ajax({
+			data : data,
+			type : "POST",
+			url : "uploadSummernoteImageFile.cm",
+			contentType : false,
+			processData : false,
+			success : function(data) {
+				console.log("url확인 : " + data.url);
+	        	//항상 업로드된 파일의 url이 있어야 한다.
+				$(editor).summernote('insertImage', "${ contextPath }/resources/" + data.url);
+			}
+		});
+	}
+</script>
+	<%-- summernote와 충돌나서 주석처리해주었음 이걸 주석처리해도 datepicker는 잘 작동함. --%>
+	<%-- <script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script> --%>
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.ko.min.js"></script>
