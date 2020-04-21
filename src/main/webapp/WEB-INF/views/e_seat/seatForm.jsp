@@ -253,7 +253,7 @@
             	</div>
             	<div class="right-bot-fourclass2">
             		<div class="fourperson1">
-            			<div class="four2"><input type="hidden" value="c-2">
+            			<div class="four2"><input type="hidden" value="C-2">
             				6인실
             			</div>
             		</div>

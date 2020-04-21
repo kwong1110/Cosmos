@@ -373,6 +373,7 @@
 					            		<div class="left-name">
 					            			<div class="cl">● 이름</div>
 					            			<div class="cr">
+					            				<input type="hidden" value="${ loginUser.id }" name="id">
 					            				<input type="text" name="name" class="form-control" value="${ loginUser.name }" readonly style="width:265px; text-align:center;">
 					            			</div>
 					            		</div>
@@ -389,11 +390,10 @@
 					            			<!-- studySroup에 insertRecView.sg 이부분에 있는거 넣으면됨. -->
 					            			<div class="cr">
 					            				<select name="group" style="width:150px;">
-											    <option value="">선택</option>
-											    <option value="토익">토익</option>
-											    <option value="자격증">자격증</option>
-											    <option value="기타">기타</option>
-											</select>
+						            				<c:forEach var="se" items="${ sgList }"> 
+												    	<option value="${ se.sgNo }">${ se.sgName }</option>
+												    </c:forEach>
+												</select>
 					            			</div>
 					            		</div>
 					            		<div class="right-choose">
@@ -497,43 +497,22 @@
 					    			console.log(fullDate1);
 					    			console.log(startDate1);
 					    			console.log(startTime1);
-					    			<c:forEach var="d" items="${ sortList }">
-					    				/* if(strPrice[0] == "A"){
-					    					result = (endTime-startTime) * "${d.reserFee}"
-					    					$('#userPrice').text(result+'원');
-					    					 $('#userPrice').val(''); 
-					    				} else if(strPrice[0] == "Z"){
-					    					result1 = "${d.reserFee}"
-					    						$('#userPrice').text(result1+'원');
-					    					 $('#userPrice').val(''); 
-					    				}; */
-					    				switch(strPrice[0]){
-					    				case 'A': /* case 'B': case 'C': case 'D':  */
-					    					$('#userPrice').empty();
-					    					 result = (endTime-startTime) * "${d.reserFee}"
-				    						$('#userPrice').text(result+'원'); break;
-				    						
-					    				case'B' : result = (endTime-startTime) * "${d.reserFee}"
-		    							  		  $('#userPrice').text(result+'원'); break;
-					    				case'C' : result = (endTime-startTime) * "${d.reserFee}"
-		    							  		  $('#userPrice').text(result+'원'); break;
-					    				case'D' : result = (endTime-startTime) * "${d.reserFee}"
-		    							  		  $('#userPrice').text(result+'원'); break; 
-					    				case 'Z' :  $('#userPrice').empty('');
-					    						 	 result = "${d.reserFee}"
-				    							  $('#userPrice').text(result+'원');  break;
-					    				}
-				    				</c:forEach>
-				    				console.log(result);
-				    				console.log(strPrice[0]);
-				    				
-				    				/* $('#userPrice').text(result+'원');
-				    				$('#userPrice').text(result1+'원'); */
-				    				
-					    			/* $('#userPrice').text(result+'원'); */
+					    			
+					    			<c:forEach var="se" items="${ sortList }">
+					    				 if(strPrice[0] == "${se.reserSort}"){
+					    					result = (endTime-startTime) * "${se.reserFee}"
+						    					if("${se.reserSort}" == 'Z'){
+						    						console.log($("input:radio[name='period']:checked").val());
+						    						if($("input:radio[name='period']:checked").val() == '7일'){
+						    							result = "${se.reserFee}"
+						    						} else if($("input:radio[name='period']:checked").val() == '30일'){
+						    							result = "${se.reserFee}" * 3 + 5000;
+						    						}
+						    					}
+					    				};		
+					    			</c:forEach>
+					    				$('#userPrice').text(result+'원');
 					    		}
-					    		/* var price =  $('#chooseSeat').text();
-            				 	console.log(price); */
 					    	}); 
 					    </script>
 		        	</form>
@@ -560,6 +539,8 @@
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
+	
+	<!-- 결제부분 -->
 		<!-- <script>
 			var IMP = window.IMP; 
 			IMP.init('imp05073510'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
