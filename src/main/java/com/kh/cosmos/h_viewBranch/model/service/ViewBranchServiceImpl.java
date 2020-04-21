@@ -15,4 +15,9 @@ public class ViewBranchServiceImpl implements ViewBranchService {
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+
+	@Override
+	public int getListCount() {
+		return vbDAO.getListCount(sqlSession);
+	}
 }

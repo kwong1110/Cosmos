@@ -43,4 +43,11 @@ public class MemberServiceImpl implements MemberService {
 		return resultP;
 	}
 
+	@Override
+	public ArrayList<Preview> getStudyList(String id) {
+		return mDAO.getStudyList(sqlSession, id);
+	}
+
+	
+
 }

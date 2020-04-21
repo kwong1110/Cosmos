@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -101,11 +102,11 @@ public class MemberController {
 		return "FindPwd";
 	}
 	
-	// 회원가입 컨트롤러
+	// 회원가입
 	@RequestMapping("minsert.me")
 	public String memberInsert(@ModelAttribute Member m, 
-							   @RequestParam("studyGroupChk") int[] chkSname, 
-							   @RequestParam("term") String[] t, Model model) {
+							   @RequestParam("studyGroupChk") int[] chkSname, @RequestParam("studyEtcNo") int[] etcSno, 
+							   @RequestParam("term") String[] t, @RequestParam("studyEtcName") String[] etcSname, Model model) {
 		
 //		certifyNum
 //		certifyStatus : 인증상태
@@ -113,11 +114,28 @@ public class MemberController {
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		m.setPwd(encPwd);
 		
+		// 체크된 과목과 기간을 Preview pList에 담기
 		ArrayList<Preview> pList = new ArrayList<Preview>();
 		for(int i = 0; i < chkSname.length; i++) {
 			Preview p = new Preview();
+			
 			p.setId(m.getId());
 			p.setStudyNo(chkSname[i]);
+			
+			for(int j = 0; j <= i; j++) {
+				p.setSpTerm(t[j]);
+			}
+			pList.add(p);
+		}
+		
+		// 기타에 추가된 과목과 기간을 Preview pList에 담기
+		for(int i = 0; i < etcSname.length; i++) {
+			Preview p = new Preview();
+			
+			p.setId(m.getId());
+			p.setStudyNo(etcSno[i]);
+			p.setStudyEtc(etcSname[i]);
+			
 			for(int j = 0; j <= i; j++) {
 				p.setSpTerm(t[j]);
 			}
@@ -141,7 +159,15 @@ public class MemberController {
 	
 	// 마이페이지 이동
 	@RequestMapping("myPage.me")
-	public String myPage() {
+	public String myPage(@RequestParam("id") String userId, Model model) {
+		
+		ArrayList<Preview> pList = mService.getStudyList(userId);
+		System.out.println("pList : " + pList);
+		
+		if(pList != null) {
+			model.addAttribute("pList", pList);
+		}
+		
 		return "myPage";
 	}
 	

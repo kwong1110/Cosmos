@@ -44,13 +44,40 @@
 		<!-- 																  enroll, certifyNum, certifyStatus, grade, gender -->
 	</insert>
 	
+	<!-- 공부 중인 항목 (기타 포함) -->
 	<insert id="insertPreview" parameterType="java.util.List">
 		insert all
 		<foreach collection="list" item="item" separator=" ">
+			into Preview (id, study_no, sp_term, study_etc) values
+			(#{item.id}, #{item.studyNo}, #{item.spTerm}, #{item.studyEtc})
+			
+			<!-- <if test="#{item.studyEtc } == null">
 			into Preview (id, study_no, sp_term) values
-			(#{item.id}, #{item.studyNo}, #{item.spTerm})
+			(#{item.id}, #{item.studyNo}, #{item.spTerm}, null)
+			</if>
+			<if>
+			into Preview (id, study_no, sp_term) values
+			(#{item.id}, #{item.studyNo}, #{item.spTerm}, #{item.studyEtc})
+			</if> -->
 		</foreach>
 		select * from dual
 	</insert>
+	
+	<!-- loginUser의 공부 중인 항목 -->
+	<select id="getStudyList" parameterType="Preview" resultMap="previewResultSet">
+		select id, study_no, study_name, sp_term, study_etc
+		from preview
+    		join member using(id)
+    		join study_category using(study_no)
+		where id = #{id}
+	</select>
+	
+	<resultMap type="Preview" id="previewResultSet">
+		<id property="id" column="ID"/>
+		<result property="studyNo" column="STUDY_NO"/>
+		<result property="spTerm" column="SP_TERM"/>
+		<result property="studyEtc" column="STUDY_ETC"/>
+		<result property="studyName" column="STUDY_NAME"/>
+	</resultMap>
 		
 </mapper>

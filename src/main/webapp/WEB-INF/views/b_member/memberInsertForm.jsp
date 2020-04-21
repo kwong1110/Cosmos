@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
+<style>
+	.minus {
+		display : inline-block;
+		cursor:pointer;
+	}
+</style>
 </head>
 <body>
 	<!-- view 초기 구조 -->
@@ -111,8 +117,9 @@
 											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-												<p>기타 항목을 입력해 주세요</p> 
-												<input type="text" id="studyEtc" name="studyEtc" value=""><button type="button">추가</button>
+												<p>기타 항목을 입력해 주세요(3개까지 추가할 수 있습니다.)</p> 
+												<input type="text" name="studyEtc" value="" class="studyEtc">
+												<button type="button" class="addEtcBtn">추가</button>
 										</div>
 									</td>
 								</tr>
@@ -152,7 +159,7 @@
 	$(function(){
 		var category = document.getElementsByName("studyGroup"); // 공부 과목 카테고리
 		var $area = $("#category-area");
-
+		
 		$(category).change(function(){
 			var valAfter = $(this).val().replace(/[\s/]/g, '');
 			var valBefore = $(this).val();
@@ -166,6 +173,8 @@
 			var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
 			var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
 			var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상 ~ 3년 이하");
+			var $iconWrap = $("<span class='minus'>");
+			var $icon = $("<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'>");
 			
 			if($(this).is(":checked")){
 				$area.append($div);
@@ -176,21 +185,68 @@
 				$select.append($value2);
 				$select.append($value3);
 				$select.append($value4);
+				$select.append($value4);
+				$div.append($iconWrap);
+				$iconWrap.append($icon);
 				
 			} else {
 				$("div#" + valAfter).remove();
 			}
+		});
+		
+		var count = 0;
+		var idNum = 96;
+		
+		$(".addEtcBtn").click(function(){
+			var valAfter = $(".studyEtc").val().replace(/[\s/]/g, '');
+			var valBefore = $(".studyEtc").val();
 			
-			if($(".etc").is(":checked")){
-				$area.append("<div id='기타'>");
-				$div.append($("#studyEtc").val());
-				$div.append($rHidden);
+			count++;
+			idNum++;
+			
+			if(count <= 3){
+				var $div = $("<div id='" + valAfter + "'>");
+				var $result = valBefore + " ";
+				var $rHidden1 = $("<input type='hidden' name='studyEtcNo' value='" + idNum + "'>");
+				var $rHidden2 = $("<input type='hidden' name='studyEtcName' value='" + valBefore + "'>");
+				var $select = $("<select name='term'>");
+				var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
+				var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
+				var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
+				var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상 ~ 3년 이하");
+				var $iconWrap = $("<span class='minus'>");
+				var $icon = $("<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'>");
+				
+				$area.append($div);
+				$div.append($result);
+				$div.append($rHidden1);
+				$div.append($rHidden2);
 				$div.append($select);
 				$select.append($value1);
 				$select.append($value2);
 				$select.append($value3);
 				$select.append($value4);
-			}
+				$div.append($iconWrap);
+				$iconWrap.append($icon);
+				alert(document.getElementsByName(studyEtc).value());
+								
+				$(this).attr('disabled', false);
+				$("#studyEtc").attr('disabled', false);
+				if(count == 3){
+					$(this).attr('disabled', true);
+					$(".studyEtc").attr('disabled', true);
+				}
+			} 
+						
+		});
+		
+		var removeNum = 0;
+		
+		$("#category-area").click("span.minus", function(){
+			
+			/* removeNum = $(this).find("span.minus").parent().find("input").attr('value');
+			$(this).find("span.minus").parent().remove(); */
+			/* $(".categoryLabel").find("#"+idNum).prop('checked', false); */
 			
 		});
 			
