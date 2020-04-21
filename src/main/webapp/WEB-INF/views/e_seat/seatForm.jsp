@@ -136,7 +136,7 @@
         				1인석
         				</div>
         				<div class="left-top1-table-cell" style="background:#2E4559"><input type="hidden" value="Z-18">
-        				1인석
+        				고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
@@ -144,7 +144,7 @@
         				1인석
         				</div>
         				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-20">
-        				1인석
+        				고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
@@ -152,7 +152,7 @@
         				1인석
         				</div>
         				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-22">
-        				1인석
+        				고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
@@ -160,7 +160,7 @@
         				1인석
         				</div>
         				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-24">
-        				1인석
+        				고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
@@ -168,7 +168,7 @@
         				1인석
         				</div>
         				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-26">
-        				1인석
+        				고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
@@ -176,7 +176,7 @@
         				1인석
         				</div>
         				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-28">
-        				1인석
+        				고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
@@ -184,7 +184,7 @@
         				1인석
         				</div>
         				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-30">
-        				1인석
+        				고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
@@ -192,7 +192,7 @@
         				1인석
         				</div>
         				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-32">
-        				1인석
+        				고정석
         				</div>
         			</div>
         		</div>
@@ -201,12 +201,12 @@
         		<div class="left-bottom1-toilet">
         			<div class="toilet">
         				<div class="woman">
-        				여자
+        				여자화장실
         				</div>
         			</div>
         			<div class="toilet">
         				<div class="man">
-        				남자
+        				남자화장실
         				</div>
         			</div>
         		</div>

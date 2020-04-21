@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
+import com.kh.cosmos.a_common.Pagination_seat;
 import com.kh.cosmos.e_seat.model.exception.SeatException;
 import com.kh.cosmos.e_seat.model.service.SeatService;
 import com.kh.cosmos.e_seat.model.vo.Seat;
@@ -32,7 +33,7 @@ public class SeatController {
 		
 		int listCount = sService.getListCount();
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_seat.getPageInfo(currentPage, listCount);
 		
 		ArrayList<ViewBranch> branchList = sService.selectBranchList(pi);
 		

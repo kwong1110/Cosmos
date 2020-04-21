@@ -83,36 +83,80 @@
 					        			</c:forEach>
 					        		
 					        	</div>
-					            <div class="left-bot ">
-					            	<nav>
+					            <div class="left-bot" style="text-align:center;">
 									  <ul class="pagination">
-									    <li>
-									      <a href="#" aria-label="Previous">
-									        <span aria-hidden="true">&laquo;</span>
-									      </a>
-									    </li>
-									    <li>
-									      <a href="#" aria-label="Previous">
-									        <span aria-hidden="true">&lt;</span>
-									      </a>
-									    </li>
-									    <li><a href="#">1</a></li>
-									    <li><a href="#">2</a></li>
-									    <li><a href="#">3</a></li>
-									    <li><a href="#">4</a></li>
-									    <li><a href="#">5</a></li>
-									    <li>
-									      <a href="#" aria-label="Next">
-									        <span aria-hidden="true">&gt;</span>
-									      </a>
-									    </li>
-									    <li>
-									      <a href="#" aria-label="Next">
-									        <span aria-hidden="true">&raquo;</span>
-									      </a>
-									    </li>
-									  </ul>
-								  	</nav>
+										<li>
+											<c:if test="${ pi.currentPage eq pi.startPage }">
+												<a aria-label="Previous">
+													<span aria-hidden="true">&laquo;</span>
+												</a>
+											</c:if>
+											<c:if test="${ pi.currentPage ne pi.startPage }">
+												<c:url var="start" value="reservation.se">
+													<c:param name="page" value="${ pi.startPage }"/>
+												</c:url>
+												<a href="${ start }" aria-label="Previous">
+													<span aria-hidden="true">&laquo;</span>
+												</a>
+											</c:if>
+										</li>
+										<li>
+											<c:if test="${ pi.currentPage <= 1 }">
+												<a aria-label="Previous">
+													<span aria-hidden="true">&lt;</span>
+												</a>
+											</c:if>
+											<c:if test="${ pi.currentPage > 1 }">
+												<c:url var="before" value="reservation.se">
+													<c:param name="page" value="${ pi.currentPage - 1 }"/>
+												</c:url>
+												<a href="${ before }" aria-label="Previous">
+													<span aria-hidden="true">&lt;</span>
+												</a>
+											</c:if>
+										</li>
+										<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+											<c:if test="${ p eq pi.currentPage }">
+												<li><a>${ p }</a></li>
+											</c:if>
+											<c:if test="${ p ne pi.currentPage }">
+												<c:url var="pagination" value="reservation.se">
+													<c:param name="page" value="${ p }"/>
+												</c:url>
+												<li><a href="${ pagination }">${ p }</a></li>
+											</c:if>
+										</c:forEach>
+										<li>
+											<c:if test="${ pi.currentPage >= pi.maxPage }">
+												<a aria-label="Next">
+													<span aria-hidden="true">&gt;</span>
+												</a>
+											</c:if>
+											<c:if test="${ pi.currentPage < pi.maxPage }">
+												<c:url var="after" value="reservation.se">
+													<c:param name="page" value="${ pi.currentPage + 1 }"/>
+												</c:url>
+												<a href="${ after }" aria-label="Next">
+													<span aria-hidden="true">&gt;</span>
+												</a>
+											</c:if>
+										</li>
+										<li>
+											<c:if test="${ pi.currentPage eq maxPage }">
+												<a href="#" aria-label="Next">
+													<span aria-hidden="true">&raquo;</span>
+												</a>
+											</c:if>
+											<c:if test="${ pi.currentPage ne maxPage }">
+												<c:url var="max" value="reservation.se">
+													<c:param name="page" value="${ pi.maxPage }"/>
+												</c:url>
+												<a href="${ max }" aria-label="Next">
+													<span aria-hidden="true">&raquo;</span>
+												</a>
+											</c:if>
+										</li>
+									</ul>
 					            </div>
 					        </div>
 					        <div class="div-right">
@@ -253,15 +297,17 @@
 					            					// console.log($(this).val());
 					            					switch($(this).val()){
 					            					case'시간': $('.input-single-timepicker').css('display', 'none'); 
-					            							  $('.input-daterange-timepicker').css('display', 'block'); 
-					            							  $("input[name='people']").attr('disabled',false).prop('checked',false);break; 
+					            							  $('.input-daterange-timepicker').css('display', 'inline-block'); 
+					            							  $("input[name='people']").attr('disabled',false).prop('checked',false);break;
+					            							  
 					            					case'7일': $('.input-daterange-timepicker').css('display', 'none');
-					            							  $('.input-single-timepicker').css('display', 'block'); 
-					            							  $("input[name='people']").attr('disabled',true).prop('checked',false); 
-					            							  break;
+					            							  $('.input-single-timepicker').css('display', 'inline-block'); 
+					            							  $("input[name='people']").attr('disabled',true).prop('checked',false);break;
+					            							 
 					            					case'30일': $('.input-daterange-timepicker').css('display', 'none');
-					            							    $('.input-single-timepicker').css('display', 'block');
+					            							    $('.input-single-timepicker').css('display', 'inline-block');
 					            							    $("input[name='people']").attr('disabled',true).prop('checked',false); break;
+					            							    
 					            					}
 				            					});
 					            				/* $('#onePeriod').on('click',function(){
@@ -318,30 +364,36 @@
 					            				</script>
 					            		<div class="left-date">
 					            			<div class="cl">● 예약일자</div>
-					            			<div class="cr" id="cr1" style="padding-top:16px;">
+					            			<div class="cr" id="cr1" style="padding-top:0px;">
 					            				<div class="box-title m-t-30"></div>
-												<input type="text" class="form-control input-single-timepicker" name="daterange" id="daterange" style="width:265px; display:none; text-align:center;" >
 												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:265px; display:none;">
+												<input type="text" class="form-control input-single-timepicker" name="daterange1" id="daterange1" style="width:265px; display:none; text-align:center;" >
 					            			</div>
 					            		</div>
 					            		<div class="left-name">
 					            			<div class="cl">● 이름</div>
 					            			<div class="cr">
-					            				<input type="text" name="name" class="form-control" placeholder="이름을 입력해주세요" style="width:265px;">
+					            				<input type="text" name="name" class="form-control" value="${ loginUser.name }" readonly style="width:265px; text-align:center;">
 					            			</div>
 					            		</div>
 					            		<div class="left-phone">
 					            			<div class="cl">● 휴대폰번호</div>
 					            			<div class="cr">
-					            				<input type="text" name="phone" class="form-control" placeholder="번호를 입력해주세요" style="width:265px;">
+					            				<input type="text" name="phone" class="form-control" value="${ loginUser.phone }" readonly style="width:265px; text-align:center;">
 					            			</div>
 					            		</div>
 					            	</div>
 					            	<div class="right-content-right">
 					            		<div class="right-group">
 					            			<div class="cl">● 그룹선택</div>
+					            			<!-- studySroup에 insertRecView.sg 이부분에 있는거 넣으면됨. -->
 					            			<div class="cr">
-					            				
+					            				<select name="group" style="width:150px;">
+											    <option value="">선택</option>
+											    <option value="토익">토익</option>
+											    <option value="자격증">자격증</option>
+											    <option value="기타">기타</option>
+											</select>
 					            			</div>
 					            		</div>
 					            		<div class="right-choose">
@@ -429,8 +481,7 @@
 					    			var price =  $('#chooseSeat').text();
 					    			var strPrice = price.split('-');
 					    			
-					    			var fullDate = $('.input-daterange-timepicker').val();
-					    			
+					    			var fullDate = $('#daterange').val();
 					    			var startDate = fullDate.substr(0,10);
 					    			var startTime = fullDate.substr(11,2);
 					    			var endDate = fullDate.substr(18,11).trim();
@@ -440,14 +491,46 @@
 					    			console.log(startTime);
 					    			console.log(endDate);
 					    			console.log(endTime);
-					    			
+					    			var fullDate1 = $('#daterange1').val();
+					    			var startDate1 = fullDate1.substr(0,10);
+					    			var startTime1 = fullDate1.substr(11,2);
+					    			console.log(fullDate1);
+					    			console.log(startDate1);
+					    			console.log(startTime1);
 					    			<c:forEach var="d" items="${ sortList }">
-				    				if(strPrice[0] == "${ d.reserSort }"){
-				    					result = (endTime-startTime) * "${d.reserFee}"
-				    				};
+					    				/* if(strPrice[0] == "A"){
+					    					result = (endTime-startTime) * "${d.reserFee}"
+					    					$('#userPrice').text(result+'원');
+					    					 $('#userPrice').val(''); 
+					    				} else if(strPrice[0] == "Z"){
+					    					result1 = "${d.reserFee}"
+					    						$('#userPrice').text(result1+'원');
+					    					 $('#userPrice').val(''); 
+					    				}; */
+					    				switch(strPrice[0]){
+					    				case 'A': /* case 'B': case 'C': case 'D':  */
+					    					$('#userPrice').empty();
+					    					 result = (endTime-startTime) * "${d.reserFee}"
+				    						$('#userPrice').text(result+'원'); break;
+				    						
+					    				case'B' : result = (endTime-startTime) * "${d.reserFee}"
+		    							  		  $('#userPrice').text(result+'원'); break;
+					    				case'C' : result = (endTime-startTime) * "${d.reserFee}"
+		    							  		  $('#userPrice').text(result+'원'); break;
+					    				case'D' : result = (endTime-startTime) * "${d.reserFee}"
+		    							  		  $('#userPrice').text(result+'원'); break; 
+					    				case 'Z' :  $('#userPrice').empty('');
+					    						 	 result = "${d.reserFee}"
+				    							  $('#userPrice').text(result+'원');  break;
+					    				}
 				    				</c:forEach>
-					    			
-					    			$('#userPrice').text(result+'원');
+				    				console.log(result);
+				    				console.log(strPrice[0]);
+				    				
+				    				/* $('#userPrice').text(result+'원');
+				    				$('#userPrice').text(result1+'원'); */
+				    				
+					    			/* $('#userPrice').text(result+'원'); */
 					    		}
 					    		/* var price =  $('#chooseSeat').text();
             				 	console.log(price); */
