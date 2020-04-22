@@ -14,4 +14,7 @@ public interface MemberService {
 
 	int insertMember(Member m, ArrayList<Preview> pList);
 
+	ArrayList<Preview> getStudyList(String id);
+
+
 }

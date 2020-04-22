@@ -25,19 +25,13 @@ public class MemberDAO {
 	}
 
 	public int insertPreview(SqlSessionTemplate sqlSession, Member m, ArrayList<Preview> pList) {
-		System.out.println("dao : " + pList);
 		return sqlSession.insert("memberMapper.insertPreview", pList);
 	}
 
-
-
-
-	/*public int insertMember(SqlSessionTemplate sqlSession, Member m) {
-		return sqlSession.insert("memberMapper.insertMember", m);
+	public ArrayList<Preview> getStudyList(SqlSessionTemplate sqlSession, String id) {
+		return (ArrayList)sqlSession.selectList("memberMapper.getStudyList", id);
 	}
 
-	public int insertPreview(SqlSessionTemplate sqlSession, Member m, Preview p) {
-		return sqlSession.insert("memberMapper.insertPreview", p);
-	}*/
+	
   
 }
