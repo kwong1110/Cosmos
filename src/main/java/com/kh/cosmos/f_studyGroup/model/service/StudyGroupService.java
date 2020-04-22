@@ -22,5 +22,9 @@ public interface StudyGroupService {
 	StudyGroupRecruit getStudyGroupRecruit(int sgno);
 
 	StudyGroupRecruit getGroupInfoForRec(int sgno);
+
+	int getPartMemberNum(int sgno);
+
+	int getIngRecCount(int sgno);
 	
 }

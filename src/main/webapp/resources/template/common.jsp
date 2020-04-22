@@ -67,23 +67,19 @@
 	<form method="get" action="">
 		<div class="row">
 			<div class="col-lg-6">
-				<div class="input-group">
-					<div class="input-group-btn">
-						<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">분류 <span class="caret"></span></button>
-						<ul class="dropdown-menu" role="menu">
-							<li><a href="#">분류</a></li>
-							<li><a href="#">111</a></li>
-							<li><a href="#">222</a></li>
-							<li class="divider"></li>
-							<li><a href="#">333</a></li>
-						</ul>
-					</div><!-- /btn-group -->
-					<input type="text" class="form-control" style="border:none;" placeholder="검색어를 입력하세요.">
+					<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
+					<select style="width: 25%;" class="form-control search-select">
+						<option>분류</option>
+						<option>111</option>
+						<option>222</option>
+						<option>333</option>
+					</select>
+					<div class="input-group search-text" style="width: 73%;">
+						<input type="text" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
 						<span class="input-group-btn">
 							<button class="btn search-submit" type="button">검색</button>
 						</span>
-				</div>
-				<!-- /input-group -->
+					</div><!-- /input-group -->
 			</div><!-- /.col-lg-6 -->
 		</div><!-- /.row -->
 	</form>

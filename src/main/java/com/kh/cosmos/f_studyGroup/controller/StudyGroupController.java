@@ -42,7 +42,6 @@ public class StudyGroupController {
 		ArrayList studyList = sgService.getStudyList();
 		ArrayList<ViewBranch> branchList = sgService.getBranchList();
 		
-		
 		mv.addObject("studyList", studyList);
 		mv.addObject("branchList", branchList);
 		mv.setViewName("studyGroupList");
@@ -90,6 +89,14 @@ public class StudyGroupController {
 		
 		ArrayList<StudyGroup> sgList = sgService.getStudyGroupList(id);
 		
+		for(int i = 0; i < sgList.size(); i++) {
+			int ingRecCount = sgService.getIngRecCount(sgList.get(i).getSgNo());
+			
+			if(ingRecCount > 0) {
+				sgList.remove(i);
+			}
+		}
+		
 		mv.addObject("sgList", sgList);
 		mv.setViewName("recruitInsert");
 		
@@ -100,6 +107,8 @@ public class StudyGroupController {
 	public void getStudyGroupInfo(HttpServletResponse response, @RequestParam("sgno") int sgno) throws JsonIOException, IOException {
 		
 		StudyGroupRecruit info = sgService.getGroupInfoForRec(sgno);
+		int partNum = sgService.getPartMemberNum(sgno);
+		//System.out.println("partNum : " + partNum);
 		
 		if(info != null) {
 			info.setStudyName(URLEncoder.encode(info.getStudyName(), "UTF-8"));
@@ -111,10 +120,26 @@ public class StudyGroupController {
 			if(info.getMsgRule3() != null) info.setMsgRule3(URLEncoder.encode(info.getMsgRule3(), "UTF-8"));
 			info.setSgContent(URLEncoder.encode(info.getSgContent(), "UTF-8"));
 			
+			info.setMsgNum(info.getMsgNum() - partNum);
+			//System.out.println("msgNum - partNum : " + info.getMsgNum());
+			
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson(info, response.getWriter());
 		} else {
-			throw new StudyGroupException("마이그룹의 모달 정보(그룹원)를 불러오지 못했습니다.");
+			throw new StudyGroupException("그룹 리스트(selectBox)를 불러오지 못했습니다.");
+		}
+	}
+	
+	@RequestMapping("insertRecruit.sg")
+	public String insertRecruit(@ModelAttribute StudyRecruit info) {
+		System.out.println(info);
+		
+		int result = sgService.insertRecruit(info);
+		
+		if(result > 0) {
+			return "redirect:listView.sg";
+		} else {
+			throw new StudyGroupException("모집 등록에 실패하였습니다.");
 		}
 	}
 
