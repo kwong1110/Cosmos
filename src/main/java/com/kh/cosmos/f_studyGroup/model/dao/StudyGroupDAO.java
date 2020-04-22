@@ -44,4 +44,12 @@ public class StudyGroupDAO {
 		return sqlSession.selectOne("studyGroupMapper.getGroupInfoForRec", sgno);
 	}
 
+	public int getPartMemberNum(SqlSessionTemplate sqlSession, int sgno) {
+		return sqlSession.selectOne("studyGroupMapper.getPartMemberNum", sgno);
+	}
+
+	public int getIngRecCount(SqlSessionTemplate sqlSession, int sgno) {
+		return sqlSession.selectOne("studyGroupMapper.getIngRecCount", sgno);
+	}
+
 }

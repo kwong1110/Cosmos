@@ -17,17 +17,17 @@
 	.tableLabel{width: 35%; text-align: center; font-size: 20px; font-weight: bold;}
 	#now_date{width:100px;}
 	
-	#groupSelect{width: 400px;}
+	#groupSelect{width: 200px; display: inline-block;}
 	#studyType{width: 200px;}
-	#recEndDate{width: 140px; display: inline-block;}
-	#recNum{width: 70px; display: inline-block;}
+	input[name=recEndDate]{width: 140px; display: inline-block;}
+	#recNum{width: 120px; display: inline-block;}
 	#recLoc{width: 200px;}
 	#meetingDate{width: 140px; display: inline-block;}
 	
 	.topTd{vertical-align: top;}
 	.resize{resize: none;}
 	.inline{display: inline;}
-	
+	transparent
 	.lengthAlert{float:right; font-weight:normal; padding:0; margin-left:5px;}
 	
 	.helpBtn{background: rgb(23, 149, 95); border: 0; outline: 0; width: 30px; height: 30px; padding: 3px 11px; margin: 5px; font-size: 13px; border-radius: 100%; color: #FFF;}
@@ -45,15 +45,18 @@
 				</div>
 				<div class="content">
 					
+					<form action="insertRecruit.sg" method="post" onsubmit="return checkForm();">
 					<table class="inner tableStyle">
 						<tr>
 							<td class="tableLabel">그룹 명</td>
 							<td>
-								<select class="form-control" id="groupSelect" name="groupSelect">
+								<select class="form-control" id="groupSelect" name="sgNo">
 									<c:forEach var="item" items="${ sgList }">
 										<option value="${ item.sgNo }">${ item.sgName }</option>
 									</c:forEach>
 								</select>
+								<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="right" title="모집이 진행중인 그룹은 표시되지 않습니다.">?</button>
+								
 							</td>
 						</tr>
 						<tr>
@@ -66,15 +69,20 @@
 						<tr>
 							<td class="tableLabel">모집 기간</td>
 							<td class="inline">
-								<label id="now_date"></label> ~ &nbsp;&nbsp;<input type="text" class="form-control" id="datepicker-autoclose" placeholder="년/월/일">
-								<input type="date" class="form-control" id="recEndDate" name="recEndDate">
+								<label id="now_date"></label>
+								 ~ &nbsp;&nbsp;
+								<input type="text" class="form-control datePicker" id="datepicker-autoclose" name="recEndDate" placeholder="년/월/일">
+								<!-- <input type="date" class="form-control" id="recEndDate" name="recEndDate"> -->
+								<input type="hidden" id="recTerm" name="recTerm">
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">모집 인원</td>
-							<td>
-								<input type="number" min="1" max="7" class="form-control" id="recNum" name="recNum">
-								<button class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 모집 인원을 입력해주세요. 1인 이상, 7인 이하.">?</button>
+							<td id="recNumTd">
+								
+								<input type="number" min="1" class="form-control" id="recNum" name="recNum">
+								<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 모집 인원을 입력해주세요. 단,그룹인원 수를 넘을 수 없습니다.">?</button>
+								
 							</td>
 						</tr>
 						<tr>
@@ -109,7 +117,7 @@
 						<tr>
 							<td class="tableLabel">그룹 내용</td>
 							<td class="topTd">
-								<pre id="groupContent"></pre>
+								<pre id="groupContent" style="background:none; border:0; padding:0; font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;"></pre>
 							</td>
 						</tr>
 						<tr>
@@ -123,6 +131,8 @@
 							</td>
 						</tr>
 					</table>
+					</form>
+					
 				</div>
 			</div>
 		</div>
@@ -131,18 +141,17 @@
 	
 	
 	<script>
+	var today;
+	
 	$(function() {
 		getGroupInfo();
 		
-		var today = new Date();
+		today = new Date();
 		var dd = today.getDate();
 		var mm = today.getMonth()+1; // Jan is 0
 		var yyyy = today.getFullYear();
-		 
 		if(dd<10){ dd = '0'+dd }
-		
 		if(mm<10){ mm = '0'+mm }
-		                            
 		today = yyyy + '-' + mm + '-' + dd;
 		$('#now_date').text(today);
 		console.log(today);
@@ -162,7 +171,7 @@
 			url:"getStudyGroupInfo.sg",
 			data:{sgno:sgno},
 			dataType: 'json',
-			success: function(data) {
+			success: function(data) {				
 				$('#studyType').text(decodeURIComponent(data.studyName.replace(/\+/g, ' ')));
 				$('#recLoc').text(decodeURIComponent(data.branchName.replace(/\+/g, ' ')));
 				$('#meetingDate').text(decodeURIComponent(data.msgMetRule.replace(/\+/g, ' ')));
@@ -184,9 +193,48 @@
 					}
 				}
 				
-				$('#groupContent').text(data.groupContent);
+				$('#groupContent').text(decodeURIComponent(data.sgContent.replace(/\+/g, ' ')));
+				
+				$('#recNum').val('');
+				$('#recNum').attr({'max':data.msgNum, 'placeholder':'1이상 '+data.msgNum+'이하'});
+				
 			}
 		});
+	}
+	
+	function checkDate() {
+		var startDateArr = today.split('-');
+	       
+	    var endDate = $('input[name=recEndDate]').val();
+	    var endDateArr = endDate.split('-');
+	    
+	    var startDateCompare = new Date(startDateArr[0], parseInt(startDateArr[1])-1, startDateArr[2]);
+	    var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+	    
+	    if(startDateCompare.getTime() <= endDateCompare.getTime()) {
+	    	$('#recTerm').val(today + " - " + endDate);
+	    	return true;
+	    }
+		
+	    if(endDate != '') {
+	    	alert("시작날짜와 종료날짜를 확인해 주세요.");
+	    } else {
+	    	alert("모집 기간을 작성해주세요.");
+	    }
+    	return false;
+	}
+	
+	function checkForm() {
+		if(checkDate()) {
+			var num = $('#recNum').val();
+			if(num.trim() != '') {
+				return true;
+			} else {
+				alert('모집 인원을 작성해주세요.');
+			}
+		}
+		
+		return false;
 	}
 	</script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script>

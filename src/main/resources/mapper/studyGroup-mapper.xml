@@ -28,8 +28,14 @@
 	</insert>
 	
 	<insert id="insertRecruit">
+		<if test="recMettingDate != null">
 		insert into rec_sgroup
 		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, #{recMettingDate}, seq_sgid.currval)
+		</if>
+		<if test="recMettingDate == null">
+		insert into rec_sgroup
+		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, null, #{sgNo})
+		</if>
 	</insert>
 	
 	<select id="getStudyGroup" parameterType="string" resultMap="studyGroupResultSet">
@@ -62,7 +68,19 @@
 			join study_category using(study_no)
 			join branch using(branch_no)
 			join m_sgroup using(sg_no)
-		where sg_no = #{sg_no}
+		where sg_no = #{sgno}
+	</select>
+	
+	<select id="getIngRecCount" parameterType="_int" resultType="_int">
+		select count(*)
+		from rec_sgroup
+		where sg_no = #{sgno} and TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= SYSDATE
+	</select>
+	
+	<select id="getPartMemberNum" parameterType="_int" resultType="_int">
+		select count(*)
+		from ap_sgroup
+		where asg_status = 'Y' and sg_no = #{sgno}
 	</select>
 	
 	<resultMap type="StudyGroupRecruit" id="groupRecruitResultSet">

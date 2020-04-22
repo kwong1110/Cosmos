@@ -56,4 +56,14 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 		return sgDAO.getGroupInfoForRec(sqlSession, sgno);
 	}
 
+	@Override
+	public int getPartMemberNum(int sgno) {
+		return sgDAO.getPartMemberNum(sqlSession, sgno);
+	}
+
+	@Override
+	public int getIngRecCount(int sgno) {
+		return sgDAO.getIngRecCount(sqlSession, sgno);
+	}
+
 }

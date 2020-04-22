@@ -128,11 +128,11 @@
 								
 								<div id="studyDiv" class="categoryDiv">
 									<c:forEach items="${ studyList }" var="item" varStatus="status">
-										<script>
+										<!-- <script>
 											console.log("status.count : ${status.count}");
 											console.log("status.count mod 5 : ${status.count mod 5}");
 											console.log("item : ${item}");
-										</script>
+										</script> -->
 										<c:if test="${ (status.count mod 5) eq 1 }">
 											<div class="categoryLabel">
 												<label class="pointer">${ item }</label><br>
