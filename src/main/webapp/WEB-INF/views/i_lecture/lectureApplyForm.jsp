@@ -69,7 +69,7 @@
 							</tr>
 							<tr>
 								<th>직업</th>
-								<td><input type="text" id="job" name="lectureJob" placeholder="직업을 입력해주세요."></td>
+								<td><input type="text" id="job" name="lectureJob" placeholder="직업"></td>
 							</tr>
 							<tr>
 								<th rowspan="2">강연 제목</th>
@@ -89,16 +89,16 @@
 							</tr>
 							<tr>
 								<th>참가비</th>
-								<td colspan="1"><input type="number" id="lectureFee" name="lectureFee" step="1000" min="0" placeholder="1000 단위 입력 가능"></td>
+								<td colspan="1"><input type="number" id="lectureFee" name="lectureFee" step="1000" min="0" placeholder="참가비를 입력해주세요.(1000 단위)"></td>
 								<th>강연 인원</th>
-								<td colspan="2"><input type="number" id="maxpeople" name="maxpeople" step="10" min="0" max="30" placeholder="10 단위 입력 가능"></td>
+								<td colspan="2"><input type="number" id="maxpeople" name="maxpeople" step="10" min="0" max="30" placeholder="강연인원을 입력해주세요.(10단위)"></td>
 							</tr>
 							<tr>
 								<th colspan="8">강연 내용</th>
 							</tr>
 							<tr>
 								<td colspan="8" style="padding: 0;">
-									<textarea id="summernote" style="resize: none" name="lectureContent"></textarea>
+									<textarea id="summernote" style="resize: none" name="lectureContent" placeholder="내용을 입력해주세요."></textarea>
 									<c:import url="../a_common/summernote.jsp"/>
 								</td>
 							</tr>
@@ -129,7 +129,7 @@
 			contentType : false,
 			processData : false,
 			success : function(data) {
-				console.log("url확인 : " + data.url);
+				// console.log("url확인 : " + data.url);
 	        	//항상 업로드된 파일의 url이 있어야 한다.
 				$(editor).summernote('insertImage', "${ contextPath }/resources/" + data.url);
 			}
