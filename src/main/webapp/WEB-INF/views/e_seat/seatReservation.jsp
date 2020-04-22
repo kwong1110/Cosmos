@@ -76,10 +76,12 @@
 					        			<c:forEach var="s" items="${ branchList }">
 					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
 					        					<div style="margin-left:38px;">
-					        					<b>코스모스 스터디센터 ${ s.branchName }</b>
+					        						<b>
+					        							코스모스 스터디센터 ${ s.branchName }
+					        						</b>
 					        					</div>
 					        					<div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
-					        						<input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
+					        						<input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchNo }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
 					        					</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
@@ -214,7 +216,7 @@
 										}
 										window.onload=brAddress;
 										</script>
-									<script >
+									<script>
 									function branchAddress(e){
 										var address1 = $(e).parent()[0].innerText;
 										var name = $(e).parent().parent().children().eq(0)[0].innerText;
@@ -267,21 +269,8 @@
 					            			<div class="cl">● 예약지점</div>
 					            			<div class="cr" id="reserStore">
 					            				<script>
-					            				/* function branchAddress(e){
-					            					var checkedVal=$(e).parent().parent().children().eq(0)[0].innerText;
-					            					$("#reserStore").html(checkedVal);
-					            				} */
-					            				/*var st = $("input:radio[name=branchAddress]:checked").val();
-					            				console.log(st);
-					            				$("#reserStore").html(st);*/
-					            				/* var tmp = $("#branchAddress").parent().parent().children().eq(0)[0].innerText;
-					            				console.log(tmp);
-					            				console.log(${ s.branchAddress });
-					            				$("#reserStore").text(tmp); */
 					            				$('input[type=radio][name=branchAddress]').on('click',function(){
 					            					var tmp = $('input[type=radio][name=branchAddress]:checked').parent().parent().children().eq(0)[0].innerText;
-					            					console.log(tmp);
-					            						/* $("#branchAddress").parent().parent().children().eq(0)[0].innerText; */
 					            					$("#reserStore").text(tmp);
 					            				});
 					            				</script>
@@ -551,7 +540,26 @@
 				var buy = confirm("정말로 구매하시겠습니까?");
 				var money=$('#userPrice').text();
 				var strMoney=money.split('원');
-				var dkanrjsk={id:'${ loginUser.id }', reserPeople:8};
+				
+				var branchNo = $("input:radio[name='branchAddress']:checked").val();
+				var reserType = $("input:radio[name='period']:checked").val();
+				var reserDate;
+				var reserPeople;
+					if($("input:radio[name='period']:checked").val() == '시간'){
+						reserDate = $('#daterange').val();
+						reserPeople = $("input:radio[name='reserPeople']:checked").val();
+					}else if($("input:radio[name='period']:checked").val() == '7일' || $("input:radio[name='period']:checked").val() == '30일'){
+						reserDate = $('#daterange1').val();
+						reserPeople = 1;
+					}
+				
+				
+				
+				var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople};
+				
+				
+				
+				
 				$.ajax({
 			    	   url : "seatBuy.se",
 			    	   type : "post",
