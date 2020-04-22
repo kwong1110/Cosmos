@@ -7,7 +7,6 @@
 		select count(*)
 		from branch
 	</select>
-	
 	<select id="selectBranchList" resultMap="branchResultSet">
 		select *
 		from branch
@@ -29,5 +28,4 @@
 		from branch
 		where branch_no = #{branchNo}
 	</select>
-	
 </mapper>

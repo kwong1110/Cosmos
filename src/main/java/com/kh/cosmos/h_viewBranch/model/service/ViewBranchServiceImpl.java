@@ -10,6 +10,8 @@ import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.b_member.model.dao.MemberDAO;
 import com.kh.cosmos.h_viewBranch.model.dao.ViewBranchDAO;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
+import com.kh.cosmos.b_member.model.dao.MemberDAO;
+import com.kh.cosmos.h_viewBranch.model.dao.ViewBranchDAO;
 
 @Service("vbService")
 public class ViewBranchServiceImpl implements ViewBranchService {
@@ -34,5 +36,4 @@ public class ViewBranchServiceImpl implements ViewBranchService {
 	public ViewBranch selectBranch(int vbNo) {
 		return vbDAO.selectBranch(sqlSession,  vbNo);
 	}
-
 }

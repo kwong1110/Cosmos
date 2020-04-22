@@ -13,6 +13,7 @@ import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.h_viewBranch.model.exception.ViewBranchException;
 import com.kh.cosmos.h_viewBranch.model.service.ViewBranchService;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
+import com.kh.cosmos.h_viewBranch.model.service.ViewBranchService;
 
 @Controller
 public class ViewBranchController {
@@ -40,7 +41,6 @@ public class ViewBranchController {
 		} else {
 			throw new ViewBranchException("지점 리스트 조회에 실패하였습니다.");
 		}
-		
 		return mv;
 		
 	}
@@ -62,9 +62,4 @@ public class ViewBranchController {
 		 
 		return mv ;
 	}
-	
-	
-	
-	
-	
 }
