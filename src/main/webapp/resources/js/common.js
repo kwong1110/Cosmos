@@ -36,33 +36,62 @@ function checkDetail() {
 }
 
 /**
- *	빈칸으로 값 전송 시 아래칸에 경고메세지 출력
+ *	빈칸으로 값 전송 시 sweetalert.
  * 	매개변수 값으로 빈칸이면 안되는 곳의 id를 차례로 입력해주면 됨.
  * 	1개, 여러개 모두 상관 없음.
  */
 function checkEmptyValues(){
 	
-	// 이걸로 안하고 placeholder가 빛나는걸로 
-	// var $errorDiv = $("<div class='error'>");
-	
 	for(var i=0; i < arguments.length; i++){
-		if($(arguments[i]).val().trim().length != 0){
-			$(arguments[i]).removeClass('error');
-		}
-	}
-	
-	for(var i=0; i < arguments.length; i++){
-
+		// console.log($(arguments[i]) + arguments[i]);
 		var msg = $(arguments[i]).attr('placeholder');
+			
+			// 보통 9글자라 생각하고 넉넉히 8글자 이하이면 입력해주세요.를 붙임.
+		if(msg.length < 8){
+			msg += "을/를 입력해주세요."
+		}
 		
-		if($(arguments[i]).val().trim().length == 0){
-			if(!$(arguments[i]).is($('.error'))){
-				$(arguments[i]).addClass('error');
-				$('.error').text(msg);
-				$(arguments[i]).focus();
-			}
+		if($(arguments[i]).val().trim().length == 0 && 
+			((($(arguments[i]).prop('tagName') == 'INPUT' && $(arguments[i]).attr('type') == 'text') || 
+			($(arguments[i]).prop('tagName') == 'INPUT' && $(arguments[i]).attr('type') == 'number') ||
+			($(arguments[i]).prop('tagName') == 'TEXTAREA')) ||
+			($(arguments[i]).text().trim().length == 0 && $(arguments[i]).prop('tagName') == 'DIV'))){
+			sweetAlert({
+				title: msg, 
+				type: "error"
+			});
+			
+			$(arguments[i]).focus();
 			return false;
-		}		
+		}
+		
+		if($(arguments[i]).prop('tagName') == 'INPUT' && $(arguments[i]).attr('type') == 'radio'){
+			
+			radioName = $(arguments[i]).attr('name');
+			
+			if($('input:radio[name=' + radioName +']').is(':checked') == false){
+				msg = $(arguments[i]).parent().prev().text();
+				msg.split('●');
+				sweetAlert({
+					title: msg + "선택해주세요!", 
+					type: "error"
+				});
+				return false;
+			}
+		}
+		
+		if($(arguments[i]).prop('tagName') == 'INPUT' && $(arguments[i]).attr('type') == 'checkbox'){
+			
+			checkName = $(arguments[i]).attr('name');
+			
+			if($('input:checkbox[name=' + checkName +']').is(':checked') == false){
+				sweetAlert({
+					title: "선택사항을 모두 확인해주세요!", 
+					type: "error"
+				});
+				return false;
+			}
+		}
 	}
 	
 	return true;

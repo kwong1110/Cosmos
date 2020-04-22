@@ -13,13 +13,10 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/bootstrap-datepicker.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/bootstrap-timepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/daterangepicker.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/plugins/sweetalert/sweetalert.css">
 	<!-- cosmos css -->
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/layout-style.css">
-	<!-- 부트스트랩 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<!-- cosmos js -->
-<script src="${contextPath}/resources/js/common.js"></script>
 </head>
 <style>
 	.loginTop,.loginMid{
@@ -516,8 +513,26 @@
 		if( <%= request.getParameter("success") %> == 1){
 			$("#login").trigger("click");
 		}
-	}
-	
+	};
+
+	// sweetalert
+	$(function(){
+		if('${ successMsg }' != ''){
+			sweetSuccess('${ successMsg }');
+		}
+		
+		if('${ updateMsg }' != ''){
+			sweetUpdate('${ updateMsg }');
+		}
+		
+	});
 	
 </script>
+	<!-- 부트스트랩 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<!-- cosmos js -->
+<script src="${contextPath}/resources/js/common.js"></script>
+	<!-- sweet alert -->
+<script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.cosmos.js"></script>
 </html>
