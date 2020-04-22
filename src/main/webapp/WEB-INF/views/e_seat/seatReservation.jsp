@@ -67,15 +67,18 @@
 					<h1>좌석예약</h1>
 				</div>
 				<div class="content">
+				
 						<div class="wrap-div form-inline" >
 					        <div class="div-left">
 					        	<!-- <div class="left-top">
-					        	</div> -->
+					        	     </div> -->
 					        	<div class="left-mid">
 					        			<c:forEach var="s" items="${ branchList }">
 					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
-					        					<div style="margin-left:38px;"><b>코스모스 스터디센터 ${ s.branchName }</b></div>
-					        					<div style="overflow: hidden;white-space:nowrap;text-overflow : ellipsis;">
+					        					<div style="margin-left:38px;">
+					        					<b>코스모스 스터디센터 ${ s.branchName }</b>
+					        					</div>
+					        					<div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
 					        						<input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
 					        					</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
@@ -294,21 +297,20 @@
 					            		</div>
 					            				<script>
 					            				$("input:radio[name='period']").on('click',function(){
-					            					// console.log($(this).val());
 					            					switch($(this).val()){
-					            					case'시간': $('.input-single-timepicker').css('display', 'none'); 
-					            							  $('.input-daterange-timepicker').css('display', 'inline-block'); 
-					            							  $("input[name='people']").attr('disabled',false).prop('checked',false);break;
-					            							  
-					            					case'7일': $('.input-daterange-timepicker').css('display', 'none');
-					            							  $('.input-single-timepicker').css('display', 'inline-block'); 
-					            							  $("input[name='people']").attr('disabled',true).prop('checked',false);break;
-					            							 
-					            					case'30일': $('.input-daterange-timepicker').css('display', 'none');
-					            							    $('.input-single-timepicker').css('display', 'inline-block');
-					            							    $("input[name='people']").attr('disabled',true).prop('checked',false); break;
+						            					case'시간': $('.input-single-timepicker').css('display', 'none'); 
+						            							  $('.input-daterange-timepicker').css('display', 'inline-block'); 
+						            							  $("input[name='reserPeople']").attr('disabled',false).prop('checked',false);break;
+						            							  
+						            					case'7일': $('.input-daterange-timepicker').css('display', 'none');
+						            							  $('.input-single-timepicker').css('display', 'inline-block'); 
+						            							  $("input[name='reserPeople']").attr('disabled',true).prop('checked',false);break;
+						            							 
+						            					case'30일': $('.input-daterange-timepicker').css('display', 'none');
+						            							    $('.input-single-timepicker').css('display', 'inline-block');
+						            							    $("input[name='reserPeople']").attr('disabled',true).prop('checked',false); break;
 					            							    
-					            					}
+					            						}
 				            					});
 					            				/* $('#onePeriod').on('click',function(){
 					            					console.log($("input:radio[name='period']:checked").val());
@@ -371,6 +373,7 @@
 					            			</div>
 					            		</div>
 					            		<div class="left-name">
+					            			
 					            			<div class="cl">● 이름</div>
 					            			<div class="cr">
 					            				<input type="hidden" value="${ loginUser.id }" name="id">
@@ -399,10 +402,10 @@
 					            		<div class="right-choose">
 					            			<div class="cl">● 인원선택</div>
 					            			<div class="cr">
-					            				<input type="radio" class="rad" id="onep" name="people"> 1인 &nbsp;
-					            				<input type="radio" class="rad" id="fourp" name="people"> 4인 &nbsp;
-					            				<input type="radio" class="rad" id="sixp" name="people"> 6인 &nbsp;
-					            				<input type="radio" class="rad" id="eightp" name="people"> 8인
+					            				<input type="radio" class="rad" id="onep" name="reserPeople" value="1"> 1인 &nbsp;
+					            				<input type="radio" class="rad" id="fourp" name="reserPeople" value="4"> 4인 &nbsp;
+					            				<input type="radio" class="rad" id="sixp" name="reserPeople" value="6"> 6인 &nbsp;
+					            				<input type="radio" class="rad" id="eightp" name="reserPeople" value="8 "> 8인
 					            			</div>
 					            		</div>
 					            		<div class="right-seat">
@@ -429,7 +432,7 @@
 					            		<div class="right-price">
 					            			<div class="cl">● 이용요금</div>
 					            			<div class="cr" id="userPrice">
-					            				 <%-- ${ sortList } --%>
+					            			
 					            			</div>
 					            		</div>
 					            	</div>
@@ -453,8 +456,10 @@
 					        </div>
 					    </div>
 					<div class="btnBox inner">
-						<button class="defaultBtn" onclick="buy()" value="결제">결제</button>
+						<!-- <input type="button" class="defaultBtn"> -->
+						 <button class="defaultBtn" onclick="buy()" value="결제">결제</button> 
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -541,36 +546,56 @@
 	</div><!-- /.modal -->
 	
 	<!-- 결제부분 -->
-		<!-- <script>
-			var IMP = window.IMP; 
-			IMP.init('imp05073510'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-			IMP.request_pay({
-			    pg : 'html5_inicis', 
-			    pay_method : 'card',
-			    merchant_uid : 'merchant_' + new Date().getTime(),
-			    name : '주문명:결제테스트',
-			    amount : 14000,
-			    buyer_email : 'iamport@siot.do',
-			    buyer_name : '구매자이름',
-			    buyer_tel : '010-1234-5678',
-			    buyer_addr : '서울특별시 강남구 삼성동',
-			    buyer_postcode : '123-456',
-			    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-			}, function(rsp) {
-			    if ( rsp.success ) {
-			        var msg = '결제가 완료되었습니다.';
-			        msg += '고유ID : ' + rsp.imp_uid;
-			        msg += '상점 거래ID : ' + rsp.merchant_uid;
-			        msg += '결제 금액 : ' + rsp.paid_amount;
-			        msg += '카드 승인번호 : ' + rsp.apply_num;
-			    } else {
-			        var msg = '결제에 실패하였습니다.';
-			        msg += '에러내용 : ' + rsp.error_msg;
-			    }
-			    alert(msg);
-			});
+		<script>
+			function buy(){
+				var buy = confirm("정말로 구매하시겠습니까?");
+				var money=$('#userPrice').text();
+				var strMoney=money.split('원');
+				var dkanrjsk={id:'${ loginUser.id }', reserPeople:8};
+				$.ajax({
+			    	   url : "seatBuy.se",
+			    	   type : "post",
+			    	   data : dkanrjsk,
+			    	   success : function(data) {
+			    	        alert("성공");
+			    	    }
+			       });
+				/* if(buy){
+					var IMP = window.IMP; 
+					IMP.init('imp05073510'); 
+					IMP.request_pay({
+					    pg : 'html5_inicis', 
+					    pay_method : 'card',
+					    merchant_uid : 'merchant_' + new Date().getTime(),
+					    name : '주문명:결제테스트',
+					    amount : strMoney[0],
+					    buyer_email : '${ loginUser.email }',
+					    buyer_name : '${ loginUser.name }',
+					    buyer_tel : '${ loginUser.phone }',
+					    buyer_addr : '서울특별시 강남구 삼성동',
+					    buyer_postcode : '123-456',
+					    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+					}, function(rsp) {
+					    if ( rsp.success ) {
+					        var msg = '${loginUser.name}님';
+					        msg += '결제 금액 ' + rsp.paid_amount + '원이 결제 되었습니다.';
+					      	$.ajax({
+					    	   url : "seatBuy.se",
+					    	   type : "post",
+					    	   data : JSON.stringify(obj),
+					    	   contentType: "application/json",
+					       });
+					       
+					    } else {
+					        var msg = '결제에 실패하였습니다.';
+					        msg += '에러내용 : ' + rsp.error_msg;
+					    }
+					    alert(msg);
+					});				
+				} */
+			}	
 		</script>
-	 -->
+	
 </body>
 	<!-- 싱글타임피커 -->
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
