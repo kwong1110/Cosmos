@@ -67,7 +67,6 @@
 	<form method="get" action="">
 		<div class="row">
 			<div class="col-lg-6">
-				<div class="input-group">
 					<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
 					<select style="width: 25%;" class="form-control search-select">
 						<option>분류</option>
@@ -81,8 +80,6 @@
 							<button class="btn search-submit" type="button">검색</button>
 						</span>
 					</div><!-- /input-group -->
-				</div>
-				<!-- /input-group -->
 			</div><!-- /.col-lg-6 -->
 		</div><!-- /.row -->
 	</form>
