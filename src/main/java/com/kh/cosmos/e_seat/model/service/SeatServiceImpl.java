@@ -41,6 +41,12 @@ public class SeatServiceImpl implements SeatService{
 		return sDAO.selectSortList(sqlSession);
 	}
 
+	@Override
+	public int seatBuy(Seat s) {
+		return sDAO.seatBuy(sqlSession, s);
+	}
+
+	
 	
 	
 }

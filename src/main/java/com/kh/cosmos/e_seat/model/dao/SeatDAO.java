@@ -33,6 +33,14 @@ public class SeatDAO {
 		return (ArrayList)sqlSession.selectList("seatMapper.selectSortList");
 	}
 
+	public int seatBuy(SqlSessionTemplate sqlSession, Seat s) {
+		return sqlSession.insert("seatMapper.seatBuy", s);
+	}
+
+	/*public int seatBuy(SqlSessionTemplate sqlSession) {
+		return sqlSession.insert("seatMapper.seatBuy");
+	}*/
+
 	
 
 }

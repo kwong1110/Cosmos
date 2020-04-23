@@ -45,7 +45,7 @@
     		.ra-right{width:30%;float:right;}
    
     .che{width:15px;height:15px;} /* 인원선택 체크박스 css */
-    .rad{width:15px;height:15px;}
+    .rad{width:15px;height:15px;}/* 라디오버튼 css */
   	nav{margin-left:20px;}
   	
   	
@@ -279,23 +279,23 @@
 					            		<div class="left-period">
 					            			<div class="cl">● 예약유형</div>
 					            			<div class="cr">
-					            				<input type="radio" class="rad" id="onePeriod" name="period"  value="시간" > 시간권 &nbsp;&nbsp;
-					            				<input type="radio" class="rad" id="sevenPeriod" name="period" value="7일"> 7일권 &nbsp;&nbsp;
-					            				<input type="radio" class="rad" id="thirtyPeriod" name="period" value="30일" > 30일권 
+					            				<input type="radio" class="rad" id="onePeriod" name="period"  value="시간권" > 시간권 &nbsp;&nbsp;
+					            				<input type="radio" class="rad" id="sevenPeriod" name="period" value="7일권"> 7일권 &nbsp;&nbsp;
+					            				<input type="radio" class="rad" id="thirtyPeriod" name="period" value="30일권" > 30일권 
 					            			</div>
 					            		</div>
 					            				<script>
 					            				$("input:radio[name='period']").on('click',function(){
 					            					switch($(this).val()){
-						            					case'시간': $('.input-single-timepicker').css('display', 'none'); 
+						            					case'시간권': $('.input-single-timepicker').css('display', 'none'); 
 						            							  $('.input-daterange-timepicker').css('display', 'inline-block'); 
 						            							  $("input[name='reserPeople']").attr('disabled',false).prop('checked',false);break;
 						            							  
-						            					case'7일': $('.input-daterange-timepicker').css('display', 'none');
+						            					case'7일권': $('.input-daterange-timepicker').css('display', 'none');
 						            							  $('.input-single-timepicker').css('display', 'inline-block'); 
 						            							  $("input[name='reserPeople']").attr('disabled',true).prop('checked',false);break;
 						            							 
-						            					case'30일': $('.input-daterange-timepicker').css('display', 'none');
+						            					case'30일권': $('.input-daterange-timepicker').css('display', 'none');
 						            							    $('.input-single-timepicker').css('display', 'inline-block');
 						            							    $("input[name='reserPeople']").attr('disabled',true).prop('checked',false); break;
 					            							    
@@ -379,7 +379,6 @@
 					            	<div class="right-content-right">
 					            		<div class="right-group">
 					            			<div class="cl">● 그룹선택</div>
-					            			<!-- studySroup에 insertRecView.sg 이부분에 있는거 넣으면됨. -->
 					            			<div class="cr">
 					            				<select name="group" style="width:150px;">
 						            				<c:forEach var="se" items="${ sgList }"> 
@@ -414,9 +413,6 @@
 					            			<div class="cr" id="chooseSeat">
 					            				
 					            			</div>
-					            		</div>
-					            		<div class="right-">
-					            		
 					            		</div>
 					            		<div class="right-price">
 					            			<div class="cl">● 이용요금</div>
@@ -468,7 +464,7 @@
 					    	 $('.left-top1-table-cell, .big, .six1, .six2, .four1, .four2, .four3, .four4').on('click',function(){
 					    		var chooseSeat = $(this).children().val();
 					    		$("#chooseSeat").text(chooseSeat);
-					    		// console.log(chooseSeat);
+					    		
 					    		var check = confirm(chooseSeat + "자리를 선택하시겠습니까?");
 					    		if(check == true){
 					    			$('#seatModal').modal("hide");
@@ -480,26 +476,19 @@
 					    			var startTime = fullDate.substr(11,2);
 					    			var endDate = fullDate.substr(18,11).trim();
 					    			var endTime = fullDate.substr(29,3).trim();
-					    			console.log(fullDate);
-					    			console.log(startDate);
-					    			console.log(startTime);
-					    			console.log(endDate);
-					    			console.log(endTime);
+
 					    			var fullDate1 = $('#daterange1').val();
 					    			var startDate1 = fullDate1.substr(0,10);
 					    			var startTime1 = fullDate1.substr(11,2);
-					    			console.log(fullDate1);
-					    			console.log(startDate1);
-					    			console.log(startTime1);
 					    			
 					    			<c:forEach var="se" items="${ sortList }">
 					    				 if(strPrice[0] == "${se.reserSort}"){
 					    					result = (endTime-startTime) * "${se.reserFee}"
 						    					if("${se.reserSort}" == 'Z'){
 						    						console.log($("input:radio[name='period']:checked").val());
-						    						if($("input:radio[name='period']:checked").val() == '7일'){
+						    						if($("input:radio[name='period']:checked").val() == '7일권'){
 						    							result = "${se.reserFee}"
-						    						} else if($("input:radio[name='period']:checked").val() == '30일'){
+						    						} else if($("input:radio[name='period']:checked").val() == '30일권'){
 						    							result = "${se.reserFee}" * 3 + 5000;
 						    						}
 						    					}
@@ -545,27 +534,25 @@
 				var reserType = $("input:radio[name='period']:checked").val();
 				var reserDate;
 				var reserPeople;
-					if($("input:radio[name='period']:checked").val() == '시간'){
+					if($("input:radio[name='period']:checked").val() == '시간권'){
 						reserDate = $('#daterange').val();
 						reserPeople = $("input:radio[name='reserPeople']:checked").val();
-					}else if($("input:radio[name='period']:checked").val() == '7일' || $("input:radio[name='period']:checked").val() == '30일'){
+					}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
 						reserDate = $('#daterange1').val();
 						reserPeople = 1;
 					}
+				var	chooseSeat = $("#chooseSeat").text();
 				
-				
-				
-				var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople};
-				
-				
-				
+				var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
 				
 				$.ajax({
 			    	   url : "seatBuy.se",
 			    	   type : "post",
 			    	   data : dkanrjsk,
 			    	   success : function(data) {
+			    		   console.log(data);
 			    	        alert("성공");
+			    	        location.href="lectureHistory.mp";
 			    	    }
 			       });
 				/* if(buy){
