@@ -1,5 +1,6 @@
 package com.kh.cosmos.e_seat.controller;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,10 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cosmos.a_common.PageInfo;
-import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.a_common.Pagination_seat;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.e_seat.model.exception.SeatException;
@@ -70,10 +71,60 @@ public class SeatController {
 		return mv;
 	}
 	
+	@ResponseBody
 	@RequestMapping("seatBuy.se")
-	public void seatBuyView(@ModelAttribute Member m, @ModelAttribute Seat s) {
-		System.out.println(m);
+	public int seatBuyView( @ModelAttribute Seat s, @RequestParam("reserDate") String reserDate, @RequestParam("chooseSeat") String chooseSeat ) {
 		System.out.println(s);
+		System.out.println(reserDate);
+		
+		String startDate = "";
+		String startTime = "";
+		String endDate = "";
+		String endTime = "";
+		
+		if(reserDate.length() > 20) {
+			String[] fullDate = reserDate.split(" - ");
+			
+			startDate = fullDate[0].split(" ")[0];
+			startTime = fullDate[0].split(" ")[1];
+			endDate = fullDate[1].split(" ")[0];
+			endTime = fullDate[1].split(" ")[1]; 
+		} else if(reserDate.length() < 20) {
+			String[] singleDate = reserDate.split(" ");
+			
+			startDate = singleDate[0];
+			startTime = singleDate[1];
+			endDate = singleDate[0];
+			endTime = "24:00";
+		}
+		
+		Date reserDay = Date.valueOf(startDate);
+		Date finishDay = Date.valueOf(endDate);
+		
+		/*if(s.getReserType().equals("7일권") ) {
+			
+		} else if(s.getReserType().equals("30일권")) {
+			
+		}*/
+		
+		String[] seatChoose = chooseSeat.split("-");
+		
+		String reserSort = seatChoose[0];
+		String seatNo = seatChoose[1];
+		
+		
+		s.setReserDay(reserDay);
+		s.setFinishDay(finishDay);
+		s.setStartTime(startTime);
+		s.setEndTime(endTime);
+		s.setReserSort(reserSort);
+		s.setSeatNo(Integer.parseInt(seatNo));
+		
+		System.out.println(s);
+		
+		int result = sService.seatBuy(s);
+		
+		return result;	
 	}
 	
 }

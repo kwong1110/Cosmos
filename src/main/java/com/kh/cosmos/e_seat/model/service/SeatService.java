@@ -17,6 +17,10 @@ public interface SeatService {
 
 	ArrayList<SortTable> selectSortList();
 
+	int seatBuy(Seat s);
+
+	
+
 	
 
 	
