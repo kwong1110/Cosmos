@@ -1,5 +1,6 @@
 /* 
  *  sweetalert !
+ *
  */
 
 	// sweet confirm
@@ -27,7 +28,8 @@ function sweetConfirm(status){
 function sweetSuccess(successMsg){
 	swal({
 		title: successMsg + "하였습니다!", 
-		type: "success"
+		type: "success",
+		html: !0
 	})
 };
 
