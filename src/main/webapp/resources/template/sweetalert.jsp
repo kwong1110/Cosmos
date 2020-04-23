@@ -23,11 +23,12 @@
 		
 		sweet success
 		성공 창 전부 (회원가입, 예약완료, 수정, 삭제, 신고, 예약, 수락 등등)
-		<script>
-			function sweetSuccess(successMsg){
-				swal("완료!", successMsg, "success")
-			};
-		</script> -->
+		function sweetSuccess(successMsg){
+			swal({
+				title: successMsg + "하였습니다!", 
+				type: "success"
+			})
+		};
 		
 	<!-- sweet confirm
 	<!-- 삭제 버튼 전부

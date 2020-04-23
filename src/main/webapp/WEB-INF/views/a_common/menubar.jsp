@@ -518,12 +518,12 @@
 
 	// sweetalert
 	$(function(){
-		if('${ successMsg }' != ''){
-			sweetSuccess('${ successMsg }');
+		if("${ successMsg }" != ""){
+			sweetSuccess("${ successMsg }");
 		}
 		
-		if('${ updateMsg }' != ''){
-			sweetUpdate('${ updateMsg }');
+		if("${ updateMsg }" != ""){
+			sweetUpdate("${ updateMsg }");
 		}
 		
 	});
