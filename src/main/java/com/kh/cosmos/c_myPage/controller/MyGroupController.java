@@ -135,7 +135,7 @@ public class MyGroupController {
 	@RequestMapping("getGroupMember.mp")
 	public void getGroupModal(HttpServletResponse response, @RequestParam("sgno") int sgno) throws JsonIOException, IOException {
 		ArrayList<MyStudyGroup> memberList = mgService.getMemberList(sgno);
-
+		
 		for(MyStudyGroup g : memberList) {
 			g.setNick(URLEncoder.encode(g.getNick(), "UTF-8"));
 		}
