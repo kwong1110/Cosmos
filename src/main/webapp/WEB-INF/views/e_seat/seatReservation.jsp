@@ -56,6 +56,10 @@
   	.modal:before {display: inline-block; vertical-align: middle; content: " ";height: 95%;}
 	}
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
+	
+	 .seatOn{
+		background-color: red !important;
+	} 
 </style>
 </head>
 <body><!-- onload="brAddress();" -->
@@ -298,64 +302,12 @@
 						            					case'30일권': $('.input-daterange-timepicker').css('display', 'none');
 						            							    $('.input-single-timepicker').css('display', 'inline-block');
 						            							    $("input[name='reserPeople']").attr('disabled',true).prop('checked',false); break;
-					            							    
 					            						}
 				            					});
-					            				/* $('#onePeriod').on('click',function(){
-					            					console.log($("input:radio[name='period']:checked").val());
-					            					if($('#onePeriod')[0].checked == true){
-					            						$('.input-daterange-timepicker').css('display', 'block');
-					            					} else {
-					            						$('.input-daterange-timepicker').css('display', 'none');
-					            					}
-
-					            					// 해제하기
-				            					}); */
-					            				
-					            				/* $('#onePeriod').on('click',function(){
-					            					if($('#onePeriod')[0].checked){
-				            							$('.input-daterange-timepicker').css('display', 'block');
-				            						}else(){
-				            							$('.input-daterange-timepicker').css('display', 'none');
-				            						}	
-				            					});  */
-					            				
-					            				/* 방금 */
-					            				/* $('#sevenPeriod').on('click',function(){
-				            						if($('#sevenPeriod')[0].checked){
-				            							$('.input-single-timepicker').css('display', 'block');
-				            						}else {
-				            							$('.input-single-timepicker').css('display', 'none');
-				            						}	
-				            					}); 
-					            				$('#thirtyPeriod').on('click',function(){
-				            						if($('#thirtyPeriod')[0].checked){
-				            							$('.input-single-timepicker').css('display', 'block');
-				            						}else {
-				            							$('.input-single-timepicker').css('display', 'none');
-				            						}	
-				            					});  */
-				            					
-					            				/* function doOpenCheck(chk){
-					            				    var obj = document.getElementsByName("period");
-					            				    for(var i=0; i<obj.length; i++){
-					            				        if(obj[i] != chk){
-					            				            obj[i].checked = false;
-					            				        }
-					            				    }
-					            				} */
-					            				/* 	$('input[type=checkbox][name=onePeriod]').on('click',function(){
-					            						console.log($('input[type=checkbox][name=onePeriod]').eq(0)[0].checked);
-					            						if($('input[type=checkbox][name=onePeriod]').eq(0)[0].checked){
-					            							$('.input-single-timepicker').css('visibility', 'visible');
-					            						}else {
-					            							$('.input-single-timepicker').css('visibility', 'hidden');
-					            						}	
-					            					});  */
 					            				</script>
 					            		<div class="left-date">
 					            			<div class="cl">● 예약일자</div>
-					            			<div class="cr" id="cr1" style="padding-top:0px;">
+					            			<div class="cr" id="cr1">
 					            				<div class="box-title m-t-30"></div>
 												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:265px; display:none;">
 												<input type="text" class="form-control input-single-timepicker" name="daterange1" id="daterange1" style="width:265px; display:none; text-align:center;" >
@@ -402,10 +354,47 @@
 					            				<div id="seatChoose" class="btn defaultBtn" style="width:150px;">선택</div>
 					            			</div>
 					            			<script>
-					            			$('#seatChoose').click(function(e){
-					            				e.preventDefault();
-					            				$('#seatModal').modal("show");
-					            			});
+						            			$('#seatChoose').click(function(e){
+						            				$(".chair").parent().removeClass("seatOn");
+						            				
+						            				var money=$('#userPrice').text();
+						            				var strMoney=money.split('원');
+						            				var branchNo = $("input:radio[name='branchAddress']:checked").val();
+						            				var reserType = $("input:radio[name='period']:checked").val();
+						            				var reserDate;
+						            				var reserPeople;
+						            					if($("input:radio[name='period']:checked").val() == '시간권'){
+						            						reserDate = $('#daterange').val();
+						            						reserPeople = $("input:radio[name='reserPeople']:checked").val();
+						            					}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
+						            						reserDate = $('#daterange1').val();
+						            						reserPeople = 1;
+						            					}
+						            				var	chooseSeat = $("#chooseSeat").text();
+						            				var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
+						            				 $.ajax({
+						            					url : "overlap.se",
+						            					type : "post",
+						            					dataType: 'json',
+						            					data: dkanrjsk,
+						            					success : function(data){
+						            						e.preventDefault();
+						            						 //console.log(data);
+							            					if(data.length > 0){ 
+							            						for(var i in data){
+								            						console.log(data[i].reserSort + "-" + data[i].seatNo);
+																	if($('#'+ data[i].reserSort + "-" + data[i].seatNo).val()){
+																		$('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().addClass('seatOn');
+																	}
+							            						}
+							            					}
+						            						
+							            					
+								            				$('#seatModal').modal("show");
+						            					}
+						            					 
+						            				}) ;
+						            			});
 					            			</script>
 					            		</div>
 					            		<div class="right-chooseSeat">
@@ -525,33 +514,32 @@
 	
 	<!-- 결제부분 -->
 		<script>
+			var money=$('#userPrice').text();
+			var strMoney=money.split('원');
+			var branchNo = $("input:radio[name='branchAddress']:checked").val();
+			var reserType = $("input:radio[name='period']:checked").val();
+			var reserDate;
+			var reserPeople;
+				if($("input:radio[name='period']:checked").val() == '시간권'){
+					reserDate = $('#daterange').val();
+					reserPeople = $("input:radio[name='reserPeople']:checked").val();
+				}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
+					reserDate = $('#daterange1').val();
+					reserPeople = 1;
+				}
+			var	chooseSeat = $("#chooseSeat").text();
+			
+			var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
+			
 			function buy(){
 				var buy = confirm("정말로 구매하시겠습니까?");
-				var money=$('#userPrice').text();
-				var strMoney=money.split('원');
-				
-				var branchNo = $("input:radio[name='branchAddress']:checked").val();
-				var reserType = $("input:radio[name='period']:checked").val();
-				var reserDate;
-				var reserPeople;
-					if($("input:radio[name='period']:checked").val() == '시간권'){
-						reserDate = $('#daterange').val();
-						reserPeople = $("input:radio[name='reserPeople']:checked").val();
-					}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
-						reserDate = $('#daterange1').val();
-						reserPeople = 1;
-					}
-				var	chooseSeat = $("#chooseSeat").text();
-				
-				var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
-				
 				$.ajax({
 			    	   url : "seatBuy.se",
 			    	   type : "post",
 			    	   data : dkanrjsk,
 			    	   success : function(data) {
 			    		   console.log(data);
-			    	        alert("성공");
+			    	        alert("성공"); 
 			    	        location.href="lectureHistory.mp";
 			    	    }
 			       });

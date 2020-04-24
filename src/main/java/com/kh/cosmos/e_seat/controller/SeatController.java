@@ -1,9 +1,11 @@
 package com.kh.cosmos.e_seat.controller;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination_seat;
 import com.kh.cosmos.b_member.model.vo.Member;
@@ -48,8 +53,6 @@ public class SeatController {
 		
 		ArrayList<ViewBranch> branchList = sService.selectBranchList(pi);
 		
-		ArrayList<Seat> seatList = sService.selectSeatList();
-		
 		ArrayList<SortTable> sortList = sService.selectSortList();
 		
 		HttpSession session = request.getSession();
@@ -59,7 +62,6 @@ public class SeatController {
 		
 		if(branchList != null) {
 			mv.addObject("branchList", branchList);
-			mv.addObject("seatList", seatList);
 			mv.addObject("pi", pi);
 			mv.addObject("sortList", sortList);
 			mv.addObject("sgList", sgList);
@@ -74,9 +76,6 @@ public class SeatController {
 	@ResponseBody
 	@RequestMapping("seatBuy.se")
 	public int seatBuyView( @ModelAttribute Seat s, @RequestParam("reserDate") String reserDate, @RequestParam("chooseSeat") String chooseSeat ) {
-		System.out.println(s);
-		System.out.println(reserDate);
-		
 		String startDate = "";
 		String startTime = "";
 		String endDate = "";
@@ -101,17 +100,10 @@ public class SeatController {
 		Date reserDay = Date.valueOf(startDate);
 		Date finishDay = Date.valueOf(endDate);
 		
-		/*if(s.getReserType().equals("7일권") ) {
-			
-		} else if(s.getReserType().equals("30일권")) {
-			
-		}*/
-		
 		String[] seatChoose = chooseSeat.split("-");
 		
 		String reserSort = seatChoose[0];
 		String seatNo = seatChoose[1];
-		
 		
 		s.setReserDay(reserDay);
 		s.setFinishDay(finishDay);
@@ -120,11 +112,50 @@ public class SeatController {
 		s.setReserSort(reserSort);
 		s.setSeatNo(Integer.parseInt(seatNo));
 		
-		System.out.println(s);
-		
 		int result = sService.seatBuy(s);
 		
 		return result;	
 	}
 	
+	
+	@RequestMapping("overlap.se")
+	public void overlapView(@RequestParam("reserDate") String reserDate, @ModelAttribute Seat s, HttpServletResponse response) throws JsonIOException, IOException {
+		
+		String startDate = "";
+		String startTime = "";
+		String endDate = "";
+		String endTime = "";
+		
+		if(reserDate.length() > 20) {
+			String[] fullDate = reserDate.split(" - ");
+			
+			startDate = fullDate[0].split(" ")[0];
+			startTime = fullDate[0].split(" ")[1].split(":")[0];
+			endDate = fullDate[1].split(" ")[0];
+			endTime = fullDate[1].split(" ")[1].split(":")[0]; 
+		} else if(reserDate.length() < 20) {
+			String[] singleDate = reserDate.split(" ");
+			
+			startDate = singleDate[0];
+			startTime = singleDate[1].split(":")[0];
+			endDate = singleDate[0];
+			endTime = "24";
+		}
+		
+		Date reserDay = Date.valueOf(startDate);
+		Date finishDay = Date.valueOf(endDate);
+		
+		s.setReserDay(reserDay);
+		s.setFinishDay(finishDay);
+		s.setStartTime(startTime);
+		s.setEndTime(endTime);
+		
+		ArrayList<Seat> seatList = sService.selectSeatList(s);
+
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(seatList, response.getWriter());
+		
+	}
+	
+
 }

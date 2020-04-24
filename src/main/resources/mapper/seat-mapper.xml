@@ -24,7 +24,7 @@
 	<select id="selectSeatList" resultMap="seatResultSet">
 		select * 
 		from reser
-		where reser_yn='N'
+		where reser_yn='Y' and reser_day=#{reserDay}
 		<!-- order by reser_no desc -->
 	</select>
 	

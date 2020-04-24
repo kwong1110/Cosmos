@@ -32,8 +32,8 @@ public class SeatServiceImpl implements SeatService{
 	}
 
 	@Override
-	public ArrayList<Seat> selectSeatList() {
-		return sDAO.selectSeatList(sqlSession);
+	public ArrayList<Seat> selectSeatList(Seat s) {
+		return sDAO.selectSeatList(sqlSession, s);
 	}
 
 	@Override
