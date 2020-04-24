@@ -25,8 +25,8 @@ public class SeatDAO {
 	    return (ArrayList)sqlSession.selectList("seatMapper.selectBranchList", null, rowBounds);
 	}
 
-	public ArrayList<Seat> selectSeatList(SqlSessionTemplate sqlSession) {
-		return (ArrayList)sqlSession.selectList("seatMapper.selectSeatList");
+	public ArrayList<Seat> selectSeatList(SqlSessionTemplate sqlSession, Seat s) {
+		return (ArrayList)sqlSession.selectList("seatMapper.selectSeatList", s);
 	}
 
 	public ArrayList<SortTable> selectSortList(SqlSessionTemplate sqlSession) {
