@@ -12,5 +12,7 @@ public interface ViewBranchService {
 	ArrayList<ViewBranch> selectBranchList(PageInfo pi);
 
 	ViewBranch selectBranch(int vbNo);
+
+	int insertBranchPhoto(int branchNo);
   
 }

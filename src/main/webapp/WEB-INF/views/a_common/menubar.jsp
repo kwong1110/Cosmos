@@ -251,7 +251,7 @@
 					<div><a href="#">모두의 플래너</a></div>								
 				</div>
 			</div>
-			<div class="menuTitle"><a href="branchList.vb"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
+			<div class="menuTitle"><a href="viewBranchList.vb"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
 			<div class="menuTitle">
 				<div><a href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
 				<div class="s-menu">
@@ -440,7 +440,7 @@
 	$(function(){
 		
 		/* 하위 메뉴 슬라이드 */
-		$(".s-menu").css({display:"none"});
+		/* $(".s-menu").css({display:"none"});
 		
 		$(".menuTitle").click(function(){
 			$(".s-menu").each(function(){
@@ -450,7 +450,7 @@
 			});
 			
 			$(this).find(".s-menu").slideDown("fast");
-		});
+		}); */
 		
 		
 		/* 메뉴 고정 : 모든 메뉴 완성되면 구현하기 */
