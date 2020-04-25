@@ -44,18 +44,6 @@
 		where id=#{id} and sg_status='Y'
 	</select>
 	
-	<resultMap type="StudyGroup" id="studyGroupResultSet">
-		<id property="sgNo" column="SG_NO"/>
-		<result property="sgName" column="SG_NAME"/>
-		<!-- <result property="sgGoal" column="SG_GOAL"/>
-		<result property="sgContent" column="SG_CONTENT"/>
-		<result property="sgStatus" column="SG_STATUS"/>
-		<result property="branchNo" column="BRANCH_NO"/>
-		<result property="id" column="ID"/>
-		<result property="studyNo" column="STUDY_NO"/>
-		<result property="studyName" column="GROUP_INSERT_DATE"/> -->
-	</resultMap>
-	
 	<select id="getStudyGroupRecruit" parameterType="_int" resultMap="groupRecruitResultSet">
 		select sg_no, sg_status
 		from sgroup
@@ -83,17 +71,81 @@
 		where asg_status = 'Y' and sg_no = #{sgno}
 	</select>
 	
+	<select id="getRecList" resultMap="groupRecruitResultSet">
+		select sg_no, rsg_no, study_name, sg_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE, rsg_num, nick, branch_name, sg_goal, sg_content
+		from sgroup g
+			right join rec_sgroup r using(sg_no)
+		    join study_category using(study_no)
+			join branch using(branch_no)
+			join member using(id)
+		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
+	</select>
+	
+	<select id="getRecCompleteNum" parameterType="_int" resultType="_int">
+		select count(*)
+		from ap_sgroup
+		where rsg_no = #{recNo} and asg_status = 'Y'
+	</select>
+	
+	<select id="getRecListCount" resultType="_int">
+		select count(*)
+		from sgroup g
+			right join rec_sgroup r using(sg_no)
+		    join study_category using(study_no)
+			join branch using(branch_no)
+			join member using(id)
+		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
+	</select>
+	
 	<resultMap type="StudyGroupRecruit" id="groupRecruitResultSet">
 		<id property="sgNo" column="SG_NO"/>
+		<id property="recNo" column="RSG_NO"/>
+		<id property="recTerm" column="RSG_TERM"/>
+		<id property="dCloseDate" column="D_CLOSE_DATE"/>
+		<id property="recNum" column="RSG_NUM"/>
+		<id property="nick" column="NICK"/>
 		<id property="sgStatus" column="SG_STATUS"/>
 		<id property="studyName" column="STUDY_NAME"/>
 		<id property="msgNum" column="MSG_NUM"/>
 		<id property="branchName" column="BRANCH_NAME"/>
 		<id property="msgMetRule" column="MSG_MET_RULE"/>
+		<id property="sgName" column="SG_NAME"/>
+		<id property="sgStatus" column="SG_STATUS"/>
 		<id property="sgGoal" column="SG_GOAL"/>
 		<id property="msgRule1" column="MSG_RULE1"/>
 		<id property="msgRule2" column="MSG_RULE2"/>
 		<id property="msgRule3" column="MSG_RULE3"/>
 		<id property="sgContent" column="SG_CONTENT"/>
+	</resultMap>
+	
+	<select id="getStudyGroupInfo" parameterType="_int" resultMap="studyGroupResultSet">
+		<!-- select sg_no, sg_name, sg_goal, sg_content, sg_status, branch_no, id, study_name, msg_num, msg_rule1, msg_rule2, msg_rule3, msg_met_rule
+	    from sgroup 
+	        join m_sgroup using(sg_no)
+	        join study_category using(study_no)
+	    where sg_no = #{sgno} -->
+	    select sg_no, sg_name, sg_goal, sg_content, sg_status, branch_no, id, study_name, nvl(msg_num, rsg_num) as msg_num, msg_rule1, msg_rule2, msg_rule3, nvl(msg_met_rule, rsg_metting_date) as msg_met_rule
+		from sgroup 
+		    left join m_sgroup using(sg_no)
+		    left join rec_sgroup using(sg_no)
+		    join study_category using(study_no)
+		where sg_no = #{sgno}
+	</select>
+	
+	<resultMap type="StudyGroup" id="studyGroupResultSet">
+		<id property="sgNo" column="SG_NO"/>
+		<result property="sgName" column="SG_NAME"/>
+		<result property="sgGoal" column="SG_GOAL"/>
+		<result property="sgContent" column="SG_CONTENT"/>
+		<result property="sgStatus" column="SG_STATUS"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="id" column="ID"/>
+		<result property="studyNo" column="STUDY_NO"/>
+		<result property="studyName" column="STUDY_NAME"/>
+		<result property="msgNum" column="MSG_NUM"/>
+		<result property="msgRole1" column="MSG_RULE1"/>
+		<result property="msgRole2" column="MSG_RULE2"/>
+		<result property="msgRole3" column="MSG_RULE3"/>
+		<result property="msgMetRole" column="MSG_MET_RULE"/>
 	</resultMap>
 </mapper>

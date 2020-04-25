@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cosmos.b_member.model.exception.MemberException;
 import com.kh.cosmos.b_member.model.service.MemberService;
@@ -78,22 +79,29 @@ public class MemberController {
 		return "memberInsertForm";
 	}
 	
-	// 아이디 비밀번호 찾기 페이지 이동
+	// 아이디 비밀번호 찾기 페이지 이동_한솔
 	@RequestMapping("find.me")
 	public String find() {
-			
 		return "FindIdPwd";
-		
 	}
   
 	// 아이디찾기_한솔 
 	@RequestMapping("findId.me")
-	public String findId() {
+	   public ModelAndView findMemberId(@ModelAttribute Member m, ModelAndView mv) {
 		
-		return "FindId";
-		
-	}
-
+	      Member result = mService.findMemberId(m);
+	      
+	      if(result != null) {
+	         mv.addObject("findId", result)
+	         .addObject("name", m.getName())
+	         .addObject("email", m.getEmail());
+	      }else {
+	         throw new MemberException("정보와 일치하는 아이디가 없습니다.");
+	      }
+	      return mv;
+	   }
+	
+	
 	// 비밀번호 찾기_한솔
 	@RequestMapping("findPwd.me")
 	public String findPwd() {

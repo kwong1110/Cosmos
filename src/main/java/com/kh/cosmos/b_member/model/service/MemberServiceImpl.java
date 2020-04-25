@@ -44,10 +44,13 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
+	public Member findMemberId(Member m) {
+		return mDAO.selectFindMemberId(sqlSession, m);
+	}
+
+  @Override
 	public ArrayList<Preview> getStudyList(String id) {
 		return mDAO.getStudyList(sqlSession, id);
 	}
-
 	
-
 }

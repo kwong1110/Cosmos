@@ -12,13 +12,10 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/bootstrap-datepicker.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/daterangepicker.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/plugins/sweetalert/sweetalert.css">
 	<!-- cosmos css -->
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/layout-style.css">
-	<!-- 부트스트랩 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<!-- cosmos js -->
-<script src="${contextPath}/resources/js/common.js"></script>
 </head>
 <style>
 	.loginTop,.loginMid{
@@ -232,7 +229,8 @@
 						<div><a href="">강연관리</a></div>
 						<div><a href="">좌석예약조회</a></div>
 						<div><a href="">회원목록</a></div>
-						<div><a href="">지점등록</a></div>
+						<div><a href="enrollBranch.ap">지점등록</a></div>
+						<div><a href="branchList.ap">지점목록</a></div>
 					</div>
 				</div>
 			</c:if>
@@ -288,14 +286,6 @@
 				        		<button type="button" class="btn" onclick="location.href='find.me'">아이디 / 비밀번호 찾기</button>
 				        		<button type="button" class="btn">회원가입</button>
 							</div> 
-							<!-- 한솔 -->
-<!-- 				 		<div class="btnBox">
-				 			<button type="button" class="btn">
-				 				<span onclick="findID();" class="btn">ID찾기</span>/
-				 				<span onclick="findPwd();" class="btn">PW찾기</span>
-				 			</button>	
-						 	<button type="button" class="btn">회원가입</button>
-							</div>  -->
 						</form>
 					</div>		          	
 		        </div>
@@ -517,8 +507,26 @@
 		if( <%= request.getParameter("success") %> == 1){
 			$("#login").trigger("click");
 		}
-	}
-	
+	};
+
+	// sweetalert
+	$(function(){
+		if("${ successMsg }" != ""){
+			sweetSuccess("${ successMsg }");
+		}
+		
+		if("${ updateMsg }" != ""){
+			sweetUpdate("${ updateMsg }");
+		}
+		
+	});
 	
 </script>
+	<!-- 부트스트랩 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<!-- cosmos js -->
+<script src="${contextPath}/resources/js/common.js"></script>
+	<!-- sweet alert -->
+<script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.cosmos.js"></script>
 </html>

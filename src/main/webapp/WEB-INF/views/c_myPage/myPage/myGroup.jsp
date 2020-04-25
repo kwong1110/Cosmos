@@ -181,7 +181,7 @@
 					</div>
 
 					<div class="btnBox">
-						<input type="button" class="defaultBtn defaultstyle" value="그룹 나가기" />
+						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" value="그룹 나가기" />
 					</div>
 				</div>
 			</div>
@@ -195,7 +195,7 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<img src="${contextPath }/resources/image/studyGroup/checklist.png" class="recList">
+					<%-- <img src="${contextPath }/resources/image/studyGroup/checklist.png" class="recList"> --%>
 					<h2 class="modal-title modalTitle">그룹명</h2>
 				</div>
 				
@@ -233,9 +233,9 @@
 					</div>
 	
 					<div class="btnBox">
-						<input type="button" class="defaultBtn defaultstyle" value="그룹 수정">
+						<input type="button" class="defaultBtn defaultstyle" style="background:#4188e2;" id="updateGroup" value="그룹 수정">
 						&nbsp;&nbsp;&nbsp;
-						<input type="button" class="defaultBtn defaultstyle" value="그룹 없애기">
+						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" id="deleteGroup" value="그룹 없애기">
 					</div>
 				</div>
 			</div>
@@ -312,7 +312,7 @@
 							}
 							
 							$studyName = $('<td>').text(decodeURIComponent(data[i].studyName.replace(/\+/g, ' ')));
-							$sgName = $('<td>').text(decodeURIComponent(data[i].sgName.replace(/\+/g, ' ')));
+							$sgName = $('<td class="title">').text(decodeURIComponent(data[i].sgName.replace(/\+/g, ' ')));
 
 							if(userId == data[i].id) {
 								var $span;
@@ -323,7 +323,7 @@
 								$span.append($img);
 								$td.append($span);
 								$bossNick = $td;
-								$tr = $('<tr onclick="openGroupBossModal(' + data[i].sgNo +');">');
+								$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +');">');
 							} else {
 								$bossNick = $('<td>').text(decodeURIComponent(data[i].nick.replace(/\+/g, ' ')));
 							}
@@ -333,19 +333,19 @@
 							if(userId == data[i].id) { //로그인 유저가 그룹장일 때
 								if(data[i].sgStatus == 'D' || data[i].sgStatus == 'E') { //그룹장이 스터디 종료 or 다회로 변경되지 않음
 									print = '스터디 종료';
-									$tr = $('<tr onclick="openGroupBossModal(' + data[i].sgNo +');">');
+									$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +');">');
 								} else {
 									print = '스터디 진행 중';
-									$tr = $('<tr onclick="openGroupBossModal(' + data[i].sgNo +');">');
+									$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +');">');
 								}
 							} else { //그룹원이 해당 그룹에 수락된 경우
 								if(data[i].appStatus == 'Y') {
 									if(data[i].sgStatus == 'D' || data[i].sgStatus == 'E') { //그룹장이 스터디 종료 or 다회로 변경되지 않음
 										print = '스터디 종료';
-										$tr = $('<tr onclick="openGroupModal(' + data[i].sgNo +');">');
+										$tr = $('<tr onclick="openGroupModal(this,' + data[i].sgNo +');">');
 									} else {
 										print = '스터디 진행 중';
-										$tr = $('<tr onclick="openGroupModal(' + data[i].sgNo +');">');
+										$tr = $('<tr onclick="openGroupModal(this,' + data[i].sgNo +');">');
 									}
 								} else if(data[i].appStatus == 'E') { //수락 후 스스로 나간 경우
 									print = '스터디 종료 /(나감/)';
@@ -487,7 +487,7 @@
 			})
 		}
 		
-		function openGroupModal(sgno) {
+		function openGroupModal(e, sgno) {
 			sgNo = sgno;
 			
 			$.ajax({
@@ -501,12 +501,14 @@
 					<th>그룹 참가일</th>
 					*/
 					
+					$('.modalTitle').text($(e).children('.title').text());
+					
 					$tableBody = $('#modalTable tbody');
 					$tableBody.html('');
 					
 					var $tr;
 					var no = data.length;
-
+					
 					if(data.length > 0) {
 						for(var i in data) {
 							$tr = $('<tr>');
@@ -526,7 +528,7 @@
 			});
 		}
 
-		function openGroupBossModal(sgno) {
+		function openGroupBossModal(e, sgno) {
 			sgNo = sgno;
 			
 			$.ajax({
@@ -540,6 +542,8 @@
 					<th>그룹 참가일</th>
 					<th style="width:20%;">강퇴</th>
 					*/
+					
+					$('.modalTitle').text($(e).children('.title').text());
 
 					$memberTableBody = $('#modalMemberTable tbody');
 					$memberTableBody.html('');
@@ -561,7 +565,7 @@
 							no--;
 							$tr.append('<td>' + data[i].nick + '</td>');
 							$tr.append('<td>' + data[i].appDlDate + '</td>');
-							$tr.append('<td><input type="button" class="defaultBtn" value="강퇴" onclick="deleteMember();"></td>');
+							$tr.append('<td><input type="button" class="defaultBtn" style="background:#71acf8;" value="강퇴" onclick="deleteMember();"></td>');
 							$memberTableBody.append($tr);
 						}
 					} else {
@@ -639,6 +643,10 @@
 			$('#openOption').css({'background':'transparent', 'color':'black'});
 		});
 		
+		$('#updateGroup').click(function() {
+			location.href = "updateGroupView.sg?sgno=" + sgNo;
+		})
+		
 		$('.modalTitle').mouseover(function() {
 			$('.modalTitle').css('color', '#6DBD6A');
 		}).mouseout(function() {
@@ -699,15 +707,6 @@
 			getGroupListPage(trigerBox);
 		})
 		
-		function getMemberList() {
-			
-		}
-		
-		/* $('#groupTable tr').mouseover(function() {
-			$(this).css('background','rgba(103,162,97,0.2)');
-		}).mouseout(function() {
-			$(this).css('background','rgba(103,162,97,0)');
-		}); */
 		
 	</script>
 

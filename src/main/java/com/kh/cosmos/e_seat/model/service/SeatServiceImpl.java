@@ -32,8 +32,8 @@ public class SeatServiceImpl implements SeatService{
 	}
 
 	@Override
-	public ArrayList<Seat> selectSeatList() {
-		return sDAO.selectSeatList(sqlSession);
+	public ArrayList<Seat> selectSeatList(Seat s) {
+		return sDAO.selectSeatList(sqlSession, s);
 	}
 
 	@Override
@@ -41,6 +41,12 @@ public class SeatServiceImpl implements SeatService{
 		return sDAO.selectSortList(sqlSession);
 	}
 
+	@Override
+	public int seatBuy(Seat s) {
+		return sDAO.seatBuy(sqlSession, s);
+	}
+
+	
 	
 	
 }

@@ -18,7 +18,8 @@ public class Member {
 	private String gender;
 	
 	public Member() {}
-
+	
+	// 전체 생성자
 	public Member(String id, String pwd, String name, String nick, String birth, String email, String phone,
 			Date enroll, int certifyNum, String certifyStatus, String mstatus, int grade, String gender) {
 		this.id = id;
@@ -35,6 +36,24 @@ public class Member {
 		this.grade = grade;
 		this.gender = gender;
 	}
+	
+	// 아이디 찾기 생성자
+	public Member(String id, String name, String email) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.email = email;
+	}
+	
+	// 비밀번호 찾기 생성자
+	public Member(String id, String pwd, String name, String email) {
+		super();
+		this.id = id;
+		this.pwd = pwd;
+		this.name = name;
+		this.email = email;
+	}
+	
 
 	public String getId() {
 		return id;

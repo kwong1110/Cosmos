@@ -159,14 +159,14 @@
 		
 		$('#sgContent').keyup(function (e){
 	          var content = $(this).val();
-	          if(content.length < 2000) {
+	          if(content.length < 1000) {
 	        	  $('#contentAlert').css('color', 'black');
 		          $('#contentCount').html(content.length);
-	          } else if(content.length == 2000) {
+	          } else if(content.length == 1000) {
 	        	  $('#contentAlert').css('color', 'red');
 		          $('#contentCount').html(content.length);
 	          } else {
-	        	  $('#sgContent').val(content.substr(0, 2000));
+	        	  $('#sgContent').val(content.substr(0, 1000));
 	        	  $('#contentAlert').css('color', 'red');
 	          }
 	    });

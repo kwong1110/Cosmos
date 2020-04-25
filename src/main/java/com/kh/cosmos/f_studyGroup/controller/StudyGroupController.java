@@ -49,6 +49,57 @@ public class StudyGroupController {
 		return mv;
 	}
 	
+	@RequestMapping("getRecList.sg")
+	public void getRecList(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = sgService.getRecListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<StudyGroupRecruit> recList = sgService.getRecList(pi);
+		
+		if(recList != null) {
+			for(StudyGroupRecruit r : recList) {
+				r.setSgName(URLEncoder.encode(r.getSgName(), "UTF-8"));
+				r.setStudyName(URLEncoder.encode(r.getStudyName(), "UTF-8"));
+				r.setSgGoal(URLEncoder.encode(r.getSgGoal(), "UTF-8"));
+				r.setSgContent(URLEncoder.encode(r.getSgContent(), "UTF-8"));
+				r.setNick(URLEncoder.encode(r.getNick(), "UTF-8"));
+				r.setBranchName(URLEncoder.encode(r.getBranchName(), "UTF-8"));
+				
+				int partNum = sgService.getRecCompleteNum(r.getRecNo());
+				r.setPartNum(partNum);
+			}
+			
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(recList, response.getWriter());
+		} else {
+			throw new StudyGroupException("그룹 리스트를 불러오지 못했습니다.");
+		}
+	}
+	
+	@RequestMapping("getPaging.sg")
+	public void getPaging(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = sgService.getRecListCount();
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		if(pi != null) {
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(pi, response.getWriter());
+		} else {
+			throw new StudyGroupException("그룹 리스트 페이징을 불러오지 못했습니다.");
+		}
+	}
+	
 	@RequestMapping("insertGroupView.sg")
 	public ModelAndView StudyGroupInsertView(ModelAndView mv) {
 		ArrayList studyList = sgService.getStudyList();
@@ -155,8 +206,27 @@ public class StudyGroupController {
 		} else {
 			throw new StudyGroupException("그룹 조회에 실패하였습니다.");
 		}*/
-
+		
 		mv.setViewName("recruitDetail");
 		return mv;
+	}
+	
+	@RequestMapping("updateGroupView.sg")
+	public ModelAndView UpdateGroupView(@RequestParam("sgno") int sgno, ModelAndView mv) {
+		
+		StudyGroup group = sgService.getStudyGroupInfo(sgno);
+		ArrayList<ViewBranch> branchList = sgService.getBranchList();
+		
+		int partNum = sgService.getPartMemberNum(sgno);
+		
+		if(group != null) {
+			mv.addObject("partNum", partNum);
+			mv.addObject("group", group);
+			mv.addObject("branchList", branchList);
+			mv.setViewName("updateGroup");
+			return mv;
+		} else {
+			throw new StudyGroupException("그룹 수정 페이지 호출에 실패하였습니다.");
+		}
 	}
 }

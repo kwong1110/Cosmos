@@ -31,7 +31,11 @@ public class MemberDAO {
 	public ArrayList<Preview> getStudyList(SqlSessionTemplate sqlSession, String id) {
 		return (ArrayList)sqlSession.selectList("memberMapper.getStudyList", id);
 	}
-
+ 
+	// 아이디 찾기
+	public Member selectFindMemberId(SqlSessionTemplate sqlSession, Member m) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.idCheck", m);
+	}
 	
-  
 }

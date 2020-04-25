@@ -35,15 +35,15 @@
 						<h1>지점등록</h1>
 					</div>
 					<div class="content" align="center" >
-						<form action="">
+						 <form action="binsert.ap" method="post" id="joinForm">
 						<table class="inner">
 							<tr>
 								<th>지점명</th>
 								<td>
-									<input type="text" class="form-control" placeholder="지점명을 입력하세요" style="padding:5px; width:50%";>
+									<input type="text" name ="name" id ="branchName" placeholder="지점명을 입력하세요" style="padding:5px; width:50%";>
 									 <span class="guide ok" style="color:gray">*이 지점명은 사용 가능합니다.</span>
 					                 <span class="guide error">*이 지점명은 사용 불가능합니다.</span>
-					                 <input type="hidden" name="idDuplicateCheck" value="0">
+					                 <input type="hidden" name="nameDuplicateCheck" value="0">
 								</td>
 							</tr>
 						 	<tr>
@@ -69,69 +69,23 @@
                   				$("#postcodify_search_button").postcodifyPopUp();
                				});
                				</script>
-							
-							<tr>
-								<th>지점연락처</th>
-								<td>
-									<select style="padding:5px;" class="brc_tel" >
-										<option>지역번호</option>
-										<option>02</option>
-										<option>031</option> <option>032</option> <option>033</option>
-										<option>041</option> <option>042</option> <option>043</option> <option>044</option>
-										<option>051</option> <option>052</option> <option>053</option> <option>054</option> <option>055</option>
-										<option>061</option> <option>062</option> <option>063</option> <option>064</option>
-									</select>
-									- <input type="text"  style="padding:4px;" class="brc_tel" numberonly> - <input type="text"  style="padding:4px;"  class="brc_tel" numberonly>
-									<p style="font-size:2; color:gray;">*숫자만 입력 가능합니다.</p>		
-								</td>
-							</tr>
-							<tr>
-								<th>지점사진</th>
-								<td>
-									<form method="post" enctype="multipart/form-data" action="imgup.jsp">
-										<input type="file" name="filename1" size=40>
-									</form>
-								</td>
-							</tr>
-							<tr>
-								<th>이용시간</th>
-								<td>
-									<input type="text" onKeyup="inputTimeColon(this);" placeholder="00:00" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;"> ~
-									<input type="text" onKeyup="inputTimeColon(this);" placeholder="00:00" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;">
-								</td>	
-							</tr>
-							<tr>
-								<th>휴무일</th>
-								<td>
-									<select style="padding:5px" class="closeday">
-										<option>월요일</option> <option>화요일</option> <option>수요일</option> <option>목요일</option>
-										<option>금요일</option> <option>토요일</option> <option>일요일</option>
-									</select>
-								</td>	
-							</tr>
-							<tr>
-								<th>지점소개</th>
-								<td>
-									<textarea id="summernote" name="branchIntroduce"></textarea>
-									<c:import url="../a_common/summernote.jsp"/>
-								</td>	
-							</tr>	
+               				</form>	
 						</table>
-						</form>
 						<div class="inner" align="center" >
 							<div class="btnBox">
-								<button type="submit" class="defaultBtn" onclick="">등록</button>
-								<button name="취소" onclick={$ contextpath} class="defaultBtn">취소</button>	
+								<button type="submit" class="defaultBtn" onclick="validate();" >등록</button>
+								<button name="취소"  class="defaultBtn">취소</button>	
 							</div> 
 						</div>
 					</div>
+					
 				</div>	
-							
+						
 		</div>				
 	<c:import url="../a_common/footer.jsp"/>
 	</div>
 	
-	<!-- *summernote 가져오기 -->
+	<!-- summernote 가져오기 -->
 	<script>
 	//id가 description인 것을 summernote 방식으로 적용하라는 의미이다.
 	//높이와 넓이를 설정하지 않으면 화면이 작게 나오기때문에 설정해주어야 한다.
@@ -143,7 +97,7 @@
 	});
 	</script>
 	 
-   <!-- *지도api 가져오기 -->	
+   <!-- 한솔_지도api 가져오기 -->	
    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
    <script>
       function openDaumZipAddress() {
@@ -199,83 +153,47 @@
       }
    </script>
    
-   <!-- *전화번호 입력시 숫자만 입력가능하도록 -->
    <script>
-   		$("input:text[numberOnly]").on("keyup", function() {
-    		$(this).val($(this).val().replace(/[^0-9]/g,""));
-		});
-   </script>
-	
-   <!-- 지점시간 숫자만 입력가능한 스크립트  -->
-   <script>
-	     function inputTimeColon(time) {
-	
-	       // replace 함수를 사용하여 콜론( : )을 공백으로 치환한다.
-	       var replaceTime = time.value.replace(/\:/g, "");
-	
-	       // 텍스트박스의 입력값이 4~5글자 사이가 되는 경우에만 실행한다.
-	       if(replaceTime.length >= 4 && replaceTime.length < 5) {
-	
-	           var hours = replaceTime.substring(0, 2);      // 선언한 변수 hours에 시간값을 담는다.
-	           var minute = replaceTime.substring(2, 4);    // 선언한 변수 minute에 분을 담는다.
-	
-	
-	           // isFinite함수를 사용하여 문자가 선언되었는지 확인한다.
-	           // '숫자만 입력해 주세요' 알럿 띄우기
-	           if(isFinite(hours + minute) == false) {
-	               alert("문자는 입력하실 수 없습니다.");
-	               time.value = "00:00";
-	               return false;
-	           }
-	
-	           // 두 변수의 시간과 분을 합쳐 입력한 시간이 24시가 넘는지를 체크한다.
-	           if(hours + minute > 2400) {
-	               alert("시간은 24시를 넘길 수 없습니다.");
-	               time.value = "24:00";
-	               return false;
-	           }
-	
-	           // 입력한 분의 값이 60분을 넘는지 체크한다.
-	           if(minute > 60) {
-	               alert("분은 60분을 넘길 수 없습니다.");
-	               time.value = hours + ":00";
-	               return false;
-	           }
-	
-	           time.value = hours + ":" + minute;
-	       }
-	   }
 	     
          // 지점명 중복 확인	
-         $('#userId').on('keyup', function(){
-      	   var userId = $(this).val().trim();
+         $('#branchName').on('keyup', function(){
+      	   var branchName = $(this).val().trim();
       	   
-      	   if(userId.length < 4){
+      	   if(branchName.length < 3){
       		   $('.guide').hide();
-      		   $('#idDuplicateCheck').val(0);
+      		   $('#nameDuplicateCheck').val(0);
       		   
       		   return;
       	   }
       	   
       	   $.ajax({
-      		   url: 'dupid.me',
-      		   data: {id:userId},
+      		   url: 'dupName.ap',
+      		   data: {name:branchName},
       		   success: function(data){
       			   if(data == 'true'){ //print로 보냈으므로 boolean아닌 String으로 넘어옴 그래서 user라는 아이디가없음에도 에러가뜸
       				   $('.guide.error').hide();
       				   $('.guide.ok').show();
-      				   $('#idDuplicateCheck').val(1);
+      				   $('#nameDuplicateCheck').val(1);
       			   } else{
       				   $('.guide.error').show();
       				   $('.guide.ok').hide();
-      				   $('#idDuplicateCheck').val(0);
+      				   $('#nameDuplicateCheck').val(0);
       			   }
       		   }
       	   });
-         });  ㅣ
-	     
+         }); 
    </script>
-	
+	   <script>
+   	function validate(){
+   		if($('#nameDuplicateCheck').val() == 0 ){
+   			alert('사용 가능한 지점명을입력해 주세요.');
+   			$('branchName').focus();
+   			return false;
+		} else {
+			('#joinForm').submit();
+		}
+   	}
+   </script>
 	
 	
 </body>

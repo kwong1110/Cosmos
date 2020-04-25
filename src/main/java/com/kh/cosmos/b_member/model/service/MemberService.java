@@ -12,9 +12,10 @@ public interface MemberService {
 
 	ArrayList<StudyCategory> selectStudyCategoryList(StudyCategory sc);
 
-	int insertMember(Member m, ArrayList<Preview> pList);
+	Member findMemberId(Member m);
+
+  int insertMember(Member m, ArrayList<Preview> pList);
 
 	ArrayList<Preview> getStudyList(String id);
-
 
 }

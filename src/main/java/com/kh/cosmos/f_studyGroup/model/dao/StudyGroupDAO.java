@@ -2,9 +2,11 @@ package com.kh.cosmos.f_studyGroup.model.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
@@ -50,6 +52,25 @@ public class StudyGroupDAO {
 
 	public int getIngRecCount(SqlSessionTemplate sqlSession, int sgno) {
 		return sqlSession.selectOne("studyGroupMapper.getIngRecCount", sgno);
+	}
+
+	public ArrayList<StudyGroupRecruit> getRecList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+	    
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getRecList", null, rowBounds);
+	}
+
+	public int getRecCompleteNum(SqlSessionTemplate sqlSession, int recNo) {
+		return sqlSession.selectOne("studyGroupMapper.getRecCompleteNum", recNo);
+	}
+
+	public int getRecListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("studyGroupMapper.getRecListCount");
+	}
+
+	public StudyGroup getStudyGroupInfo(SqlSessionTemplate sqlSession, int sgno) {
+		return sqlSession.selectOne("studyGroupMapper.getStudyGroupInfo", sgno);
 	}
 
 }

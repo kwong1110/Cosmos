@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -83,7 +84,9 @@ public class LectureManageController {
 	}
 	
 	@RequestMapping("lectureUpdate.ap")
-	public String lectureUpdate(Model model, @RequestParam("lNo") String lNo, @ModelAttribute Lecture l) {
+	public String lectureUpdate(Model model, @RequestParam("lNo") String lNo, 
+								@ModelAttribute Lecture l, @RequestParam("returnRoot") String returnRoot,
+								RedirectAttributes ra) {
 		
 		l.setLectureNo(Integer.parseInt(lNo));
 		// System.out.println(l.getLectureNo() + l.getLectureStatus());
@@ -91,7 +94,18 @@ public class LectureManageController {
 		int result = lmService.updateLecture(l);
 		
 		if(result > 0) {
-			return "redirect:lectureManage.ap";
+			
+			String successMsg = "";
+			switch(l.getLectureStatus()) {
+			case "OPEN": successMsg = "수락"; break;
+			case "CLOSE": successMsg = "정원초과"; break;
+			case "REJECT": successMsg = "<span style='color:#ff0000'>거절<span>"; break;
+			case "DELETE": successMsg = "삭제"; break;
+			}
+			
+			ra.addFlashAttribute("successMsg", successMsg);
+			
+			return "redirect:" + returnRoot;
 		} else {
 			throw new LectureException("강연 전체 조회에 실패하였습니다.");
 		}

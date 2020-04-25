@@ -8,6 +8,7 @@ public class StudyGroupRecruit {
 	private String sgName;
 	private String recTerm;
 	private int recNum;
+	private int partNum;
 	private String nick;
 	private String branchName;
 	private String sgGoal;
@@ -18,6 +19,8 @@ public class StudyGroupRecruit {
 	private String msgMetRule;
 	private int msgMet;
 	private int msgNum;
+
+	private int dCloseDate;
 	
 	public StudyGroupRecruit() {}
 
@@ -42,6 +45,24 @@ public class StudyGroupRecruit {
 		this.msgMetRule = msgMetRule;
 		this.msgMet = msgMet;
 		this.msgNum = msgNum;
+	}
+	
+	
+
+	public int getdCloseDate() {
+		return dCloseDate;
+	}
+
+	public void setdCloseDate(int dCloseDate) {
+		this.dCloseDate = dCloseDate;
+	}
+
+	public int getPartNum() {
+		return partNum;
+	}
+
+	public void setPartNum(int partNum) {
+		this.partNum = partNum;
 	}
 
 	public int getSgNo() {
