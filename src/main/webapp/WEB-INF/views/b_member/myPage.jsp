@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>회원 상세보기</title>
+<style>
+	ul.nav-tabs {
+		margin-bottom :20px;
+		border-bottom : none;
+	}
+</style>
 </head>
 <body>
 	<!-- view 초기 구조 -->
@@ -14,16 +20,17 @@
 		<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper">
 			<div class="main">
-				<ul class="nav nav-tabs">
-				  <li role="presentation" class="active"><a href="#">회원 정보</a></li>
-				  <li role="presentation"><a href="#">My Group</a></li>
-				  <li role="presentation"><a href="#">강연 내역</a></li>
-				  <li role="presentation"><a href="#">결재 내역</a></li>
-				</ul>	
+				
 				<div class="pageTitle">
 					<h1>'${ loginUser.name }'님의 정보 보기</h1>
 				</div>
 				<div class="content">
+					<ul class="nav nav-tabs">
+					  <li role="presentation" class="active"><a href="#">회원 정보</a></li>
+					  <li role="presentation"><a href="#">My Group</a></li>
+					  <li role="presentation"><a href="#">강연 내역</a></li>
+					  <li role="presentation"><a href="#">결재 내역</a></li>
+					</ul>	
 					<table class="inner table table-hover">
 						<tr>
 							<th>아이디</th>

@@ -1,19 +1,28 @@
 package com.kh.cosmos.h_viewBranch.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.h_viewBranch.model.exception.ViewBranchException;
 import com.kh.cosmos.h_viewBranch.model.service.ViewBranchService;
+import com.kh.cosmos.h_viewBranch.model.vo.BranchPhoto;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
-import com.kh.cosmos.h_viewBranch.model.service.ViewBranchService;
 
 @Controller
 public class ViewBranchController {
@@ -49,7 +58,6 @@ public class ViewBranchController {
 	public ModelAndView branchDetail(@RequestParam("vbNo") int vbNo, @RequestParam("page") int page, ModelAndView mv) {
 		
 		ViewBranch vBranch = vbService.selectBranch(vbNo);
-		System.out.println(vBranch);
 		
 		if(vBranch != null) {
 			
@@ -62,4 +70,104 @@ public class ViewBranchController {
 		 
 		return mv ;
 	}
+	
+	@RequestMapping("viewBranchUpForm.vb")
+	public ModelAndView branchUpFormView(@RequestParam("vbNo") int vbNo, @RequestParam("page") int page, ModelAndView mv) {
+		
+		ViewBranch vBranch = vbService.selectBranch(vbNo);
+		
+		mv.addObject("vBranch", vBranch)
+		  .addObject("page", page)
+		  .setViewName("viewBranchUpForm");
+		
+		return mv;
+	}
+	
+	@RequestMapping("viewBranchUpdate.vb")
+	public ModelAndView branchUpdate(@ModelAttribute ViewBranch vb, @ModelAttribute BranchPhoto bp, @RequestParam("vbNo") int branchNo, @RequestParam("page") int page,
+									 @RequestParam("uploadFile") MultipartFile[] uploadFiles, 
+									 HttpServletRequest request, ModelAndView mv) {
+		
+		if(uploadFiles != null && !(uploadFiles.length == 0)) { // 업로드 파일이 존재할 때
+			
+			// ArrayList<String> saveFiles = new ArrayList<String>();
+			ArrayList<String> originFiles = new ArrayList<String>();
+			
+			ArrayList<String> renameList = saveFile(uploadFiles, request); // renameList[]
+			
+			System.out.println("renameList : " + renameList);
+			System.out.println("bp : " + bp);
+			System.out.println("vbNo : " + branchNo);
+			
+			ArrayList<BranchPhoto> branchPhoto = new ArrayList<BranchPhoto>();
+			
+			for(int i = 0; i < uploadFiles.length - 1 ; i++) {
+				
+				BranchPhoto bPhoto = new BranchPhoto();
+				bPhoto.setBranchNo(branchNo);
+				bPhoto.setOriginalFileName(uploadFiles[i].getOriginalFilename());
+				bPhoto.setRenameFileName(renameList.get(i));
+				
+				// rename 을 사진 경로에 넣어줌.
+				// bPhoto.setBpPath(uploadFiles[i].);
+			}
+			
+			ViewBranch vBranch = vbService.selectBranch(branchNo);
+			int result = vbService.insertBranchPhoto(branchNo);
+			
+			if(result > 0) {
+				mv.addObject("vBranch", vBranch)
+				  .addObject("page", page)
+				  .setViewName("viewBranchDetail");
+				
+			} else {
+				throw new ViewBranchException("지점 조회에 실패하였습니다.");
+			}
+		} 
+		
+		return mv;
+	}
+	
+	public ArrayList<String> saveFile(MultipartFile[] files, HttpServletRequest request) {
+		
+		String root = request.getSession().getServletContext().getRealPath("resources");
+		String savePath = root + "\\photo_uploadFiles\\branch\\";
+		
+		File folder = new File(savePath);
+		
+		if(!folder.exists()) {
+			folder.mkdirs();
+		}
+		
+		
+		ArrayList<String> renameList = new ArrayList<String>();
+		
+		
+		for(int i = 0; i < files.length; i++) {
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+			int ranNum = (int)(Math.random() * 100000);
+			
+			String originFileName = files[i].getOriginalFilename();
+			String renameFileName = sdf.format(new Date(System.currentTimeMillis())) + ranNum + "." + originFileName.substring(originFileName.lastIndexOf(".") + 1);
+		
+			String renamePath = folder + "\\" + renameFileName;
+			
+			renameList.add(renameFileName);
+			
+			try {
+				files[i].transferTo(new File(renamePath));
+			} catch (Exception e) {
+				System.out.println("파일 전송 에러 : " + e.getMessage());
+				e.printStackTrace();
+			} 
+			
+		}
+		
+		System.out.println("saveFile() : renameList 바뀐 이름 : " + renameList);
+
+		return renameList;
+		
+	}
+	
 }

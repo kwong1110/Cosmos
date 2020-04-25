@@ -20,6 +20,9 @@
 		<result property="branchContent" column="BRANCH_CONTENT"/>
 		<result property="branchTime" column="BRANCH_TIME"/>
 		<result property="branchRest" column="BRANCH_REST"/>
+		<result property="originalFileName" column="ORGINAL_FILENAME"/>
+		<result property="renameFileName" column="RENAME_FILENAME"/>
+		
 	</resultMap>
 	
 	<!-- viewBranchDetail -->
@@ -28,7 +31,12 @@
 		from branch
 		where branch_no = #{branchNo}
 	</select>
-  
+	
+	<insert id="insertBranchPhoto">
+		insert into branch_photo
+		values(seq_photoid.nextval, #{branchNo}, #{orginaleFileName}, #{bpPath}, #{bpLevel}, #{bpStatus}, #{renameFileName})
+	</insert>
+
   <!-- 지점 등록 -->
 	<!-- 지점명 중복체크 -->
 	<select id="checkNameDup" parameterType="string" resultType="_int">
