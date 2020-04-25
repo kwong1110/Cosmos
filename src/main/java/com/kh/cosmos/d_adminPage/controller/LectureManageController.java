@@ -99,7 +99,7 @@ public class LectureManageController {
 			switch(l.getLectureStatus()) {
 			case "OPEN": successMsg = "수락"; break;
 			case "CLOSE": successMsg = "정원초과"; break;
-			case "REJECT": successMsg = "<span style='color:#ff0000'>거절<span>"; break;
+			case "REJECT": successMsg = "거절"; break;
 			case "DELETE": successMsg = "삭제"; break;
 			}
 			

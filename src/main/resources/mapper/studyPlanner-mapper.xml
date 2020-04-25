@@ -1,4 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="studyPlannerMapper">
+	<select id="getMyPlannerList" resultMap="planResultSet">
+		select *
+		from plan
+			join study_category using(study_no)
+		where plan_status='Y'
+		order by create_date desc
+	</select>
+	
+	<resultMap id="planResultSet" type="StudyPlanner">
+		<id property="planNo" column="PLAN_NO"/>
+		<result property="planTitle" column="PLAN_TITLE"/>
+		<result property="planContent" column="PLAN_CONTENT"/>
+		<result property="planMenu" column="PLAN_MENU"/>
+		<result property="emphasis" column="EMPHASIS"/>
+		<result property="likeCount" column="LIKE_COUNT"/>
+		<result property="hit" column="HIT"/>
+		<result property="planStart" column="PLAN_START"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="planStatus" column="PLAN_STATUS"/>
+		<result property="openStatus" column="OPEN_STATUS"/>
+		<result property="id" column="ID"/>
+		<result property="studyNo" column="STUDY_NO"/>
+		<result property="studyName" column="STUDY_NAME"/>
+		<result property="planEnd" column="PLAN_END"/>
+	</resultMap>
 </mapper>

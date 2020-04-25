@@ -118,7 +118,7 @@
 					{
 						title :	"${ l.lectureTitle }",
 						start : "${ l.lectureStart }",	
-						end : "${ l.lectureEnd }" ,
+						end : "${ l.lectureEnd }" + " 24:00",
 						id: '${ l.lectureNo }',
 						extendedProps: {
 				        	record: '${ l.lectureRecord }',
