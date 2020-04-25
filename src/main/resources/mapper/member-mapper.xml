@@ -28,7 +28,7 @@
 	
 	<!-- 공부카테고리 -->
 	<select id="selectList" parameterType="StudyCategory" resultMap="studyCategoryResultSet"> 
-		select *
+		select study_no, study_name
 		from study_category 
 	</select>
 	<resultMap type="StudyCategory" id="studyCategoryResultSet">
@@ -36,12 +36,41 @@
 		<result property="studyName" column="STUDY_NAME"/>
 	</resultMap>
 	
+	
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="Member">
 		insert into Member
 		values(#{id}, #{pwd}, #{name}, #{nick}, #{birth}, #{email}, #{phone}, sysdate, null, default, default, default, #{gender})
+		<!-- 																  enroll, certifyNum, certifyStatus, grade, gender -->
 	</insert>
 	
+	<!-- 공부 중인 항목 (기타 포함) -->
+	<insert id="insertPreview" parameterType="java.util.List">
+		insert all
+		<foreach collection="list" item="item" separator=" ">
+			into Preview (id, study_no, sp_term, study_etc) values
+			(#{item.id}, #{item.studyNo}, #{item.spTerm}, #{item.studyEtc})
+			
+			<!-- <if test="#{item.studyEtc } == null">
+			into Preview (id, study_no, sp_term) values
+			(#{item.id}, #{item.studyNo}, #{item.spTerm}, null)
+			</if>
+			<if>
+			into Preview (id, study_no, sp_term) values
+			(#{item.id}, #{item.studyNo}, #{item.spTerm}, #{item.studyEtc})
+			</if> -->
+		</foreach>
+		select * from dual
+	</insert>
+	
+	<!-- loginUser의 공부 중인 항목 -->
+	<select id="getStudyList" parameterType="Preview" resultMap="previewResultSet">
+		select id, study_no, study_name, sp_term, study_etc
+		from preview
+    		join member using(id)
+    		join study_category using(study_no)
+		where id = #{id}
+	</select>
 	
 	<!-- 아이디 찾기 --> 
 	<select id="idCheck"  parameterType="Member"  resultMap="memberResultSet">
@@ -49,7 +78,6 @@
       from member
       where name = #{name} and email = #{email} and mstatus = 'Y'
    </select>
-   
 
 	<!-- 비밀번호 변경
 	<update id="update_pw" parameterType="member">
@@ -57,4 +85,12 @@
 	</update>
 	 -->
 	 
+	<resultMap type="Preview" id="previewResultSet">
+		<id property="id" column="ID"/>
+		<result property="studyNo" column="STUDY_NO"/>
+		<result property="spTerm" column="SP_TERM"/>
+		<result property="studyEtc" column="STUDY_ETC"/>
+		<result property="studyName" column="STUDY_NAME"/>
+	</resultMap>
+		
 </mapper>

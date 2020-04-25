@@ -71,7 +71,7 @@
 </head>
 <body>
 	<div class="total-wrapper">
-		<c:import url="../a_common/menubar.jsp"/>
+		<c:import url="../../a_common/menubar.jsp"/>
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
@@ -136,7 +136,7 @@
 									</a>
 								</c:if>
 								<c:if test="${ pi.currentPage ne pi.startPage }">
-									<c:url var="start" value="lectureManage.ap">
+									<c:url var="start" value="lectureHistory.mp">
 										<c:param name="page" value="${ pi.startPage }"/>
 									</c:url>
 									<a href="${ start }" aria-label="Previous">
@@ -151,7 +151,7 @@
 									</a>
 								</c:if>
 								<c:if test="${ pi.currentPage > 1 }">
-									<c:url var="before" value="lectureManage.ap">
+									<c:url var="before" value="lectureHistory.mp">
 										<c:param name="page" value="${ pi.currentPage - 1 }"/>
 									</c:url>
 									<a href="${ before }" aria-label="Previous">
@@ -164,7 +164,7 @@
 									<li><a>${ p }</a></li>
 								</c:if>
 								<c:if test="${ p ne pi.currentPage }">
-									<c:url var="pagination" value="lectureManage.ap">
+									<c:url var="pagination" value="lectureHistory.mp">
 										<c:param name="page" value="${ p }"/>
 									</c:url>
 									<li><a href="${ pagination }">${ p }</a></li>
@@ -177,7 +177,7 @@
 									</a>
 								</c:if>
 								<c:if test="${ pi.currentPage < pi.maxPage }">
-									<c:url var="after" value="lectureManage.ap">
+									<c:url var="after" value="lectureHistory.mp">
 										<c:param name="page" value="${ pi.currentPage + 1 }"/>
 									</c:url>
 									<a href="${ after }" aria-label="Next">
@@ -192,7 +192,7 @@
 									</a>
 								</c:if>
 								<c:if test="${ pi.currentPage ne maxPage }">
-									<c:url var="max" value="lectureManage.ap">
+									<c:url var="max" value="lectureHistory.mp">
 										<c:param name="page" value="${ pi.maxPage }"/>
 									</c:url>
 									<a href="${ max }" aria-label="Next">
@@ -206,7 +206,7 @@
 				</div>
 			</div>
 		</div>
-		<c:import url="../a_common/footer.jsp"/>
+		<c:import url="../../a_common/footer.jsp"/>
 	</div>
 	<!-- 강연 상세보기 MODAL -->
     <div id="viewModal" class="modal fade" tabindex="-1" role="dialog" >
@@ -274,14 +274,13 @@
 						<tr>
 							<td rowspan="5" colspan="11" style="padding: 0;">
 								<div id="content"></div>
-								<c:import url="../a_common/summernote.jsp"/>							
+								<c:import url="../../a_common/summernote.jsp"/>							
 							</td>
 						</tr>
 					</table>
                 </div>
                 <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
-                    <button type="button" id="ok" class="btn defaultBtn" data-dismiss="modal" onclick="lectureUpdate('OPEN');">수락</button>
-                    <button type="button" id="no" class="btn btn-danger" data-dismiss="modal" onclick="lectureUpdate('REJECT');">거절</button>
+                    <button type="button" id="no" class="btn btn-danger" data-dismiss="modal" onclick="sweetConfirm('DELETE');">삭제</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -323,6 +322,11 @@
 					}
 					$('#lectureStatus').val(data.lectureStatus);
 					
+					$('#no').css('visibility','visible');
+					if($('#lectureStatus').val() != '신청'){
+						$('#no').css('visibility','hidden');
+					} 
+						
 					// sumernote 상세보기			
 					$('#content').summernote({
 						toolbar: false,
@@ -338,13 +342,10 @@
 		});
 	});
 	
-	// 강연상태 업데이트
-	function lectureUpdate(state){	
+	function statusUpdate(state){
 		var lNo = $('#lectureNo').val();
-		location.href="lectureUpdate.ap?lectureStatus=" + state + "&lNo=" + lNo + "&returnRoot=lectureManage.ap";
-	}
-	
-	
+		location.href="lectureUpdate.ap?lectureStatus=" + state + "&lNo=" + lNo + "&returnRoot=lectureHistory.mp";
+	};
 	
 </script>
 </html>

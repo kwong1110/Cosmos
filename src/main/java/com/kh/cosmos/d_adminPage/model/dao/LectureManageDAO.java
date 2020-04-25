@@ -32,4 +32,8 @@ public class LectureManageDAO {
 		return sqlSession.selectOne("memberMapper.selectOne", m);
 	}
 
+	public int updateLecture(SqlSessionTemplate sqlSession, Lecture l) {
+		return sqlSession.update("lectureMapper.updateLecture", l);
+	}
+
 }

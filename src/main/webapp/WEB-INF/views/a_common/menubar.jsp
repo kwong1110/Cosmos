@@ -11,15 +11,11 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/bootstrap-datepicker.min.css">
-<link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/bootstrap-timepicker.min.css" rel="stylesheet">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/daterangepicker.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/plugins/sweetalert/sweetalert.css">
 	<!-- cosmos css -->
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/layout-style.css">
-	<!-- 부트스트랩 -->
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-	<!-- cosmos js -->
-<script src="${contextPath}/resources/js/common.js"></script>
 </head>
 <style>
 	.loginTop,.loginMid{
@@ -182,8 +178,7 @@
 					<div><span class="cosmos">코스모스</span>에 오신 것을 환영합니다.</div>
 					<div id="login" class="btn btn-default">로그인</div>
 					<div class="user-menu">
-						<div id="find" class="find">
-							<a href="find.me"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>아이디 &middot; 비밀번호 찾기</a></div> 
+						<div id="find" class="find"><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span>아이디 &middot; 비밀번호 찾기</a></div> 
 						<div id="enroll" class="enroll"><a href="agree.me"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>회원가입</a></div>
 					</div>
 				</div>
@@ -199,7 +194,11 @@
 						<div class="user-menu clear-fix">
 							<div><a href=""><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</a></div>
 							<div data-toggle="modal" data-target="#myCupon"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
-							<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>마이 페이지</a></div>
+							<div>
+								<c:url var="myPage" value="myPage.me">
+									<c:param name="id" value="${ loginUser.id }"/>
+								</c:url>
+							<a href="${ myPage }"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>마이 페이지</a></div>
 						</div>
 					</div>
 				</c:if>
@@ -220,14 +219,14 @@
 			</c:if>
 		</div>
 		<%-- 관리자 페이지 메뉴  --%>
-	
+		<%-- 
 		<div class="master-area">
 			<c:if test="${ sessionScope.loginUser.grade == 0}">
 				<div class="menuTitle" id="myPage">
 					<div><a href="">관리자페이지</a></div>
 					<div class="s-menu">	
-						<div><a href="reportList.ap">신고목록</a></div>
-						<div><a href="lectureManage.ap">강연관리</a></div>
+						<div><a href="">신고목록</a></div>
+						<div><a href="">강연관리</a></div>
 						<div><a href="">좌석예약조회</a></div>
 						<div><a href="">회원목록</a></div>
 						<div><a href="enrollBranch.ap">지점등록</a></div>
@@ -236,7 +235,7 @@
 				</div>
 			</c:if>
 		</div> 
-	
+		--%>
 		
 		<hr class="bar">
 		
@@ -250,7 +249,7 @@
 					<div><a href="#">모두의 플래너</a></div>								
 				</div>
 			</div>
-			<div class="menuTitle"><a href="#"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
+			<div class="menuTitle"><a href="branchList.vb"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
 			<div class="menuTitle">
 				<div><a href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
 				<div class="s-menu">
@@ -288,7 +287,7 @@
 				        		<button type="button" class="btn">회원가입</button>
 							</div> 
 						</form>
-					</div>		        	
+					</div>		          	
 		        </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -508,8 +507,26 @@
 		if( <%= request.getParameter("success") %> == 1){
 			$("#login").trigger("click");
 		}
-	}
-	
+	};
+
+	// sweetalert
+	$(function(){
+		if("${ successMsg }" != ""){
+			sweetSuccess("${ successMsg }");
+		}
+		
+		if("${ updateMsg }" != ""){
+			sweetUpdate("${ updateMsg }");
+		}
+		
+	});
 	
 </script>
+	<!-- 부트스트랩 -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+	<!-- cosmos js -->
+<script src="${contextPath}/resources/js/common.js"></script>
+	<!-- sweet alert -->
+<script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.cosmos.js"></script>
 </html>

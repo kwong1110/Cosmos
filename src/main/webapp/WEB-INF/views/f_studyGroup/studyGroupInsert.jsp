@@ -73,8 +73,8 @@
 						<tr>
 							<td class="tableLabel">모집 인원</td>
 							<td>
-								<input type="number" min="1" class="form-control" id="recNum" name="recNum">
-								<button class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 모집 할 인원을 입력해주세요.">?</button>
+								<input type="number" min="1" max="7" class="form-control" id="recNum" name="recNum">
+								<button class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 모집 인원을 입력해주세요. 1인 이상, 7인 이하">?</button>
 							</td>
 						</tr>
 						<tr>
@@ -159,14 +159,14 @@
 		
 		$('#sgContent').keyup(function (e){
 	          var content = $(this).val();
-	          if(content.length < 2000) {
+	          if(content.length < 1000) {
 	        	  $('#contentAlert').css('color', 'black');
 		          $('#contentCount').html(content.length);
-	          } else if(content.length == 2000) {
+	          } else if(content.length == 1000) {
 	        	  $('#contentAlert').css('color', 'red');
 		          $('#contentCount').html(content.length);
 	          } else {
-	        	  $('#sgContent').val(content.substr(0, 2000));
+	        	  $('#sgContent').val(content.substr(0, 1000));
 	        	  $('#contentAlert').css('color', 'red');
 	          }
 	    });

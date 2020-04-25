@@ -1,21 +1,29 @@
 package com.kh.cosmos.e_seat.model.vo;
 
+import java.sql.Date;
+
 public class Seat {
 	private int reserNo;
 	private int reserPeople;
-	private int reserDay;
+	private Date reserDay;
 	private String startTime;
 	private String endTime;
 	private String reserYn;
 	private int seatNo;
-	private String reserFee;
 	private String id;
 	private int branchNo;
+	private String reserSort;
+	private Date finishDay;
+	private String reserType;
+	private String totalFee;
+	 
 	
 	public Seat() {}
 
-	public Seat(int reserNo, int reserPeople, int reserDay, String startTime, String endTime, String reserYn,
-			int seatNo, String reserFee, String id, int branchNo) {
+
+	public Seat(int reserNo, int reserPeople, Date reserDay, String startTime, String endTime, String reserYn,
+			int seatNo, String id, int branchNo, String reserSort, Date finishDay, String reserType, String totalFee) {
+		super();
 		this.reserNo = reserNo;
 		this.reserPeople = reserPeople;
 		this.reserDay = reserDay;
@@ -23,95 +31,152 @@ public class Seat {
 		this.endTime = endTime;
 		this.reserYn = reserYn;
 		this.seatNo = seatNo;
-		this.reserFee = reserFee;
 		this.id = id;
 		this.branchNo = branchNo;
+		this.reserSort = reserSort;
+		this.finishDay = finishDay;
+		this.reserType = reserType;
+		this.totalFee = totalFee;
 	}
+
 
 	public int getReserNo() {
 		return reserNo;
 	}
 
+
 	public void setReserNo(int reserNo) {
 		this.reserNo = reserNo;
 	}
+
 
 	public int getReserPeople() {
 		return reserPeople;
 	}
 
+
 	public void setReserPeople(int reserPeople) {
 		this.reserPeople = reserPeople;
 	}
 
-	public int getReserDay() {
+
+	public Date getReserDay() {
 		return reserDay;
 	}
 
-	public void setReserDay(int reserDay) {
+
+	public void setReserDay(Date reserDay) {
 		this.reserDay = reserDay;
 	}
+
 
 	public String getStartTime() {
 		return startTime;
 	}
 
+
 	public void setStartTime(String startTime) {
 		this.startTime = startTime;
 	}
+
 
 	public String getEndTime() {
 		return endTime;
 	}
 
+
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
+
 
 	public String getReserYn() {
 		return reserYn;
 	}
 
+
 	public void setReserYn(String reserYn) {
 		this.reserYn = reserYn;
 	}
+
 
 	public int getSeatNo() {
 		return seatNo;
 	}
 
+
 	public void setSeatNo(int seatNo) {
 		this.seatNo = seatNo;
 	}
 
-	public String getReserFee() {
-		return reserFee;
-	}
-
-	public void setReserFee(String reserFee) {
-		this.reserFee = reserFee;
-	}
 
 	public String getId() {
 		return id;
 	}
 
+
 	public void setId(String id) {
 		this.id = id;
 	}
+
 
 	public int getBranchNo() {
 		return branchNo;
 	}
 
+
 	public void setBranchNo(int branchNo) {
 		this.branchNo = branchNo;
 	}
 
+
+	public String getReserSort() {
+		return reserSort;
+	}
+
+
+	public void setReserSort(String reserSort) {
+		this.reserSort = reserSort;
+	}
+
+
+	public Date getFinishDay() {
+		return finishDay;
+	}
+
+
+	public void setFinishDay(Date finishDay) {
+		this.finishDay = finishDay;
+	}
+
+
+	public String getReserType() {
+		return reserType;
+	}
+
+
+	public void setReserType(String reserType) {
+		this.reserType = reserType;
+	}
+
+
+	public String getTotalFee() {
+		return totalFee;
+	}
+
+
+	public void setTotalFee(String totalFee) {
+		this.totalFee = totalFee;
+	}
+
+
 	@Override
 	public String toString() {
 		return "Seat [reserNo=" + reserNo + ", reserPeople=" + reserPeople + ", reserDay=" + reserDay + ", startTime="
-				+ startTime + ", endTime=" + endTime + ", reserYn=" + reserYn + ", seatNo=" + seatNo + ", reserFee="
-				+ reserFee + ", id=" + id + ", branchNo=" + branchNo + "]";
+				+ startTime + ", endTime=" + endTime + ", reserYn=" + reserYn + ", seatNo=" + seatNo + ", id=" + id
+				+ ", branchNo=" + branchNo + ", reserSort=" + reserSort + ", finishDay=" + finishDay + ", reserType="
+				+ reserType + ", totalFee=" + totalFee + "]";
 	}
+
+	
 }

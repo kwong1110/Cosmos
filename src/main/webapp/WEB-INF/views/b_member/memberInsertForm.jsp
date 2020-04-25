@@ -6,6 +6,12 @@
 <head>
 <meta charset="UTF-8">
 <title>회원가입</title>
+<style>
+	.minus {
+		display : inline-block;
+		cursor:pointer;
+	}
+</style>
 </head>
 <body>
 	<!-- view 초기 구조 -->
@@ -86,38 +92,41 @@
 									<th><label>공부 중인 항목</label></th>
 									<td>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="0" end="4" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="0" end="4" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="5" end="9" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="5" end="9" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="10" end="14" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="10" end="14" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="15" end="19" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="15" end="19" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
 										<div class="categoryLabel">
-											<c:forEach var="scl" begin="20" end="24" items="${ sList }">
-												<input type="checkbox" id="${ scl.studyName }" name="studyGroup" value="${ scl.studyName }"> ${ scl.studyName }&nbsp;&nbsp;
+											<c:forEach var="i" begin="20" end="24" items="${ sList }">
+												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
-
+										<div class="categoryLabel">
+												<p>기타 항목을 입력해 주세요(3개까지 추가할 수 있습니다.)</p> 
+												<input type="text" name="studyEtc" value="" class="studyEtc">
+												<button type="button" class="addEtcBtn">추가</button>
+										</div>
 									</td>
 								</tr>
 								<tr>
 									<th>공부기간</th>
 									<td id="category-area">
 										<p>해당 학업에서 본인이 공부한 기간을 입력해 주세요.</p>
-										
 									</td>
 								</tr>
 							</table>
@@ -149,36 +158,96 @@
 
 	$(function(){
 		var category = document.getElementsByName("studyGroup"); // 공부 과목 카테고리
-		var etcCheck = document.getElementById("studyEtcTitle"); // 기타(id="studyEtcTitle" name="studyGroup")
 		var $area = $("#category-area");
-			
-		var val = "";
-		var text = "";
 		
 		$(category).change(function(){
-			console.log($(this));
-			val = $(this).val().replace(/[\s/]/g, '');
-			text = $(this).attr('id');
+			var valAfter = $(this).val().replace(/[\s/]/g, '');
+			var valBefore = $(this).val();
+			var val = $(this).attr('id');
 			
-			var $div = $("<div id='" + val + "'>");
-			var $result = text;
-			var $select = $("<select>");
+			var $div = $("<div id='" + valAfter + "'>");
+			var $result = valBefore + " ";
+			var $rHidden = $("<input type='hidden' name='studyGroupChk' value='" + val + "'>");
+			var $select = $("<select name='term'>");
 			var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
 			var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
 			var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
 			var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상 ~ 3년 이하");
+			var $iconWrap = $("<span class='minus'>");
+			var $icon = $("<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'>");
 			
 			if($(this).is(":checked")){
 				$area.append($div);
 				$div.append($result);
+				$div.append($rHidden);
 				$div.append($select);
 				$select.append($value1);
 				$select.append($value2);
 				$select.append($value3);
 				$select.append($value4);
+				$select.append($value4);
+				$div.append($iconWrap);
+				$iconWrap.append($icon);
+				
 			} else {
-				$("div#" + val).remove();
+				$("div#" + valAfter).remove();
 			}
+		});
+		
+		var count = 0;
+		var idNum = 96;
+		
+		$(".addEtcBtn").click(function(){
+			var valAfter = $(".studyEtc").val().replace(/[\s/]/g, '');
+			var valBefore = $(".studyEtc").val();
+			
+			count++;
+			idNum++;
+			
+			if(count <= 3){
+				var $div = $("<div id='" + valAfter + "'>");
+				var $result = valBefore + " ";
+				var $rHidden1 = $("<input type='hidden' name='studyEtcNo' value='" + idNum + "'>");
+				var $rHidden2 = $("<input type='hidden' name='studyEtcName' value='" + valBefore + "'>");
+				var $select = $("<select name='term'>");
+				var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
+				var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
+				var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
+				var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상 ~ 3년 이하");
+				var $iconWrap = $("<span class='minus'>");
+				var $icon = $("<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'>");
+				
+				$area.append($div);
+				$div.append($result);
+				$div.append($rHidden1);
+				$div.append($rHidden2);
+				$div.append($select);
+				$select.append($value1);
+				$select.append($value2);
+				$select.append($value3);
+				$select.append($value4);
+				$div.append($iconWrap);
+				$iconWrap.append($icon);
+				alert(document.getElementsByName(studyEtc).value());
+								
+				$(this).attr('disabled', false);
+				$("#studyEtc").attr('disabled', false);
+				if(count == 3){
+					$(this).attr('disabled', true);
+					$(".studyEtc").attr('disabled', true);
+				}
+			} 
+						
+		});
+		
+		var removeNum = 0;
+		
+		$("#category-area").click("span.minus", function(){
+			
+			/* removeNum = $(this).find("span.minus").parent().find("input").attr('value');
+			$(this).find("span.minus").parent().remove(); */
+			/* $(".categoryLabel").find("#"+idNum).prop('checked', false); */
+			
 		});
 			
 		/* 

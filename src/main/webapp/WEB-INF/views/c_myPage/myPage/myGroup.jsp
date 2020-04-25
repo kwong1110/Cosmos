@@ -54,7 +54,7 @@
 	
 	/* 모달 */
 	.modal-dialog{width:35%;}
-	.modal-title{width:100%; text-align:center; }
+	.modal-title{width:100%; text-align:center; cursor:pointer;}
 	.modal-header>h2{margin-top:2%; margin-bottom:2%; }
 	
 	.modal-body{width:100%; display:inline-block; text-align:center; margin-bottom:2%;}
@@ -62,19 +62,10 @@
 	.modal-body>div>div{width:90%; display:inline-block;}
 	.modal-body>div>div>table{width:100%; display:table; font-size:18px; text-align:center; margin-top:20px; padding:0;}
 	
-	.btnBox{padding:0; margin:0 !important;}
+	.btnBox{padding:0; margin:20px !important;}
 	.defaultstyle{width: 30%; height: 40px; font-size: 16px; margin:0; padding:0;}
 	
 	.recList{width: 35px; height:auto; position:absolute; left:5%; margin-top:2%; cursor:pointer;}
-	/* span.highlight{
-		text-align:left;
-		font-weight:bold;
-		font-size:19px;
-		background-color: #FFFFB3;
-		content: " ";
-		height: 30%;
-	} */
-	
 	/* 모달 */
 	
 </style>
@@ -174,43 +165,23 @@
 					
 					<div style="">
 						<div style="">
-							<table class="table table-hover">
+							<table class="table table-hover" id="modalTable">
+								<thead>
 								<tr>
 									<th>No</th>
 									<th>구성원 닉네임</th>
 									<th>그룹 참가일</th>
 								</tr>
-								<tr>
-									<td>5</td>
-									<td>닉네임5</td>
-									<td>2020.00.00</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>닉네임4</td>
-									<td>2020.00.00</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>닉네임3</td>
-									<td>2020.00.00</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>닉네임2</td>
-									<td>2020.00.00</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>닉네임1</td>
-									<td>2020.00.00</td>
-								</tr>
+								</thead>
+								
+								<tbody>
+								</tbody>
 							</table>
 						</div>
 					</div>
 
 					<div class="btnBox">
-						<input type="button" class="defaultBtn defaultstyle" value="그룹 나가기" />
+						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" value="그룹 나가기" />
 					</div>
 				</div>
 			</div>
@@ -224,97 +195,47 @@
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<img src="${contextPath }/resources/image/studyGroup/checklist.png" class="recList">
-					<h2 class="modal-title">그룹명</h2>
+					<%-- <img src="${contextPath }/resources/image/studyGroup/checklist.png" class="recList"> --%>
+					<h2 class="modal-title modalTitle">그룹명</h2>
 				</div>
 				
 				<div class="modal-body">
 					<div>
 						<div>
-							<table class="table table-hover">
+							<table class="table table-hover" id="modalMemberTable">
+								<thead>
 								<tr>
 									<th>No</th>
 									<th>구성원 닉네임</th>
 									<th>그룹 참가일</th>
 									<th style="width:20%;"></th>
 								</tr>
-								<tr>
-									<td>5</td>
-									<td>닉네임5</td>
-									<td>2020.00.00</td>
-									<td><input type="button" class="defaultBtn" value="강퇴"></td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>닉네임4</td>
-									<td>2020.00.00</td>
-									<td><input type="button" class="defaultBtn" value="강퇴"></td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>닉네임3</td>
-									<td>2020.00.00</td>
-									<td><input type="button" class="defaultBtn" value="강퇴"></td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>닉네임2</td>
-									<td>2020.00.00</td>
-									<td><input type="button" class="defaultBtn" value="강퇴"></td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>닉네임1</td>
-									<td>2020.00.00</td>
-									<td><input type="button" class="defaultBtn" value="강퇴"></td>
-								</tr>
+								</thead>
+								
+								<tbody>
+								</tbody>
 							</table>
 							<br>
-							<table class="table table-hover">
+							<table class="table table-hover" id="modalRecTable">
+								<thead>
 								<tr>
 									<th>No</th>
 									<th>모집 등록 날짜</th>
 									<th>모집 기간</th>
 									<th>모집 인원</th>
 								</tr>
-								<tr>
-									<td>5</td>
-									<td>2020.00.00</td>
-									<td>2020.00.00 ~ 2020.00.00</td>
-									<td>3</td>
-								</tr>
-								<tr>
-									<td>4</td>
-									<td>2020.00.00</td>
-									<td>2020.00.00 ~ 2020.00.00</td>
-									<td>3</td>
-								</tr>
-								<tr>
-									<td>3</td>
-									<td>2020.00.00</td>
-									<td>2020.00.00 ~ 2020.00.00</td>
-									<td>3</td>
-								</tr>
-								<tr>
-									<td>2</td>
-									<td>2020.00.00</td>
-									<td>2020.00.00 ~ 2020.00.00</td>
-									<td>1</td>
-								</tr>
-								<tr>
-									<td>1</td>
-									<td>2020.00.00</td>
-									<td>2020.00.00 ~ 2020.00.00</td>
-									<td>2</td>
-								</tr>
+								</thead>
+								
+								<tbody>
+								</tbody>
 							</table>
 						</div>
 					</div>
 	
 					<div class="btnBox">
-						<input type="button" class="defaultBtn defaultstyle" value="그룹 수정">
+						<input type="button" class="defaultBtn defaultstyle" style="background:#4188e2;" id="updateGroup" value="그룹 수정">
 						&nbsp;&nbsp;&nbsp;
-						<input type="button" class="defaultBtn defaultstyle" value="그룹 없애기">
+						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" id="deleteGroup" value="그룹 없애기">
 					</div>
 				</div>
 			</div>
@@ -324,22 +245,27 @@
 	
 	<script>
 		var trigerBox;
+		var category;
+		var sgNo;
 		
 		$(function() {
 			$('#hiddenOption').css('display', 'none');
 			
+			category = "";
 			trigerBox = 'false';
+			console.log(trigerBox);
 			getGroupList('false'); //-> 실시간 업데이트가 목적이 아니라 옵션을 위해서니까 setinterval안쓰고 진행
 			getGroupListPage('false');
 		});
 		
 		function getGroupList(triger) {
 			var userId = "${ loginUser.id }";
-			var category = "";
-			if($('#categoryLong').css('font-weight') == 'bold') {
+			if($('#categoryLong').css('color') == 'rgb(255, 255, 255)') {
 				category = "long";
-			} else if($('#categoryOnce').css('font-weight') == 'bold') {
+			} else if($('#categoryOnce').css('color') == 'rgb(255, 255, 255)') {
 				category = "once";
+			} else {
+				category = "";
 			}
 			
 			$.ajax({
@@ -354,21 +280,23 @@
 					var $td;
 					var $img;
 					var $span;
+					
 					var $no;
 					var $sgStatus;
 					var $studyName;
 					var $sgName;
 					var $bossNick;
 					var $appStatus;
-					
+
+					var number = data.length;
 					if(data.length > 0) {
 						for(var i in data) {
 							$tr = $('<tr>');
 							$td = $('<td>');
 							
-							$no = $('<td>').text(data[i].no);
+							$no = $('<td>').text(number/* data[i].no */);
+							number--;
 							
-							console.log(data[i].sgStatus);
 							if(data[i].sgStatus == 'Y' || data[i].sgStatus == 'D') {//다회
 								$td = $('<td>');
 								$span = $('<span class="typeBadge long">').text('long');
@@ -384,47 +312,49 @@
 							}
 							
 							$studyName = $('<td>').text(decodeURIComponent(data[i].studyName.replace(/\+/g, ' ')));
+							$sgName = $('<td class="title">').text(decodeURIComponent(data[i].sgName.replace(/\+/g, ' ')));
 
 							if(userId == data[i].id) {
-								var $label;
+								var $span;
 								$td = $('<td>');
-								$label = $('<label>').text(decodeURIComponent(data[i].sgName.replace(/\+/g, ' ')));
-								$img = $('<img src="${contextPath}/resources/image/studyGroup/user.png" style="width:15px; height:auto; />"');
-								
-								$label.append($img);
-								$td.append($label);
-								$sgName = $td;
-								$tr = $('<tr onclick="openGroupBossModal();">');
+								$span = $('<span>').text(decodeURIComponent(data[i].nick.replace(/\+/g, ' ')));
+								$img = $('<img src="${contextPath}/resources/image/studyGroup/user.png" style="width:17px; height:auto; margin-left:7px;" />');
+
+								$span.append($img);
+								$td.append($span);
+								$bossNick = $td;
+								$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +');">');
 							} else {
-								$sgName = $('<td>').text(decodeURIComponent(data[i].sgName.replace(/\+/g, ' ')));
+								$bossNick = $('<td>').text(decodeURIComponent(data[i].nick.replace(/\+/g, ' ')));
 							}
 							
-							$bossNick = $('<td>').text(decodeURIComponent(data[i].nick.replace(/\+/g, ' ')));
-							
 							var print = "";
-							if(data[i].appStatus == 'Y') {//수락된 경우
+							
+							if(userId == data[i].id) { //로그인 유저가 그룹장일 때
 								if(data[i].sgStatus == 'D' || data[i].sgStatus == 'E') { //그룹장이 스터디 종료 or 다회로 변경되지 않음
 									print = '스터디 종료';
-									$tr = $('<tr onclick="openGroupModal();">');
+									$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +');">');
 								} else {
 									print = '스터디 진행 중';
-									$tr = $('<tr onclick="openGroupModal();">');
+									$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +');">');
 								}
-							} else if(data[i].appStatus == 'E') { //수락 후 스스로 나간 경우
-								print = '스터디 종료 /(나감/)';
-							} else if(data[i].appStatus == 'O') { //수락 후 강퇴당한 경우
-								print = '스터디 종료 /(강퇴/)';
-							} else if(data[i].appStatus == 'R') { //수락 후 강퇴당한 경우
-								print = '대기 중';
-							} else if(data[i].appStatus == 'N') { //거절된 경우
-								print = '거절';
-							} else { //로그인 유저가 그룹장일 때
-								if(data[i].sgStatus == 'D' || data[i].sgStatus == 'E') { //그룹장이 스터디 종료 or 다회로 변경되지 않음
-									print = '스터디 종료';
-									$tr = $('<tr onclick="openGroupModal();">');
-								} else {
-									print = '스터디 진행 중';
-									$tr = $('<tr onclick="openGroupModal();">');
+							} else { //그룹원이 해당 그룹에 수락된 경우
+								if(data[i].appStatus == 'Y') {
+									if(data[i].sgStatus == 'D' || data[i].sgStatus == 'E') { //그룹장이 스터디 종료 or 다회로 변경되지 않음
+										print = '스터디 종료';
+										$tr = $('<tr onclick="openGroupModal(this,' + data[i].sgNo +');">');
+									} else {
+										print = '스터디 진행 중';
+										$tr = $('<tr onclick="openGroupModal(this,' + data[i].sgNo +');">');
+									}
+								} else if(data[i].appStatus == 'E') { //수락 후 스스로 나간 경우
+									print = '스터디 종료 /(나감/)';
+								} else if(data[i].appStatus == 'O') { //수락 후 강퇴당한 경우
+									print = '스터디 종료 /(강퇴/)';
+								} else if(data[i].appStatus == 'R') { //수락 후 강퇴당한 경우
+									print = '대기 중';
+								} else if(data[i].appStatus == 'N') { //거절된 경우
+									print = '거절';
 								}
 							}
 							$appStatus = $('<td>').text(print);
@@ -453,11 +383,12 @@
 		
 		function getGroupListPage(triger) {
 			var userId = "${ loginUser.id }";
-			var category = "";
-			if($('#categoryLong').css('font-weight') == 'bold') {
+			if($('#categoryLong').css('color') == 'rgb(255, 255, 255)') {
 				category = "long";
-			} else if($('#categoryOnce').css('font-weight') == 'bold') {
+			} else if($('#categoryOnce').css('color') == 'rgb(255, 255, 255)') {
 				category = "once";
+			} else {
+				category = "";
 			}
 			
 			$.ajax({
@@ -465,7 +396,6 @@
 				data: {userId:userId, triger:triger, category:category},
 				dataType: 'json',
 				success: function(data) {
-					console.log('page:' + data);
 
 					$pageUl = $('#pageUl');
 					$pageUl.html('');
@@ -557,12 +487,148 @@
 			})
 		}
 		
-		function openGroupModal(e) {
-			$('#groupModal').modal("show");
+		function openGroupModal(e, sgno) {
+			sgNo = sgno;
+			
+			$.ajax({
+				url:"getGroupMember.mp",
+				data:{sgno:sgno},
+				dataType: 'json',
+				success: function(data) {
+					/*
+					<th>No</th>
+					<th>구성원 닉네임</th>
+					<th>그룹 참가일</th>
+					*/
+					
+					$('.modalTitle').text($(e).children('.title').text());
+					
+					$tableBody = $('#modalTable tbody');
+					$tableBody.html('');
+					
+					var $tr;
+					var no = data.length;
+					
+					if(data.length > 0) {
+						for(var i in data) {
+							$tr = $('<tr>');
+							
+							$tr.append('<td>' + no + '</td>');
+							no--;
+							$tr.append('<td>' + decodeURIComponent(data[i].nick.replace(/\+/g, ' ')) + '</td>');
+							$tr.append('<td>' + data[i].appDlDate + '</td>');
+							$tableBody.append($tr);
+						}
+					} else {
+						$tableBody.append('<tr><td colspan=3>참여 중인 그룹원이 없습니다.</td></tr>');
+					}
+					
+					$('#groupModal').modal("show");
+				}
+			});
 		}
 
-		function openGroupBossModal(e) {
+		function openGroupBossModal(e, sgno) {
+			sgNo = sgno;
+			
+			$.ajax({
+				url:"getGroupMember.mp",
+				data:{sgno:sgno},
+				dataType: 'json',
+				success: function(data) {
+					/*
+					<th>No</th>
+					<th>구성원 닉네임</th>
+					<th>그룹 참가일</th>
+					<th style="width:20%;">강퇴</th>
+					*/
+					
+					$('.modalTitle').text($(e).children('.title').text());
+
+					$memberTableBody = $('#modalMemberTable tbody');
+					$memberTableBody.html('');
+					
+					var $tr;
+					var no = data.length;
+
+					if(data.length > 0) {
+						for(var i in data) {
+							$tr = $('<tr>');
+							
+							data[i].nick = decodeURIComponent(data[i].nick.replace(/\+/g, ' '));
+							
+							sendNo = sgno;
+							sendNick = data[i].nick;
+							sendId = data[i].id;
+							
+							$tr.append('<td>' + no + '</td>');
+							no--;
+							$tr.append('<td>' + data[i].nick + '</td>');
+							$tr.append('<td>' + data[i].appDlDate + '</td>');
+							$tr.append('<td><input type="button" class="defaultBtn" style="background:#71acf8;" value="강퇴" onclick="deleteMember();"></td>');
+							$memberTableBody.append($tr);
+						}
+					} else {
+						$memberTableBody.append('<tr><td colspan=4>참여 중인 그룹원이 없습니다.</td></tr>');
+					}
+				}
+			});
+
+			$.ajax({
+				url:"getGroupRec.mp",
+				data:{sgno:sgno},
+				dataType: 'json',
+				success: function(data) {
+					/*
+					<th>No</th>
+					<th>모집 등록 날짜</th>
+					<th>모집 기간</th>
+					<th>모집 인원</th>
+					*/
+					
+					$recTableBody = $('#modalRecTable tbody');
+					$recTableBody.html('');
+					
+					var $tr;
+					var no = data.length;
+					
+					if(data.length > 0) {
+						for(var i in data) {
+							$tr = $('<tr>');
+
+							$tr.append('<td>' + no + '</td>');
+							no--;
+							$tr.append('<td>' + data[i].recEnrollDate + '</td>');
+							$tr.append('<td>' + data[i].recTerm + '</td>');
+							$tr.append('<td>' + data[i].recNum + '</td>');
+							$recTableBody.append($tr);
+						}
+					}
+				}
+			});
+			
 			$('#groupBossModal').modal("show");
+		}
+		
+		var sendNo;
+		var sendNick;
+		var sendId;
+		function deleteMember() {
+			console.log(sendNo + ", " + sendNick + ", " + sendId);
+			
+			if(confirm("정말 " + sendNick + "님을 그룹에서 강퇴시키겠습니까?")) {
+				$.ajax({
+					url:"deleteMember.mp",
+					data:{sgno:sendNo, id:sendId},
+					dataType: 'json',
+					success: function(data) {
+						if(data == 'success') {
+							openGroupBossModal(sendNo);
+							alert(sendNick + "님이 그룹에서 강퇴되었습니다.");
+						}
+					}
+				});
+			}
 		}
 		
 		$('#openOption').click(function() {
@@ -577,10 +643,16 @@
 			$('#openOption').css({'background':'transparent', 'color':'black'});
 		});
 		
+		$('#updateGroup').click(function() {
+			location.href = "updateGroupView.sg?sgno=" + sgNo;
+		})
+		
 		$('.modalTitle').mouseover(function() {
 			$('.modalTitle').css('color', '#6DBD6A');
 		}).mouseout(function() {
 			$('.modalTitle').css('color', 'black');
+		}).click(function() {
+			location.href = "recruitDetailView.sg?sgno=" + sgNo;
 		})
 		
 		$('#cb3').click(function() {
@@ -596,42 +668,45 @@
 		});
 		
 		$('#categoryOnce').click(function() {
-			if($('#categoryOnce').css('font-weight') == 'bold') {
-				$('#categoryOnce').css('font-weight', 'normal');
+			if($('#categoryLong').css('color') == 'rgb(255, 255, 255)') {
+				$('#categoryLong').css({'background':'transparent', 'color':'black'});
+				$('#categoryLong').css('font-weight', 'normal');
 				
-				getGroupList(trigerBox);
-				getGroupListPage(trigerBox);
-			} else {
+				$('#categoryOnce').css({'background':'#6DBD6A', 'color':'white'});
 				$('#categoryOnce').css('font-weight', 'bold');
-
-				getGroupList(trigerBox);
-				getGroupListPage(trigerBox);
+			} else if($('#categoryOnce').css('color') == 'rgb(255, 255, 255)') {
+				$('#categoryOnce').css({'background':'transparent', 'color':'black'});
+				$('#categoryOnce').css('font-weight', 'normal');
+			} else {
+				$('#categoryOnce').css({'background':'#6DBD6A', 'color':'white'});
+				$('#categoryOnce').css('font-weight', 'bold');
 			}
+			
+			console.log(trigerBox);
+			getGroupList(trigerBox);
+			getGroupListPage(trigerBox);
 		})
 		
 		$('#categoryLong').click(function() {
-			if($('#categoryLong').css('font-weight') == 'bold') {
-				$('#categoryLong').css('font-weight', 'normal');
+			if($('#categoryOnce').css('color') == 'rgb(255, 255, 255)') {
+				$('#categoryOnce').css({'background':'transparent', 'color':'black'});
+				$('#categoryOnce').css('font-weight', 'normal');
 				
-				getGroupList(trigerBox);
-				getGroupListPage(trigerBox);
-			} else {
+				$('#categoryLong').css({'background':'#6DBD6A', 'color':'white'});
 				$('#categoryLong').css('font-weight', 'bold');
-				
-				getGroupList(trigerBox);
-				getGroupListPage(trigerBox);
+			} else if($('#categoryLong').css('color') == 'rgb(255, 255, 255)') {
+				$('#categoryLong').css({'background':'transparent', 'color':'black'});
+				$('#categoryLong').css('font-weight', 'normal');
+			} else {
+				$('#categoryLong').css({'background':'#6DBD6A', 'color':'white'});
+				$('#categoryLong').css('font-weight', 'bold');
 			}
+			
+			console.log(trigerBox);
+			getGroupList(trigerBox);
+			getGroupListPage(trigerBox);
 		})
 		
-		function getMemberList() {
-			
-		}
-		
-		/* $('#groupTable tr').mouseover(function() {
-			$(this).css('background','rgba(103,162,97,0.2)');
-		}).mouseout(function() {
-			$(this).css('background','rgba(103,162,97,0)');
-		}); */
 		
 	</script>
 

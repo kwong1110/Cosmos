@@ -9,8 +9,9 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 <title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
-.wrap-div{width:100%; height:850px; margin:0 auto; }
+.wrap-div{width:100%; height:870px; margin:0 auto; }
     .div-left{width:30%; height:inherit; float:left;}
     	.left-top{width:100%; height:7%; border:1px solid #000; box-sizing: border-box;}
     	.left-mid{width:100%; height:93%; border:1px solid #000; box-sizing: border-box; border-bottom:0;}
@@ -19,30 +20,32 @@
     .div-right{width:70%; height:inherit; float:right;}
     	.right-top{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-left:0;}
     	#right-top{line-height:55px; font-size:25px;}
-    	#right-map{width:100%; height:58%; border:1px solid #000; box-sizing: border-box; border-left:0; border-bottom:0;}
-    	.right-content{width:100%; height:35%; border:1px solid #000; box-sizing: border-box;border-left:0; border-bottom:0; }
-    		.right-content-left{width:60%; height:100%;  box-sizing: border-box; float:left; 
-    							line-height:70px; padding-left:50px;}
-    			.left-spot{width:100%; height:25%; box-sizing: border-box;}
-    			.left-date{width:100%; height:25%; box-sizing: border-box;}
-    			.left-name{width:100%; height:25%; box-sizing: border-box;}
-    			.left-phone{width:100%; height:25%; box-sizing: border-box;}
+    	#right-map{width:100%; height:54%; border:1px solid #000; box-sizing: border-box; border-left:0; border-bottom:0;}
+    	.right-content{width:100%; height:39%; border:1px solid #000; box-sizing: border-box;border-left:0; border-bottom:0; }
+    		.right-content-left{width:57%; height:100%;  box-sizing: border-box; float:left; 
+    							line-height:70px; padding-left:40px;}
+    			.left-spot{width:100%; height:20%; box-sizing: border-box;}
+    			.left-period{width:100%; height:20%; box-sizing: border-box;}
+    			.left-date{width:100%; height:20%; box-sizing: border-box;}
+    			.left-name{width:100%; height:20%; box-sizing: border-box;}
+    			.left-phone{width:100%; height:20%; box-sizing: border-box;}
     				.cl{width:30%;height:100%; box-sizing: border-box; float:left;}
     				.cr{width:70%;height:100%; box-sizing: border-box; float:right; }
-    		.right-content-right{width:40%; height:100%;  box-sizing: border-box; float:right; 
-    							 line-height:70px;padding-left:15px;}
-    			.right-choose{width:100%; height:25%; box-sizing: border-box;}
-    			.right-seat{width:100%; height:25%; box-sizing: border-box;}
-    			.right-chooseSeat{width:100%; height:25%; box-sizing: border-box;}
-    			.right-price{width:100%; height:25%; box-sizing: border-box;}
+    		.right-content-right{width:43%; height:100%;  box-sizing: border-box; float:right; 
+    							 line-height:70px;padding-left:5px;}
+    			.right-group{width:100%; height:20%; box-sizing: border-box;}				 
+    			.right-choose{width:100%; height:20%; box-sizing: border-box;}
+    			.right-seat{width:100%; height:20%; box-sizing: border-box;}
+    			.right-chooseSeat{width:100%; height:20%; box-sizing: border-box;}
+    			.right-price{width:100%; height:20%; box-sizing: border-box;}
     	.right-agree{width:100%; height:7%; border:1px solid #000; box-sizing: border-box; border-top:0; border-left:0;}
-    		.le-ag{width:60%; height:100%;  box-sizing: border-box; float:left; line-height:55px; padding-left:50px; }
-    		.ri-ag{width:40%; height:100%;  box-sizing: border-box; float:right; line-height:55px;padding-left:0px; }
+    		.le-ag{width:57%; height:100%;  box-sizing: border-box; float:left; line-height:55px; padding-left:40px; }
+    		.ri-ag{width:43%; height:100%;  box-sizing: border-box; float:right; line-height:55px;padding-left:0px; }
     		.ra-left{width:70%; float:left; font-size:16px;}
     		.ra-right{width:30%;float:right;}
    
     .che{width:15px;height:15px;} /* 인원선택 체크박스 css */
-    
+    .rad{width:15px;height:15px;}/* 라디오버튼 css */
   	nav{margin-left:20px;}
   	
   	
@@ -54,7 +57,9 @@
 	}
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
 	
-	
+	 .seatOn{
+		background-color: red !important;
+	} 
 </style>
 </head>
 <body><!-- onload="brAddress();" -->
@@ -66,68 +71,101 @@
 					<h1>좌석예약</h1>
 				</div>
 				<div class="content">
+				
 						<div class="wrap-div form-inline" >
 					        <div class="div-left">
 					        	<!-- <div class="left-top">
-					        	</div> -->
+					        	     </div> -->
 					        	<div class="left-mid">
-					        		
 					        			<c:forEach var="s" items="${ branchList }">
-					        				<%-- <tr>
-					        					<th rowspan="3" style="width:10%; vertical-align:middle;">
-					        						<input type="radio" name="branchAddress" checked="checked" value="${ s.branchAddress }" style="width:20px; height:20px; text-align:center;">
-					        					</th>
-					        					<th style="width:90%;">${ s.branchName }</th>
-					        				</tr>
-					        				<tr>
-					        					<td style="width:90%;">
-					        						${ s.branchAddress }
-					        					</td>
-					        				</tr>
-					        				<tr>
-					        					
-					        					<td style="width:90%;">
-					        						${ s.branchTel }
-					        					</td>
-					        				</tr> --%>
-					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:100px;">
-					        					<div style="margin-left:38px;"><b>코스모스 스터디센터 ${ s.branchName }</b></div>
-					        					<div><input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress" value="${ s.branchAddress }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }</div>
+					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
+					        					<div style="margin-left:38px;">
+					        						<b>
+					        							코스모스 스터디센터 ${ s.branchName }
+					        						</b>
+					        					</div>
+					        					<div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
+					        						<input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchNo }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
+					        					</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
 					        			</c:forEach>
 					        		
 					        	</div>
-					            <div class="left-bot ">
-					            	<nav>
+					            <div class="left-bot" style="text-align:center;">
 									  <ul class="pagination">
-									    <li>
-									      <a href="#" aria-label="Previous">
-									        <span aria-hidden="true">&laquo;</span>
-									      </a>
-									    </li>
-									    <li>
-									      <a href="#" aria-label="Previous">
-									        <span aria-hidden="true">&lt;</span>
-									      </a>
-									    </li>
-									    <li><a href="#">1</a></li>
-									    <li><a href="#">2</a></li>
-									    <li><a href="#">3</a></li>
-									    <li><a href="#">4</a></li>
-									    <li><a href="#">5</a></li>
-									    <li>
-									      <a href="#" aria-label="Next">
-									        <span aria-hidden="true">&gt;</span>
-									      </a>
-									    </li>
-									    <li>
-									      <a href="#" aria-label="Next">
-									        <span aria-hidden="true">&raquo;</span>
-									      </a>
-									    </li>
-									  </ul>
-								  	</nav>
+										<li>
+											<c:if test="${ pi.currentPage eq pi.startPage }">
+												<a aria-label="Previous">
+													<span aria-hidden="true">&laquo;</span>
+												</a>
+											</c:if>
+											<c:if test="${ pi.currentPage ne pi.startPage }">
+												<c:url var="start" value="reservation.se">
+													<c:param name="page" value="${ pi.startPage }"/>
+												</c:url>
+												<a href="${ start }" aria-label="Previous">
+													<span aria-hidden="true">&laquo;</span>
+												</a>
+											</c:if>
+										</li>
+										<li>
+											<c:if test="${ pi.currentPage <= 1 }">
+												<a aria-label="Previous">
+													<span aria-hidden="true">&lt;</span>
+												</a>
+											</c:if>
+											<c:if test="${ pi.currentPage > 1 }">
+												<c:url var="before" value="reservation.se">
+													<c:param name="page" value="${ pi.currentPage - 1 }"/>
+												</c:url>
+												<a href="${ before }" aria-label="Previous">
+													<span aria-hidden="true">&lt;</span>
+												</a>
+											</c:if>
+										</li>
+										<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
+											<c:if test="${ p eq pi.currentPage }">
+												<li><a>${ p }</a></li>
+											</c:if>
+											<c:if test="${ p ne pi.currentPage }">
+												<c:url var="pagination" value="reservation.se">
+													<c:param name="page" value="${ p }"/>
+												</c:url>
+												<li><a href="${ pagination }">${ p }</a></li>
+											</c:if>
+										</c:forEach>
+										<li>
+											<c:if test="${ pi.currentPage >= pi.maxPage }">
+												<a aria-label="Next">
+													<span aria-hidden="true">&gt;</span>
+												</a>
+											</c:if>
+											<c:if test="${ pi.currentPage < pi.maxPage }">
+												<c:url var="after" value="reservation.se">
+													<c:param name="page" value="${ pi.currentPage + 1 }"/>
+												</c:url>
+												<a href="${ after }" aria-label="Next">
+													<span aria-hidden="true">&gt;</span>
+												</a>
+											</c:if>
+										</li>
+										<li>
+											<c:if test="${ pi.currentPage eq maxPage }">
+												<a href="#" aria-label="Next">
+													<span aria-hidden="true">&raquo;</span>
+												</a>
+											</c:if>
+											<c:if test="${ pi.currentPage ne maxPage }">
+												<c:url var="max" value="reservation.se">
+													<c:param name="page" value="${ pi.maxPage }"/>
+												</c:url>
+												<a href="${ max }" aria-label="Next">
+													<span aria-hidden="true">&raquo;</span>
+												</a>
+											</c:if>
+										</li>
+									</ul>
 					            </div>
 					        </div>
 					        <div class="div-right">
@@ -141,10 +179,7 @@
 					        		</script>
 					            </div> -->
 					       		<div id="right-map" >
-					       			
-										<!-- <div id="map" style="width:100%;height:100%;"></div> -->
-										
-										<script type="text/javascript">
+									<script type="text/javascript">
 										function brAddress(){
 												var mapContainer = document.getElementById('right-map'), // 지도를 표시할 div 
 											    mapOption = {
@@ -185,7 +220,7 @@
 										}
 										window.onload=brAddress;
 										</script>
-									<script >
+									<script>
 									function branchAddress(e){
 										var address1 = $(e).parent()[0].innerText;
 										var name = $(e).parent().parent().children().eq(0)[0].innerText;
@@ -238,53 +273,79 @@
 					            			<div class="cl">● 예약지점</div>
 					            			<div class="cr" id="reserStore">
 					            				<script>
-					            				/* function branchAddress(e){
-					            					var checkedVal=$(e).parent().parent().children().eq(0)[0].innerText;
-					            					$("#reserStore").html(checkedVal);
-					            				} */
-					            				/*var st = $("input:radio[name=branchAddress]:checked").val();
-					            				console.log(st);
-					            				$("#reserStore").html(st);*/
-					            				/* var tmp = $("#branchAddress").parent().parent().children().eq(0)[0].innerText;
-					            				console.log(tmp);
-					            				console.log(${ s.branchAddress });
-					            				$("#reserStore").text(tmp); */
 					            				$('input[type=radio][name=branchAddress]').on('click',function(){
 					            					var tmp = $('input[type=radio][name=branchAddress]:checked').parent().parent().children().eq(0)[0].innerText;
-					            					console.log(tmp);
-					            						/* $("#branchAddress").parent().parent().children().eq(0)[0].innerText; */
 					            					$("#reserStore").text(tmp);
 					            				});
 					            				</script>
 					            			</div>
 					            		</div>
+					            		<div class="left-period">
+					            			<div class="cl">● 예약유형</div>
+					            			<div class="cr">
+					            				<input type="radio" class="rad" id="onePeriod" name="period"  value="시간권" > 시간권 &nbsp;&nbsp;
+					            				<input type="radio" class="rad" id="sevenPeriod" name="period" value="7일권"> 7일권 &nbsp;&nbsp;
+					            				<input type="radio" class="rad" id="thirtyPeriod" name="period" value="30일권" > 30일권 
+					            			</div>
+					            		</div>
+					            				<script>
+					            				$("input:radio[name='period']").on('click',function(){
+					            					switch($(this).val()){
+						            					case'시간권': $('.input-single-timepicker').css('display', 'none'); 
+						            							  $('.input-daterange-timepicker').css('display', 'inline-block'); 
+						            							  $("input[name='reserPeople']").attr('disabled',false).prop('checked',false);break;
+						            							  
+						            					case'7일권': $('.input-daterange-timepicker').css('display', 'none');
+						            							  $('.input-single-timepicker').css('display', 'inline-block'); 
+						            							  $("input[name='reserPeople']").attr('disabled',true).prop('checked',false);break;
+						            							 
+						            					case'30일권': $('.input-daterange-timepicker').css('display', 'none');
+						            							    $('.input-single-timepicker').css('display', 'inline-block');
+						            							    $("input[name='reserPeople']").attr('disabled',true).prop('checked',false); break;
+					            						}
+				            					});
+					            				</script>
 					            		<div class="left-date">
 					            			<div class="cl">● 예약일자</div>
-					            			<div class="cr">
+					            			<div class="cr" id="cr1">
 					            				<div class="box-title m-t-30"></div>
-												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:270px;">
+												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:265px; display:none;">
+												<input type="text" class="form-control input-single-timepicker" name="daterange1" id="daterange1" style="width:265px; display:none; text-align:center;" >
 					            			</div>
 					            		</div>
 					            		<div class="left-name">
+					            			
 					            			<div class="cl">● 이름</div>
 					            			<div class="cr">
-					            				<input type="text" name="name" class="form-control" placeholder="이름을 입력해주세요" style="width:270px;">
+					            				<input type="hidden" value="${ loginUser.id }" name="id">
+					            				<input type="text" name="name" class="form-control" value="${ loginUser.name }" readonly style="width:265px; text-align:center;">
 					            			</div>
 					            		</div>
 					            		<div class="left-phone">
 					            			<div class="cl">● 휴대폰번호</div>
 					            			<div class="cr">
-					            				<input type="text" name="phone" class="form-control" placeholder="번호를 입력해주세요" style="width:270px;">
+					            				<input type="text" name="phone" class="form-control" value="${ loginUser.phone }" readonly style="width:265px; text-align:center;">
 					            			</div>
 					            		</div>
 					            	</div>
 					            	<div class="right-content-right">
+					            		<div class="right-group">
+					            			<div class="cl">● 그룹선택</div>
+					            			<div class="cr">
+					            				<select name="group" style="width:150px;">
+						            				<c:forEach var="se" items="${ sgList }"> 
+												    	<option value="${ se.sgNo }">${ se.sgName }</option>
+												    </c:forEach>
+												</select>
+					            			</div>
+					            		</div>
 					            		<div class="right-choose">
 					            			<div class="cl">● 인원선택</div>
 					            			<div class="cr">
-					            				<input type="checkbox" class="che" name="onep">1인 &nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="fourp">4인 &nbsp;&nbsp;
-					            				<input type="checkbox" class="che" name="sixp">6인
+					            				<input type="radio" class="rad" id="onep" name="reserPeople" value="1"> 1인 &nbsp;
+					            				<input type="radio" class="rad" id="fourp" name="reserPeople" value="4"> 4인 &nbsp;
+					            				<input type="radio" class="rad" id="sixp" name="reserPeople" value="6"> 6인 &nbsp;
+					            				<input type="radio" class="rad" id="eightp" name="reserPeople" value="8 "> 8인
 					            			</div>
 					            		</div>
 					            		<div class="right-seat">
@@ -293,10 +354,47 @@
 					            				<div id="seatChoose" class="btn defaultBtn" style="width:150px;">선택</div>
 					            			</div>
 					            			<script>
-					            			$('#seatChoose').click(function(e){
-					            				e.preventDefault();
-					            				$('#seatModal').modal("show");
-					            			});
+						            			$('#seatChoose').click(function(e){
+						            				$(".chair").parent().removeClass("seatOn");
+						            				
+						            				var money=$('#userPrice').text();
+						            				var strMoney=money.split('원');
+						            				var branchNo = $("input:radio[name='branchAddress']:checked").val();
+						            				var reserType = $("input:radio[name='period']:checked").val();
+						            				var reserDate;
+						            				var reserPeople;
+						            					if($("input:radio[name='period']:checked").val() == '시간권'){
+						            						reserDate = $('#daterange').val();
+						            						reserPeople = $("input:radio[name='reserPeople']:checked").val();
+						            					}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
+						            						reserDate = $('#daterange1').val();
+						            						reserPeople = 1;
+						            					}
+						            				var	chooseSeat = $("#chooseSeat").text();
+						            				var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
+						            				 $.ajax({
+						            					url : "overlap.se",
+						            					type : "post",
+						            					dataType: 'json',
+						            					data: dkanrjsk,
+						            					success : function(data){
+						            						e.preventDefault();
+						            						 //console.log(data);
+							            					if(data.length > 0){ 
+							            						for(var i in data){
+								            						console.log(data[i].reserSort + "-" + data[i].seatNo);
+																	if($('#'+ data[i].reserSort + "-" + data[i].seatNo).val()){
+																		$('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().addClass('seatOn');
+																	}
+							            						}
+							            					}
+						            						
+							            					
+								            				$('#seatModal').modal("show");
+						            					}
+						            					 
+						            				}) ;
+						            			});
 					            			</script>
 					            		</div>
 					            		<div class="right-chooseSeat">
@@ -305,11 +403,10 @@
 					            				
 					            			</div>
 					            		</div>
-					            		
 					            		<div class="right-price">
 					            			<div class="cl">● 이용요금</div>
 					            			<div class="cr" id="userPrice">
-					            				 <%-- ${ sortList } --%>
+					            			
 					            			</div>
 					            		</div>
 					            	</div>
@@ -333,8 +430,10 @@
 					        </div>
 					    </div>
 					<div class="btnBox inner">
-						<button class="defaultBtn" onclick="buy()" value="결제">결제</button>
+						<!-- <input type="button" class="defaultBtn"> -->
+						 <button class="defaultBtn" onclick="buy()" value="결제">결제</button> 
 					</div>
+					
 				</div>
 			</div>
 		</div>
@@ -354,7 +453,7 @@
 					    	 $('.left-top1-table-cell, .big, .six1, .six2, .four1, .four2, .four3, .four4').on('click',function(){
 					    		var chooseSeat = $(this).children().val();
 					    		$("#chooseSeat").text(chooseSeat);
-					    		// console.log(chooseSeat);
+					    		
 					    		var check = confirm(chooseSeat + "자리를 선택하시겠습니까?");
 					    		if(check == true){
 					    			$('#seatModal').modal("hide");
@@ -362,27 +461,30 @@
 					    			var strPrice = price.split('-');
 					    			
 					    			var fullDate = $('#daterange').val();
-					    			
 					    			var startDate = fullDate.substr(0,10);
 					    			var startTime = fullDate.substr(11,2);
 					    			var endDate = fullDate.substr(18,11).trim();
 					    			var endTime = fullDate.substr(29,3).trim();
-					    			console.log(fullDate);
-					    			console.log(startDate);
-					    			console.log(startTime);
-					    			console.log(endDate);
-					    			console.log(endTime);
+
+					    			var fullDate1 = $('#daterange1').val();
+					    			var startDate1 = fullDate1.substr(0,10);
+					    			var startTime1 = fullDate1.substr(11,2);
 					    			
-					    			<c:forEach var="d" items="${ sortList }">
-				    				if(strPrice[0] == "${ d.reserSort }"){
-				    					result = (endTime-startTime) * "${d.reserFee}"
-				    				};
-				    				</c:forEach>
-					    			
-					    			$('#userPrice').text(result+'원');
+					    			<c:forEach var="se" items="${ sortList }">
+					    				 if(strPrice[0] == "${se.reserSort}"){
+					    					result = (endTime-startTime) * "${se.reserFee}"
+						    					if("${se.reserSort}" == 'Z'){
+						    						console.log($("input:radio[name='period']:checked").val());
+						    						if($("input:radio[name='period']:checked").val() == '7일권'){
+						    							result = "${se.reserFee}"
+						    						} else if($("input:radio[name='period']:checked").val() == '30일권'){
+						    							result = "${se.reserFee}" * 3 + 5000;
+						    						}
+						    					}
+					    				};		
+					    			</c:forEach>
+					    				$('#userPrice').text(result+'원');
 					    		}
-					    		/* var price =  $('#chooseSeat').text();
-            				 	console.log(price); */
 					    	}); 
 					    </script>
 		        	</form>
@@ -409,37 +511,81 @@
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
-		<!-- <script>
-			var IMP = window.IMP; 
-			IMP.init('imp05073510'); // 'iamport' 대신 부여받은 "가맹점 식별코드"를 사용
-			IMP.request_pay({
-			    pg : 'html5_inicis', 
-			    pay_method : 'card',
-			    merchant_uid : 'merchant_' + new Date().getTime(),
-			    name : '주문명:결제테스트',
-			    amount : 14000,
-			    buyer_email : 'iamport@siot.do',
-			    buyer_name : '구매자이름',
-			    buyer_tel : '010-1234-5678',
-			    buyer_addr : '서울특별시 강남구 삼성동',
-			    buyer_postcode : '123-456',
-			    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
-			}, function(rsp) {
-			    if ( rsp.success ) {
-			        var msg = '결제가 완료되었습니다.';
-			        msg += '고유ID : ' + rsp.imp_uid;
-			        msg += '상점 거래ID : ' + rsp.merchant_uid;
-			        msg += '결제 금액 : ' + rsp.paid_amount;
-			        msg += '카드 승인번호 : ' + rsp.apply_num;
-			    } else {
-			        var msg = '결제에 실패하였습니다.';
-			        msg += '에러내용 : ' + rsp.error_msg;
-			    }
-			    alert(msg);
-			});
+	
+	<!-- 결제부분 -->
+		<script>
+			var money=$('#userPrice').text();
+			var strMoney=money.split('원');
+			var branchNo = $("input:radio[name='branchAddress']:checked").val();
+			var reserType = $("input:radio[name='period']:checked").val();
+			var reserDate;
+			var reserPeople;
+				if($("input:radio[name='period']:checked").val() == '시간권'){
+					reserDate = $('#daterange').val();
+					reserPeople = $("input:radio[name='reserPeople']:checked").val();
+				}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
+					reserDate = $('#daterange1').val();
+					reserPeople = 1;
+				}
+			var	chooseSeat = $("#chooseSeat").text();
+			
+			var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
+			
+			function buy(){
+				var buy = confirm("정말로 구매하시겠습니까?");
+				$.ajax({
+			    	   url : "seatBuy.se",
+			    	   type : "post",
+			    	   data : dkanrjsk,
+			    	   success : function(data) {
+			    		   console.log(data);
+			    	        alert("성공"); 
+			    	        location.href="lectureHistory.mp";
+			    	    }
+			       });
+				/* if(buy){
+					var IMP = window.IMP; 
+					IMP.init('imp05073510'); 
+					IMP.request_pay({
+					    pg : 'html5_inicis', 
+					    pay_method : 'card',
+					    merchant_uid : 'merchant_' + new Date().getTime(),
+					    name : '주문명:결제테스트',
+					    amount : strMoney[0],
+					    buyer_email : '${ loginUser.email }',
+					    buyer_name : '${ loginUser.name }',
+					    buyer_tel : '${ loginUser.phone }',
+					    buyer_addr : '서울특별시 강남구 삼성동',
+					    buyer_postcode : '123-456',
+					    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+					}, function(rsp) {
+					    if ( rsp.success ) {
+					        var msg = '${loginUser.name}님';
+					        msg += '결제 금액 ' + rsp.paid_amount + '원이 결제 되었습니다.';
+					      	$.ajax({
+					    	   url : "seatBuy.se",
+					    	   type : "post",
+					    	   data : JSON.stringify(obj),
+					    	   contentType: "application/json",
+					       });
+					       
+					    } else {
+					        var msg = '결제에 실패하였습니다.';
+					        msg += '에러내용 : ' + rsp.error_msg;
+					    }
+					    alert(msg);
+					});				
+				} */
+			}	
 		</script>
-	 -->
+	
 </body>
+	<!-- 싱글타임피커 -->
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+	<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+	<!-- 데이트레인지피커 -->
 	<script src="${contextPath}/resources/js/plugins/datepicker/common.min.js"></script> <!-- 데이트피커필요한스크립트 -->
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
@@ -447,4 +593,5 @@
 	<script src="${contextPath}/resources/js/plugins/datepicker/daterangepicker.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/form-pickers-init.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 </html>

@@ -1,24 +1,34 @@
 package com.kh.cosmos.f_studyGroup.model.vo;
 
 public class StudyGroupRecruit {
+	private int sgNo;
 	private int recNo;
 	private String sgStatus;
 	private String studyName;
 	private String sgName;
 	private String recTerm;
 	private int recNum;
+	private int partNum;
 	private String nick;
 	private String branchName;
 	private String sgGoal;
 	private String sgContent;
+	private String msgRule1;
+	private String msgRule2;
+	private String msgRule3;
+	private String msgMetRule;
 	private int msgMet;
 	private int msgNum;
+
+	private int dCloseDate;
 	
 	public StudyGroupRecruit() {}
 
-	public StudyGroupRecruit(int recNo, String sgStatus, String studyName, String sgName, String recTerm, int recNum,
-			String nick, String branchName, String sgGoal, String sgContent, int msgMet, int msgNum) {
+	public StudyGroupRecruit(int sgNo, int recNo, String sgStatus, String studyName, String sgName, String recTerm,
+			int recNum, String nick, String branchName, String sgGoal, String sgContent, String msgRule1,
+			String msgRule2, String msgRule3, String msgMetRule, int msgMet, int msgNum) {
 		super();
+		this.sgNo = sgNo;
 		this.recNo = recNo;
 		this.sgStatus = sgStatus;
 		this.studyName = studyName;
@@ -29,8 +39,38 @@ public class StudyGroupRecruit {
 		this.branchName = branchName;
 		this.sgGoal = sgGoal;
 		this.sgContent = sgContent;
+		this.msgRule1 = msgRule1;
+		this.msgRule2 = msgRule2;
+		this.msgRule3 = msgRule3;
+		this.msgMetRule = msgMetRule;
 		this.msgMet = msgMet;
 		this.msgNum = msgNum;
+	}
+	
+	
+
+	public int getdCloseDate() {
+		return dCloseDate;
+	}
+
+	public void setdCloseDate(int dCloseDate) {
+		this.dCloseDate = dCloseDate;
+	}
+
+	public int getPartNum() {
+		return partNum;
+	}
+
+	public void setPartNum(int partNum) {
+		this.partNum = partNum;
+	}
+
+	public int getSgNo() {
+		return sgNo;
+	}
+
+	public void setSgNo(int sgNo) {
+		this.sgNo = sgNo;
 	}
 
 	public int getRecNo() {
@@ -113,6 +153,38 @@ public class StudyGroupRecruit {
 		this.sgContent = sgContent;
 	}
 
+	public String getMsgRule1() {
+		return msgRule1;
+	}
+
+	public void setMsgRule1(String msgRule1) {
+		this.msgRule1 = msgRule1;
+	}
+
+	public String getMsgRule2() {
+		return msgRule2;
+	}
+
+	public void setMsgRule2(String msgRule2) {
+		this.msgRule2 = msgRule2;
+	}
+
+	public String getMsgRule3() {
+		return msgRule3;
+	}
+
+	public void setMsgRule3(String msgRule3) {
+		this.msgRule3 = msgRule3;
+	}
+
+	public String getMsgMetRule() {
+		return msgMetRule;
+	}
+
+	public void setMsgMetRule(String msgMetRule) {
+		this.msgMetRule = msgMetRule;
+	}
+
 	public int getMsgMet() {
 		return msgMet;
 	}
@@ -131,10 +203,12 @@ public class StudyGroupRecruit {
 
 	@Override
 	public String toString() {
-		return "StudyGroupRecruit [recNo=" + recNo + ", sgStatus=" + sgStatus + ", studyName=" + studyName + ", sgName="
-				+ sgName + ", recTerm=" + recTerm + ", recNum=" + recNum + ", nick=" + nick + ", branchName="
-				+ branchName + ", sgGoal=" + sgGoal + ", sgContent=" + sgContent + ", msgMet=" + msgMet + ", msgNum="
-				+ msgNum + "]";
+		return "StudyGroupRecruit [sgNo=" + sgNo + ", recNo=" + recNo + ", sgStatus=" + sgStatus + ", studyName="
+				+ studyName + ", sgName=" + sgName + ", recTerm=" + recTerm + ", recNum=" + recNum + ", nick=" + nick
+				+ ", branchName=" + branchName + ", sgGoal=" + sgGoal + ", sgContent=" + sgContent + ", msgRule1="
+				+ msgRule1 + ", msgRule2=" + msgRule2 + ", msgRule3=" + msgRule3 + ", msgMetRule=" + msgMetRule
+				+ ", msgMet=" + msgMet + ", msgNum=" + msgNum + "]";
 	}
+	
 	
 }

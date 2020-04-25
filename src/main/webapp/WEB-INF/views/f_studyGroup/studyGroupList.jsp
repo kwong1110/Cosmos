@@ -15,7 +15,7 @@
 	
 	#searchArea{width:100%; display:inline-block; text-align:center;}
 	#searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:5%;}
-	#settingArea{width:100%; display:block; margin-bottom: 2%;}
+	#settingArea{width:85%; display:block; margin-bottom: 2%;}
 	#categoryBtn{width:200px; display:inline-block; text-align:center;}
 	
 	#categoryHiddenArea{width:100%; display:inline; text-align:center;}
@@ -49,15 +49,16 @@
 	.once{background-color: #70B667; color: #fff; margin-right:20px;}
 	.long{background-color: #135D36; color: #fff; margin-right:20px;}
 	
-	#listArea{width:100%; display: block; text-align:center; /* background:lightgray; */}
-	.recGroup{width:85%; display: inline-block; margin-bottom:8%; text-align:left; background:white; cursor: pointer;}
+	#listArea{width:85%; display: block; text-align:center; margin-top:5%;}
+	.recGroup{width:100%; display: inline-block; margin-bottom:5%; text-align:left; background:rgba(255,255,255,0.5); border-radius:20px; padding:15px 20px; cursor: pointer;}
+	.recGroup:hover{background:rgba(255,255,255,0.9);}
 	.firstInfo{}
 	.secondInfo{}
 	.thirdInfo{}
 	.fourthInfo{}
 	.infoTitle{margin-right:20px; font-size: 19px;}
-	.infoLabel{margin-right:8px; font-size: 15px; vertical-align: middle;}
-	.infoContent{margin-right:20px; font-size: 15px; font-weight:normal; vertical-align: middle;}
+	.infoLabel{margin-right:10px; font-size: 15px; vertical-align: middle;}
+	.infoContent{margin-right:40px; font-size: 15px; font-weight:normal; vertical-align: middle;}
 	.goalStyle{font-size: 15px; font-weight:normal; text-overflow:ellipsis; white-space:nowrap; max-width:80%; overflow:hidden; vertical-align: middle;}
 	.groupContentStyle{font-size: 15px; max-width:88%; vertical-align: middle; font-size:1em; overflow:hidden; text-overflow:ellipsis; line-height:1.5; height:3em; word-wrap:break-word; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
 	
@@ -82,19 +83,18 @@
 				  	<!-- 드롭다운 + 검색 -->
 					<div class="inner" id="searchArea">
 					<form method="get" action="" id="searchForm">
-						<div class="input-group">
-							<div class="input-group-btn">
-								<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">분류 <span class="caret"></span></button>
-								<ul class="dropdown-menu" role="menu">
-									<li>그룹 명</li>
-									<li>그룹장 닉네임</li>
-									<li>그룹 내용</li>
-									<li>그룹 목표</li>
-								</ul>
-							</div><!-- /btn-group -->
-							<input type="text" class="form-control" style="border:none;" placeholder="검색어를 입력하세요.">
+						<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
+						<select style="width: 20%;" class="form-control search-select">
+							<option>분류</option>
+							<option>그룹 명</option>
+							<option>그룹장 닉네임</option>
+							<option>그룹 내용</option>
+							<option>그룹 목표</option>
+						</select>
+						<div class="input-group search-text" style="width: 78%;">
+							<input type="text" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
 							<span class="input-group-btn">
-								<button class="btn" type="button">검색</button>
+								<button class="btn search-submit" type="button">검색</button>
 							</span>
 						</div><!-- /input-group -->
 					</form>
@@ -105,13 +105,13 @@
 							<input type="button" class="defaultBtn" id="categoryBtn" value="카테고리">
 							
 							<div id="sortArea">
-								<label>최근 등록순</label>
+								<label class="sort" id="timeSort">최근 등록순</label>
 								&nbsp;&nbsp;|&nbsp;&nbsp;
-								<label>그룹 인원 적은순</label>
+								<label class="sort" id="numAscSort">그룹 인원 적은순</label>
 								&nbsp;&nbsp;|&nbsp;&nbsp;
-								<label>그룹 인원 많은순</label>
+								<label class="sort" id="numDescSort">그룹 인원 많은순</label>
 								&nbsp;&nbsp;|&nbsp;&nbsp;
-								<label>모집 마감 임박순</label>
+								<label class="sort" id="recCloseSort">모집 마감 임박순</label>
 							</div>
 							
 							<div id="categoryHiddenArea">
@@ -119,22 +119,12 @@
 									<c:forEach var="item" items="${ branchList }">
 										<label class="categoryLabel">${ item.branchName }</label>
 									</c:forEach>
-									<!-- <label class="categoryLabel">노량진점</label>
-										<label class="categoryLabel">부천점</label>
-										<label class="categoryLabel">성남점</label>
-										<label class="categoryLabel">신도림점</label>
-										<label class="categoryLabel">한남점</label> -->
 								</div>
 								
 								<div id="studyDiv" class="categoryDiv">
 									<c:forEach items="${ studyList }" var="item" varStatus="status">
-										<script>
-											console.log("status.count : ${status.count}");
-											console.log("status.count mod 5 : ${status.count mod 5}");
-											console.log("item : ${item}");
-										</script>
 										<c:if test="${ (status.count mod 5) eq 1 }">
-											<div class="categoryLabel">
+											<!-- <div class="categoryLabel"> -->
 												<label class="pointer">${ item }</label><br>
 										</c:if>
 										<c:if test="${ (status.count mod 5) ne 1 && (status.count mod 5) ne 0 }">
@@ -142,175 +132,287 @@
 										</c:if>
 										<c:if test="${ (status.count mod 5) eq 0 }">
 												<label class="pointer">${ item }</label>
-											</div>
+											<!-- </div> -->
 										</c:if>
 									</c:forEach>
-									<!-- <div class="categoryLabel">
-										<label class="pointer">대학생 학점관리</label><br>
-										<label class="pointer">일반/학사 편입</label><br>
-										<label class="pointer">대학원생</label><br>
-										<label class="pointer">로스쿨생</label><br>
-										<label class="pointer">자격증</label>
 									</div>
-									<div class="categoryLabel">
-										<label class="pointer">공무원</label><br>
-										<label class="pointer">임용 초등</label><br>
-										<label class="pointer">임용 중등</label><br>
-										<label class="pointer">임용 유아</label><br>
-										<label class="pointer">임용 특수</label>
-									</div>
-									<div class="categoryLabel">
-										<label class="pointer">공인회계사</label><br>
-										<label class="pointer">공인중계사</label><br>
-										<label class="pointer">세무사</label><br>
-										<label class="pointer">고시</label><br>
-										<label class="pointer">취업</label>
-									</div>
-									<div class="categoryLabel">
-										<label class="pointer">이직</label><br>
-										<label class="pointer">어학</label><br>
-										<label class="pointer">PEET</label><br>
-										<label class="pointer">MEET</label><br>
-										<label class="pointer">LEET</label>
-									</div>
-									<div class="categoryLabel">
-										<label class="pointer">자바</label><br>
-										<label class="pointer">C</label><br>
-										<label class="pointer">파이썬</label><br>
-										<label class="pointer">데이터 베이스</label><br>
-										<label class="pointer">해킹/보안</label>
-									</div>
-									<div class="categoryLabel">
-										<label class="pointer">기타</label>
-									</div> -->
-								</div>
 								
-								<div id="typeDiv" class="categoryDiv" style="width:65%; float:left; display:inline-block;">
-									<label class="categoryLabel">once</label>
-									<label class="categoryLabel">long</label>
+									<div id="typeDiv" class="categoryDiv" style="width:65%; float:left; display:inline-block;">
+										<label class="categoryLabel">once</label>
+										<label class="categoryLabel">long</label>
+									</div>
+									
+									<div style="width:35%; min-height:40px; float:right; display:inline-block; padding-top:8px; padding-left:10px; vertical-align: top;">
+										<input type="button" class="defaultBtn" value="초기화" style="width:37%; height:100%;">
+										<input type="button" class="defaultBtn" value="검색" style="width:59%; height:100%; margin-left:3px;">
+									</div>
 								</div>
-								
-								<div style="width:35%; min-height:40px; float:right; display:inline-block; padding-top:8px; padding-left:10px; vertical-align: top;">
-									<input type="button" class="defaultBtn" value="초기화" style="width:37%; height:100%;">
-									<input type="button" class="defaultBtn" value="검색" style="width:59%; height:100%; margin-left:3px;">
+							</div>
+						</div>
+						
+						<div id="listArea" class="inner">
+							<div class="recGroup">
+								<div class="firstInfo">
+									<span class="typeBadge once">once</span>
+									<label class="infoTitle">공부 종류</label>
+									<label class="infoTitle">스터디 그룹명</label>
 								</div>
-								
-								<!-- 
-								<div id="confirmArea">
-									<input type="button" class="defaultBtn" value="초기화">
-									&nbsp;
-									<input type="button" class="defaultBtn" value="검색">
+								<div class="secondInfo">
+									<label class="infoLabel">모집 기간</label>
+									<label class="infoContent">2020.00.00 ~ 2020.00.00</label>
+									<label class="infoLabel">모집 현황</label>
+									<label class="infoContent">2/6</label>
+									<label class="infoLabel">그룹장</label>
+									<label class="infoContent">그룹장 닉네임</label>
+									<label class="infoLabel">모임 장소</label>
+									<label class="infoContent">한남점</label>
 								</div>
-								 -->
+								<div class="thirdInfo">
+									<label class="infoLabel">그룹 목표</label>
+									<label class="goalStyle">fnewifnewlnfkenkvnldfkenkvnldnsvklndsklnkldnkcnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm</label>
+								</div>
+								<div class="fourthInfo">
+									<p class="groupContentStyle">
+									fnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
+									sfsf
+									sdsffefegegegfnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
+									sfsf
+									sdsffefegegeg
+									</p>
+								</div>
 							</div>
-							
+							<div class="recGroup">
+								<div class="firstInfo">
+									<span class="typeBadge long">long</span>
+									<label class="infoTitle">공부 종류</label>
+									<label class="infoTitle">스터디 그룹명</label>
+								</div>
+								<div class="secondInfo">
+									<label class="infoLabel">모집 기간</label>
+									<label class="infoContent">2020.00.00 ~ 2020.00.00</label>
+									<label class="infoLabel">모집 현황</label>
+									<label class="infoContent">2/6</label>
+									<label class="infoLabel">그룹장</label>
+									<label class="infoContent">그룹장 닉네임</label>
+									<label class="infoLabel">모임 장소</label>
+									<label class="infoContent">한남점</label>
+								</div>
+								<div class="thirdInfo">
+									<label class="infoLabel">그룹 목표</label>
+									<label class="goalStyle">fnewifnewlnfkenkvnldfkenkvnldnsvklndsklnkldnkcnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm</label>
+								</div>
+								<div class="fourthInfo">
+									<p class="groupContentStyle">
+									fnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
+									sfsf
+									sdsffefegegegfnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
+									sfsf
+									sdsffefegegeg
+									</p>
+								</div>
+							</div>
 						</div>
-					</div>
+						
+						<div id="bottomArea" class="inner">
+							<!-- 페이징  -->
+							<nav>
+								<ul class="pagination" id="pageUl">
+									<li><a href="#" aria-label="Previous"> <span
+											aria-hidden="true">&laquo;</span>
+									</a></li>
+									<li><a href="#" aria-label="Previous"> <span
+											aria-hidden="true">&lt;</span>
+									</a></li>
+									<li><a href="#">1</a></li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#">5</a></li>
+									<li><a href="#" aria-label="Next"> <span
+											aria-hidden="true">&gt;</span>
+									</a></li>
+									<li><a href="#" aria-label="Next"> <span
+											aria-hidden="true">&raquo;</span>
+									</a></li>
+								</ul>
+							</nav>
+						
+							<div id="insertBtnArea">
+								<input type="button" class="defaultBtn" onclick="location.href='insertRecView.sg'" value="모집 등록">
+								&nbsp;&nbsp;&nbsp;
+								<input type="button" class="defaultBtn" onclick="location.href='insertGroupView.sg'" value="그룹 등록">
+							</div>
+						</div>
 					
-					<div id="listArea" class="inner">
-						<div class="recGroup">
-							<div class="firstInfo">
-								<span class="typeBadge once">once</span>
-								<label class="infoTitle">공부 종류</label>
-								<label class="infoTitle">스터디 그룹명</label>
-							</div>
-							<div class="secondInfo">
-								<label class="infoLabel">모집 기간</label>
-								<label class="infoContent">2020.00.00 ~ 2020.00.00</label>
-								<label class="infoLabel">모집 현황</label>
-								<label class="infoContent">2/6</label>
-								<label class="infoLabel">그룹장</label>
-								<label class="infoContent">그룹장 닉네임</label>
-								<label class="infoLabel">모임 장소</label>
-								<label class="infoContent">한남점</label>
-							</div>
-							<div class="thirdInfo">
-								<label class="infoLabel">그룹 목표</label>
-								<label class="goalStyle">fnewifnewlnfkenkvnldfkenkvnldnsvklndsklnkldnkcnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm</label>
-							</div>
-							<div class="fourthInfo">
-								<p class="groupContentStyle">
-								fnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
-								sfsf
-								sdsffefegegegfnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
-								sfsf
-								sdsffefegegeg
-								</p>
-							</div>
-						</div>
-						<div class="recGroup">
-							<div class="firstInfo">
-								<span class="typeBadge long">long</span>
-								<label class="infoTitle">공부 종류</label>
-								<label class="infoTitle">스터디 그룹명</label>
-							</div>
-							<div class="secondInfo">
-								<label class="infoLabel">모집 기간</label>
-								<label class="infoContent">2020.00.00 ~ 2020.00.00</label>
-								<label class="infoLabel">모집 현황</label>
-								<label class="infoContent">2/6</label>
-								<label class="infoLabel">그룹장</label>
-								<label class="infoContent">그룹장 닉네임</label>
-								<label class="infoLabel">모임 장소</label>
-								<label class="infoContent">한남점</label>
-							</div>
-							<div class="thirdInfo">
-								<label class="infoLabel">그룹 목표</label>
-								<label class="goalStyle">fnewifnewlnfkenkvnldfkenkvnldnsvklndsklnkldnkcnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm</label>
-							</div>
-							<div class="fourthInfo">
-								<p class="groupContentStyle">
-								fnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
-								sfsf
-								sdsffefegegegfnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
-								sfsf
-								sdsffefegegeg
-								</p>
-							</div>
-						</div>
-					</div>
-					
-					<div id="bottomArea" class="inner">
-						<!-- 페이징  -->
-						<nav>
-							<ul class="pagination">
-								<li><a href="#" aria-label="Previous"> <span
-										aria-hidden="true">&laquo;</span>
-								</a></li>
-								<li><a href="#" aria-label="Previous"> <span
-										aria-hidden="true">&lt;</span>
-								</a></li>
-								<li><a href="#">1</a></li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#">4</a></li>
-								<li><a href="#">5</a></li>
-								<li><a href="#" aria-label="Next"> <span
-										aria-hidden="true">&gt;</span>
-								</a></li>
-								<li><a href="#" aria-label="Next"> <span
-										aria-hidden="true">&raquo;</span>
-								</a></li>
-							</ul>
-						</nav>
-					
-						<div id="insertBtnArea">
-							<input type="button" class="defaultBtn" onclick="location.href='insertRecView.sg'" value="모집 등록">
-							&nbsp;&nbsp;&nbsp;
-							<input type="button" class="defaultBtn" onclick="location.href='insertGroupView.sg'" value="그룹 등록">
-						</div>
-					</div>
-
+					</div> <!-- content -->
 				</div>
 			</div>
-		</div>
 		<c:import url="../a_common/footer.jsp"/>
-	</div>
+		</div>
 	
 	<script>
 		$(function() {
 			$('#categoryHiddenArea').css('display', 'none');
+			
+			getRecList();
+			getPaging();
 		})
+		
+		function getRecList() {
+			$.ajax({
+				url:'getRecList.sg',
+				data: {},
+				dataType: 'json',
+				success: function(data) {
+					console.log(data);
+					
+					var $listArea = $('#listArea');
+					$listArea.html('');
+					
+					if(data.length > 0) {
+						for(var i in data) {
+							console.log(data[i]);
+							
+							var $recGroup = $('<div class="recGroup">');
+							var $firstInfo = $('<div class="firstInfo">');
+							var $secondInfo = $('<div class="secondInfo">');
+							var $thirdInfo = $('<div class="thirdInfo">');
+							var $fourthInfo = $('<div class="fourthInfo">');
+							
+							var $span;
+							if(data[i].sgStatus == 'Y')
+								$span = $('<span class="typeBadge once">').text('once');
+							else
+								$span = $('<span class="typeBadge long">').text('long');
+							$firstInfo.append($span);
+							$firstInfo.append($('<label class="infoTitle" style="color:#135D36">').text(decodeURIComponent(data[i].studyName.replace(/\+/g, ' '))));
+							$firstInfo.append($('<label class="infoTitle">').text(decodeURIComponent(data[i].sgName.replace(/\+/g, ' '))));
+							
+							$secondInfo.append($('<label class="infoLabel">').text('모집 마감'));
+							if(data[i].dCloseDate >= 1) {
+								$secondInfo.append($('<label class="infoContent">').text(data[i].dCloseDate + "일 전"));
+							} else {
+								$secondInfo.append($('<label class="infoContent">').text("오늘"));
+							}
+							
+							$secondInfo.append($('<label class="infoLabel">').text('모집 현황'));
+							$secondInfo.append($('<label class="infoContent">').text(data[i].partNum + "/" + data[i].recNum));
+							$secondInfo.append($('<label class="infoLabel">').text('그룹장'));
+							$secondInfo.append($('<label class="infoContent">').text(decodeURIComponent(data[i].nick.replace(/\+/g, ' '))));
+							$secondInfo.append($('<label class="infoLabel">').text('모임 장소'));
+							$secondInfo.append($('<label class="infoContent">').text(decodeURIComponent(data[i].branchName.replace(/\+/g, ' '))));
+							
+							$thirdInfo.append($('<label class="infoLabel">').text('그룹 목표'));
+							$thirdInfo.append($('<label class="goalStyle">').text(decodeURIComponent(data[i].sgGoal.replace(/\+/g, ' '))));
+
+							$fourthInfo.append($('<p class="groupContentStyle">').text(decodeURIComponent(data[i].sgContent.replace(/\+/g, ' '))));
+							
+							$recGroup.append($firstInfo);
+							$recGroup.append($secondInfo);
+							$recGroup.append($thirdInfo);
+							$recGroup.append($fourthInfo);
+							$listArea.append($recGroup);
+						}
+					}
+				}
+			});
+		}
+		
+		function getPaging() {
+			$.ajax({
+				url: "getPaging.sg",
+				data: {},
+				dataType: 'json',
+				success: function(data) {
+					$pageUl = $('#pageUl');
+					$pageUl.html('');
+					
+					var $li;
+					var $a;
+					var $span;
+					var $b;
+					
+					$li = $('<li>');
+					
+					//맨 처음으로, 이전
+					if(data.currentPage <= 1) {
+						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
+						$span = $('<span aria-hidden="true">').text('≪');
+						
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+						
+						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
+						$span = $('<span aria-hidden="true">').text('＜');
+
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+					}
+					else if(data.currentPage > 1) {
+						$a = $('<a href="groupList.mp" aria-label="Previous">');
+						$span = $('<span aria-hidden="true">').text('≪');
+
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+						
+						$a = $('<a href="groupList.mp?page=' + data.currentPage - 1 + '" aria-label="Previous">');
+						$span = $('<span aria-hidden="true">').text('≫');
+						
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+					}
+					
+					//페이지
+					for(var i = data.startPage; i <= data.endPage; i++) {
+						console.log(i);
+						
+						if(i == data.currentPage)
+							$a = $('<a href="#" onclick="return false;">').text(i);
+						else
+							$a = $('<a href="groupList.mp?page=' + i + '">').text(i);
+
+						$li.append($a);
+						$pageUl.append($li);
+					}
+
+					//맨 마지막으로, 다음
+					if(data.currentPage >= data.maxPage) {
+						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
+						$span = $('<span aria-hidden="true">').text('>');
+						
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+						
+						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
+						$span = $('<span aria-hidden="true">').text('≫');
+
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+					}
+					else if(data.currentPage < data.maxPage) {
+						$a = $('<a href="groupList.mp?page=' + data.currentPage + 1 + '" aria-label="Next">');
+						$span = $('<span aria-hidden="true">').text('>');
+
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+						
+						$a = $('<a href="groupList.mp?page=' + data.maxPage + '"  aria-label="Next">');
+						$span = $('<span aria-hidden="true">').text('≫');
+						
+						$a.append($span);
+						$li.append($a);
+						$pageUl.append($li);
+					}		
+				}
+			})
+		}
 		
 		$('#categoryBtn').click(function() {
 			if($('#categoryHiddenArea').css('display') == 'none') {
@@ -324,6 +426,17 @@
 		
 		$('.recGroup').click(function() {
 			location.href="recruitDetailView.sg";
+		})
+		
+		var target = "";
+		$('.sort').click(function() {
+			$('.sort').css({'background':'transparent', 'color':'black', 'font-weoght':'normal'});
+			
+			if(target != $(this).attr('id')) {
+				$(this).css({'background':'#6DBD6A', 'color':'white', 'font-weight':'bold'});
+			}
+			
+			target = $(this).attr('id');
 		})
 	</script>
 </body>
