@@ -13,4 +13,6 @@ public interface MemberService {
 
 	ArrayList<StudyCategory> selectStudyCategoryList(StudyCategory sc);
 
+	Member findMemberId(Member m);
+
 }

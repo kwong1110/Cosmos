@@ -43,4 +43,18 @@
 	</insert>
 	
 	
+	<!-- 아이디 찾기 --> 
+	<select id="idCheck"  parameterType="Member"  resultMap="memberResultSet">
+      select id	
+      from member
+      where name = #{name} and email = #{email} and mstatus = 'Y'
+   </select>
+   
+
+	<!-- 비밀번호 변경
+	<update id="update_pw" parameterType="member">
+		update member set pw = #{pw} where id = #{id}
+	</update>
+	 -->
+	 
 </mapper>

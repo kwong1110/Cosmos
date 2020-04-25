@@ -46,18 +46,15 @@
 								회원가입시 등록한 정보로<br> 아이디를 찾을 수 있습니다.
 							</div>
 							<div class="find">
-								<form name="id_form" method="post" action="search_idpw.me" onsubmit="return chk_idform(this)">
+								<form name="id_form" method="post" action="findId.me" >
 								<input type="hidden" name="s_type" value="id">
-									<fieldset>
-										<label></label>
 										<p>
-											<label for="id_name">이름</label> <input type="text" name="me_name" class="form-control" width="200px" title="이름 입력">
+											<label for="id_name">이름</label> <input type="text" name="name" class="form-control" width="200px" title="이름 입력">
 										</p>
 										<p> 
-											<label for="id_mail">이메일</label><input type="text" name="me_email" class="form-control" size="30" title="가입시 이메일 입력" placeholder="가입시 등록한 이메일">
+											<label for="id_mail">이메일</label><input type="text" name="email" class="form-control" size="30" title="가입시 이메일 입력" placeholder="가입시 등록한 이메일">
 										</p> 
-										<button type="submit" onclick="idSearch_click()">찾기</button>
-									</fieldset>
+										<button type="submit" >찾기</button>
 								</form>
 							</div>
 						</div>
@@ -72,8 +69,6 @@
 							<div class="find">
 								<form name="pw_form" method="post" action="search_idpw.me" onsubmit="">
 								<input type="hidden" name="s_type" value="pw">
-									<fieldset>
-										<label></label>
 											<p>
 												<label for="pw_name">ID</label> <input type="text" name="me_id" class="form-control" title="아이디 입력">
 											</p>
@@ -81,7 +76,6 @@
 												<label for="pw_mail">이메일</label> <input type="text" name="me_email" class="form-control" title="가입시 이메일 입력" placeholder="가입시 등록한 이메일">
 											</p>
 										<button type="submit">찾기</button>
-									</fieldset>
 								</form>
 							</div>
 						</div>

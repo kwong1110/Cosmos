@@ -22,7 +22,7 @@ public class ViewBranch {
 		this.branchTime = branchTime;
 		this.branchRest = branchRest;
 	}
-
+	
 	public int getBranchNo() {
 		return branchNo;
 	}
