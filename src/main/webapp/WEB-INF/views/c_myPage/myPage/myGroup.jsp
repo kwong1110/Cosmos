@@ -181,7 +181,7 @@
 					</div>
 
 					<div class="btnBox">
-						<input type="button" class="defaultBtn defaultstyle" value="그룹 나가기" />
+						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" value="그룹 나가기" />
 					</div>
 				</div>
 			</div>
@@ -233,9 +233,9 @@
 					</div>
 	
 					<div class="btnBox">
-						<input type="button" class="defaultBtn defaultstyle" id="updateGroup" value="그룹 수정">
+						<input type="button" class="defaultBtn defaultstyle" style="background:#4188e2;" id="updateGroup" value="그룹 수정">
 						&nbsp;&nbsp;&nbsp;
-						<input type="button" class="defaultBtn defaultstyle" id="deleteGroup" value="그룹 없애기">
+						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" id="deleteGroup" value="그룹 없애기">
 					</div>
 				</div>
 			</div>
@@ -565,7 +565,7 @@
 							no--;
 							$tr.append('<td>' + data[i].nick + '</td>');
 							$tr.append('<td>' + data[i].appDlDate + '</td>');
-							$tr.append('<td><input type="button" class="defaultBtn" value="강퇴" onclick="deleteMember();"></td>');
+							$tr.append('<td><input type="button" class="defaultBtn" style="background:#71acf8;" value="강퇴" onclick="deleteMember();"></td>');
 							$memberTableBody.append($tr);
 						}
 					} else {

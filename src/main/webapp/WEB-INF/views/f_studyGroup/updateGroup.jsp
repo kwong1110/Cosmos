@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,7 +14,7 @@
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
-	.tableStyle{width: 80%; border-collapse: separate; border-spacing: 0em 3em !important}
+	.tableStyle{width: 90%; border-collapse: separate; border-spacing: 0em 1em !important}
 	.tableLabel{width: 35%; text-align: center; font-size: 20px; font-weight: bold;}
 	#now_date{width:100px;}
 	
@@ -47,35 +48,58 @@
 					
 					<table class="inner tableStyle">
 						<tr>
+							<td colspan="2">
+								<label style="text-align:center; font-size:25px; color:#6DBD6A; font-family: 'Binggrae';">기본 그룹 정보</label>
+								<hr style="border:1px solid #6DBD6A; margin:0; padding:0;">
+							</td>
+						</tr>
+						<tr>
 							<td class="tableLabel">그룹 명</td>
 							<td>
-								<input type="text" class="form-control" id="sgName" name="sgName" value="${ group.sgName }">
+								<label id="sgName" name="sgName">${ group.sgName }</label>
+								<%-- <input type="text" class="form-control" id="sgName" name="sgName" value="${ group.sgName }" disabled> --%>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">공부 종류</td>
 							<td>
-								<select class="form-control" id="studyName" name="studyName">
+								<label id="studyName" name="studyName">${ group.studyName }</label>
+								<%-- <select class="form-control" id="studyName" name="studyName">
 									 <c:forEach var="item" items="${ studyList }">
 									 	<option>${ item }</option>
 									 </c:forEach>
-								</select>
+								</select> --%>
 							</td>
 						</tr>
 						<tr>
-							<td class="tableLabel">모집 기간</td>
-							<td class="inline">
-								<!-- <input class="form-control input-daterange-datepicker" type="text" id="recEndDate" name="recEndDate" style="width:200px;"> -->
-								<!-- <label id="now_date"></label> ~ &nbsp;&nbsp;<input type="text" class="form-control" id="datepicker-autoclose" name="recEndDate" placeholder="년/월/일">
-								<input type="hidden" id="recStartDate" name="recStartDate"> -->
-								<input class="form-control input-daterange-datepicker" type="text" id="recTerm" name="recTerm">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">모집 인원</td>
 							<td>
-								<input type="number" min="1" max="7" class="form-control" id="recNum" name="recNum">
-								<button class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 모집 인원을 입력해주세요. 1인 이상, 7인 이하">?</button>
+								<c:set var="num" value="${ partNum }" />
+								<c:if test="${ partNum  >= 1 }" >
+									<c:set var="num" value="${ partNum }" />
+								</c:if>
+								<c:if test="${ partNum eq 0 }" >
+									<c:set var="num" value="${ partNum + 1 }" />
+								</c:if>
+								
+								<input type="number" min="${ num }" max="7" class="form-control" id="recNum" name="recNum" value="${ group.msgNum }">
+								<button class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 그룹인원을 입력해주세요. 현재 참여 중인 그룹원 이상으로 설정되아야 합니다.">?</button>
+								
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
@@ -83,47 +107,262 @@
 							<td>
 								<select class="form-control" id="branchNo" name="branchNo">
 									 <c:forEach var="item" items="${ branchList }">
-									 	<option value="${ item.branchNo }">${ item.branchName }</option>
+									 	<c:if test="${ item.branchNo eq group.msgNum }">
+									 		<option value="${ item.branchNo }" selected>${ item.branchName }</option>
+									 	</c:if>
+									 	<c:if test="${ item.branchNo ne group.msgNum }">
+									 		<option value="${ item.branchNo }">${ item.branchName }</option>
+									 	</c:if>
 									 </c:forEach>
 								</select>
 							</td>
 						</tr>
 						<tr>
-							<td class="tableLabel">모임 날짜</td>
-							<td>
-								<input type="text" class="form-control" id="datepicker-autoclose" name="recMettingDate" placeholder="년/월/일" style="width:120px;">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">그룹 목표</td>
 							<td>
-								<input type="text" class="form-control" id="sgGoal" name="sgGoal">
+								<input type="text" class="form-control" id="sgGoal" name="sgGoal" value="${ group.sgGoal }">
 								<label class="lengthAlert" id="goalAlert"><span id="goalCount">0</span>/200</label>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">그룹 내용</td>
 							<td class="topTd">
-								<textarea rows="20" class="form-control resize" id="sgContent" name="sgContent"></textarea>
-								<label class="lengthAlert" id="contentAlert"><span id="contentCount">0</span>/2000</label>
+								<textarea rows="20" class="form-control resize" id="sgContent" name="sgContent">${ group.sgContent }</textarea>
+								<label class="lengthAlert" id="contentAlert"><span id="contentCount">0</span>/1000</label>
+							</td>
+						</tr>
+					</table>
+					
+					<table class="inner tableStyle" style="margin-top:3%;">
+						<tr>
+							<td colspan="2">
+								<label style="text-align:center; font-size:25px; color:#6DBD6A; font-family: 'Binggrae';">장기 그룹 정보</label>
+								<hr style="border:1px solid #6DBD6A; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
-							<td colspan=2>
-								<div class="btnBox" style="width:100%; text-align:center;">
-									<input type="submit" class="btn btn-danger" value="등록"/>
-									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="button" class="btn btn-info" value="취소"/>
+							<td class="tableLabel">
+								<label id="optionLabel">장기 그룹 옵션&nbsp;&nbsp;</label>
+							</td>
+							<td style="display:inline-block; vertical-align:middle;">
+								<div style="display:inline-block; vertical-align:middle;">
+									<c:if test="${ group.sgStatus eq 'Y' }">
+										<input class="tgl tgl-skewed" id="cb3" type="checkbox" checked/>
+									</c:if>
+									<c:if test="${ group.sgStatus ne 'Y' }">
+										<input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
+									</c:if>
+								    <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="cb3"></label>
+							    </div>
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td class="tableLabel">모임 주기</td>
+							<td>
+								<c:if test="${ group.sgStatus eq 'Y' }">
+								
+								<c:if test="${fn: contains(group.msgMetRole, '요일') }">
+									<input type="radio" name="metRule" id="weekCk" checked> <label style="margin-right:30px;">요일</label>
+								</c:if>
+								<c:if test="${fn: not contains(group.msgMetRole, '요일') }">
+									<input type="radio" name="metRule" id="weekCk"> <label style="margin-right:30px;">요일</label>
+								</c:if>
+								
+								<c:if test="${fn: !(contains(group.msgMetRole, '요일')) and contains(group.msgMetRole, '일') }">
+									<input type="radio" name="metRule" id="dayCk" checked> <label style="margin-right:30px;">일</label>
+								</c:if>
+								
+								<c:if test="${fn: !(contains(group.msgMetRole, '요일')) and !contains(group.msgMetRole, '일') }">
+									<input type="radio" name="metRule" id="ectCk" checked> <label>기타</label>
+								</c:if>
+								
+								<button class="helpBtn" data-toggle="tooltip" data-placement="right" title="특정한 주기를 정해놓지 않고 모이는 경우">?</button>
+								
+								</c:if>
+								<div id="hiddenOption" style="margin-top:10px; height:40px;">
+									<div id="week">
+										<button type="button" class="form-control weekBtn" style="width:50px; display:inline;">월</button>
+										<button type="button" class="form-control weekBtn" style="width:50px; display:inline;">화</button>
+										<button type="button" class="form-control weekBtn" style="width:50px; display:inline;">수</button>
+										<button type="button" class="form-control weekBtn" style="width:50px; display:inline;">목</button>
+										<button type="button" class="form-control weekBtn" style="width:50px; display:inline;">금</button>
+										<button type="button" class="form-control weekBtn" style="width:50px; display:inline;">토</button>
+										<button type="button" class="form-control weekBtn" style="width:50px; display:inline;">일</button>
+									</div>
+									<div id="day">
+										<input type="number" class="form-control" style="width:60px; display:inline-block; margin-right:10px;"><label> 일 마다</label>
+									</div>
+								</div>
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td class="tableLabel">그룹 규칙</td>
+							<td>
+								<ul id="RuleUl">
+									<li><input type="text" class="form-control" style="margin:5px;"></li>
+								</ul>
+								<div style="float:left; width:70%;">
+									<label id="ruleAlert" style="color:red;"></label>
+								</div>
+								<div style="float:right; width:30%; text-align:right; margin-bottom:10px;">
+									<button type="button" id="minusIl" style="margin-right:10px; border-radius:50%; width:40px; height:40px; border:2px solid black; color:black; background:transparent;">-</button>
+									<button type="button" id="pluseIl" style="border-radius:50%; width:40px; height:40px; border:2px solid black; color:black; background:transparent;">+</button>
 								</div>
 							</td>
 						</tr>
 					</table>
+					
+					<div class="btnBox" style="width: 100%; text-align: center; margin-top:10%;">
+						<input type="submit" class="btn btn-info" value="등록" />
+						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+						<input type="button" class="btn btn-danger" value="취소" />
+					</div>
 					
 				</div>
 			</div>
 		</div>
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
+	
+	<script>
+		$(function() {
+	        var content = $('#sgGoal').val();
+	        if(content.length < 200) {
+	        	$('#goalAlert').css('color', 'black');
+		        $('#goalCount').html(content.length);
+	        } else if(content.length == 200) {
+	        	$('#goalAlert').css('color', 'red');
+		        $('#goalCount').html(content.length);
+	        } else {
+	        	$('#sgGoal').val(content.substr(0, 200));
+	        	$('#goalAlert').css('color', 'red');
+	        }
+	        
+	        content = $('#sgContent').val();
+	        if(content.length < 1000) {
+	        	$('#contentAlert').css('color', 'black');
+		        $('#contentCount').html(content.length);
+	        } else if(content.length == 1000) {
+	        	$('#contentAlert').css('color', 'red');
+		        $('#contentCount').html(content.length);
+	        } else {
+	        	$('#sgContent').val(content.substr(0, 1000));
+	        	$('#contentAlert').css('color', 'red');
+	        }
+			
+			$('[data-toggle="tooltip"]').tooltip();
+			
+			$('#hiddenOption').css('display','none');
+			$('#week').css('display','none');
+			$('#day').css('display','none');
+			$('.hiddenTr').css('display', 'none');
+			
+			if($('#cb3').attr('checked') == 'checked') 
+				$('.hiddenTr').css('display', '');
+			else
+				$('.hiddenTr').css('display', 'none');
+		})
+		
+		$('#sgGoal').keyup(function (e){
+	          var content = $(this).val();
+	          if(content.length < 200) {
+	        	  $('#goalAlert').css('color', 'black');
+		          $('#goalCount').html(content.length);
+	          } else if(content.length == 200) {
+	        	  $('#goalAlert').css('color', 'red');
+		          $('#goalCount').html(content.length);
+	          } else {
+	        	  $('#sgGoal').val(content.substr(0, 200));
+	        	  $('#goalAlert').css('color', 'red');
+	          }
+	    });
+		
+		$('#sgContent').keyup(function (e){
+	          var content = $(this).val();
+	          if(content.length < 1000) {
+	        	  $('#contentAlert').css('color', 'black');
+		          $('#contentCount').html(content.length);
+	          } else if(content.length == 1000) {
+	        	  $('#contentAlert').css('color', 'red');
+		          $('#contentCount').html(content.length);
+	          } else {
+	        	  $('#sgContent').val(content.substr(0, 1000));
+	        	  $('#contentAlert').css('color', 'red');
+	          }
+	    });
+		
+		$('input[name=metRule]').click(function() {
+			if($(this).attr('id') == 'weekCk') {
+				$('#hiddenOption').css('display', 'block');
+				$('#week').css('display', 'block');
+				$('#day').css('display', 'none');
+			} else if($(this).attr('id') == 'dayCk') {
+				$('#hiddenOption').css('display', 'block');
+				$('#day').css('display', 'block');
+				$('#week').css('display', 'none');
+			} else {
+				$('#hiddenOption').css('display', 'none');
+				$('#week').css('display', 'none');
+				$('#day').css('display', 'none');
+			}
+		})
+		
+		$('.weekBtn').click(function() {
+			console.log($(this).css('color'));
+			if($(this).css('color') == 'rgb(255, 255, 255)') {
+				$(this).css({'background':'white', 'color':'#555'});
+			} else {
+				$(this).css({'background':'#6DBD6A', 'color':'white'});
+			}
+		})
+		
+		$('#minusIl').click(function() {
+			console.log($('#RuleUl').children().length);
+			var length = $('#RuleUl').children().length;
+			if(length != 1) {
+				$('#ruleAlert').text('');
+				$('#RuleUl').children().eq(length-1).remove();
+			} else {
+				$('#ruleAlert').text('그룹 규칙은 반드시 하나 이상 존재해야 합니다.');
+			}
+		})
+		
+		$('#pluseIl').click(function() {
+			console.log($('#RuleUl').children().length);
+			$('#ruleAlert').text('');
+			if($('#RuleUl').children().length != 3) {
+				$('#RuleUl').append('<li><input type="text" class="form-control" style="margin:5px;"></li>');
+			}
+		})
+		
+		$('#cb3').click(function() {
+			if($('.hiddenTr').css('display') == 'table-row') {
+				$('.hiddenTr').css('display', 'none');
+			} else {
+				$('.hiddenTr').css('display', '');
+			}
+		})
+	</script>
 	
 </body>
 </html>
