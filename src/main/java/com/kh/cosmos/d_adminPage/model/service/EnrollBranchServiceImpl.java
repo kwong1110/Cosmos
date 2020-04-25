@@ -14,4 +14,11 @@ public class EnrollBranchServiceImpl implements EnrollBranchService{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+	
+	// 지점명 중복 확인
+	@Override
+	public int checkNameDup(String masterName) {
+		return ebDAO.chekNameDup(sqlSession, masterName);
+	}
+	
 }

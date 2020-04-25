@@ -229,7 +229,8 @@
 						<div><a href="">강연관리</a></div>
 						<div><a href="">좌석예약조회</a></div>
 						<div><a href="">회원목록</a></div>
-						<div><a href="">지점등록</a></div>
+						<div><a href="enrollBranch.ap">지점등록</a></div>
+						<div><a href="branchList.ap">지점목록</a></div>
 					</div>
 				</div>
 			</c:if>
@@ -285,14 +286,6 @@
 				        		<button type="button" class="btn" onclick="location.href='find.me'">아이디 / 비밀번호 찾기</button>
 				        		<button type="button" class="btn">회원가입</button>
 							</div> 
-							<!-- 한솔 -->
-<!-- 				 		<div class="btnBox">
-				 			<button type="button" class="btn">
-				 				<span onclick="findID();" class="btn">ID찾기</span>/
-				 				<span onclick="findPwd();" class="btn">PW찾기</span>
-				 			</button>	
-						 	<button type="button" class="btn">회원가입</button>
-							</div>  -->
 						</form>
 					</div>		          	
 		        </div>

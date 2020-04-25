@@ -28,4 +28,12 @@
 		from branch
 		where branch_no = #{branchNo}
 	</select>
+  
+  <!-- 지점 등록 -->
+	<!-- 지점명 중복체크 -->
+	<select id="checkNameDup" parameterType="string" resultType="_int">
+		select count(*)
+		from branch
+		where branch__name=#{branch_Name}
+	</select>
 </mapper>
