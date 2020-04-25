@@ -10,18 +10,21 @@ public class StudyPlanner {
 	private String emphasis;
 	private int likeCount;
 	private int hit;
-	private Date planDate;
+	private Date planStart;
 	private Date createDate;
 	private String planStatus;
 	private String openStatus;
 	private String id;
 	private int studyNo;
+	private Date planEnd;
+	
+	private String studyName;
 	
 	public StudyPlanner() {}
 
 	public StudyPlanner(int planNo, String planTitle, String planContent, String planMenu, String emphasis,
-			int likeCount, int hit, Date planDate, Date createDate, String planStatus, String openStatus, String id,
-			int studyNo) {
+			int likeCount, int hit, Date planStart, Date createDate, String planStatus, String openStatus, String id,
+			int studyNo, String studyName, Date planEnd) {
 		this.planNo = planNo;
 		this.planTitle = planTitle;
 		this.planContent = planContent;
@@ -29,12 +32,14 @@ public class StudyPlanner {
 		this.emphasis = emphasis;
 		this.likeCount = likeCount;
 		this.hit = hit;
-		this.planDate = planDate;
+		this.planStart = planStart;
 		this.createDate = createDate;
 		this.planStatus = planStatus;
 		this.openStatus = openStatus;
 		this.id = id;
 		this.studyNo = studyNo;
+		this.studyName = studyName;
+		this.planEnd = planEnd;
 	}
 
 	public int getPlanNo() {
@@ -93,14 +98,6 @@ public class StudyPlanner {
 		this.hit = hit;
 	}
 
-	public Date getPlanDate() {
-		return planDate;
-	}
-
-	public void setPlanDate(Date planDate) {
-		this.planDate = planDate;
-	}
-
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -141,12 +138,39 @@ public class StudyPlanner {
 		this.studyNo = studyNo;
 	}
 
+	public String getStudyName() {
+		return studyName;
+	}
+
+	public void setStudyName(String studyName) {
+		this.studyName = studyName;
+	}
+	
+	public Date getPlanStart() {
+		return planStart;
+	}
+
+	public void setPlanStart(Date planStart) {
+		this.planStart = planStart;
+	}
+
+	public Date getPlanEnd() {
+		return planEnd;
+	}
+
+	public void setPlanEnd(Date planEnd) {
+		this.planEnd = planEnd;
+	}
+
 	@Override
 	public String toString() {
 		return "StudyPlanner [planNo=" + planNo + ", planTitle=" + planTitle + ", planContent=" + planContent
 				+ ", planMenu=" + planMenu + ", emphasis=" + emphasis + ", likeCount=" + likeCount + ", hit=" + hit
-				+ ", planDate=" + planDate + ", createDate=" + createDate + ", planStatus=" + planStatus
-				+ ", openStatus=" + openStatus + ", id=" + id + ", studyNo=" + studyNo + "]";
+				+ ", planStart=" + planStart + ", createDate=" + createDate + ", planStatus=" + planStatus
+				+ ", openStatus=" + openStatus + ", id=" + id + ", studyNo=" + studyNo + ", planEnd=" + planEnd
+				+ ", studyName=" + studyName + "]";
 	}
+
+	
 	
 }
