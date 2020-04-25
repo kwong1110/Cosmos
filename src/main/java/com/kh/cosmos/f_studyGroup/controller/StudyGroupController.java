@@ -215,9 +215,14 @@ public class StudyGroupController {
 	public ModelAndView UpdateGroupView(@RequestParam("sgno") int sgno, ModelAndView mv) {
 		
 		StudyGroup group = sgService.getStudyGroupInfo(sgno);
+		ArrayList<ViewBranch> branchList = sgService.getBranchList();
+		
+		int partNum = sgService.getPartMemberNum(sgno);
 		
 		if(group != null) {
+			mv.addObject("partNum", partNum);
 			mv.addObject("group", group);
+			mv.addObject("branchList", branchList);
 			mv.setViewName("updateGroup");
 			return mv;
 		} else {
