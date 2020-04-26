@@ -325,7 +325,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			                    </div>
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
-			                        <form action="" method="post" onsubmit="">
+			                        <form action="" method="post" onsubmit="return checkEmptyValues(insertTitle, summernote, openStatus, planMenu);">
 				                        <table class="table">
 											<tr>
 												<th>카테고리</th>
@@ -350,16 +350,16 @@ document.addEventListener('DOMContentLoaded', function() {
 												</td>
 												<th>모두의플래너</th>
 												<td class="exception">
-													<input type="radio" name="openStatus" value="Y">공개
+													<input id="openStatus" type="radio" name="openStatus" value="Y">공개
 													<input type="radio" name="openStatus" value="N">비공개
 												</td>
 											</tr>
 											<tr>
 												<th>제목</th>
-												<td><input type="text" name="planTitle"></td>
+												<td><input id="insertTitle" type="text" name="planTitle" placeholder="제목"></td>
 												<th>종류</th>
 												<td class="exception"> 
-													<input type="radio" name="planMenu" value="TODAY">오늘의 할일
+													<input id="planMenu" type="radio" name="planMenu" value="TODAY">오늘의 할일
 													<input type="radio" name="planMenu" value="DEFAULT">기본
 												</td>
 											</tr>
@@ -377,11 +377,14 @@ document.addEventListener('DOMContentLoaded', function() {
 											</tr>
 											<tr>
 												<td colspan="4" style="padding: 0;">
-													<div id="summernote"></div>
+													<textarea id="summernote" placeholder="내용"></textarea>
 													<c:import url="../../a_common/summernote.jsp"/>
 												</td>
 											</tr>
 										</table>
+										<div class="inner btnBox">
+											<button id="applyBtn" class="btn defaultBtn">등록</button>
+										</div>
 									</form>
 			                    </div>
 			                </div><!-- /.modal-content -->
