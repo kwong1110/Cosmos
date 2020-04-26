@@ -229,4 +229,10 @@ public class StudyGroupController {
 			throw new StudyGroupException("그룹 수정 페이지 호출에 실패하였습니다.");
 		}
 	}
+	
+	@RequestMapping("updateGroup.sg")
+	public String UpdateGroup(@ModelAttribute StudyGroup sg) {
+		
+		return "redirect:myGroup.mp";
+	}
 }

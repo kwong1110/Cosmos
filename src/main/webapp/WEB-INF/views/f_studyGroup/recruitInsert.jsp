@@ -177,19 +177,19 @@
 				$('#meetingDate').text(decodeURIComponent(data.msgMetRule.replace(/\+/g, ' ')));
 				$('#groupGoal').text(decodeURIComponent(data.sgGoal.replace(/\+/g, ' ')));
 				
-				var $roleUl = $('#groupRule');
-				$roleUl.html('');
+				var $ruleUl = $('#groupRule');
+				$ruleUl.html('');
 				
 				var $li = $('<li>').text(decodeURIComponent(data.msgRule1.replace(/\+/g, ' ')));
-				$roleUl.append($li);
+				$ruleUl.append($li);
 				
 				if(data.msgRule2 != null) {
 					$li = $('<li>').text(decodeURIComponent(data.msgRule2.replace(/\+/g, ' ')));
-					$roleUl.append($li);
+					$ruleUl.append($li);
 					
 					if(data.msgRule3 != null) {
 						$li = $('<li>').text(decodeURIComponent(data.msgRule3.replace(/\+/g, ' ')));
-						$roleUl.append($li);
+						$ruleUl.append($li);
 					}
 				}
 				
