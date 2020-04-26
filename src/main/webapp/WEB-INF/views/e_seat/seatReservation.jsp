@@ -371,18 +371,18 @@
 						            						reserPeople = 1;
 						            					}
 						            				var	chooseSeat = $("#chooseSeat").text();
-						            				var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
+						            				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
 						            				 $.ajax({
 						            					url : "overlap.se",
 						            					type : "post",
 						            					dataType: 'json',
-						            					data: dkanrjsk,
+						            					data: reserInfo,
 						            					success : function(data){
 						            						e.preventDefault();
 						            						 //console.log(data);
 							            					if(data.length > 0){ 
 							            						for(var i in data){
-								            						console.log(data[i].reserSort + "-" + data[i].seatNo);
+								            						/* console.log(data[i].reserSort + "-" + data[i].seatNo); */
 																	if($('#'+ data[i].reserSort + "-" + data[i].seatNo).val()){
 																		$('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().addClass('seatOn');
 																	}
@@ -474,7 +474,6 @@
 					    				 if(strPrice[0] == "${se.reserSort}"){
 					    					result = (endTime-startTime) * "${se.reserFee}"
 						    					if("${se.reserSort}" == 'Z'){
-						    						console.log($("input:radio[name='period']:checked").val());
 						    						if($("input:radio[name='period']:checked").val() == '7일권'){
 						    							result = "${se.reserFee}"
 						    						} else if($("input:radio[name='period']:checked").val() == '30일권'){
@@ -529,19 +528,19 @@
 				}
 			var	chooseSeat = $("#chooseSeat").text();
 			
-			var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
+			var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
 			
 			function buy(){
 				var buy = confirm("정말로 구매하시겠습니까?");
 				$.ajax({
 			    	   url : "seatBuy.se",
 			    	   type : "post",
-			    	   data : dkanrjsk,
+			    	   data : reserInfo,
 			    	   success : function(data) {
-			    		   console.log(data);
 			    	        alert("성공"); 
 			    	        location.href="lectureHistory.mp";
 			    	    }
+				
 			       });
 				/* if(buy){
 					var IMP = window.IMP; 
