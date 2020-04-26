@@ -1,6 +1,7 @@
 package com.kh.cosmos.i_lecture.controller;
 
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 import com.kh.cosmos.i_lecture.model.exception.LectureException;
@@ -30,10 +30,6 @@ public class LectureController {
 		
 		if(list != null) {
 			model.addAttribute("list", list);
-			for(Lecture l : list) {
-				// Fullcalander를 쓰게되면 바로 <textarea>로 값이 들어가는게 아니라 치환을 해주어야 정상적으로 출력된다.
-				l.setLectureRecord(l.getLectureRecord().replaceAll("\r\n", "<br>"));
-			}
 			return "lectureCalendar";
 		} else {
 			throw new LectureException("강연 전체 조회에 실패하였습니다.");
@@ -59,8 +55,7 @@ public class LectureController {
 	}
 	
 	@RequestMapping("lectureApply.le")
-	public String lectureApply(@ModelAttribute Lecture l, @RequestParam("daterange") String daterange, 
-								Model model, RedirectAttributes ra) {
+	public String lectureApply(@ModelAttribute Lecture l, @RequestParam("daterange") String daterange) {
 	
 			// daterangepicker로 받아온 값을 담아준다.
 //		System.out.println(daterange);
@@ -82,13 +77,11 @@ public class LectureController {
 		l.setLectureTime(startTime + "~" + endTime);
 		// System.out.println(l);
 		
-//		// textarea의 띄어쓰기, 공백을 치환한다. -> 받아올떄도 똑같이 치환하여 받아와주어야함.
-//		l.setLectureRecord(l.getLectureRecord().replaceAll("\n", "<br/>"));
 		int result = lService.lectureApply(l);
 		
-		// alert창을 위해 1번만 보내주는 메소드(addFlashAttribute) 사용.
-		ra.addFlashAttribute("successMsg", "성공");
 		
-		return "redirect:lectureHistory.mp";
+		// 사진 등록 추가,
+		// 마이페이지 강연 조회로 넘어가야함.
+		return "";
 	}
 }

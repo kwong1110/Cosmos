@@ -108,7 +108,6 @@
         timePickerIncrement: 60,
         timePicker24Hour: true,
         timePickerSeconds: false,
-        drops : 'up',
        	"locale": {
        		format: 'YYYY-MM-DD H:mm',
        		buttonClasses: ['btn'],
@@ -151,43 +150,5 @@
             days: 6
         }
     });
-//  싱글타임피커    
-    $('.input-single-timepicker').daterangepicker({ 
-    	singleDatePicker:true,
-        timePicker: true,
-        timePickerIncrement: 60,
-        timePicker24Hour: true,
-        timePickerSeconds: false,
-        drops : 'up',
-       	"locale": {
-       		format: 'YYYY-MM-DD H:mm',
-       		buttonClasses: ['btn'],
-       		applyClass: 'okBtn',
-       		cancelClass: 'cancelBtn',
-       		"daysOfWeek": [
-                   "일",
-                   "월",
-                   "화",
-                   "수",
-                   "목",
-                   "금",
-                   "토"
-               ],
-               "monthNames": [
-                   "1월",
-                   "2월",
-                   "3월",
-                   "4월",
-                   "5월",
-                   "6월",
-                   "7월",
-                   "8월",
-                   "9월",
-                   "10월",
-                   "11월",
-                   "12월"
-               ],
-               "firstDay": 1
-       	}
-    });
+
 })(jQuery);

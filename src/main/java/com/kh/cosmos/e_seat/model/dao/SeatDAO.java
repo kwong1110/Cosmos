@@ -25,21 +25,13 @@ public class SeatDAO {
 	    return (ArrayList)sqlSession.selectList("seatMapper.selectBranchList", null, rowBounds);
 	}
 
-	public ArrayList<Seat> selectSeatList(SqlSessionTemplate sqlSession, Seat s) {
-		return (ArrayList)sqlSession.selectList("seatMapper.selectSeatList", s);
+	public ArrayList<Seat> selectSeatList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("seatMapper.selectSeatList");
 	}
 
 	public ArrayList<SortTable> selectSortList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("seatMapper.selectSortList");
 	}
-
-	public int seatBuy(SqlSessionTemplate sqlSession, Seat s) {
-		return sqlSession.insert("seatMapper.seatBuy", s);
-	}
-
-	/*public int seatBuy(SqlSessionTemplate sqlSession) {
-		return sqlSession.insert("seatMapper.seatBuy");
-	}*/
 
 	
 

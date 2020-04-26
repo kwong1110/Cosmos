@@ -34,8 +34,10 @@
 				<div class="content">
 					<div class=resultArea>
 							<div class="find">
-								<p style="text-align:center">회원님의 ID는  ${id} 입니다.</p>
-								 
+								<p>회원님의 임시 비밀번호를  ${email} 로 발송하였습니다.</p>	
+								<p>비밀번호는 이거임 ${pwd} </p>	
+										
+							</div>
 						</div>
 				
 						</div>

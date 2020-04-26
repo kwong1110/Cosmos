@@ -1,12 +1,22 @@
 package com.kh.cosmos.b_member.controller;
 
 import java.util.ArrayList;
+import java.util.Properties;
+
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.RequestDispatcher;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -66,7 +76,7 @@ public class MemberController {
 		return "memberAgree";
 	}
 	
-	// 회원가입 뷰 페이지 이동
+	// 회원가입 페이지 이동
 	@RequestMapping("enroll.me")
 	public String enroll(@ModelAttribute StudyCategory sc, Model model) {
 		
@@ -86,71 +96,144 @@ public class MemberController {
 	}
   
 	// 아이디찾기_한솔 
-	@RequestMapping("findId.me")
+	 @RequestMapping("findId.me")
 	   public ModelAndView findMemberId(@ModelAttribute Member m, ModelAndView mv) {
-		
-	      Member result = mService.findMemberId(m);
 	      
+		  System.out.println(m);
+	    
+	      Member result = mService.findMemberId(m);
+	      System.out.println("결과"+result);
+	      System.out.println("mv"+ mv);
+	     
 	      if(result != null) {
-	         mv.addObject("findId", result)
+	    	  // 이렇게 하면 삽질함 내가 findMemberId 코드를 돌려서  result에 담아놨는데
+	    	  // 계속 m.getName으로 받아오니까 null값이 떠서 조회할 수 없었던것.
+	    	  
+	         /*mv.addObject("findId", result)
 	         .addObject("name", m.getName())
-	         .addObject("email", m.getEmail());
+	         .addObject("email", m.getEmail())
+	         .addObject("id", m.getId())
+	         .setViewName("FindResult");
+	          */	 
+	    	  
+	    	 mv.addObject("id",result.getId())
+	    	 .setViewName("FindResult");
 	      }else {
 	         throw new MemberException("정보와 일치하는 아이디가 없습니다.");
 	      }
 	      return mv;
 	   }
 	
-	
 	// 비밀번호 찾기_한솔
 	@RequestMapping("findPwd.me")
-	public String findPwd() {
+	public ModelAndView findPwd(@ModelAttribute Member m, ModelAndView mv, @RequestParam("id") String id, @RequestParam("email") String email) {
 		
+		System.out.println(m);
 		
-		return "FindPwd";
-	}
+		Member member = mService.findMemberPwd(m);
+		
+		System.out.println(member);
+		if(member != null) {
+			
+			// 메일 보내기 전에 발송도었따는  넘어갈 수 있으니까 if문 안에다가 메일 보내는 함수를 작성해준다..
+			
+			String host = "smtp.naver.com";
+			final String admin = "mac90004@naver.com";
+			final String password = "jhs120206+";
+		
+			String userEmail = member.getEmail();
+			int port = 465;
+			Properties props = new Properties();
+			props.put("mail.smtp.host", host);
+			props.put("mail.smtp.port", port);
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.ssl.enable", "true");
+			props.put("mail.smtp.ssl.trust", host);
+			
+			Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(admin,password);
+				}
+			});
+			try {
+				// 이메일 내용 구성
+				MimeMessage message = new MimeMessage(session);
+				message.setFrom(new InternetAddress(admin));
+				message.addRecipient(Message.RecipientType.TO, new InternetAddress(userEmail));
+				
+				//제목
+				message.setSubject("[TogetherTour]비밀번호 찾기 결과 이메일입니다.");
+				//내용
+				
+				// --------- 임시 비밀번호 생성 
+				// 처음 문자는 영어로
+				char pwSet1[] = new char[] {
+	                      'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+	                      'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+				};
+				
+				char pwSet2[] = new char[] {
+						'1','2','3','4','5','6','7','8','9','0',
+	                    'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+	                    'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
+				};
+				
+				int firstRan = (int)(Math.random()*(pwSet1.length));
+				char firstPw = pwSet1[firstRan];
+				String ranPw = "";
+				for(int i = 0; i < 10; i++) {
+					int ranIndex = (int)(Math.random()*(pwSet2.length));
+					ranPw += pwSet2[ranIndex];
+				}
+				
+//				 bcryptPasswordEncoder.encode(m.getPwd());
+//test
+				
+				String lastPw = firstPw + ranPw + "!"; // 비밀번호를 새로 생성해준
+				String lastPwd = bcryptPasswordEncoder.encode(lastPw);
+				member.setPwd(lastPwd); // 회원비밀번호 임시비밀번호로 변경
+				System.out.println("---멤버---" + member);
+				int result = mService.fakePwd(member);
+				
+				if(result > 0) {
+					System.out.println("임시비밀번호로 변경");
+				} else {
+					System.out.println("임시비밀번호로 변경실패");
+				}
+				message.setText("임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");
+				
+				
+				//이메일 보내기
+				Transport.send(message);
+				System.out.println("성공적으로 메일을 보냈습니다.");
+				
+			} catch (AddressException e) {
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				e.printStackTrace();
+			}
+					
+			mv.addObject("id",member.getId())
+	    	 .setViewName("FindPwdResult");
+	      }else {
+	         throw new MemberException("정보와 일치하는 아이디가 없습니다.");
+	      }
+	      return mv;
+	   }
+		
 	
-	// 회원가입
+
+
 	@RequestMapping("minsert.me")
-	public String memberInsert(@ModelAttribute Member m, 
-							   @RequestParam("studyGroupChk") int[] chkSname, @RequestParam("studyEtcNo") int[] etcSno, 
-							   @RequestParam("term") String[] t, @RequestParam("studyEtcName") String[] etcSname, Model model) {
-		
+	public String memberInsert(@ModelAttribute Member m, @ModelAttribute Preview p, @ModelAttribute StudyCategory sc, Model model) {
+		System.out.println(m);
 //		certifyNum
 //		certifyStatus : 인증상태
 
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		m.setPwd(encPwd);
-		
-		// 체크된 과목과 기간을 Preview pList에 담기
-		ArrayList<Preview> pList = new ArrayList<Preview>();
-		for(int i = 0; i < chkSname.length; i++) {
-			Preview p = new Preview();
-			
-			p.setId(m.getId());
-			p.setStudyNo(chkSname[i]);
-			
-			for(int j = 0; j <= i; j++) {
-				p.setSpTerm(t[j]);
-			}
-			pList.add(p);
-		}
-		
-		// 기타에 추가된 과목과 기간을 Preview pList에 담기
-		for(int i = 0; i < etcSname.length; i++) {
-			Preview p = new Preview();
-			
-			p.setId(m.getId());
-			p.setStudyNo(etcSno[i]);
-			p.setStudyEtc(etcSname[i]);
-			
-			for(int j = 0; j <= i; j++) {
-				p.setSpTerm(t[j]);
-			}
-			pList.add(p);
-		}
-		
-		int result = mService.insertMember(m, pList);
+	
+		int result = mService.insertMember(m);
 		Member loginUser = mService.memberLogin(m);
 		
 		if(result > 0) {
@@ -163,20 +246,6 @@ public class MemberController {
 		} else {
 			throw new MemberException("회원가입에 실패하였습니다.");
 		}
-	}
-	
-	// 마이페이지 이동
-	@RequestMapping("myPage.me")
-	public String myPage(@RequestParam("id") String userId, Model model) {
-		
-		ArrayList<Preview> pList = mService.getStudyList(userId);
-		System.out.println("pList : " + pList);
-		
-		if(pList != null) {
-			model.addAttribute("pList", pList);
-		}
-		
-		return "myPage";
 	}
 	
 	

@@ -7,12 +7,10 @@ public class MultiStudyGroup {
 	private String msgRole2;
 	private String msgRole3;
 	private int msgMet;
-	private int msgMetRole;
 	
 	public MultiStudyGroup() {}
-
-	public MultiStudyGroup(int sgNo, int msgNum, String msgRole1, String msgRole2, String msgRole3, int msgMet,
-			int msgMetRole) {
+	
+	public MultiStudyGroup(int sgNo, int msgNum, String msgRole1, String msgRole2, String msgRole3, int msgMet) {
 		super();
 		this.sgNo = sgNo;
 		this.msgNum = msgNum;
@@ -20,7 +18,6 @@ public class MultiStudyGroup {
 		this.msgRole2 = msgRole2;
 		this.msgRole3 = msgRole3;
 		this.msgMet = msgMet;
-		this.msgMetRole = msgMetRole;
 	}
 
 	public int getSgNo() {
@@ -71,18 +68,10 @@ public class MultiStudyGroup {
 		this.msgMet = msgMet;
 	}
 
-	public int getMsgMetRole() {
-		return msgMetRole;
-	}
-
-	public void setMsgMetRole(int msgMetRole) {
-		this.msgMetRole = msgMetRole;
-	}
-
 	@Override
 	public String toString() {
 		return "MultiStudyGroup [sgNo=" + sgNo + ", msgNum=" + msgNum + ", msgRole1=" + msgRole1 + ", msgRole2="
-				+ msgRole2 + ", msgRole3=" + msgRole3 + ", msgMet=" + msgMet + ", msgMetRole=" + msgMetRole + "]";
+				+ msgRole2 + ", msgRole3=" + msgRole3 + ", msgMet=" + msgMet + "]";
 	}
 	
 }

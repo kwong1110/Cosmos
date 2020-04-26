@@ -2,13 +2,10 @@ package com.kh.cosmos.f_studyGroup.model.dao;
 
 import java.util.ArrayList;
 
-import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
-import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
@@ -36,41 +33,6 @@ public class StudyGroupDAO {
 
 	public ArrayList<StudyGroup> getStudyGroupList(SqlSessionTemplate sqlSession, String id) {
 		return (ArrayList)sqlSession.selectList("studyGroupMapper.getStudyGroup", id);
-	}
-
-	public StudyGroupRecruit getStudyGroupRecruit(SqlSessionTemplate sqlSession, int sgno) {
-		return sqlSession.selectOne("studyGroupMapper.getStudyGroupRecruit", sgno);
-	}
-
-	public StudyGroupRecruit getGroupInfoForRec(SqlSessionTemplate sqlSession, int sgno) {
-		return sqlSession.selectOne("studyGroupMapper.getGroupInfoForRec", sgno);
-	}
-
-	public int getPartMemberNum(SqlSessionTemplate sqlSession, int sgno) {
-		return sqlSession.selectOne("studyGroupMapper.getPartMemberNum", sgno);
-	}
-
-	public int getIngRecCount(SqlSessionTemplate sqlSession, int sgno) {
-		return sqlSession.selectOne("studyGroupMapper.getIngRecCount", sgno);
-	}
-
-	public ArrayList<StudyGroupRecruit> getRecList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-	    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-	    
-		return (ArrayList)sqlSession.selectList("studyGroupMapper.getRecList", null, rowBounds);
-	}
-
-	public int getRecCompleteNum(SqlSessionTemplate sqlSession, int recNo) {
-		return sqlSession.selectOne("studyGroupMapper.getRecCompleteNum", recNo);
-	}
-
-	public int getRecListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("studyGroupMapper.getRecListCount");
-	}
-
-	public StudyGroup getStudyGroupInfo(SqlSessionTemplate sqlSession, int sgno) {
-		return sqlSession.selectOne("studyGroupMapper.getStudyGroupInfo", sgno);
 	}
 
 }

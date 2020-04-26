@@ -17,7 +17,7 @@
 	<script src='resources/js/plugins/fullcalendar/packages/daygrid/main.js'></script>
 	<script src='resources/js/plugins/fullcalendar/packages/timegrid/main.js'></script>
 	<script src='resources/js/plugins/fullcalendar/packages/list/main.js'></script>
-<!-- fullcalendar end -->
+<!-- 템플릿 custom end -->	
 <style>
 	.fc-event{
 		border-color: white;
@@ -31,7 +31,7 @@
 		font-family: 'Binggrae-Bold';
 		text-align: center;
 	}
-	/* 모달 스타일 */
+	
 	.modal-dialog.modal-80size {
 		width: 60%; 
 		height: auto; 
@@ -64,7 +64,6 @@
 	/* 테이블 */
 	table>tbody>tr>th{
 		letter-spacing: 0.1em;
-		white-space: nowrap;
 	}
 	table>tbody>tr>td{
 		line-height: 10px;
@@ -143,8 +142,7 @@
 	      	eventClick: function (info) {
 				$('#userId').text(info.event.extendedProps.name + "(" + info.event.extendedProps.userId + ")");
 				$('#job').text(info.event.extendedProps.job);
-					// 치환해준것을 다시 줄바꿈으로 바꾸는 과정
-				$('#record').val(info.event.extendedProps.record.replace(/<br>/gi,"\r\n"));
+				$('#record').val(info.event.extendedProps.record);
 				$('#title').text(info.event.title);
 				$('#branchName').text(info.event.extendedProps.branchName);
 				$('#fee').text(info.event.extendedProps.fee);
@@ -152,18 +150,8 @@
 										+ "(" + info.event.extendedProps.time + ")");
 				$('#maxPeople').text(info.event.extendedProps.maxPeople);
 				$('#attendPeople').text(info.event.extendedProps.attendPeople);
-				//$('#content').val(info.event.extendedProps.content);
+				$('#content').val(info.event.extendedProps.content);
 				$('#viewModal').modal("show");
-				
-				$('#content').summernote({
-					toolbar: false,
-					height: 800,                 	// 에디터 높이
-					minHeight: null,             	// 최소 높이  
-					maxHeight: null,             	// 최대 높이
-					lang: "ko-KR",					// 한글 설정
-				});
-				$('#content').summernote('code',info.event.extendedProps.content);
-				$('#content').summernote('disable');
 			},
 			//일정에 hover시 요약 (popover, tooltip을 못불러온다..)
 			/* eventRender: function(info) {
@@ -247,8 +235,7 @@
 											</tr>
 											<tr>
 												<td colspan="6" style="padding: 0;">
-													<div id="content"></div>
-													<c:import url="../a_common/summernote.jsp"/>
+													<textarea id="content" style="resize: none" name="lectureContent" readonly></textarea>
 												</td>
 											</tr>
 										</table>

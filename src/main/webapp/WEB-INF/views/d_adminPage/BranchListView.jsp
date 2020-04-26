@@ -70,7 +70,9 @@ table.inner td {
 									</tr>
 								</c:forEach> --%>
 								<tr th:if="${ #list.size(list)} > 0" th:each="list: ${list }">
-									
+									<td td:text="${list.branchNo }"></td>
+									<td></td>
+									<td></td>
 								</tr>
 								<tr th:unless="${#list.size(list) } > 0">
 									<td colspan="4">조회된 결과가 없습니다.</td>

@@ -8,6 +8,12 @@
 <title>Insert title here</title>
 <style>
 /*id_비밀번호 찾기*/
+
+/*불릿기호 없애기*/
+ ul{
+   list-style:none;
+   }
+
 .id_pw_srh {width:100%;overflow:hidden}
 .id_pw_srh li {float:left;width:50%}
 .id_pw_srh li .srh_box {padding:23px 41px 34px}
@@ -39,7 +45,7 @@
 				<!-- ID/PW 검색박스 -->
 				<div class="content">
 					<ul class="id_pw_srh">
-					<li>
+				 <li>  
 						<div class="srh_box ID">
 							<div class="srh_top">
 								<h2>ID찾기</h2>
@@ -58,7 +64,7 @@
 								</form>
 							</div>
 						</div>
-					</li>
+					</li> 
 					
 					<li>
 						<div class="srh_box PW">
@@ -67,15 +73,15 @@
 								회원가입시 등록한 정보로<br> 비밀번호를 재설정할 수 있습니다.
 							</div>
 							<div class="find">
-								<form name="pw_form" method="post" action="search_idpw.me" onsubmit="">
+								<form name="pw_form" method="post" action="findPwd.me" onsubmit="">
 								<input type="hidden" name="s_type" value="pw">
 											<p>
-												<label for="pw_name">ID</label> <input type="text" name="me_id" class="form-control" title="아이디 입력">
+												<label for="pw_name">ID</label> <input type="text" name="id" class="form-control" title="아이디 입력">
 											</p>
 											<p>
-												<label for="pw_mail">이메일</label> <input type="text" name="me_email" class="form-control" title="가입시 이메일 입력" placeholder="가입시 등록한 이메일">
+												<label for="pw_mail">이메일</label> <input type="text" name="email" class="form-control" title="가입시 이메일 입력" placeholder="가입시 등록한 이메일">
 											</p>
-										<button type="submit">찾기</button>
+										<button type="submit"  onclick="showPopup();">찾기</button>
 								</form>
 							</div>
 						</div>
@@ -119,6 +125,7 @@
 	    		</div><!-- /.modal-content -->
 		  	</div><!-- /.modal-dialog -->
 		</div><!-- /.modal -->
+		
 		<script>
 			$('#login').click(function(e){
 				e.preventDefault();
@@ -157,5 +164,13 @@
 				alert('<%=request.getParameter("msg")%>');
 			<% } %>
 		</script>
+<!-- 		<script>
+	
+		function showPopup() {
+			window.open("/views/b_member/FindPwdResult.jsp", "a", "width=400, height=300, left=100, top=50");
+		}
+
+
+		</script> -->
 </body>
 </html>

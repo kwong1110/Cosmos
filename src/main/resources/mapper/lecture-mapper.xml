@@ -9,7 +9,7 @@
     		join member using(id)
     		join branch using(branch_no)
 		where lecture_status='OPEN'
-		order by lecture_date desc
+		order by lecture_Start desc
 	</select>
 	
 	<resultMap id="lectureResultSet" type="Lecture">
@@ -44,8 +44,7 @@
 		from lecture
     		join member using(id)
     		join branch using(branch_no)
-    	where lecture_status != 'DELETE'
-		order by lecture_date desc
+		order by lecture_Start desc
 	</select>
 	
 	<select id="getListCount" resultType="_int">
@@ -61,28 +60,5 @@
     		join member using(id)
     		join branch using(branch_no)
     	where LECTURE_NO=#{ lNo }
-	</select>
-	
-	<update id="updateLecture">
-		update lecture
-		set lecture_status=#{lectureStatus}
-		where lecture_no=#{lectureNo}
-	</update>
-	
-	<select id="getMyLectureList" resultMap="lectureResultSet">
-		select LECTURE_NO, LECTURE_RECORD, LECTURE_TITLE, LECTURE_CONTENT, LECTURE_FEE, MAXPEOPLE, 
-       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_TIME, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
-       		   LECTURE_END, LECTURE_START, NAME, BRANCH_NAME
-		from lecture
-    		join member using(id)
-    		join branch using(branch_no)
-		where ID=#{loginUserId} and lecture_status != 'DELETE'
-		order by lecture_date desc
-	</select>
-	
-	<select id="getMyListCount" resultType="_int">
-		select count(*)
-		from lecture
-		where ID=#{loginUserId}
 	</select>
 </mapper>

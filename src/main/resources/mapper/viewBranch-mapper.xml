@@ -2,38 +2,27 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="viewBranchMapper">
 
-	<!-- viewBranchList -->
-	<select id="getListCount" resultType="_int">
-		select count(*)
-		from branch
-	</select>
-	<select id="selectBranchList" resultMap="branchResultSet">
-		select *
-		from branch
-		order by branch_no
-	</select>
-	<resultMap id="branchResultSet" type="ViewBranch">
-		<id property="branchNo" column="BRANCH_NO"/>
-		<result property="branchName" column="BRANCH_NAME"/>
-		<result property="branchAddress" column="BRANCH_ADDRESS"/>
-		<result property="branchTel" column="BRANCH_TEL"/>
-		<result property="branchContent" column="BRANCH_CONTENT"/>
-		<result property="branchTime" column="BRANCH_TIME"/>
-		<result property="branchRest" column="BRANCH_REST"/>
-	</resultMap>
-	
-	<!-- viewBranchDetail -->
-	<select id="selectBranch" parameterType="_int" resultMap="branchResultSet">
-		select *
-		from branch
-		where branch_no = #{branchNo}
-	</select>
-  
-  <!-- 지점 등록 -->
+	<!-- 지점 등록 -->
 	<!-- 지점명 중복체크 -->
 	<select id="checkNameDup" parameterType="string" resultType="_int">
 		select count(*)
 		from branch
-		where branch__name=#{branch_Name}
+		where branch_name=#{branch_Name}
 	</select>
+	
+
+<!-- 	
+	<insert id="insertMaster" parameterType="ViewBranch">
+		insert into branch
+		values(seq_masterid.nextval, #{branch_Name}, #{branch_Address}, #{branch_Tel},#{branch_Content}, #{branch_Time}, #{branch_Rest}
+	</insert>	
+-->	
+	<insert id="insertMaster" parameterType="Master">
+		insert into Master
+		values(
+		  seq_masterid.nextval,default, seq_bid.nextval
+		)
+	</insert>
+
+
 </mapper>

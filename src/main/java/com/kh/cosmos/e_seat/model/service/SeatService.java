@@ -13,13 +13,9 @@ public interface SeatService {
 
 	ArrayList<ViewBranch> selectBranchList(PageInfo pi);
 
-	ArrayList<Seat> selectSeatList(Seat s);
+	ArrayList<Seat> selectSeatList();
 
 	ArrayList<SortTable> selectSortList();
-
-	int seatBuy(Seat s);
-
-	
 
 	
 

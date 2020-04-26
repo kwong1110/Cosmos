@@ -24,7 +24,7 @@
 	<select id="selectSeatList" resultMap="seatResultSet">
 		select * 
 		from reser
-		where reser_yn='Y' and reser_day=#{reserDay}
+		where reser_yn='N'
 		<!-- order by reser_no desc -->
 	</select>
 	
@@ -36,12 +36,9 @@
 		<result property="endTime" column="END_TIME"/>
 		<result property="reserYn" column="RESER_YN"/>
 		<result property="seatNo" column="SEAT_NO"/>
+		<result property="reserFee" column="RESER_FEE"/>
 		<result property="id" column="ID"/>
 		<result property="branchNo" column="BRANCH_NO"/>
-		<result property="reserSort" column="RESER_SORT"/>
-		<result property="finishDay" column="FINISH_DAY"/>
-		<result property="reserType" column="RESER_TYPE"/>
-		<result property="totalFee" column="TOTAL_FEE"/>
 	
 	</resultMap>
 	
@@ -55,12 +52,5 @@
 		<result property="reserFee" column="RESER_FEE"/>
 	</resultMap>
 	
-	<insert id="seatBuy">
-		insert into reser
-		values (seq_reserno.nextval, #{reserPeople},
-				#{reserDay}, #{startTime}, #{endTime}, 'Y', #{seatNo}, #{id}, #{branchNo},
-				#{reserSort}, <if test="reserType.equals('시간권')"> #{finishDay},</if> <if test="reserType.equals('7일권')"> #{finishDay} + 7,</if>
-				<if test="reserType.equals('30일권')"> #{finishDay} + 30,</if> #{reserType}, #{totalFee})
-	</insert>
 	
 </mapper>

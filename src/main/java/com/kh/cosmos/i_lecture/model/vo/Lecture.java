@@ -21,15 +21,12 @@ public class Lecture {
 	private Date lectureStart;
 	private String name;
 	private String branchName;
-	private String phone;
-	private String email;
-	
 	
 	public Lecture() {}
 
 	public Lecture(int lectureNo, String lectureRecord, String lectureTitle, String lectureContent, int lectureFee,
 			int maxpeople, int attendpeople, Date lectureDate, String lectureTime, String lectureStatus, String id,
-			int branchNo, String lectureJob, Date lectureEnd, Date lectureStart, String name, String branchName, String phone, String email) {
+			int branchNo, String lectureJob, Date lectureEnd, Date lectureStart, String name, String branchName) {
 		super();
 		this.lectureNo = lectureNo;
 		this.lectureRecord = lectureRecord;
@@ -48,8 +45,6 @@ public class Lecture {
 		this.lectureStart = lectureStart;
 		this.name = name;
 		this.branchName = branchName;
-		this.phone = phone;
-		this.email = email;
 	}
 	
 	public int getLectureNo() {
@@ -187,22 +182,6 @@ public class Lecture {
 	public void setBranchName(String branchName) {
 		this.branchName = branchName;
 	}
-	
-	public String getPhone() {
-		return phone;
-	}
-
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
 
 	@Override
 	public String toString() {
@@ -210,6 +189,6 @@ public class Lecture {
 				+ ", lectureContent=" + lectureContent + ", lectureFee=" + lectureFee + ", maxpeople=" + maxpeople
 				+ ", attendpeople=" + attendpeople + ", lectureDate=" + lectureDate + ", lectureTime=" + lectureTime
 				+ ", lectureStatus=" + lectureStatus + ", id=" + id + ", branchNo=" + branchNo + ", lectureJob="
-				+ lectureJob + ", lectureEnd=" + lectureEnd + ", lectureStart=" + lectureStart + "\n이름(조인) : " + name + "지점이름(조인)" + branchName + "email" + email + "phone" + phone + "]";
+				+ lectureJob + ", lectureEnd=" + lectureEnd + ", lectureStart=" + lectureStart + "<br>이름(조인) : " + name + "지점이름(조인)" + branchName + "]";
 	}
 }
