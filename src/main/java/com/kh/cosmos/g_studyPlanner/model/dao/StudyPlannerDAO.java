@@ -14,4 +14,8 @@ public class StudyPlannerDAO {
 		return (ArrayList)sqlSession.selectList("studyPlannerMapper.getMyPlannerList");
 	}
 
+	public int todayCheck(SqlSessionTemplate sqlSession, StudyPlanner sp) {
+		return sqlSession.update("studyPlannerMapper.todayCheck", sp);
+	}
+
 }

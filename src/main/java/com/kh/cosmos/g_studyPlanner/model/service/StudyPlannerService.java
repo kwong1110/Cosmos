@@ -8,4 +8,6 @@ public interface StudyPlannerService {
 
 	ArrayList<StudyPlanner> selectList();
 
+	int todayCheck(StudyPlanner sp);
+
 }

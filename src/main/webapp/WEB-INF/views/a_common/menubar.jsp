@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/bootstrap-datepicker.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/datepicker/daterangepicker.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/sweetalert/sweetalert.css">
+	<!-- 구글 아이콘 -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 	<!-- cosmos css -->
 <link rel="stylesheet" href="${contextPath}/resources/css/common.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/layout-style.css">

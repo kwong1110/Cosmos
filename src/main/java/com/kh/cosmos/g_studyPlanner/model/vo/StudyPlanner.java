@@ -7,7 +7,7 @@ public class StudyPlanner {
 	private String planTitle;
 	private String planContent;
 	private String planMenu;
-	private String emphasis;
+	private String todayCheck;
 	private int likeCount;
 	private int hit;
 	private Date planStart;
@@ -22,14 +22,14 @@ public class StudyPlanner {
 	
 	public StudyPlanner() {}
 
-	public StudyPlanner(int planNo, String planTitle, String planContent, String planMenu, String emphasis,
+	public StudyPlanner(int planNo, String planTitle, String planContent, String planMenu, String todayCheck,
 			int likeCount, int hit, Date planStart, Date createDate, String planStatus, String openStatus, String id,
 			int studyNo, String studyName, Date planEnd) {
 		this.planNo = planNo;
 		this.planTitle = planTitle;
 		this.planContent = planContent;
 		this.planMenu = planMenu;
-		this.emphasis = emphasis;
+		this.todayCheck = todayCheck;
 		this.likeCount = likeCount;
 		this.hit = hit;
 		this.planStart = planStart;
@@ -74,12 +74,12 @@ public class StudyPlanner {
 		this.planMenu = planMenu;
 	}
 
-	public String getEmphasis() {
-		return emphasis;
+	public String getTodayCheck() {
+		return todayCheck;
 	}
 
-	public void setEmphasis(String emphasis) {
-		this.emphasis = emphasis;
+	public void setTodayCheck(String todayCheck) {
+		this.todayCheck = todayCheck;
 	}
 
 	public int getLikeCount() {
@@ -165,7 +165,7 @@ public class StudyPlanner {
 	@Override
 	public String toString() {
 		return "StudyPlanner [planNo=" + planNo + ", planTitle=" + planTitle + ", planContent=" + planContent
-				+ ", planMenu=" + planMenu + ", emphasis=" + emphasis + ", likeCount=" + likeCount + ", hit=" + hit
+				+ ", planMenu=" + planMenu + ", todayCheck=" + todayCheck + ", likeCount=" + likeCount + ", hit=" + hit
 				+ ", planStart=" + planStart + ", createDate=" + createDate + ", planStatus=" + planStatus
 				+ ", openStatus=" + openStatus + ", id=" + id + ", studyNo=" + studyNo + ", planEnd=" + planEnd
 				+ ", studyName=" + studyName + "]";
