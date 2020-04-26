@@ -60,4 +60,9 @@ public class StrudyPlannerController {
 		//System.out.println(sp);
 		int result = spService.todayCheck(sp);
 	}
+	
+	@RequestMapping("planInsert.sp")
+	public void planInsert() {
+		//return "";
+	}
 }

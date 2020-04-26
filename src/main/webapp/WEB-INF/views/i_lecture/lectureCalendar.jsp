@@ -211,7 +211,7 @@
 			                    </div>
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
-			                        <form action="lectureAttendApply.le" method="post" onsubmit="">
+			                        <form action="" method="post" onsubmit="">
 				                        <table class="table">
 											<tr>
 												<th colspan="2">이름</th>
