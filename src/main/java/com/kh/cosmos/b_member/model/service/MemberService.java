@@ -13,6 +13,12 @@ public interface MemberService {
 	ArrayList<StudyCategory> selectStudyCategoryList(StudyCategory sc);
 
 	Member findMemberId(Member m);
+	
+	Member findMember();
+
+	Member findMemberPwd(Member m);
+
+	int fakePwd(Member member);
 
   int insertMember(Member m, ArrayList<Preview> pList);
 

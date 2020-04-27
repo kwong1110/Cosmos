@@ -52,5 +52,22 @@ public class MemberServiceImpl implements MemberService {
 	public ArrayList<Preview> getStudyList(String id) {
 		return mDAO.getStudyList(sqlSession, id);
 	}
+  
+  @Override
+	public Member findMember() {
+		return mDAO.selectFindMember(sqlSession);
+	}
+
+	@Override
+	public Member findMemberPwd(Member m) {
+		// TODO Auto-generated method stub
+		return  mDAO.selectFindMemberPwd(sqlSession, m);
+	}
+
+	@Override
+	public int fakePwd(Member m) {
+		// TODO Auto-generated method stub
+		return mDAO.updatePwd(sqlSession, m );
+	}
 	
 }
