@@ -180,7 +180,8 @@
 					<div><span class="cosmos">코스모스</span>에 오신 것을 환영합니다.</div>
 					<div id="login" class="btn btn-default">로그인</div>
 					<div class="user-menu">
-						<div id="find" class="find"><a href=""><span class="glyphicon glyphicon-search" aria-hidden="true"></span>아이디 &middot; 비밀번호 찾기</a></div> 
+						<div id="find" class="find">
+							<a href="find.me"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>아이디 &middot; 비밀번호 찾기</a></div> 
 						<div id="enroll" class="enroll"><a href="agree.me"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>회원가입</a></div>
 					</div>
 				</div>

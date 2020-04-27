@@ -39,12 +39,12 @@
 						<table class="inner">
 							<tr>
 								<th>지점명</th>
-								<td>
-									<input type="text" name ="name" id ="branchName" placeholder="지점명을 입력하세요" style="padding:5px; width:50%";>
-									 <span class="guide ok" style="color:gray">*이 지점명은 사용 가능합니다.</span>
-					                 <span class="guide error">*이 지점명은 사용 불가능합니다.</span>
-					                 <input type="hidden" name="nameDuplicateCheck" value="0">
-								</td>
+							    <td>
+				                	<input type="text" name="branchName" id="branchName" placeholder="지점명을 입력하세요" style="padding:5px; width:50%";>
+				                    <span class="guide ok"> 이 지점명은 사용 가능합니다.</span>
+				             		<span class="guide error">이 지점명은 사용 불가능합니다.</span>
+				        			<input type="hidden" name="nameDuplicateCheck" value="0">
+				               </td>
 							</tr>
 						 	<tr>
                					<th>우편번호</th>
@@ -118,7 +118,7 @@
                }
 
                // 사용자가 값을 주소를 선택해서 레이어를 닫을 경우
-               // 다음 주소록 레이어를 완전히 종료 시킨다.
+               // 다음 주소록 레이어를 완전히 종료 시킨다.	
                ,
                onclose : function(state) {
                   if (state === "COMPLETE_CLOSE") {
@@ -153,7 +153,7 @@
       }
    </script>
    
-   <script>
+    <script>
 	     
          // 지점명 중복 확인	
          $('#branchName').on('keyup', function(){
@@ -168,7 +168,7 @@
       	   
       	   $.ajax({
       		   url: 'dupName.ap',
-      		   data: {name:branchName},
+      		   data: {masterName:branchName},
       		   success: function(data){
       			   if(data == 'true'){ //print로 보냈으므로 boolean아닌 String으로 넘어옴 그래서 user라는 아이디가없음에도 에러가뜸
       				   $('.guide.error').hide();
@@ -182,19 +182,19 @@
       		   }
       	   });
          }); 
-   </script>
-	   <script>
-   	function validate(){
-   		if($('#nameDuplicateCheck').val() == 0 ){
-   			alert('사용 가능한 지점명을입력해 주세요.');
-   			$('branchName').focus();
-   			return false;
-		} else {
-			('#joinForm').submit();
-		}
-   	}
-   </script>
-	
+    </script>
+	<script>
+	   	function validate(){
+	   		if($('#nameDuplicateCheck').val() == 0 ){
+	   			alert('사용 가능한 지점명을입력해 주세요.');
+	   			$('branchName').focus();
+	   			return false;
+			} else {
+				('#joinForm').submit();
+			}
+	   	}
+    </script>
+
 	
 </body>
 </html>
