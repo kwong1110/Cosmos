@@ -179,8 +179,8 @@ public class StudyGroup {
 		return "StudyGroup [sgNo=" + sgNo + ", sgName=" + sgName + ", sgGoal=" + sgGoal + ", sgContent=" + sgContent
 				+ ", sgStatus=" + sgStatus + ", branchNo=" + branchNo + ", id=" + id + ", studyNo=" + studyNo
 				+ ", studyName=" + studyName + ", msgNum=" + msgNum + ", msgRule1=" + msgRule1 + ", msgRule2="
-				+ msgRule2 + ", msgRule3=" + msgRule3 + ", msgMet=" + msgMet + ", msgMetRule=" + msgMetRule + "]";
+				+ msgRule2 + ", msgRule3=" + msgRule3 + ", msgMet=" + msgMet + ", msgMetRule=" + msgMetRule
+				+ ", finalRecDate=" + finalRecDate + "]";
 	}
-	
 	
 }

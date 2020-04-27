@@ -231,8 +231,38 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping("updateGroup.sg")
-	public String UpdateGroup(@ModelAttribute StudyGroup sg) {
+	public String UpdateGroup(@ModelAttribute StudyGroup sg, @RequestParam("msgSwitch") String msgSwitch) {
+		System.out.println(sg);
+		System.out.println(msgSwitch);
 		
-		return "redirect:myGroup.mp";
+		if(sg.getMsgRule2().equals("")) sg.setMsgRule2(null);
+		if(sg.getMsgRule3().equals("")) sg.setMsgRule3(null);
+		
+		int result;
+		//일회그룹에서 다회그룹으로 변경되었다면 우선 다회그룹테이블에 데이터를 insert해야됨.
+		if(sg.getSgStatus().equals("N") && msgSwitch.equals("on")) {
+			int insertResult = sgService.insertMultiGroup(sg);
+			
+			if(insertResult > 0) {
+				result = sgService.updateGroup(sg);
+			} else {
+				throw new StudyGroupException("스터디 그룹 상태 전환에 실패하였습니다. (일회 -> 다회)");
+			}
+		} else {
+			result = sgService.updateGroup(sg);
+		}
+		
+		if(result > 0) {
+			result = sgService.updateMultiGroup(sg);
+			
+			if(result > 0) {
+				return "redirect:myGroup.mp";
+			} else {
+				throw new StudyGroupException("스터디 그룹 수정에 실패하였습니다. - updateMultiGroup");
+			}
+		} else {
+			throw new StudyGroupException("스터디 그룹 수정에 실패하였습니다. - updateGroup");
+		}
+		
 	}
 }

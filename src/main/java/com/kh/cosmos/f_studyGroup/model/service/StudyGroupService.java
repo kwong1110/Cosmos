@@ -35,5 +35,11 @@ public interface StudyGroupService {
 	int getRecListCount();
 
 	StudyGroup getStudyGroupInfo(int sgno);
+
+	int updateGroup(StudyGroup sg);
+
+	int insertMultiGroup(StudyGroup sg);
+
+	int updateMultiGroup(StudyGroup sg);
 	
 }

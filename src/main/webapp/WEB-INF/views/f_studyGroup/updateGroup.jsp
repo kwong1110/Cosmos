@@ -35,8 +35,8 @@
 	
 	.helpBtn{background: rgb(23, 149, 95); border: 0; outline: 0; width: 30px; height: 30px; padding: 3px 11px; margin: 5px; font-size: 13px; border-radius: 100%; color: #FFF;}
 	
-	#minusIl,#pluseIl{width:32px; height:32px; color:#17955F; border-radius:50%; border:1.5px solid #17955F; background:transparent;}
-	#minusIl:hover,#pluseIl:hover{color:white; background:#17955F;}
+	#minusIl,#pluseIl{width:32px; height:32px; border-radius:50%; color:white; border:1.5px solid #17955F; background:#17955F;}
+	#minusIl:hover,#pluseIl:hover{color:#17955F; background:transparent;}
 	
 </style>
 
@@ -65,6 +65,7 @@
 							<td>
 								<label id="sgName" name="sgName">${ group.sgName }</label>
 								<input type="hidden" name="sgNo" value="${ group.sgNo }">
+								<input type="hidden" name="sgStatus" value="${ group.sgStatus }">
 							</td>
 						</tr>
 						<tr>
@@ -109,10 +110,10 @@
 							<td>
 								<select class="form-control" id="branchNo" name="branchNo">
 									 <c:forEach var="item" items="${ branchList }">
-									 	<c:if test="${ item.branchNo eq group.msgNum }">
+									 	<c:if test="${ item.branchNo eq group.branchNo }">
 									 		<option value="${ item.branchNo }" selected>${ item.branchName }</option>
 									 	</c:if>
-									 	<c:if test="${ item.branchNo ne group.msgNum }">
+									 	<c:if test="${ item.branchNo ne group.branchNo }">
 									 		<option value="${ item.branchNo }">${ item.branchName }</option>
 									 	</c:if>
 									 </c:forEach>
@@ -164,12 +165,13 @@
 								<label id="optionLabel">장기 그룹 옵션&nbsp;&nbsp;</label>
 							</td>
 							<td style="display:inline-block; vertical-align:middle;">
+								<input type="hidden" id="msgSwitch" name="msgSwitch">
 								<div style="display:inline-block; vertical-align:middle;">
 									<c:if test="${ group.sgStatus eq 'Y' }">
-										<input class="tgl tgl-skewed" id="cb3" name="msgSwitch" type="checkbox" checked/>
+										<input class="tgl tgl-skewed" id="cb3" type="checkbox" checked disabled/>
 									</c:if>
 									<c:if test="${ group.sgStatus ne 'Y' }">
-										<input class="tgl tgl-skewed" id="cb3" name="msgSwitch" type="checkbox"/>
+										<input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
 									</c:if>
 								    <label class="tgl-btn" data-tg-off="OFF" data-tg-on="ON" for="cb3"></label>
 							    </div>
@@ -241,6 +243,10 @@
 						<tr class="hiddenTr">
 							<td class="tableLabel">그룹 규칙</td>
 							<td>
+								<input type="hidden" id="msgRule1" name="msgRule1">
+								<input type="hidden" id="msgRule2" name="msgRule2">
+								<input type="hidden" id="msgRule3" name="msgRule3">
+								
 								<ul id="RuleUl">
 									<c:choose>
 										<c:when test="${!empty group.msgRule1 }">
@@ -253,7 +259,7 @@
 											</c:if>
 										</c:when>
 										<c:otherwise>
-											<li><input type="text" class="form-control" style="margin:5px;"></li>
+											<li><input type="text" class="form-control ruleli" style="margin:5px;"></li>
 										</c:otherwise>
 									</c:choose>
 								</ul>
@@ -451,13 +457,30 @@
 			$('#msgMetRule').val(str);
 			
 			for(var i = 0; i < $('#RuleUl').children().length; i++) {
-				if($('#ruleli').eq(i).val().trim() == '') {
-					
+				if(i == 0) {
+					if($('.ruleli').eq(i).val().trim() == '') {
+						$('.ruleli').eq(i).val($('.ruleli').eq(i+1).val());
+						$('.ruleli').eq(i+1).val('');
+						$('#RuleUl').children().eq(i+1).remove();
+					}
+				} else {
+					if($('.ruleli').eq(i).val().trim() != '' && $('.ruleli').eq(i-1).val().trim() == '') {
+						$('.ruleli').eq(i-1).val($('.ruleli').eq(i).val());
+						$('.ruleli').eq(i).val('');
+						$('#RuleUl').children().eq(i).remove();
+					}
 				}
 			}
 			
-			if($('#msgNum').val().trim() != '' && $('#sgGoal').val().trim() != '' && $('#sgContent').val().trim() != '' && str != '' ) {
-				
+			for(var i = 0; i < $('#RuleUl').children().length; i++) {
+				$('#msgRule' + (i+1)).val($('.ruleli').eq(i).val());
+			}
+			
+			if($('#cb3').is(':checked')) $('#msgSwitch').val('on');
+			else $('#msgSwitch').val('off');
+			
+			if($('#msgNum').val().trim() != '' && $('#sgGoal').val().trim() != '' && $('#sgContent').val().trim() != '' && $('.ruleli').eq(0).val().trim() != '' && str != '' ) {
+				return true;
 			}
 			
 			return false;
