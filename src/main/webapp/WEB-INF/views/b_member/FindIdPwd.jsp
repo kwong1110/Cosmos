@@ -164,13 +164,11 @@
 				alert('<%=request.getParameter("msg")%>');
 			<% } %>
 		</script>
-<!-- 		<script>
+		<script>
 	
 		function showPopup() {
-			window.open("/views/b_member/FindPwdResult.jsp", "a", "width=400, height=300, left=100, top=50");
+			window.open("", "a", "width=400, height=300, left=100, top=50");
 		}
-
-
-		</script> -->
+		</script>
 </body>
 </html>
