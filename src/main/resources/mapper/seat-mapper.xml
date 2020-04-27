@@ -22,10 +22,19 @@
 	</resultMap>
 	
 	<select id="selectSeatList" resultMap="seatResultSet">
-		select * 
-		from reser
-		where reser_yn='Y' and reser_day=#{reserDay}
-		<!-- order by reser_no desc -->
+		<![CDATA[
+			select * 
+			from reser
+			where reser_yn='Y' and reser_day=#{reserDay}  
+				  			   and ((start_time >= #{startTime} and start_time < #{endTime}) 
+        					   or (end_time > #{startTime} and end_time <= #{endTime})) 
+				  			   and branch_no=#{branchNo}
+		]]>
+							  <!--  and ((start_time between #{startTime} and #{endTime}) 
+				  			   or (end_time between #{startTime} and #{endTime}))  -->
+			<!--
+	      and ((start_time between #{start_time} and #{end_time}) and (end_time between #{start_time} and #{end_time}) and start_time != #{start_time} and end_time != #{end_time}) -->
+			<!-- order by reser_no desc -->
 	</select>
 	
 	<resultMap id="seatResultSet" type="Seat">
@@ -62,5 +71,6 @@
 				#{reserSort}, <if test="reserType.equals('시간권')"> #{finishDay},</if> <if test="reserType.equals('7일권')"> #{finishDay} + 7,</if>
 				<if test="reserType.equals('30일권')"> #{finishDay} + 30,</if> #{reserType}, #{totalFee})
 	</insert>
+
 	
 </mapper>

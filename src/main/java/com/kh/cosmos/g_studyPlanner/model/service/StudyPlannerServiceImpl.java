@@ -23,4 +23,9 @@ public class StudyPlannerServiceImpl implements StudyPlannerService {
 	public ArrayList<StudyPlanner> selectList() {
 		return spDAO.selectList(sqlSession);
 	}
+
+	@Override
+	public int todayCheck(StudyPlanner sp) {
+		return spDAO.todayCheck(sqlSession, sp);
+	}
 }

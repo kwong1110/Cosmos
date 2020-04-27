@@ -47,8 +47,11 @@ function checkEmptyValues(){
 		var msg = $(arguments[i]).attr('placeholder');
 			
 			// 보통 9글자라 생각하고 넉넉히 8글자 이하이면 입력해주세요.를 붙임.
-		if(msg.length < 8){
-			msg += "을/를 입력해주세요."
+			// radio,checkbox 등 placeholder가 없는 버튼을 위해 msg!=null 추가.
+		if(msg != null){
+			if(msg.length < 8){
+				msg += "을/를 입력해주세요."
+			}
 		}
 		
 		if($(arguments[i]).val().trim().length == 0 && 
@@ -73,7 +76,7 @@ function checkEmptyValues(){
 				msg = $(arguments[i]).parent().prev().text();
 				msg.split('●');
 				sweetAlert({
-					title: msg + "선택해주세요!", 
+					title: msg + "을/를 선택해주세요!", 
 					type: "error"
 				});
 				return false;

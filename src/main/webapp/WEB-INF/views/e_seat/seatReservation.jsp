@@ -53,13 +53,16 @@
 	.modal-content.modal-80size {height: auto; min-height: 90%;}
 	.modal {text-align: center;}
 	@media screen and (min-width: 768px) {
-  	.modal:before {display: inline-block; vertical-align: middle; content: " ";height: 95%;}
+  	.modal:before {display: inline-block; vertical-align: middle; content: " "; height: 95%;}
 	}
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
 	
 	 .seatOn{
 		background-color: red !important;
 	} 
+	.tooltip-inner{background-color:black !important; text-align: start !important;}
+
+	
 </style>
 </head>
 <body><!-- onload="brAddress();" -->
@@ -81,11 +84,16 @@
 					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
 					        					<div style="margin-left:38px;">
 					        						<b>
-					        							코스모스 스터디센터 ${ s.branchName }
-					        						</b>
+					        						코스모스 스터디센터 ${ s.branchName }
+					        						</b>  
 					        					</div>
-					        					<div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
-					        						<input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchNo }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
+					        					<div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;" data-toggle="tooltip" data-placement="top" title="${ s.branchAddress }">
+					        						<input type="radio" class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchNo }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
+					        					<script>
+					        					$(function () {
+					        						$('[data-toggle="tooltip"]').tooltip();
+					        					})
+					        					</script>
 					        					</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
@@ -370,26 +378,28 @@
 						            						reserDate = $('#daterange1').val();
 						            						reserPeople = 1;
 						            					}
+						            					console.log(strMoney[0]);
 						            				var	chooseSeat = $("#chooseSeat").text();
-						            				var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
+						            				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat};
 						            				 $.ajax({
 						            					url : "overlap.se",
 						            					type : "post",
 						            					dataType: 'json',
-						            					data: dkanrjsk,
+						            					data: reserInfo,
 						            					success : function(data){
 						            						e.preventDefault();
 						            						 //console.log(data);
 							            					if(data.length > 0){ 
 							            						for(var i in data){
-								            						console.log(data[i].reserSort + "-" + data[i].seatNo);
+							            							/* $('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().removeClass('seatOn'); */
+								            						 /* console.log(data[i].reserSort + "-" + data[i].seatNo);  */
 																	if($('#'+ data[i].reserSort + "-" + data[i].seatNo).val()){
 																		$('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().addClass('seatOn');
+																		 /* $('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().text(data[i].id);  */
 																	}
 							            						}
 							            					}
 						            						
-							            					
 								            				$('#seatModal').modal("show");
 						            					}
 						            					 
@@ -454,38 +464,50 @@
 					    		var chooseSeat = $(this).children().val();
 					    		$("#chooseSeat").text(chooseSeat);
 					    		
-					    		var check = confirm(chooseSeat + "자리를 선택하시겠습니까?");
-					    		if(check == true){
-					    			$('#seatModal').modal("hide");
-					    			var price =  $('#chooseSeat').text();
-					    			var strPrice = price.split('-');
-					    			
-					    			var fullDate = $('#daterange').val();
-					    			var startDate = fullDate.substr(0,10);
-					    			var startTime = fullDate.substr(11,2);
-					    			var endDate = fullDate.substr(18,11).trim();
-					    			var endTime = fullDate.substr(29,3).trim();
+					    		swal({
+					    			title:"자리를 선택하시겠습니까?",
+					    			type:"warning",
+					    			showCancelButton: !0,
+					    			confirmButtonColor:"#DD6B55",
+					    			confirmButtonText:"선택",
+					    			closeOnConfirm: !0
+					    			},
+					    			function(){
+					    				reserConfirm();
+					    			}	
+					    		)
+					    	});
+					    	 
+					    	function reserConfirm(){
+					    		$('#seatModal').modal("hide");
+				    			var price =  $('#chooseSeat').text();
+				    			var strPrice = price.split('-');
+				    			
+				    			var fullDate = $('#daterange').val();
+				    			var startDate = fullDate.substr(0,10);
+				    			var startTime = fullDate.substr(11,2);
+				    			var endDate = fullDate.substr(18,11).trim();
+				    			var endTime = fullDate.substr(29,3).trim();
 
-					    			var fullDate1 = $('#daterange1').val();
-					    			var startDate1 = fullDate1.substr(0,10);
-					    			var startTime1 = fullDate1.substr(11,2);
-					    			
-					    			<c:forEach var="se" items="${ sortList }">
-					    				 if(strPrice[0] == "${se.reserSort}"){
-					    					result = (endTime-startTime) * "${se.reserFee}"
-						    					if("${se.reserSort}" == 'Z'){
-						    						console.log($("input:radio[name='period']:checked").val());
-						    						if($("input:radio[name='period']:checked").val() == '7일권'){
-						    							result = "${se.reserFee}"
-						    						} else if($("input:radio[name='period']:checked").val() == '30일권'){
-						    							result = "${se.reserFee}" * 3 + 5000;
-						    						}
-						    					}
-					    				};		
-					    			</c:forEach>
-					    				$('#userPrice').text(result+'원');
-					    		}
-					    	}); 
+				    			var fullDate1 = $('#daterange1').val();
+				    			var startDate1 = fullDate1.substr(0,10);
+				    			var startTime1 = fullDate1.substr(11,2);
+				    			
+				    			<c:forEach var="se" items="${ sortList }">
+				    				 if(strPrice[0] == "${se.reserSort}"){
+				    					result = (endTime-startTime) * "${se.reserFee}"
+					    					if("${se.reserSort}" == 'Z'){
+					    						if($("input:radio[name='period']:checked").val() == '7일권'){
+					    							result = "${se.reserFee}"
+					    						} else if($("input:radio[name='period']:checked").val() == '30일권'){
+					    							result = "${se.reserFee}" * 3 + 5000;
+					    						}
+					    					}
+				    				};		
+						    			</c:forEach>
+						    				$('#userPrice').text(result+'원');
+			    			
+		    					};
 					    </script>
 		        	</form>
 	    </div><!-- /.modal-content -->
@@ -514,34 +536,34 @@
 	
 	<!-- 결제부분 -->
 		<script>
-			var money=$('#userPrice').text();
-			var strMoney=money.split('원');
-			var branchNo = $("input:radio[name='branchAddress']:checked").val();
-			var reserType = $("input:radio[name='period']:checked").val();
-			var reserDate;
-			var reserPeople;
-				if($("input:radio[name='period']:checked").val() == '시간권'){
-					reserDate = $('#daterange').val();
-					reserPeople = $("input:radio[name='reserPeople']:checked").val();
-				}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
-					reserDate = $('#daterange1').val();
-					reserPeople = 1;
-				}
-			var	chooseSeat = $("#chooseSeat").text();
-			
-			var dkanrjsk={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
-			
 			function buy(){
+				var money=$('#userPrice').text();
+				var strMoney=money.split('원');
+				var branchNo = $("input:radio[name='branchAddress']:checked").val();
+				var reserType = $("input:radio[name='period']:checked").val();
+				var reserDate;
+				var reserPeople;
+					if($("input:radio[name='period']:checked").val() == '시간권'){
+						reserDate = $('#daterange').val();
+						reserPeople = $("input:radio[name='reserPeople']:checked").val();
+					}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
+						reserDate = $('#daterange1').val();
+						reserPeople = 1;
+					}
+				var	chooseSeat = $("#chooseSeat").text();
+				
+				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFeeStr:strMoney[0]};
+				
 				var buy = confirm("정말로 구매하시겠습니까?");
 				$.ajax({
 			    	   url : "seatBuy.se",
 			    	   type : "post",
-			    	   data : dkanrjsk,
+			    	   data : reserInfo,
 			    	   success : function(data) {
-			    		   console.log(data);
 			    	        alert("성공"); 
 			    	        location.href="lectureHistory.mp";
 			    	    }
+				
 			       });
 				/* if(buy){
 					var IMP = window.IMP; 

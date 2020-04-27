@@ -73,4 +73,16 @@ public class StudyGroupDAO {
 		return sqlSession.selectOne("studyGroupMapper.getStudyGroupInfo", sgno);
 	}
 
+	public int insertMultiGroup(SqlSessionTemplate sqlSession, StudyGroup sg) {
+		return sqlSession.insert("studyGroupMapper.insertMultiGroup", sg);
+	}
+
+	public int updateGroup(SqlSessionTemplate sqlSession, StudyGroup sg) {
+		return sqlSession.update("studyGroupMapper.updateStudyGroup", sg);
+	}
+
+	public int updateMultiGroup(SqlSessionTemplate sqlSession, StudyGroup sg) {
+		return sqlSession.update("studyGroupMapper.updateMultiGroup", sg);
+	}
+
 }

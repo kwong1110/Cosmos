@@ -87,4 +87,19 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 		return sgDAO.getStudyGroupInfo(sqlSession, sgno);
 	}
 
+	@Override
+	public int insertMultiGroup(StudyGroup sg) {
+		return sgDAO.insertMultiGroup(sqlSession, sg);
+	}
+
+	@Override
+	public int updateGroup(StudyGroup sg) {
+		return sgDAO.updateGroup(sqlSession, sg);
+	}
+
+	@Override
+	public int updateMultiGroup(StudyGroup sg) {
+		return sgDAO.updateMultiGroup(sqlSession, sg);
+	}
+
 }

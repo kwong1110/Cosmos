@@ -1,5 +1,7 @@
 package com.kh.cosmos.f_studyGroup.model.vo;
 
+import java.sql.Date;
+
 public class StudyGroup {
 	private int sgNo;
 	private String sgName;
@@ -12,17 +14,19 @@ public class StudyGroup {
 	private String studyName;
 
 	private int msgNum;
-	private String msgRole1;
-	private String msgRole2;
-	private String msgRole3;
+	private String msgRule1;
+	private String msgRule2;
+	private String msgRule3;
 	private int msgMet;
-	private String msgMetRole;
+	private String msgMetRule;
+	
+	private Date finalRecDate;
 	
 	public StudyGroup() {}
 	
 	public StudyGroup(int sgNo, String sgName, String sgGoal, String sgContent, String sgStatus, int branchNo,
-			String id, int studyNo, String studyName, int msgNum, String msgRole1, String msgRole2, String msgRole3,
-			int msgMet, String msgMetRole) {
+			String id, int studyNo, String studyName, int msgNum, String msgRule1, String msgRule2, String msgRule3,
+			int msgMet, String msgMetRule) {
 		super();
 		this.sgNo = sgNo;
 		this.sgName = sgName;
@@ -34,11 +38,11 @@ public class StudyGroup {
 		this.studyNo = studyNo;
 		this.studyName = studyName;
 		this.msgNum = msgNum;
-		this.msgRole1 = msgRole1;
-		this.msgRole2 = msgRole2;
-		this.msgRole3 = msgRole3;
+		this.msgRule1 = msgRule1;
+		this.msgRule2 = msgRule2;
+		this.msgRule3 = msgRule3;
 		this.msgMet = msgMet;
-		this.msgMetRole = msgMetRole;
+		this.msgMetRule = msgMetRule;
 	}
 
 
@@ -122,28 +126,28 @@ public class StudyGroup {
 		this.msgNum = msgNum;
 	}
 
-	public String getMsgRole1() {
-		return msgRole1;
+	public String getMsgRule1() {
+		return msgRule1;
 	}
 
-	public void setMsgRole1(String msgRole1) {
-		this.msgRole1 = msgRole1;
+	public void setMsgRule1(String msgRule1) {
+		this.msgRule1 = msgRule1;
 	}
 
-	public String getMsgRole2() {
-		return msgRole2;
+	public String getMsgRule2() {
+		return msgRule2;
 	}
 
-	public void setMsgRole2(String msgRole2) {
-		this.msgRole2 = msgRole2;
+	public void setMsgRule2(String msgRule2) {
+		this.msgRule2 = msgRule2;
 	}
 
-	public String getMsgRole3() {
-		return msgRole3;
+	public String getMsgRule3() {
+		return msgRule3;
 	}
 
-	public void setMsgRole3(String msgRole3) {
-		this.msgRole3 = msgRole3;
+	public void setMsgRule3(String msgRule3) {
+		this.msgRule3 = msgRule3;
 	}
 
 	public int getMsgMet() {
@@ -154,21 +158,29 @@ public class StudyGroup {
 		this.msgMet = msgMet;
 	}
 
-	public String getMsgMetRole() {
-		return msgMetRole;
+	public String getMsgMetRule() {
+		return msgMetRule;
 	}
 
-	public void setMsgMetRole(String msgMetRole) {
-		this.msgMetRole = msgMetRole;
+	public void setMsgMetRule(String msgMetRule) {
+		this.msgMetRule = msgMetRule;
+	}
+
+	public Date getFinalRecDate() {
+		return finalRecDate;
+	}
+
+	public void setFinalRecDate(Date finalRecDate) {
+		this.finalRecDate = finalRecDate;
 	}
 
 	@Override
 	public String toString() {
 		return "StudyGroup [sgNo=" + sgNo + ", sgName=" + sgName + ", sgGoal=" + sgGoal + ", sgContent=" + sgContent
 				+ ", sgStatus=" + sgStatus + ", branchNo=" + branchNo + ", id=" + id + ", studyNo=" + studyNo
-				+ ", studyName=" + studyName + ", msgNum=" + msgNum + ", msgRole1=" + msgRole1 + ", msgRole2="
-				+ msgRole2 + ", msgRole3=" + msgRole3 + ", msgMet=" + msgMet + ", msgMetRole=" + msgMetRole + "]";
+				+ ", studyName=" + studyName + ", msgNum=" + msgNum + ", msgRule1=" + msgRule1 + ", msgRule2="
+				+ msgRule2 + ", msgRule3=" + msgRule3 + ", msgMet=" + msgMet + ", msgMetRule=" + msgMetRule
+				+ ", finalRecDate=" + finalRecDate + "]";
 	}
-	
 	
 }

@@ -14,7 +14,7 @@
 		<result property="planTitle" column="PLAN_TITLE"/>
 		<result property="planContent" column="PLAN_CONTENT"/>
 		<result property="planMenu" column="PLAN_MENU"/>
-		<result property="emphasis" column="EMPHASIS"/>
+		<result property="todayCheck" column="TODAY_CHECK"/>
 		<result property="likeCount" column="LIKE_COUNT"/>
 		<result property="hit" column="HIT"/>
 		<result property="planStart" column="PLAN_START"/>
@@ -26,4 +26,8 @@
 		<result property="studyName" column="STUDY_NAME"/>
 		<result property="planEnd" column="PLAN_END"/>
 	</resultMap>
+	
+	<update id="todayCheck">
+		update plan set today_check=#{ todayCheck } where plan_No=#{ planNo }
+	</update>
 </mapper>

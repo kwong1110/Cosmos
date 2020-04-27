@@ -113,6 +113,7 @@
 			businessHours: true, 			// 시간 표시
 			editable: false,				// 등록된 스케쥴의 위치 이동
 			selectable: false,				// 날짜에 드래그 사용
+			displayEventTime: false,		// 캘린더에서 title에 시간표시 삭제
 			events: [						// 스케쥴 데이터를 넣는 곳
 				<c:forEach var="l" items="${ list }">
 					{
@@ -210,7 +211,7 @@
 			                    </div>
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
-			                        <form action="lectureAttendApply.le" method="post" onsubmit="">
+			                        <form action="" method="post" onsubmit="">
 				                        <table class="table">
 											<tr>
 												<th colspan="2">이름</th>
