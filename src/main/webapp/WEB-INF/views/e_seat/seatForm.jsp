@@ -223,13 +223,13 @@
             	</div>
             	<div class="right-bot-fourclass3">
             		<div class="fourperson2">
-            			<div class="four3"><input type="hidden" value="B-3" id="B-3" class="chair">4인실
+            			<div class="four3"><input type="hidden" value="B-1" id="B-1" class="chair">4인실
             			</div>
             		</div>
             	</div>
             	<div class="right-bot-fourclass4">
             		<div class="fourperson2">
-            			<div class="four4"><input type="hidden" value="B-4" id="B-4" class="chair">4인실
+            			<div class="four4"><input type="hidden" value="B-2" id="B-2" class="chair">4인실
             			</div>
             		</div>
             	</div>
