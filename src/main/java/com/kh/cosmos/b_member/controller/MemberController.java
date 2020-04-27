@@ -1,12 +1,14 @@
 package com.kh.cosmos.b_member.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -110,7 +112,7 @@ public class MemberController {
 		return "FindPwd";
 	}
 	
-	// 회원가입
+	// 회원가입(int[] chkSname 공부 과목, int[] etcSno 기타 과목 번호, String[] t 공부 했던 기간, String[] etcSname 기타 과목 중 사용자가 직접 입력한 항목)
 	@RequestMapping("minsert.me")
 	public String memberInsert(@ModelAttribute Member m, 
 							   @RequestParam("studyGroupChk") int[] chkSname, @RequestParam("studyEtcNo") int[] etcSno, 
@@ -151,7 +153,7 @@ public class MemberController {
 		}
 		
 		int result = mService.insertMember(m, pList);
-		Member loginUser = mService.memberLogin(m);
+		/*Member loginUser = mService.memberLogin(m);*/
 		
 		if(result > 0) {
 			int success = 1;
@@ -165,19 +167,21 @@ public class MemberController {
 		}
 	}
 	
-	// 마이페이지 이동
-	@RequestMapping("myPage.me")
-	public String myPage(@RequestParam("id") String userId, Model model) {
-		
-		ArrayList<Preview> pList = mService.getStudyList(userId);
-		System.out.println("pList : " + pList);
-		
-		if(pList != null) {
-			model.addAttribute("pList", pList);
-		}
-		
-		return "myPage";
+	// 아이디 중복 체크
+	@RequestMapping("dupId.me")
+	public void idDuplicateCheck(HttpServletResponse response, @RequestParam("id") String id) throws IOException {
+		boolean isIdUsable = mService.checkIdDup(id) == 0 ? true : false;
+		response.getWriter().print(isIdUsable);
 	}
+	
+	// 닉네임 중복 체크
+	@RequestMapping("dupNick.me")
+	public void pwdDuplicateCheck(HttpServletResponse response, @RequestParam("nick") String nick) throws IOException {
+		boolean isNickUsable = mService.checkNickDup(nick) == 0 ? true : false;
+		response.getWriter().print(isNickUsable);
+	}
+	
+
 	
 	
 }

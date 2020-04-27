@@ -192,13 +192,13 @@
 						<c:url var="logout" value="logout.me"/>				
 						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
 						<div class="user-menu clear-fix">
-							<div><a href=""><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</a></div>
+							<div data-toggle="modal" data-target="#note" class="note-list"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
 							<div data-toggle="modal" data-target="#myCupon"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
 							<div>
-								<c:url var="myPage" value="myPage.me">
+								<c:url var="mypage" value="myPage.mp">
 									<c:param name="id" value="${ loginUser.id }"/>
 								</c:url>
-							<a href="${ myPage }"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>마이 페이지</a></div>
+							<a href="${mypage}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>마이 페이지</a></div>
 						</div>
 					</div>
 				</c:if>
@@ -210,7 +210,7 @@
 						<c:url var="logout" value="logout.me"/>				
 						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
 						<div class="user-menu clear-fix">
-							<div><a href=""><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</a></div>
+							<div data-toggle="modal" data-target="#note"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
 							<div data-toggle="modal" data-target="#myCupon"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
 							<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
 						</div>
@@ -387,6 +387,86 @@
 	</div>
 	<!-- 쿠폰 모달 -->
 	
+	<!-- 쪽지 모달 시작 -->
+	<div class="modal fade" id="note-list-view">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	    	<div class="modal-header">
+	        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        		<h2 class="modal-title myCuponTitle">쪽지 리스트</h2>
+        	</div>	
+        	<div class="modal-body">
+        		<h3 align="center">총 쪽지 갯수 : ${ pi.listCount }</h3>
+	
+				<table border="1" id="tb">
+					<tr style="background: yellowgreen;">
+						<th>번호</th>
+						<th width="300">제목</th>
+						<th>보낸사람</th>
+						<th>날짜</th>
+					</tr>
+					<c:forEach var="b" items="${ list }">
+					<tr class="contentTR">
+						<td align="center">${ b.bId }</td>
+						
+						<td align="left">
+							<c:if test="${ !empty loginUser }">
+								<c:url var="bdetail" value="bdetail.bo">
+									<c:param name="bId" value="${ b.bId }"/>
+									<c:param name="page" value="${ pi.currentPage }"/>
+								</c:url>
+								<a href="${ bdetail }">${ b.bTitle }</a>
+							</c:if>
+							<c:if test="${ empty loginUser }">
+								${ b.bTitle }		
+							</c:if>
+						</td>
+						
+						<td align="center">${ b.bWriter }</td>
+						<td align="center">${ b.bCreateDate }</td>
+					</tr>
+					</c:forEach>
+				</table>
+        	</div>
+        	<div class="modal-footer">
+        		<!-- 페이징  -->
+				<nav>
+				  <ul class="pagination">
+				    <li>
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li>
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&lt;</span>
+				      </a>
+				    </li>
+				    <li><a href="#">1</a></li>
+				    <li><a href="#">2</a></li>
+				    <li><a href="#">3</a></li>
+				    <li><a href="#">4</a></li>
+				    <li><a href="#">5</a></li>
+				    <li>
+				      <a href="#" aria-label="Next">
+				        <span aria-hidden="true">&gt;</span>
+				      </a>
+				    </li>
+				    <li>
+				      <a href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+			  	</nav>
+        	</div>
+        	
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<!-- 쪽지 모달 끝 -->
+	
 </body>
 <script>
 	$('#login').click(function(e){
@@ -520,6 +600,24 @@
 		}
 		
 	});
+	
+	// 쪽지 모달창 
+	$(function(){
+		$('.note-list').click(function(){
+			
+			var lNo = $(this).children('td').eq(0).text();
+			
+			$('#note-list-view').modal("show");
+			$.ajax({
+				url: "noteList.mp",
+				success: function(data){
+					
+				}
+			});
+			
+		});
+	});
+	
 	
 </script>
 	<!-- 부트스트랩 -->

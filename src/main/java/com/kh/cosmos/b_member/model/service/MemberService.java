@@ -14,8 +14,10 @@ public interface MemberService {
 
 	Member findMemberId(Member m);
 
-  int insertMember(Member m, ArrayList<Preview> pList);
+	int insertMember(Member m, ArrayList<Preview> pList);
 
-	ArrayList<Preview> getStudyList(String id);
+	int checkIdDup(String id);
+
+	int checkNickDup(String nick);
 
 }
