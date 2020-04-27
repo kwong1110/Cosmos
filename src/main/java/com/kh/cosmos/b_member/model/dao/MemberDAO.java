@@ -28,6 +28,13 @@ public class MemberDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.idCheck", m);
 	}
+	
+//	selectFindMember
+	
+	public Member selectFindMember(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("memberMapper.orderbyId");
+	}
 
 	// 비밀번호 변경
 	public Member selectFindMemberPwd(SqlSessionTemplate sqlSession, Member m) {

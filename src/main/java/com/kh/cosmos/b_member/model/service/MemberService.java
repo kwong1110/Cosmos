@@ -14,6 +14,8 @@ public interface MemberService {
 	ArrayList<StudyCategory> selectStudyCategoryList(StudyCategory sc);
 
 	Member findMemberId(Member m);
+	
+	Member findMember();
 
 	Member findMemberPwd(Member m);
 

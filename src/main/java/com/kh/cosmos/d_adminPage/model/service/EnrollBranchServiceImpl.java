@@ -4,7 +4,9 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.d_adminPage.model.dao.EnrollBranchDAO;
+import com.kh.cosmos.d_adminPage.model.vo.Master;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Service("ebService")
@@ -22,10 +24,25 @@ public class EnrollBranchServiceImpl implements EnrollBranchService{
 		return ebDAO.chekNameDup(sqlSession, masterName);
 	}
 
-	@Override
-	public int insertMaster(ViewBranch vr) {
 	
-		return ebDAO.insertMaster(sqlSession, vr);
+	// 지점등록
+	@Override
+	public int insertMaster(Master m) {
+		System.out.println(m);
+		return ebDAO.insertMaster(sqlSession, m);
+	}
+
+	@Override
+	public int insertBranch(ViewBranch vr) {
+		// TODO Auto-generated method stub
+	
+		return ebDAO.insertBranch(sqlSession, vr);
+	}
+
+	@Override
+	public int insertMember(Member me) {
+		// TODO Auto-generated method stub
+		return ebDAO.insertMember(sqlSession, me);
 	}
 	
 	
