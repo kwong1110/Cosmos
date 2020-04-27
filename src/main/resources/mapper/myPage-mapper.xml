@@ -99,7 +99,7 @@
 	</select> -->
 	
 	<select id="getGroupList" parameterType="hashMap" resultMap="ApproachGroupResultSet">
-		select nvl(a.sg_no,g.sg_no) as sg_no, sg_name, sg_status, study_name, a.id as userId, g.id, nick,
+		select distinct nvl(a.sg_no,g.sg_no) as sg_no, sg_name, sg_status, study_name, g.id, nick,
 		      (case when a.id = #{userId} then asg_date
 		            when g.id = #{userId} then SG_INSERT_DATE end) as sort_date, asg_status
 		from ap_sgroup a
