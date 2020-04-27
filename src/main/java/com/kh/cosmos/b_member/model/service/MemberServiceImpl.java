@@ -48,9 +48,14 @@ public class MemberServiceImpl implements MemberService {
 		return mDAO.selectFindMemberId(sqlSession, m);
 	}
 
-  @Override
-	public ArrayList<Preview> getStudyList(String id) {
-		return mDAO.getStudyList(sqlSession, id);
+	@Override
+	public int checkIdDup(String id) {
+		return mDAO.checkIdDup(sqlSession, id);
+	}
+
+	@Override
+	public int checkNickDup(String nick) {
+		return mDAO.checkNickDup(sqlSession, nick);
 	}
   
   @Override
