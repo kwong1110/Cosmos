@@ -7,24 +7,18 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 <style>
-/*id_비밀번호 찾기*/
-.id_pw_srh {width:100%;overflow:hidden}
-.id_pw_srh li {float:left;width:50%}
-.id_pw_srh li .srh_box {padding:23px 41px 34px}
-.id_pw_srh li .ID {border-style:solid none solid solid;border-width:1px 0 1px 1px;border-color:#d8d8d8;}
-.id_pw_srh li .ID h2 {margin-bottom:10px;font-size:22px;font-weight:900; color:#816950}
-.id_pw_srh li .PW h2 {margin-bottom:10px;font-size:22px;font-weight:900; color:#816950}
-.id_pw_srh li .PW {border-style:solid;border-width:1px;border-color:#d8d8d8;  }
-
-.id_pw_srh li .srh_box .srh_top {text-align:center;font-size:13px}
-.id_pw_srh li .srh_box .info {margin-top:24px;padding-top:20px;border-top:1px dashed #d2d2d2}
-.id_pw_srh li .srh_box .info label {display:inline-block;width:83px;margin-right:12px;vertical-align:middle;font-weight:900;font-size:13px;color:#333333}
-.id_pw_srh li .srh_box .info p {margin-bottom:5px}
-.id_pw_srh li .srh_box .info p input {width:167px;height:21px;border:1px solid #d4d6d6}
-.id_pw_srh li .ID button {display:block;width:145px;margin:26px auto 0;padding:7px 0;border:1px solid black;background-color:black;font-family:'Malgun Gothic','맑은 고딕';color:#FFFFFF}
-.id_pw_srh li .PW button {display:block;width:145px;margin:26px auto 0;padding:7px 0;border:1px solid black;background-color:black;font-family:'Malgun Gothic','맑은 고딕';color:#FFFFFF}
-
-
+	resultArea {border: 1px solid black;}
+	#resultBtn {
+		padding : 8px 12px;
+		border : 1px solid #cbcbcb;
+		background : #fff;
+		color : #000;
+		box-shadow : inset 1px 1px 3px #e6e6e6;
+		vertical-align: middle;
+		font-weight : 700;
+		font-size : 13pt;
+		width: 80px; height:40px;
+	}
 </style>
 </head>
 <body>
@@ -39,21 +33,9 @@
 				<!-- ID/PW 검색박스 -->
 				<div class="content">
 					<div class=resultArea>
-							<h2>ID찾
-							기</h2>
-							회원가입시 등록한 정보로<br> 아이디를 찾을 수 있습니다.
-							</div>
 							<div class="find">
-								<input type="hidden" name="s_type" value="id">
-										<p>
-											<label for="id_name">이름</label> <input type="text" name="name" class="form-control" width="200px" title="이름 입력">
-										</p>
-										<p> 
-											<label for="id_mail">이메일</label><input type="text" name="email" class="form-control" size="30" title="가입시 이메일 입력" placeholder="가입시 등록한 이메일">
-										</p> 
-										<button type="submit" >찾기</button>
-								</form>
-							</div>
+								<p style="text-align:center">회원님의 ID는  ${id} 입니다.</p>
+								 
 						</div>
 				
 						</div>
