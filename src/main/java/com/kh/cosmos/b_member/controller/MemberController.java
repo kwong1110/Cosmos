@@ -214,7 +214,7 @@ public class MemberController {
 				}
 						
 				mv.addObject("id",member.getId())
-		    	 .setViewName("FindPwdResult");
+		    	 .setViewName("FindPwResult");
 		      }else {
 		         throw new MemberException("정보와 일치하는 아이디가 없습니다.");
 		      }
