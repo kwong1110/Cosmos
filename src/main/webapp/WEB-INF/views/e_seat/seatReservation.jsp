@@ -60,6 +60,9 @@
 	 .seatOn{
 		background-color: red !important;
 	} 
+	
+
+	
 </style>
 </head>
 <body><!-- onload="brAddress();" -->
@@ -81,11 +84,11 @@
 					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
 					        					<div style="margin-left:38px;">
 					        						<b>
-					        							코스모스 스터디센터 ${ s.branchName }
-					        						</b>
+					        						코스모스 스터디센터 ${ s.branchName }
+					        						</b>  
 					        					</div>
 					        					<div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
-					        						<input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchNo }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
+					        						<input type="radio" class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchNo }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
 					        					</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
@@ -370,8 +373,9 @@
 						            						reserDate = $('#daterange1').val();
 						            						reserPeople = 1;
 						            					}
+						            					console.log(strMoney[0]);
 						            				var	chooseSeat = $("#chooseSeat").text();
-						            				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
+						            				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat};
 						            				 $.ajax({
 						            					url : "overlap.se",
 						            					type : "post",
@@ -513,24 +517,24 @@
 	
 	<!-- 결제부분 -->
 		<script>
-			var money=$('#userPrice').text();
-			var strMoney=money.split('원');
-			var branchNo = $("input:radio[name='branchAddress']:checked").val();
-			var reserType = $("input:radio[name='period']:checked").val();
-			var reserDate;
-			var reserPeople;
-				if($("input:radio[name='period']:checked").val() == '시간권'){
-					reserDate = $('#daterange').val();
-					reserPeople = $("input:radio[name='reserPeople']:checked").val();
-				}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
-					reserDate = $('#daterange1').val();
-					reserPeople = 1;
-				}
-			var	chooseSeat = $("#chooseSeat").text();
-			
-			var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
-			
 			function buy(){
+				var money=$('#userPrice').text();
+				var strMoney=money.split('원');
+				var branchNo = $("input:radio[name='branchAddress']:checked").val();
+				var reserType = $("input:radio[name='period']:checked").val();
+				var reserDate;
+				var reserPeople;
+					if($("input:radio[name='period']:checked").val() == '시간권'){
+						reserDate = $('#daterange').val();
+						reserPeople = $("input:radio[name='reserPeople']:checked").val();
+					}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
+						reserDate = $('#daterange1').val();
+						reserPeople = 1;
+					}
+				var	chooseSeat = $("#chooseSeat").text();
+				
+				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFeeStr:strMoney[0]};
+				
 				var buy = confirm("정말로 구매하시겠습니까?");
 				$.ajax({
 			    	   url : "seatBuy.se",

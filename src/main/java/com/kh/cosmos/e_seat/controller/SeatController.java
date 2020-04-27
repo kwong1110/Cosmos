@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -75,7 +76,7 @@ public class SeatController {
 	
 	@ResponseBody
 	@RequestMapping("seatBuy.se")
-	public int seatBuyView( @ModelAttribute Seat s, @RequestParam("reserDate") String reserDate, @RequestParam("chooseSeat") String chooseSeat ) {
+	public int seatBuyView( @ModelAttribute Seat s, @RequestParam("reserDate") String reserDate, @RequestParam("chooseSeat") String chooseSeat,@RequestParam("totalFeeStr") String totalFeeStr ) {
 		String startDate = "";
 		String startTime = "";
 		String endDate = "";
@@ -85,9 +86,9 @@ public class SeatController {
 			String[] fullDate = reserDate.split(" - ");
 			
 			startDate = fullDate[0].split(" ")[0];
-			startTime = fullDate[0].split(" ")[1];
+			startTime = fullDate[0].split(" ")[1].split(":")[0];
 			endDate = fullDate[1].split(" ")[0];
-			endTime = fullDate[1].split(" ")[1]; 
+			endTime = fullDate[1].split(" ")[1].split(":")[0]; 
 		} else if(reserDate.length() < 20) {
 			String[] singleDate = reserDate.split(" ");
 			
@@ -107,11 +108,11 @@ public class SeatController {
 		
 		s.setReserDay(reserDay);
 		s.setFinishDay(finishDay);
-		s.setStartTime(startTime);
-		s.setEndTime(endTime);
+		s.setStartTime(Integer.parseInt(startTime));
+		s.setEndTime(Integer.parseInt(endTime));
 		s.setReserSort(reserSort);
 		s.setSeatNo(Integer.parseInt(seatNo));
-		
+		s.setTotalFee(Integer.parseInt(totalFeeStr));
 		int result = sService.seatBuy(s);
 		
 		return result;	
@@ -147,8 +148,8 @@ public class SeatController {
 		
 		s.setReserDay(reserDay);
 		s.setFinishDay(finishDay);
-		s.setStartTime(startTime);
-		s.setEndTime(endTime);
+		s.setStartTime(Integer.parseInt(startTime));
+		s.setEndTime(Integer.parseInt(endTime));
 		
 		ArrayList<Seat> seatList = sService.selectSeatList(s);
 
