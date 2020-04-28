@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4a8fa7e4a9e7170fa234c76a796cecab&libraries=services"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
@@ -57,9 +56,7 @@
 	}
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
 	
-	 .seatOn{
-		background-color: red !important;
-	} 
+	 .seatOn{background-color: red !important;} 
 	.tooltip-inner{background-color:black !important; text-align: start !important;}
 
 	
@@ -81,7 +78,7 @@
 					        	     </div> -->
 					        	<div class="left-mid">
 					        			<c:forEach var="s" items="${ branchList }">
-					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
+					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:103px;">
 					        					<div style="margin-left:38px;">
 					        						<b>
 					        						코스모스 스터디센터 ${ s.branchName }
@@ -554,25 +551,28 @@
 				
 				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFeeStr:strMoney[0]};
 				
-				var buy = confirm("정말로 구매하시겠습니까?");
-				$.ajax({
-			    	   url : "seatBuy.se",
-			    	   type : "post",
-			    	   data : reserInfo,
-			    	   success : function(data) {
-			    	        alert("성공"); 
-			    	        location.href="lectureHistory.mp";
-			    	    }
 				
-			       });
-				/* if(buy){
+				swal({
+	    			title:"정말로 결제하시겠습니까?",
+	    			type:"warning",
+	    			showCancelButton: !0,
+	    			confirmButtonColor:"#DD6B55",
+	    			confirmButtonText:"선택",
+	    			closeOnConfirm: !0
+	    			},
+	    			function(){
+	    				reserBuy();
+	    			}	
+	    		)
+				
+				 function reserBuy(){
 					var IMP = window.IMP; 
 					IMP.init('imp05073510'); 
 					IMP.request_pay({
-					    pg : 'html5_inicis', 
+					    pg : 'kakao', 
 					    pay_method : 'card',
 					    merchant_uid : 'merchant_' + new Date().getTime(),
-					    name : '주문명:결제테스트',
+					    name : '자리예약 결제',
 					    amount : strMoney[0],
 					    buyer_email : '${ loginUser.email }',
 					    buyer_name : '${ loginUser.name }',
@@ -582,26 +582,43 @@
 					    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
 					}, function(rsp) {
 					    if ( rsp.success ) {
-					        var msg = '${loginUser.name}님';
-					        msg += '결제 금액 ' + rsp.paid_amount + '원이 결제 되었습니다.';
-					      	$.ajax({
-					    	   url : "seatBuy.se",
-					    	   type : "post",
-					    	   data : JSON.stringify(obj),
-					    	   contentType: "application/json",
-					       });
+					        var msg = '${loginUser.name}님께서 ';
+					        msg += rsp.paid_amount + '원을 결제하였습니다.';
+					        $.ajax({
+						    	   url : "seatBuy.se",
+						    	   type : "post",
+						    	   data : reserInfo,
+						    	   success : function(data) {
+						    	        swal({
+						    	    		title: "",
+						    	    		text: msg,
+						    	    		type:"success",
+						    	    		showCancelButton: !0,
+						    	    		confirmButtonColor:"#DD6B55",
+						    	    		confirmButtonText:"확인",
+						    	    		closeOnConfirm: !0
+						    	    		},
+						    	    		function(){
+						    	    			location.href="${contextPath}";
+						    	    		}
+						    	    	)
+						    	    }
+						       });
 					       
 					    } else {
 					        var msg = '결제에 실패하였습니다.';
 					        msg += '에러내용 : ' + rsp.error_msg;
+					        sweetWrong(msg);
 					    }
-					    alert(msg);
+					    
 					});				
-				} */
+				} 
 			}	
 		</script>
 	
 </body>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<!-- 싱글타임피커 -->
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
