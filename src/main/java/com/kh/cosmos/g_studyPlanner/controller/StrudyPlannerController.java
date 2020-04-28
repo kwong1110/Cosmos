@@ -23,6 +23,7 @@ import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.b_member.model.vo.Preview;
 import com.kh.cosmos.b_member.model.vo.StudyCategory;
+import com.kh.cosmos.c_myPage.model.service.MyPageService;
 import com.kh.cosmos.g_studyPlanner.model.exception.StudyPlannerException;
 import com.kh.cosmos.g_studyPlanner.model.service.StudyPlannerService;
 import com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner;
@@ -32,6 +33,9 @@ public class StrudyPlannerController {
 
 	@Autowired
 	private StudyPlannerService spService;
+	
+	@Autowired
+	private MyPageService mpService;
 	
 	@Autowired
 	private MemberService mService;
@@ -48,7 +52,7 @@ public class StrudyPlannerController {
 		// 로그인한 유저의 전체 카테고리 불러오기
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String loginUserId = loginUser.getId();
-		ArrayList<Preview> userStudyList = mService.getStudyList(loginUserId);
+		ArrayList<Preview> userStudyList = mpService.getStudyList(loginUserId);
 		
 		if(pList != null) {
 			model.addAttribute("pList", pList);
