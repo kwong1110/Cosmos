@@ -40,4 +40,8 @@ public class MyGroupDAO {
 		return (ArrayList)sqlSession.selectList("myPageMapper.getRecList", sgno);
 	}
 
+	public int closeRecruit(SqlSessionTemplate sqlSession, int recno) {
+		return sqlSession.update("myPageMapper.closeRecruit", recno);
+	}
+
 }

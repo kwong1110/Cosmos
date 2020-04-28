@@ -13,6 +13,8 @@
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
+	.pageTitle:hover{color:#17955F; cursor:pointer;}
+	
 	#topArea{width:100%; display:inline-block; vertical-align:middle; margin-top:2%;}
 	#bottomArea{width:100%; display:block; text-align:center; margin-top: 3%;}
 	#categoryArea{margin-left:5%; width:40%; float:left;}
@@ -69,8 +71,8 @@
 	/* 모달 */
 	
 </style>
-
 </head>
+
 <body>
 	<div class="total-wrapper">
 		<c:import url="../../a_common/menubar.jsp"/>
@@ -124,25 +126,23 @@
 							<ul class="pagination" id="pageUl">
 							</ul>
 						</nav>
-						
+
 						<div id="searchArea">
-				  			<form method="get" action="">
-								<div class="row">
-									<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
-									<select style="width: 25%;" class="form-control search-select">
-										<option>분류</option>
-										<option>111</option>
-										<option>222</option>
-										<option>333</option>
-									</select>
-									<div class="input-group search-text" style="width: 73%;">
-										<input type="text" class="form-control" style="border: none;" placeholder="검색어를 입력하세요."> <span class="input-group-btn">
-											<button class="btn search-submit" type="button">검색</button>
-										</span>
-									</div>
-									<!-- /input-group -->
-								</div>
-							</form>
+							<div class="row">
+								<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
+								<select id="searchType" name="searchType" style="width: 25%;"
+									class="form-control search-select">
+									<option>분류</option>
+									<option value="title">그룹 명</option>
+									<option value="bossNick">그룹장 닉네임</option>
+								</select>
+								<div class="input-group search-text" style="width: 73%;">
+									<input id="searchText" name="searchText" type="text" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
+									<span class="input-group-btn">
+										<button class="btn search-submit" type="button" id="searchSubmit" onclick="searchCheck();">검색</button>
+									</span>
+								</div><!-- /input-group -->
+							</div>
 						</div>
 					</div>
 				</div>
@@ -191,7 +191,7 @@
 	
 	<!-- 그룹장 모달 -->
 	<div id="groupBossModal" class="modal fade" role="dialog">
-		<div class="modal-dialog">
+		<div class="modal-dialog" style="width:40%;">
 			<div class="modal-content">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -223,6 +223,8 @@
 									<th>모집 등록 날짜</th>
 									<th>모집 기간</th>
 									<th>모집 인원</th>
+									<th></th>
+									<th></th>
 								</tr>
 								</thead>
 								
@@ -258,7 +260,7 @@
 			getGroupListPage('false');
 		});
 		
-		function getGroupList(triger) {
+		function getGroupList(triger, type) {
 			var userId = "${ loginUser.id }";
 			if($('#categoryLong').css('color') == 'rgb(255, 255, 255)') {
 				category = "long";
@@ -268,9 +270,26 @@
 				category = "";
 			}
 			
+			/* var sendData;
+			if(type == 'seacrch') {
+				var searchType = $('#searchType').val();
+				var searchText = $('#searchText').val();
+				sendData = {"userId":userId, "triger":triger, "category":category, "searchType":searchType, "searchText":searchText};
+			} else {
+				sendData = {"userId":userId, "triger":triger, "category":category};
+			} */
+			var sendData;
+			if(type=='search' || ($('#searchType').val() != '분류' && $('#searchText').val() != '')) {
+				var searchType = $('#searchType').val();
+				var searchText = $('#searchText').val();
+				sendData = {"userId":userId, "triger":triger, "category":category, "searchType":searchType, "searchText":searchText};
+			} else {
+				sendData = {"userId":userId, "triger":triger, "category":category};
+			}
+			
 			$.ajax({
 				url: "groupList.mp",
-				data: {userId:userId, triger:triger, category:category},
+				data: sendData,
 				dataType: 'json',
 				success: function(data) {
 					$tableBody = $('#groupTable tbody');
@@ -348,9 +367,9 @@
 										$tr = $('<tr onclick="openGroupModal(this,' + data[i].sgNo +');">');
 									}
 								} else if(data[i].appStatus == 'E') { //수락 후 스스로 나간 경우
-									print = '스터디 종료 /(나감/)';
+									print = '스터디 종료 (나감)';
 								} else if(data[i].appStatus == 'O') { //수락 후 강퇴당한 경우
-									print = '스터디 종료 /(강퇴/)';
+									print = '스터디 종료 (강퇴)';
 								} else if(data[i].appStatus == 'R') { //수락 후 강퇴당한 경우
 									print = '대기 중';
 								} else if(data[i].appStatus == 'N') { //거절된 경우
@@ -584,6 +603,7 @@
 					<th>모집 등록 날짜</th>
 					<th>모집 기간</th>
 					<th>모집 인원</th>
+					<th></th>
 					*/
 					
 					$recTableBody = $('#modalRecTable tbody');
@@ -591,9 +611,24 @@
 					
 					var $tr;
 					var no = data.length;
+
+					var today = new Date();
+					var dd = today.getDate();
+					var mm = today.getMonth()+1; // Jan is 0
+					var yyyy = today.getFullYear();
+					if(dd<10){ dd = '0'+dd }
+					if(mm<10){ mm = '0'+mm }
+					today = yyyy + '-' + mm + '-' + dd;
+
+			        var todayArr = today.split('-');
+			        var todayCompare = new Date(todayArr[0], parseInt(todayArr[1])-1, todayArr[2]);
 					
 					if(data.length > 0) {
 						for(var i in data) {
+							var endDate = data[i].recTerm.substr(13)
+					        var endDateArr = endDate.split('-');
+					        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
+					        
 							$tr = $('<tr>');
 
 							$tr.append('<td>' + no + '</td>');
@@ -601,6 +636,15 @@
 							$tr.append('<td>' + data[i].recEnrollDate + '</td>');
 							$tr.append('<td>' + data[i].recTerm + '</td>');
 							$tr.append('<td>' + data[i].recNum + '</td>');
+							
+							if(endDateCompare >= todayCompare) {
+								$tr.append('<td>모집 중</td>');
+								$tr.append('<td><span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="closeRec(this, ' + data[i].recNo + ', ' + sgno + ');"></span></td>');
+							} else {
+								$tr.append('<td>모집 마감</td>');
+								$tr.append('<td></td>');
+							}
+							
 							$recTableBody.append($tr);
 						}
 					}
@@ -631,15 +675,11 @@
 			}
 		}
 		
-		$('#openOption').click(function() {
-			if($('#hiddenOption').css('display') == 'none') {
-				$('#hiddenOption').css('display', 'block');
-			} else {
-				$('#hiddenOption').css('display', 'none');
-			}
-		}).mouseover(function() {
+		$('#optionArea').mouseover(function() {
+			$('#hiddenOption').css('display', 'block');
 			$('#openOption').css({'background':'#6DBD6A', 'color':'white'});
 		}).mouseout(function() {
+			$('#hiddenOption').css('display', 'none');
 			$('#openOption').css({'background':'transparent', 'color':'black'});
 		});
 		
@@ -707,7 +747,38 @@
 			getGroupListPage(trigerBox);
 		})
 		
+		function closeRec(e, recno, sgno) {
+			$.ajax({
+				url:"closeRec.mp",
+				data:{recno:recno},
+				dataType: 'json',
+				success: function(data) {
+					if(data == 'success')
+						openGroupBossModal(e, sgno);
+					else
+						alert('모집 마감에 실패하였습니다.');
+				}
+			})
+		}
 		
+		function searchCheck() {
+			if($('#searchType').val() == '분류') {
+				alert('검색 종류를 선택해주세요.');
+			} else if($('#searchText').val() == '') {
+				alert('검색어를 입력해주세요.');
+			} else {
+				getGroupList(trigerBox, 'seacrch');
+				getGroupListPage(trigerBox, 'seacrch');
+			}
+		}
+		
+		$('.pageTitle').click(function() {
+			location.reload();
+		});
+		
+		$('#searchText').keydown(function (key) {
+	        if(key.keyCode == 13) $('#searchSubmit').click();
+	    });
 	</script>
 
 </body>

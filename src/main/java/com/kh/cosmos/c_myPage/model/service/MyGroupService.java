@@ -20,4 +20,6 @@ public interface MyGroupService {
 
 	ArrayList<MyStudyGroup> getRecList(int sgno);
 
+	int closeRecruit(int recno);
+
 }

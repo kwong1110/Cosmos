@@ -50,4 +50,9 @@ public class MyGroupServiceImpl implements MyGroupService {
 		return mgDAO.getRecList(sqlSession, sgno);
 	}
 
+	@Override
+	public int closeRecruit(int recno) {
+		return mgDAO.closeRecruit(sqlSession, recno);
+	}
+
 }
