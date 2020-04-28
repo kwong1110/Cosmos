@@ -118,19 +118,19 @@
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-17" id="A-17" class="chair">A - 17
         				</div>
-        				<div class="left-top1-table-cell" style="background:#2E4559"><input type="hidden" value="Z-18" id="Z-18" class="chair">고정석
+        				<div class="left-top1-table-cell" style="background:#2E4559"><input type="hidden" value="Z-18" id="Z-18" class="chair" name="z">고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-19" id="A-19" class="chair">A - 19
         				</div>
-        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-20" id="Z-20" class="chair">고정석
+        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-20" id="Z-20" class="chair" name="z">고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-21" id="A-21" class="chair">A - 21
         				</div>
-        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-22" id="Z-22" class="chair">고정석
+        				<div class="left-top1-table-cell"style="background:#2E4559"><input type="hidden" value="Z-22" id="Z-22" class="chair" name="z">고정석
         				</div>
         			</div>
         			<div class="left-top1-table-row">
