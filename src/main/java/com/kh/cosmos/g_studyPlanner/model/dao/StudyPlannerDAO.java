@@ -18,4 +18,16 @@ public class StudyPlannerDAO {
 		return sqlSession.update("studyPlannerMapper.todayCheck", sp);
 	}
 
+	public int insertPlan(SqlSessionTemplate sqlSession, StudyPlanner sp) {
+		return sqlSession.insert("studyPlannerMapper.insertPlan", sp);
+	}
+
+	public StudyPlanner selectPlan(SqlSessionTemplate sqlSession, int planNo) {
+		return sqlSession.selectOne("studyPlannerMapper.selectPlan", planNo);
+	}
+
+	public int deletePlan(SqlSessionTemplate sqlSession, int planNo) {
+		return sqlSession.update("studyPlannerMapper.deletePlan", planNo);
+	}
+
 }

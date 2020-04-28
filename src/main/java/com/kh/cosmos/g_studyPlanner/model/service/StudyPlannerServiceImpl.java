@@ -28,4 +28,20 @@ public class StudyPlannerServiceImpl implements StudyPlannerService {
 	public int todayCheck(StudyPlanner sp) {
 		return spDAO.todayCheck(sqlSession, sp);
 	}
+
+	@Override
+	public int insertPlan(StudyPlanner sp) {
+		return spDAO.insertPlan(sqlSession, sp);
+	}
+
+	@Override
+	public StudyPlanner selectPlan(int planNo) {
+		return spDAO.selectPlan(sqlSession, planNo);
+	}
+
+	@Override
+	public int deletePlan(int planNo) {
+		return spDAO.deletePlan(sqlSession, planNo);
+	}
+
 }
