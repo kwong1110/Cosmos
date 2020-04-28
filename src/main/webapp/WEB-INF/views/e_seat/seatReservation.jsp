@@ -6,8 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4a8fa7e4a9e7170fa234c76a796cecab&libraries=services"></script>
-<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
-<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
@@ -53,13 +52,14 @@
 	.modal-content.modal-80size {height: auto; min-height: 90%;}
 	.modal {text-align: center;}
 	@media screen and (min-width: 768px) {
-  	.modal:before {display: inline-block; vertical-align: middle; content: " ";height: 95%;}
+  	.modal:before {display: inline-block; vertical-align: middle; content: " "; height: 95%;}
 	}
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
 	
-	 .seatOn{
-		background-color: red !important;
-	} 
+	 .seatOn{background-color: red !important;} 
+	.tooltip-inner{background-color:black !important; text-align: start !important;}
+
+	
 </style>
 </head>
 <body><!-- onload="brAddress();" -->
@@ -78,14 +78,19 @@
 					        	     </div> -->
 					        	<div class="left-mid">
 					        			<c:forEach var="s" items="${ branchList }">
-					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
+					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:103px;">
 					        					<div style="margin-left:38px;">
 					        						<b>
-					        							코스모스 스터디센터 ${ s.branchName }
-					        						</b>
+					        						코스모스 스터디센터 ${ s.branchName }
+					        						</b>  
 					        					</div>
-					        					<div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;">
-					        						<input type="radio"  class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchNo }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
+					        					<div style="overflow:hidden; white-space:nowrap; text-overflow:ellipsis;" data-toggle="tooltip" data-placement="top" title="${ s.branchAddress }">
+					        						<input type="radio" class="branchAddress"id="branchAddress" name="branchAddress"  value="${ s.branchNo }"style="width:20px; height:20px; margin-left:10px;" onclick="branchAddress(this);">&nbsp;${ s.branchAddress }
+					        					<script>
+					        					$(function () {
+					        						$('[data-toggle="tooltip"]').tooltip();
+					        					})
+					        					</script>
 					        					</div>
 					        					<div style="margin-left:38px;">${ s.branchTel }</div>
 					        				</div>
@@ -370,8 +375,9 @@
 						            						reserDate = $('#daterange1').val();
 						            						reserPeople = 1;
 						            					}
+						            					console.log(strMoney[0]);
 						            				var	chooseSeat = $("#chooseSeat").text();
-						            				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
+						            				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat};
 						            				 $.ajax({
 						            					url : "overlap.se",
 						            					type : "post",
@@ -382,14 +388,15 @@
 						            						 //console.log(data);
 							            					if(data.length > 0){ 
 							            						for(var i in data){
-								            						/* console.log(data[i].reserSort + "-" + data[i].seatNo); */
+							            							/* $('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().removeClass('seatOn'); */
+								            						 /* console.log(data[i].reserSort + "-" + data[i].seatNo);  */
 																	if($('#'+ data[i].reserSort + "-" + data[i].seatNo).val()){
 																		$('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().addClass('seatOn');
+																		 /* $('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().text(data[i].id);  */
 																	}
 							            						}
 							            					}
 						            						
-							            					
 								            				$('#seatModal').modal("show");
 						            					}
 						            					 
@@ -454,37 +461,50 @@
 					    		var chooseSeat = $(this).children().val();
 					    		$("#chooseSeat").text(chooseSeat);
 					    		
-					    		var check = confirm(chooseSeat + "자리를 선택하시겠습니까?");
-					    		if(check == true){
-					    			$('#seatModal').modal("hide");
-					    			var price =  $('#chooseSeat').text();
-					    			var strPrice = price.split('-');
-					    			
-					    			var fullDate = $('#daterange').val();
-					    			var startDate = fullDate.substr(0,10);
-					    			var startTime = fullDate.substr(11,2);
-					    			var endDate = fullDate.substr(18,11).trim();
-					    			var endTime = fullDate.substr(29,3).trim();
+					    		swal({
+					    			title:"자리를 선택하시겠습니까?",
+					    			type:"warning",
+					    			showCancelButton: !0,
+					    			confirmButtonColor:"#DD6B55",
+					    			confirmButtonText:"선택",
+					    			closeOnConfirm: !0
+					    			},
+					    			function(){
+					    				reserConfirm();
+					    			}	
+					    		)
+					    	});
+					    	 
+					    	function reserConfirm(){
+					    		$('#seatModal').modal("hide");
+				    			var price =  $('#chooseSeat').text();
+				    			var strPrice = price.split('-');
+				    			
+				    			var fullDate = $('#daterange').val();
+				    			var startDate = fullDate.substr(0,10);
+				    			var startTime = fullDate.substr(11,2);
+				    			var endDate = fullDate.substr(18,11).trim();
+				    			var endTime = fullDate.substr(29,3).trim();
 
-					    			var fullDate1 = $('#daterange1').val();
-					    			var startDate1 = fullDate1.substr(0,10);
-					    			var startTime1 = fullDate1.substr(11,2);
-					    			
-					    			<c:forEach var="se" items="${ sortList }">
-					    				 if(strPrice[0] == "${se.reserSort}"){
-					    					result = (endTime-startTime) * "${se.reserFee}"
-						    					if("${se.reserSort}" == 'Z'){
-						    						if($("input:radio[name='period']:checked").val() == '7일권'){
-						    							result = "${se.reserFee}"
-						    						} else if($("input:radio[name='period']:checked").val() == '30일권'){
-						    							result = "${se.reserFee}" * 3 + 5000;
-						    						}
-						    					}
-					    				};		
-					    			</c:forEach>
-					    				$('#userPrice').text(result+'원');
-					    		}
-					    	}); 
+				    			var fullDate1 = $('#daterange1').val();
+				    			var startDate1 = fullDate1.substr(0,10);
+				    			var startTime1 = fullDate1.substr(11,2);
+				    			
+				    			<c:forEach var="se" items="${ sortList }">
+				    				 if(strPrice[0] == "${se.reserSort}"){
+				    					result = (endTime-startTime) * "${se.reserFee}"
+					    					if("${se.reserSort}" == 'Z'){
+					    						if($("input:radio[name='period']:checked").val() == '7일권'){
+					    							result = "${se.reserFee}"
+					    						} else if($("input:radio[name='period']:checked").val() == '30일권'){
+					    							result = "${se.reserFee}" * 3 + 5000;
+					    						}
+					    					}
+				    				};		
+						    			</c:forEach>
+						    				$('#userPrice').text(result+'원');
+			    			
+		    					};
 					    </script>
 		        	</form>
 	    </div><!-- /.modal-content -->
@@ -513,43 +533,46 @@
 	
 	<!-- 결제부분 -->
 		<script>
-			var money=$('#userPrice').text();
-			var strMoney=money.split('원');
-			var branchNo = $("input:radio[name='branchAddress']:checked").val();
-			var reserType = $("input:radio[name='period']:checked").val();
-			var reserDate;
-			var reserPeople;
-				if($("input:radio[name='period']:checked").val() == '시간권'){
-					reserDate = $('#daterange').val();
-					reserPeople = $("input:radio[name='reserPeople']:checked").val();
-				}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
-					reserDate = $('#daterange1').val();
-					reserPeople = 1;
-				}
-			var	chooseSeat = $("#chooseSeat").text();
-			
-			var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFee:strMoney[0]};
-			
 			function buy(){
-				var buy = confirm("정말로 구매하시겠습니까?");
-				$.ajax({
-			    	   url : "seatBuy.se",
-			    	   type : "post",
-			    	   data : reserInfo,
-			    	   success : function(data) {
-			    	        alert("성공"); 
-			    	        location.href="lectureHistory.mp";
-			    	    }
+				var money=$('#userPrice').text();
+				var strMoney=money.split('원');
+				var branchNo = $("input:radio[name='branchAddress']:checked").val();
+				var reserType = $("input:radio[name='period']:checked").val();
+				var reserDate;
+				var reserPeople;
+					if($("input:radio[name='period']:checked").val() == '시간권'){
+						reserDate = $('#daterange').val();
+						reserPeople = $("input:radio[name='reserPeople']:checked").val();
+					}else if($("input:radio[name='period']:checked").val() == '7일권' || $("input:radio[name='period']:checked").val() == '30일권'){
+						reserDate = $('#daterange1').val();
+						reserPeople = 1;
+					}
+				var	chooseSeat = $("#chooseSeat").text();
 				
-			       });
-				/* if(buy){
+				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFeeStr:strMoney[0]};
+				
+				
+				swal({
+	    			title:"정말로 결제하시겠습니까?",
+	    			type:"warning",
+	    			showCancelButton: !0,
+	    			confirmButtonColor:"#DD6B55",
+	    			confirmButtonText:"선택",
+	    			closeOnConfirm: !0
+	    			},
+	    			function(){
+	    				reserBuy();
+	    			}	
+	    		)
+				
+				 function reserBuy(){
 					var IMP = window.IMP; 
 					IMP.init('imp05073510'); 
 					IMP.request_pay({
-					    pg : 'html5_inicis', 
+					    pg : 'kakao', 
 					    pay_method : 'card',
 					    merchant_uid : 'merchant_' + new Date().getTime(),
-					    name : '주문명:결제테스트',
+					    name : '자리예약 결제',
 					    amount : strMoney[0],
 					    buyer_email : '${ loginUser.email }',
 					    buyer_name : '${ loginUser.name }',
@@ -559,26 +582,43 @@
 					    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
 					}, function(rsp) {
 					    if ( rsp.success ) {
-					        var msg = '${loginUser.name}님';
-					        msg += '결제 금액 ' + rsp.paid_amount + '원이 결제 되었습니다.';
-					      	$.ajax({
-					    	   url : "seatBuy.se",
-					    	   type : "post",
-					    	   data : JSON.stringify(obj),
-					    	   contentType: "application/json",
-					       });
+					        var msg = '${loginUser.name}님께서 ';
+					        msg += rsp.paid_amount + '원을 결제하였습니다.';
+					        $.ajax({
+						    	   url : "seatBuy.se",
+						    	   type : "post",
+						    	   data : reserInfo,
+						    	   success : function(data) {
+						    	        swal({
+						    	    		title: "",
+						    	    		text: msg,
+						    	    		type:"success",
+						    	    		showCancelButton: !0,
+						    	    		confirmButtonColor:"#DD6B55",
+						    	    		confirmButtonText:"확인",
+						    	    		closeOnConfirm: !0
+						    	    		},
+						    	    		function(){
+						    	    			location.href="${contextPath}";
+						    	    		}
+						    	    	)
+						    	    }
+						       });
 					       
 					    } else {
 					        var msg = '결제에 실패하였습니다.';
 					        msg += '에러내용 : ' + rsp.error_msg;
+					        sweetWrong(msg);
 					    }
-					    alert(msg);
+					    
 					});				
-				} */
+				} 
 			}	
 		</script>
 	
 </body>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
+	<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 	<!-- 싱글타임피커 -->
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>

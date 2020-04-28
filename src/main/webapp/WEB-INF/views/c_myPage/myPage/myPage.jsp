@@ -17,7 +17,7 @@
 	<!-- view 초기 구조 -->
 	<!-- import 경로는 알아서 바꿔줄것. -->
 	<div class="total-wrapper">
-		<c:import url="../a_common/menubar.jsp"/>
+		<c:import url="../../a_common/menubar.jsp"/>
 		<div class="wrapper">
 			<div class="main">
 				
@@ -30,6 +30,10 @@
 					  <li role="presentation"><a href="#">My Group</a></li>
 					  <li role="presentation"><a href="#">강연 내역</a></li>
 					  <li role="presentation"><a href="#">결재 내역</a></li>
+					  <c:url var="memberDelete" value="memberDelete.mp">
+					  	<c:param name="id" value="${loginUser.id}"/>
+					  </c:url>
+					  <li role="presentation"><a href="location.href='${memberDelete}'">회원 탈퇴하기</a></li>
 					</ul>	
 					<table class="inner table table-hover">
 						<tr>
@@ -89,7 +93,8 @@
 						</tr>
 					</table>
 					<div class="btnBox inner">
-						<button class="defaultBtn" onclick=""></button>
+						<button type="button" class="defaultBtn pwdUpBtn" onclick="">비밀번호 변경하기</button>
+						<button type="button" class="defaultBtn" onclick="location.href='memberUpView.mp'">회원정보 수정하기</button>
 						
 						<%-- 
 						<c:url var="bupView" value="bupView.bo">
@@ -112,12 +117,44 @@
 						</tr>
 						</c:if> 
 						--%>
-						
 					</div>
 				</div>
 			</div>
 		</div>
-		<c:import url="../a_common/footer.jsp"/>
+		<c:import url="../../a_common/footer.jsp"/>
 	</div>
+	<!-- 비밀번호 변경 MODAL -->
+	<div id="pwdViewMODAL" class="modal fade" tabindex="-1" role="dialog" >
+		<div class="modal-dialog modal-80size" role="document">
+			<div class="modal-content modal-80size">
+				
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<script>
+		$(function(){
+			$('.pwdUpBtn').click(function(){
+				$('#pwdViewMODAL').modal("show");
+				$.ajax({
+					url: "memberPwdUpView.mp",
+					dataType: 'JSON',
+					success: function(data){
+						
+					}
+					
+				});
+			});
+			
+		});
+	
+	</script>
+	
+	
+	
+	
+	
+	
+	
 </body>
 </html>

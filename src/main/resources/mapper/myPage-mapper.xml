@@ -193,4 +193,21 @@
 		where rsg_no = #{recno}
 	</update>
 	<!-- @@@@ 마이 그룹 관련 끝 @@@@ -->
+  
+	<!-- loginUser의 공부 중인 항목 -->
+	<select id="getStudyList" parameterType="Preview" resultMap="previewResultSet">
+		select id, study_no, study_name, sp_term, study_etc
+		from preview
+    		join member using(id)
+    		join study_category using(study_no)
+		where id = #{loginUserId}
+	</select>
+	<resultMap type="Preview" id="previewResultSet">
+		<id property="id" column="ID"/>
+		<result property="studyNo" column="STUDY_NO"/>
+		<result property="spTerm" column="SP_TERM"/>
+		<result property="studyEtc" column="STUDY_ETC"/>
+		<result property="studyName" column="STUDY_NAME"/>
+	</resultMap>
+  
 </mapper>

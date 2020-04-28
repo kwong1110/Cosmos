@@ -11,6 +11,21 @@
 		display : inline-block;
 		cursor:pointer;
 	}
+	
+	span.guide {
+		display: none;
+		font-size: 12px;
+		top: 12px;
+		right: 10px;
+	}
+	
+	span.ok {
+		color: green;
+	}
+	
+	span.error {
+		color: red;	
+	}
 </style>
 </head>
 <body>
@@ -31,9 +46,9 @@
 									<th>아이디</th>
 									<td>
 										<input type="text" id="userId" name="id">
-										<span class="guide ok">이 아이디는 사용 가능합니다.</span>
-										<span class="guide error">이 아이디는 사용 불가능합니다.</span>
-										<input type="hidden" name="idDuplicateCheck" value="0">
+										<span class="guide ok idOk">이 아이디는 사용 가능합니다.</span>
+										<span class="guide error idError">이 아이디는 사용 불가능합니다.</span>
+										<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0">
 									</td>
 								</tr>
 								<tr>
@@ -42,7 +57,9 @@
 								</tr>
 								<tr>
 									<th><label for="userPwd2">비밀번호 확인</label></th>
-									<td><input type="password" id="userPwd2" name="pwd2"></td>
+									<td>
+										<input type="password" id="userPwd2" name="pwd2">
+									</td>
 								</tr>
 								<tr>
 									<th><label for="userName">이름</label></th>
@@ -50,7 +67,12 @@
 								</tr>
 								<tr>
 									<th><label for="userNick">닉네임</label></th>
-									<td><input type="text" id="userNick" name="nick"></td>
+									<td>
+										<input type="text" id="userNick" name="nick">
+										<span class="guide ok nickOk">이 닉네임은 사용 가능합니다.</span>
+										<span class="guide error nickError">이 닉네임은 사용 불가능합니다.</span>
+										<input type="hidden" name="nickDuplicateCheck" id="nickDuplicateCheck" value="0">
+									</td>
 								</tr>
 								<tr>
 									<th>성별</th>
@@ -145,18 +167,69 @@
 	</div>
 	
 	<script>
-	<!-- 유효성 검증 스크립트 -->
-	function validate(){
-		if($('#idDuplicateCheck').val() == 0){
-			alert('사용 가능한 아이디를 입력해 주세요.');
-			$('#userId').focus();
-			return false;
-		} else{
-			$('#joinForm').submit();
-		}
-	}
 
 	$(function(){
+		// 아이디 중복 체크
+		$('#userId').on('keyup', function(){
+			
+			var userId = $(this).val().trim();
+			
+			if(userId.length < 4){
+				$('.guide').hide();
+				$('#idDuplicateCheck').val(0);
+				
+				return;
+			}
+			
+			$.ajax({
+				url:'dupId.me',
+				data: {id:userId},
+				success:function(data){
+					if(data == 'true'){
+						$('.guide.idError').hide();
+						$('.guide.idOk').show();
+						$('#idDuplicateCheck').val(1);
+					} else{
+						$('.guide.idError').show();
+						$('.guide.idOk').hide();
+						$('#idDuplicateCheck').val(0);
+					}
+				}
+			});
+			
+		}); // 아이디 중복 체크 끝
+		
+		// 닉네임 중복 체크
+		$('#userNick').on('keyup', function(){
+			var userNick = $(this).val().trim();
+			
+			if(userNick < 7){
+				$('.guide').hide();
+				$('#nickDuplicateCheck').val(0);
+				
+				return;
+			}
+			
+			$.ajax({
+				url:'dupNick.me',
+				data : {nick:userNick},
+				success:function(data){
+					if(data == 'true'){
+						$('.guide.nickError').hide();
+						$('.guide.nickOk').show();
+						$('#nickDuplicateCheck').val(1);
+					} else{
+						$('.guide.nickError').show();
+						$('.guide.nickOk').hide();
+						$('#nickDuplicateCheck').val(0);
+					}
+				}
+			});
+			
+		}); // 닉네임 중복 체크 끝
+		
+		
+		// 공부 과목 추가 삭제
 		var category = document.getElementsByName("studyGroup"); // 공부 과목 카테고리
 		var $area = $("#category-area");
 		
@@ -248,7 +321,7 @@
 			$(this).find("span.minus").parent().remove(); */
 			/* $(".categoryLabel").find("#"+idNum).prop('checked', false); */
 			
-		});
+		}); 
 			
 		/* 
 		$('#id').val().replace(/ /g, ''); -> 모든 공백 없어짐.﻿ 
@@ -256,6 +329,17 @@
 		*/ 
 	});
 
+	// 유효성 검증 스크립트
+	function validate(){
+		if($('#idDuplicateCheck').val() == 0){
+			alert('사용 가능한 아이디를 입력해 주세요.');
+			$('#userId').focus();
+			return false;
+		} else{
+			$('#joinForm').submit();
+		}
+	}
+	
 	</script>
 	
 	<!-- 달력과 관련된 스크립트 -->

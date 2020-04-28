@@ -20,8 +20,10 @@ public interface MemberService {
 
 	int fakePwd(Member member);
 
-  int insertMember(Member m, ArrayList<Preview> pList);
+	int insertMember(Member m, ArrayList<Preview> pList);
 
-	ArrayList<Preview> getStudyList(String id);
+	int checkIdDup(String id);
+
+	int checkNickDup(String nick);
 
 }

@@ -10,4 +10,10 @@ public interface StudyPlannerService {
 
 	int todayCheck(StudyPlanner sp);
 
+	int insertPlan(StudyPlanner sp);
+
+	StudyPlanner selectPlan(int planNo);
+
+	int deletePlan(int planNo);
+
 }

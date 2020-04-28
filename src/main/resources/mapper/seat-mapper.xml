@@ -22,13 +22,16 @@
 	</resultMap>
 	
 	<select id="selectSeatList" resultMap="seatResultSet">
+		<![CDATA[
 			select * 
 			from reser
 			where reser_yn='Y' and reser_day=#{reserDay}  
-							   <!-- and ((start_time between #{startTime} and #{endTime}) 
-				  			   and (end_time between #{startTime} and #{endTime}) 
-				  			   and start_time != #{startTime} 
-				  			   and end_time != #{endTime}) -->
+				  			   and ((start_time >= #{startTime} and start_time < #{endTime}) 
+        					   or (end_time > #{startTime} and end_time <= #{endTime})) 
+				  			   and branch_no=#{branchNo}
+		]]>
+							  <!--  and ((start_time between #{startTime} and #{endTime}) 
+				  			   or (end_time between #{startTime} and #{endTime}))  -->
 			<!--
 	      and ((start_time between #{start_time} and #{end_time}) and (end_time between #{start_time} and #{end_time}) and start_time != #{start_time} and end_time != #{end_time}) -->
 			<!-- order by reser_no desc -->

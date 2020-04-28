@@ -30,4 +30,22 @@
 	<update id="todayCheck">
 		update plan set today_check=#{ todayCheck } where plan_No=#{ planNo }
 	</update>
+	
+	<insert id="insertPlan">
+		insert into plan
+		values(seq_planid.nextval, #{planTitle}, #{planContent}, #{planMenu}, default, default, 
+		default, #{planStart}, sysdate, default, #{openStatus}, #{id}, #{studyNo}, #{planEnd})
+	</insert>
+	
+	<select id="selectPlan" parameterType="_int" resultMap="planResultSet">
+		select *
+		from plan
+		where plan_no=#{planNo} and plan_status='Y'
+	</select>
+	
+	<update id="deletePlan" parameterType="_int">
+		update plan
+		set plan_status='N'
+		where plan_no=#{planNo}
+	</update>
 </mapper>
