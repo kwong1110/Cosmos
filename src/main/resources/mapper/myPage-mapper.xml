@@ -10,6 +10,14 @@
 		<choose>
 			<when test="triger == 'false'">
 				where a.id=#{userId}
+				<if test="type != ''">
+					<if test="type == 'title'">
+						and (sg_name like '%'||#{text}||'%')
+					</if>
+					<if test="type == 'bossNick'">
+						and (nick like '%'||#{text}||'%')
+					</if>
+				</if>
 				<if test="category == 'long'">
 					and (sg_status='Y' or sg_status='D')
 				</if>
@@ -19,6 +27,14 @@
 			</when>
 			<when test="triger == 'true'">
 				where a.id=#{userId} and asg_status='Y'
+				<if test="type != ''">
+					<if test="type == 'title'">
+						and (sg_name like '%'||#{text}||'%')
+					</if>
+					<if test="type == 'bossNick'">
+						and (nick like '%'||#{text}||'%')
+					</if>
+				</if>
 				<if test="category == 'long'">
 					and (sg_status='Y' or sg_status='D')
 				</if>
@@ -35,6 +51,14 @@
 		<choose>
 			<when test="triger == 'false'">
 				where id=#{userId}
+				<if test="type != ''">
+					<if test="type == 'title'">
+						and (sg_name like '%'||#{text}||'%')
+					</if>
+					<if test="type == 'bossNick'">
+						and (nick like '%'||#{text}||'%')
+					</if>
+				</if>
 				<if test="category == 'long'">
 					and (sg_status='Y' or sg_status='D')
 				</if>
@@ -44,6 +68,14 @@
 			</when>
 			<when test="triger == 'true'">
 				where id=#{userId} <!-- and (sg_status='Y' or sg_status='N') -->
+				<if test="type != ''">
+					<if test="type == 'title'">
+						and (sg_name like '%'||#{text}||'%')
+					</if>
+					<if test="type == 'bossNick'">
+						and (nick like '%'||#{text}||'%')
+					</if>
+				</if>
 				<if test="category == 'long'">
 					and sg_status='Y'
 				</if>
@@ -57,47 +89,6 @@
 		</choose>
 	</select>
 	
-	<!-- <select id="getGroupList" parameterType="hashMap" resultMap="ApproachGroupResultSet">
-		SELECT *
-		FROM APPSGLIST
-		<choose>
-			<when test="triger == 'false'">
-				WHERE (userId = #{userId} or id = #{userId})
-				<if test="category == 'long'">
-					and (sg_status='Y' or sg_status='D')
-				</if>
-				<if test="category == 'once'">
-					and (sg_status='N' or sg_status='E')
-				</if>
-			</when>
-			<when test="triger == 'true'">
-				WHERE (userId = #{userId} and asg_status='Y' and (sg_status='Y'or sg_status='N'))
-					  or (id = #{userId} and (sg_status='Y'or sg_status='N'))
-				WHERE (userId = #{userId}
-					  and asg_status='Y'
-					  	<if test="category == 'long'">
-							and sg_status='Y'
-						</if>
-						<if test="category == 'once'">
-							and sg_status='N'
-						</if>
-						<if test="category != 'once' and category != 'long'">
-							and (sg_status='Y' or sg_status='N')
-						</if>)
-					  or (id = #{userId}
-					  	<if test="category == 'long'">
-							and sg_status='Y'
-						</if>
-						<if test="category == 'once'">
-							and sg_status='N'
-						</if>
-						<if test="category != 'once' and category != 'long'">
-							and (sg_status='Y' or sg_status='N')
-						</if>)
-			</when>
-		</choose>
-	</select> -->
-	
 	<select id="getGroupList" parameterType="hashMap" resultMap="ApproachGroupResultSet">
 		select distinct nvl(a.sg_no,g.sg_no) as sg_no, sg_name, sg_status, study_name, g.id, nick,
 		      (case when a.id = #{userId} then asg_date
@@ -109,6 +100,14 @@
 		<choose>
 			<when test="triger == 'false'">
 				WHERE (a.id = #{userId} or id = #{userId})
+				<if test="type != ''">
+					<if test="type == 'title'">
+						and (sg_name like '%'||#{text}||'%')
+					</if>
+					<if test="type == 'bossNick'">
+						and (nick like '%'||#{text}||'%')
+					</if>
+				</if>
 				<if test="category == 'long'">
 					and (sg_status='Y' or sg_status='D')
 				</if>
@@ -117,8 +116,7 @@
 				</if>
 			</when>
 			<when test="triger == 'true'">
-				WHERE (a.id = #{userId}
-					  and asg_status='Y'
+				WHERE (a.id = #{userId} and asg_status='Y'
 					  	<if test="category == 'long'">
 							and sg_status='Y'
 						</if>
@@ -138,6 +136,14 @@
 						<if test="category != 'once' and category != 'long'">
 							and (sg_status='Y' or sg_status='N')
 						</if>)
+					<if test="type != ''">
+						<if test="type == 'title'">
+							and (sg_name like '%'||#{text}||'%')
+						</if>
+						<if test="type == 'bossNick'">
+							and (nick like '%'||#{text}||'%')
+						</if>
+					</if>
 			</when>
 		</choose>
 		order by sort_date desc
@@ -152,7 +158,7 @@
 	</select>
 	
 	<select id="getRecList" parameterType="_int" resultMap="ApproachGroupResultSet">
-		SELECT RSG_INSERT_DATE, RSG_TERM, RSG_NUM
+		SELECT RSG_NO, RSG_INSERT_DATE, RSG_TERM, RSG_NUM
 		FROM REC_SGROUP
 		WHERE SG_NO = #{SGNO}
 	</select>
@@ -169,6 +175,7 @@
 		<result property="sortDate" column="sort_date"/>
 		<result property="appStatus" column="asg_status"/>
 		<result property="appDlDate" column="asg_dl_date"/>
+		<result property="recNo" column="RSG_NO"/>
 		<result property="recEnrollDate" column="RSG_INSERT_DATE"/>
 		<result property="recTerm" column="RSG_TERM"/>
 		<result property="recNum" column="RSG_NUM"/>
@@ -178,6 +185,12 @@
 		update ap_sgroup
 		set asg_status = 'O'
 		where sg_no = #{sgno} and id = #{id}
+	</update>
+	
+	<update id="closeRecruit" parameterType="_int">
+		update rec_sgroup
+		set rsg_term = substr(rsg_term, 0, 10) || ' - ' || to_char(sysdate-1,'yyyy-mm-dd')
+		where rsg_no = #{recno}
 	</update>
 	<!-- @@@@ 마이 그룹 관련 끝 @@@@ -->
 </mapper>

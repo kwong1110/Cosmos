@@ -267,10 +267,6 @@
 									<label id="ruleAlert" style="color:red;"></label>
 								</div>
 								<div style="float:right; width:30%; text-align:right; margin-bottom:10px;">
-									<!-- 
-									<button type="button" id="minusIl" style="margin-right:10px; border-radius:50%; width:40px; height:40px; border:2px solid black; color:black; background:transparent;">-</button>
-									<button type="button" id="pluseIl" style="border-radius:50%; width:40px; height:40px; border:2px solid black; color:black; background:transparent;">+</button>
-									 -->
 									<button type="button" id="minusIl" style="margin-right:10px;">-</button>
 									<button type="button" id="pluseIl" style="">+</button>
 								</div>

@@ -14,13 +14,13 @@
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
 	#searchArea{width:100%; display:inline-block; text-align:center;}
-	#searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:5%;}
-	#settingArea{width:85%; display:block; margin-bottom: 2%;}
+	#searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:7%;}
+	#settingArea{width:90%; display:block; margin-bottom: 2%;}
 	#categoryBtn{width:200px; display:inline-block; text-align:center;}
 	
 	#categoryHiddenArea{width:100%; display:inline; text-align:center;}
 	.categoryDiv{width:100%; min-height:40px; border-radius:8px; margin-top:5px; padding-top:10px; padding-bottom:10px; padding-left:30px; vertical-align: middle; display:inline-block; text-align:left; background-color:lightgray;}
-	.categoryLabel{width:11%; cursor:pointer; margin:0; padding:0; margin-right:50px;float:left; line-height:1.7;}
+	.categoryLabel{width:13%; cursor:pointer; margin:0; padding:0; margin-right:50px;float:left; line-height:1.7;}
 	
 	.pointer{cursor:pointer;}
 	
@@ -49,20 +49,20 @@
 	.once{background-color: #70B667; color: #fff; margin-right:20px;}
 	.long{background-color: #135D36; color: #fff; margin-right:20px;}
 	
-	#listArea{width:85%; display: block; text-align:center; margin-top:5%;}
+	#listArea{width:90%; display: block; text-align:center; margin-top:2%;}
 	.recGroup{width:100%; display: inline-block; margin-bottom:5%; text-align:left; background:rgba(255,255,255,0.5); border-radius:20px; padding:15px 20px; cursor: pointer;}
 	.recGroup:hover{background:rgba(255,255,255,0.9);}
 	.firstInfo{}
 	.secondInfo{}
 	.thirdInfo{}
 	.fourthInfo{}
-	.infoTitle{margin-right:20px; font-size: 19px;}
-	.infoLabel{margin-right:10px; font-size: 15px; vertical-align: middle;}
-	.infoContent{margin-right:40px; font-size: 15px; font-weight:normal; vertical-align: middle;}
-	.goalStyle{font-size: 15px; font-weight:normal; text-overflow:ellipsis; white-space:nowrap; max-width:80%; overflow:hidden; vertical-align: middle;}
-	.groupContentStyle{font-size: 15px; max-width:88%; vertical-align: middle; font-size:1em; overflow:hidden; text-overflow:ellipsis; line-height:1.5; height:3em; word-wrap:break-word; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
+	.infoTitle{margin-right:20px; font-size: 21px;}
+	.infoLabel{margin-right:10px; font-size: 18px; vertical-align: middle;}
+	.infoContent{margin-right:40px; font-size: 18px; font-weight:normal; vertical-align: middle;}
+	.goalStyle{font-size: 18px; font-weight:normal; text-overflow:ellipsis; white-space:nowrap; max-width:80%; overflow:hidden; vertical-align: middle;}
+	.groupContentStyle{font-size: 18px; max-width:78%; vertical-align: middle; overflow:hidden; text-overflow:ellipsis; line-height:1.5; word-wrap:break-word; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
 	
-	#bottomArea{width:100%; text-align:center; margin-top:5%;}
+	#bottomArea{width:100%; text-align:center; margin-top:0%;}
 	#insertBtnArea{width:20%; display:inline; float:right;}
 	
 </style>
@@ -124,6 +124,7 @@
 								<div id="studyDiv" class="categoryDiv">
 									<c:forEach items="${ studyList }" var="item" varStatus="status">
 										<c:if test="${ (status.count mod 5) eq 1 }">
+												<section class="categoryLabel">
 											<!-- <div class="categoryLabel"> -->
 												<label class="pointer">${ item }</label><br>
 										</c:if>
@@ -132,6 +133,7 @@
 										</c:if>
 										<c:if test="${ (status.count mod 5) eq 0 }">
 												<label class="pointer">${ item }</label>
+												</section>
 											<!-- </div> -->
 										</c:if>
 									</c:forEach>
@@ -305,6 +307,7 @@
 							$thirdInfo.append($('<label class="infoLabel">').text('그룹 목표'));
 							$thirdInfo.append($('<label class="goalStyle">').text(decodeURIComponent(data[i].sgGoal.replace(/\+/g, ' '))));
 
+							$fourthInfo.append($('<label class="infoLabel">').text('그룹 내용'));
 							$fourthInfo.append($('<p class="groupContentStyle">').text(decodeURIComponent(data[i].sgContent.replace(/\+/g, ' '))));
 							
 							$recGroup.append($firstInfo);
@@ -420,7 +423,7 @@
 				$('#listArea').css('margin-top', '7%');
 			} else {
 				$('#categoryHiddenArea').css('display', 'none');
-				$('#listArea').css('margin-top', '0%');
+				$('#listArea').css('margin-top', '2%');
 			}
 		})
 		

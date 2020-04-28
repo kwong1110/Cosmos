@@ -73,7 +73,8 @@ public class MyGroupController {
 	
 	@RequestMapping("groupList.mp")
 	public void getMyGroupList(HttpServletResponse response, @RequestParam("userId") String userId, @RequestParam("triger") String triger,
-								@RequestParam("category") String category, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+								@RequestParam("category") String category, @RequestParam(value="page", required=false) Integer page,
+								@RequestParam(value="searchType", required=false) String searchType, @RequestParam(value="searchText", required=false) String searchText) throws JsonIOException, IOException {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);
@@ -84,6 +85,17 @@ public class MyGroupController {
 		if(page != null) {
 			currentPage = page;
 		}
+		
+		String type = "";
+		String text = "";
+		if(searchType != null) {
+			type = searchType;
+			text = searchText;
+		}
+		System.out.println(searchType);
+		System.out.println(searchText);
+		map.put("type", type);
+		map.put("text", text);
 		
 		int listCount = mgService.getMemberListCount(map) + mgService.getBossListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
@@ -173,6 +185,18 @@ public class MyGroupController {
 			gson.toJson("success", response.getWriter());
 		} else {
 			throw new MyPageException("그룹원 강퇴에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("closeRec.mp")
+	public void CloseRecruit(HttpServletResponse response, @RequestParam("recno") int recno) throws JsonIOException, IOException {
+		int result = mgService.closeRecruit(recno);
+		
+		if(result > 0) {
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson("success", response.getWriter());
+		} else {
+			throw new MyPageException("모집 마감에 실패하였습니다.");
 		}
 	}
 }
