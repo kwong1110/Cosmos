@@ -58,7 +58,7 @@
 	.modal-dialog {display: inline-block; text-align: left; vertical-align: middle;}
 	
 	 .seatOn{
-		background-color: red !important;
+		background-color: #A60303 !important;
 	} 
 	.tooltip-inner{background-color:black !important; text-align: start !important;}
 
@@ -81,7 +81,7 @@
 					        	     </div> -->
 					        	<div class="left-mid">
 					        			<c:forEach var="s" items="${ branchList }">
-					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
+					        				<div style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:103px;">
 					        					<div style="margin-left:38px;">
 					        						<b>
 					        						코스모스 스터디센터 ${ s.branchName }
@@ -300,19 +300,29 @@
 					            				$("input:radio[name='period']").on('click',function(){
 					            					switch($(this).val()){
 						            					case'시간권': swal({
-									            						title: "하루단위 예약만 가능합니다!", 
+									            						title: "하루단위 예약만 가능합니다!",
+									            						text:" 오픈시간은 10시입니다.",
 									            						html: !0
 									            					})
 						            							  $('.input-single-timepicker').css('display', 'none'); 
 						            							  $('.input-daterange-timepicker').css('display', 'inline-block'); 
 						            							  $("input[name='reserPeople']").attr('disabled',false).prop('checked',false);break;
 						            							  
-						            					case'7일권': 
+						            					case'7일권': swal({
+									            						title: "고정석만 예약 가능합니다!", 
+									            						text:" 오픈시간은 10시입니다.",
+									            						html: !0
+									            					})
 						            							  $('.input-daterange-timepicker').css('display', 'none');
 						            							  $('.input-single-timepicker').css('display', 'inline-block'); 
 						            							  $("input[name='reserPeople']").attr('disabled',true).prop('checked',false);break;
 						            							 
-						            					case'30일권': $('.input-daterange-timepicker').css('display', 'none');
+						            					case'30일권': swal({
+									            						title: "고정석만 예약 가능합니다!", 
+									            						text:" 오픈시간은 10시입니다.",
+									            						html: !0
+									            					}) 
+						            							    $('.input-daterange-timepicker').css('display', 'none');
 						            							    $('.input-single-timepicker').css('display', 'inline-block');
 						            							    $("input[name='reserPeople']").attr('disabled',true).prop('checked',false); break;
 					            						}
@@ -367,6 +377,8 @@
 					            				<div id="seatChoose" class="btn defaultBtn" style="width:150px;">선택</div>
 					            			</div>
 					            			<script>
+					            			
+					            			
 						            			$('#seatChoose').click(function(e){
 						            				$(".chair").parent().removeClass("seatOn");
 						            				
@@ -459,22 +471,24 @@
 	    <div class="modal-content modal-80size ">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         		<div >
-        			<div>좌석선택</div>
+        			<div>&nbsp;</div>
         		</div>
 		        	<form action="/reservation.se" method="post">
 		        		<jsp:include page = "seatForm.jsp"/>
 		        		<script>
-					    	 $('.left-top1-table-cell, .big, .six1, .six2, .four1, .four2, .four3, .four4').on('click',function(){
-					    		var chooseSeat = $(this).children().val();
-					    		$("#chooseSeat").text(chooseSeat);
-					    		
-					    		if($("input:radio[name='period']:checked").val() == '시간권'){
+		        		$('#seatChoose').click(function(){
+		        			 if($("input:radio[name='period']:checked").val() == '시간권'){
 					    			if($("input:hidden[name='z']").val().split('-')[0] == 'Z'){
 					    				console.log($("input:hidden[name='z']").val().split('-')[0]);
-					    				$("input:hidden[name='z']").attr("disabled",true);
-	        						}
-            					}
-					    		
+					    				$(".zSeat").attr("disabled",true);
+	     						}
+	     					}	
+		        		});	
+		        		
+		        		$('.left-top1-table-cell, .big, .six1, .six2, .four1, .four2, .four3, .four4').on('click',function(){
+					    		 
+					    		 var chooseSeat = $(this).children().val();
+					    		$("#chooseSeat").text(chooseSeat);
 					    		
 					    		swal({
 					    			title:"자리를 선택하시겠습니까?",
@@ -516,7 +530,7 @@
 					    						}
 					    					}
 				    				};		
-						    			</c:forEach>
+						    	</c:forEach>
 						    				$('#userPrice').text(result+'원');
 			    			
 		    					};
@@ -566,25 +580,28 @@
 				
 				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFeeStr:strMoney[0]};
 				
-				var buy = confirm("정말로 구매하시겠습니까?");
-				$.ajax({
-			    	   url : "seatBuy.se",
-			    	   type : "post",
-			    	   data : reserInfo,
-			    	   success : function(data) {
-			    	        alert("성공"); 
-			    	        location.href="lectureHistory.mp";
-			    	    }
+				swal({
+	                title:"정말로 결제하시겠습니까?",
+	                type:"warning",
+	                showCancelButton: !0,
+	                confirmButtonColor:"#DD6B55",
+	                confirmButtonText:"선택",
+	                closeOnConfirm: !0
+	                },
+	                function(){
+	                   reserBuy();
+	                }   
+	             )
+
 				
-			       });
-				/* if(buy){
+				function reserBuy(){
 					var IMP = window.IMP; 
 					IMP.init('imp05073510'); 
 					IMP.request_pay({
-					    pg : 'html5_inicis', 
+					    pg : 'kakao', 
 					    pay_method : 'card',
 					    merchant_uid : 'merchant_' + new Date().getTime(),
-					    name : '주문명:결제테스트',
+					    name : '자리예약결제',
 					    amount : strMoney[0],
 					    buyer_email : '${ loginUser.email }',
 					    buyer_name : '${ loginUser.name }',
@@ -594,22 +611,38 @@
 					    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
 					}, function(rsp) {
 					    if ( rsp.success ) {
-					        var msg = '${loginUser.name}님';
-					        msg += '결제 금액 ' + rsp.paid_amount + '원이 결제 되었습니다.';
-					      	$.ajax({
-					    	   url : "seatBuy.se",
-					    	   type : "post",
-					    	   data : JSON.stringify(obj),
-					    	   contentType: "application/json",
-					       });
+					    	 var msg = '${loginUser.name}님께서 ';
+						        msg += rsp.paid_amount + '원을 결제하였습니다.';
+						        $.ajax({
+							    	   url : "seatBuy.se",
+							    	   type : "post",
+							    	   data : reserInfo,
+							    	   success : function(data) {
+							    	        swal({
+							    	    		title: "",
+							    	    		text: msg,
+							    	    		type:"success",
+							    	    		showCancelButton: !0,
+							    	    		confirmButtonColor:"#DD6B55",
+							    	    		confirmButtonText:"확인",
+							    	    		closeOnConfirm: !0
+							    	    		},
+							    	    		function(){
+							    	    			location.href="${contextPath}";
+							    	    		}
+							    	    	)
+							    	    }
+							       });
 					       
 					    } else {
 					        var msg = '결제에 실패하였습니다.';
 					        msg += '에러내용 : ' + rsp.error_msg;
+					        sweetWrong(msg);
+
 					    }
-					    alert(msg);
+					   
 					});				
-				} */
+				} 
 			}	
 		</script>
 	
