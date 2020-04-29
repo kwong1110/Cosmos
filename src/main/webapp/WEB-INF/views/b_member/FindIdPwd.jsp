@@ -60,7 +60,7 @@
 										<p> 
 											<label for="id_mail">이메일</label><input type="text" name="email" class="form-control" size="30" title="가입시 이메일 입력" placeholder="가입시 등록한 이메일">
 										</p> 
-										<button type="submit" >찾기</button>
+										<button type="submit"  onclick="showPopup();">찾기</button>
 								</form>
 							</div>
 						</div>

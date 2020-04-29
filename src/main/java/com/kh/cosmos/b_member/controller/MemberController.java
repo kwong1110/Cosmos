@@ -116,6 +116,7 @@ public class MemberController {
 		          */	 
 		    	  
 		    	 mv.addObject("id",result.getId())
+		    	 /*.setViewName("FindResult");*/
 		    	 .setViewName("FindResult");
 		      }else {
 		         throw new MemberException("정보와 일치하는 아이디가 없습니다.");

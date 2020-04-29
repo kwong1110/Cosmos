@@ -72,8 +72,8 @@ table.inner td {
 } 
 
 /* 연락처 class명 form-control 대신*/
-.brc_tel{
-  width: 12%;
+.branchTel{
+  width: 13%;
   height: 34px;
   padding: 6px 12px;
   font-size: 14px;
@@ -89,58 +89,13 @@ table.inner td {
 }
 
 /* 연락처 class명 form-control 대신 , focus맞춰졌을때 shadow 주는 css */
-.brc_tel:focus{
-  border-color: #66afe9;
-  outline: 0;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
-}
-
-.brc_time{
-  width: 12%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-	
-}
-
-.brc_time:focus{
+.branchTel:focus{
   border-color: #66afe9;
   outline: 0;
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
 }
 
 
-.closeday{
-  width: 12%;
-  height: 34px;
-  padding: 6px 12px;
-  font-size: 14px;
-  line-height: 1.42857143;
-  color: #555;
-  background-color: #fff;
-  background-image: none;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
-  transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
-	
-}
-
-.closeday:focus{
-  border-color: #66afe9;
-  outline: 0;
-  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6);
-}
 
 span.guide{display:none; font-size: 12px; top: 12px; right: 10px;}
 span.ok{color:green;}
