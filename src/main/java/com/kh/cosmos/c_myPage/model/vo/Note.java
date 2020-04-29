@@ -5,24 +5,22 @@ import java.sql.Date;
 public class Note {
 
 	private int noteNo;
+	private String noteFromId;
+	private String noteToId;
 	private String noteContent;
-	private Date noteCreate;
+	private Date noteTime;
 	private String noteStatus;
-	private String noteStorage;
-	private String noteSender;
-	private String noteReceiter;
 	
 	public Note() {}
 
-	public Note(int noteNo, String noteContent, Date noteCreate, String noteStatus, String noteStorage,
-			String noteSender, String noteReceiter) {
+	public Note(int noteNo, String noteFromId, String noteToId, String noteContent, Date noteTime, String noteStatus) {
+		super();
 		this.noteNo = noteNo;
+		this.noteFromId = noteFromId;
+		this.noteToId = noteToId;
 		this.noteContent = noteContent;
-		this.noteCreate = noteCreate;
+		this.noteTime = noteTime;
 		this.noteStatus = noteStatus;
-		this.noteStorage = noteStorage;
-		this.noteSender = noteSender;
-		this.noteReceiter = noteReceiter;
 	}
 
 	public int getNoteNo() {
@@ -33,6 +31,22 @@ public class Note {
 		this.noteNo = noteNo;
 	}
 
+	public String getNoteFromId() {
+		return noteFromId;
+	}
+
+	public void setNoteFromId(String noteFromId) {
+		this.noteFromId = noteFromId;
+	}
+
+	public String getNoteToId() {
+		return noteToId;
+	}
+
+	public void setNoteToId(String noteToId) {
+		this.noteToId = noteToId;
+	}
+
 	public String getNoteContent() {
 		return noteContent;
 	}
@@ -41,12 +55,12 @@ public class Note {
 		this.noteContent = noteContent;
 	}
 
-	public Date getNoteCreate() {
-		return noteCreate;
+	public Date getNoteTime() {
+		return noteTime;
 	}
 
-	public void setNoteCreate(Date noteCreate) {
-		this.noteCreate = noteCreate;
+	public void setNoteTime(Date noteTime) {
+		this.noteTime = noteTime;
 	}
 
 	public String getNoteStatus() {
@@ -57,34 +71,10 @@ public class Note {
 		this.noteStatus = noteStatus;
 	}
 
-	public String getNoteStorage() {
-		return noteStorage;
-	}
-
-	public void setNoteStorage(String noteStorage) {
-		this.noteStorage = noteStorage;
-	}
-
-	public String getNoteSender() {
-		return noteSender;
-	}
-
-	public void setNoteSender(String noteSender) {
-		this.noteSender = noteSender;
-	}
-
-	public String getNoteReceiter() {
-		return noteReceiter;
-	}
-
-	public void setNoteReceiter(String noteReceiter) {
-		this.noteReceiter = noteReceiter;
-	}
-
 	@Override
 	public String toString() {
-		return "Note [noteNo=" + noteNo + ", noteContent=" + noteContent + ", noteCreate=" + noteCreate
-				+ ", noteStatus=" + noteStatus + ", noteStorage=" + noteStorage + ", noteSender=" + noteSender
-				+ ", noteReceiter=" + noteReceiter + "]";
+		return "Note [noteNo=" + noteNo + ", noteFromId=" + noteFromId + ", noteToId=" + noteToId + ", noteContent="
+				+ noteContent + ", noteTime=" + noteTime + ", noteStatus=" + noteStatus + "]";
 	}
+
 }
