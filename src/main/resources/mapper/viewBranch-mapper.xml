@@ -37,11 +37,35 @@
 		values(seq_photoid.nextval, #{branchNo}, #{orginaleFileName}, #{bpPath}, #{bpLevel}, #{bpStatus}, #{renameFileName})
 	</insert>
 
-  <!-- 지점 등록 -->
+ 	<!-- 지점 등록_0426-->
+  	<!-- BRANCH 테이블에 insert-->
+	<insert id="insertBranch" parameterType="ViewBranch">
+
+		INSERT INTO BRANCH VALUES(SEQ_BID.NEXTVAL, #{branchName}, #{branchAddress}, #{branchTel}, null, null, null
+		)
+		
+	</insert> 
+	
+	<!-- MASTER 테이블에 insert -->
+	<insert  id="insertMaster" parameterType="Master">
+	
+		INSERT INTO MASTER VALUES (('branch' || SEQ_MASTERID.nextval), 2, seq_bid.currval)
+		<!-- nextval 대신에 currentval로 insert해야한다. 현재 등록된 seq_bid.currval  -->
+	</insert>
+	
+	
+	<!-- MEMBER 테이블에 insert -->
+	<insert  id="insertMember" parameterType="Member">
+		insert into member
+		values(
+			('branch' || seq_masterid.currval),('branch' || seq_masterid.currval), null,null,null,null,null,sysdate, null,null, default, 0, null
+		)  
+	</insert>
+
 	<!-- 지점명 중복체크 -->
-	<select id="checkNameDup" parameterType="string" resultType="_int">
+	<select id="checkNameDup" resultType="_int" parameterType="string" >
 		select count(*)
 		from branch
-		where branch__name=#{branch_Name}
+		where branch_name=#{branch_Name}
 	</select>
 </mapper>
