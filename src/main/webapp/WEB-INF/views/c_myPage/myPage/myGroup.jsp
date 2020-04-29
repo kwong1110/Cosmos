@@ -270,14 +270,6 @@
 				category = "";
 			}
 			
-			/* var sendData;
-			if(type == 'seacrch') {
-				var searchType = $('#searchType').val();
-				var searchText = $('#searchText').val();
-				sendData = {"userId":userId, "triger":triger, "category":category, "searchType":searchType, "searchText":searchText};
-			} else {
-				sendData = {"userId":userId, "triger":triger, "category":category};
-			} */
 			var sendData;
 			if(type=='search' || ($('#searchType').val() != '분류' && $('#searchText').val() != '')) {
 				var searchType = $('#searchType').val();
@@ -400,7 +392,7 @@
 			})
 		}
 		
-		function getGroupListPage(triger) {
+		function getGroupListPage(triger, type) {
 			var userId = "${ loginUser.id }";
 			if($('#categoryLong').css('color') == 'rgb(255, 255, 255)') {
 				category = "long";
@@ -410,9 +402,18 @@
 				category = "";
 			}
 			
+			var sendData;
+			if(type=='search' || ($('#searchType').val() != '분류' && $('#searchText').val() != '')) {
+				var searchType = $('#searchType').val();
+				var searchText = $('#searchText').val();
+				sendData = {"userId":userId, "triger":triger, "category":category, "searchType":searchType, "searchText":searchText};
+			} else {
+				sendData = {"userId":userId, "triger":triger, "category":category};
+			}
+			
 			$.ajax({
 				url: "groupListPage.mp",
-				data: {userId:userId, triger:triger, category:category},
+				data: sendData,
 				dataType: 'json',
 				success: function(data) {
 
