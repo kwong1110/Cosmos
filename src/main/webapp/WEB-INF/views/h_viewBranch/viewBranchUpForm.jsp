@@ -391,7 +391,7 @@
 	        }
 	
 	        time.value = hours + ":" + minute;
-	    }
+	    } 
 	}
 	  
 	// 지점명 중복 확인	
