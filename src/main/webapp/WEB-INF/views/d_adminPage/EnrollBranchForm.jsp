@@ -86,7 +86,6 @@
 									<p style="font-size:2; color:gray;">*숫자만 입력 가능합니다.</p>		
 								</td>
 							</tr>
-               				</form>	
 						</table>
 						<div class="inner" align="center" >
 							<div class="btnBox">
@@ -94,6 +93,7 @@
 								<button name="취소"  class="defaultBtn">취소</button>	
 							</div> 
 						</div>
+               				</form>	
 					</div>
 					
 				</div>	

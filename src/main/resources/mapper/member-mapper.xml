@@ -64,6 +64,16 @@
 		select * from dual
 	</insert>
 	
+	<!-- loginUser의 공부 중인 항목 -->
+	<select id="getStudyList" parameterType="Preview" resultMap="previewResultSet">
+		select id, study_no, study_name, sp_term, study_etc
+		from preview
+    		join member using(id)
+    		join study_category using(study_no)
+		where id = #{id}
+	</select>
+	
+	
 	<!-- 아이디 중복 체크 -->
 	<select id="checkIdDup" parameterType="string" resultType="_int">
 		select count(*)
@@ -86,11 +96,31 @@
       from member
       where name = #{name} and email = #{email} and mstatus = 'Y'
    </select>
-
-	<!-- 비밀번호 변경
-	<update id="update_pw" parameterType="member">
-		update member set pw = #{pw} where id = #{id}
+   
+	<!-- orderbyId -->
+	<select resultMap="memberResultSet" id="orderbyId">
+		select 'branch' || seq_masterid.currval as id,'branch' || seq_masterid.currval as pwd from dual
+	</select>
+	
+	<!-- 비밀번호 찾기 -->
+	<select resultMap="memberResultSet" parameterType="Member" id="userFindPwd">
+		select *
+		from member
+		where id = #{id} and email = #{email} and mstatus = 'Y'
+	</select>
+	
+	<!-- 비밀번호 변경 -->
+	<update parameterType="Member" id="updatePwd">
+		update member 
+		set pwd = #{pwd}
+		where id = #{id}
 	</update>
-	 -->
-		
+	
+	<resultMap type="Preview" id="previewResultSet">
+		<id property="id" column="ID"/>
+		<result property="studyNo" column="STUDY_NO"/>
+		<result property="spTerm" column="SP_TERM"/>
+		<result property="studyEtc" column="STUDY_ETC"/>
+		<result property="studyName" column="STUDY_NAME"/>
+	</resultMap>
 </mapper>

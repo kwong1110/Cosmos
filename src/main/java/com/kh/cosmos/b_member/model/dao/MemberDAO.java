@@ -43,14 +43,11 @@ public class MemberDAO {
 	
 	// 아이디 찾기
 	public Member selectFindMemberId(SqlSessionTemplate sqlSession, Member m) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.idCheck", m);
 	}
 
 	// selectFindMember
-	
 	public Member selectFindMember(SqlSessionTemplate sqlSession) {
-		// TODO Auto-generated method stub
 		return sqlSession.selectOne("memberMapper.orderbyId");
 	}
 
@@ -58,6 +55,10 @@ public class MemberDAO {
 	public Member selectFindMemberPwd(SqlSessionTemplate sqlSession, Member m) {
 	
 		return sqlSession.selectOne("memberMapper.userFindPwd", m);
+	}
+
+	public int updatePwd(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.update("memberMapper.updatePwd", m);
 	}
 
 }
