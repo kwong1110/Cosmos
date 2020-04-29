@@ -92,8 +92,6 @@ public class MyGroupController {
 			type = searchType;
 			text = searchText;
 		}
-		System.out.println(searchType);
-		System.out.println(searchText);
 		map.put("type", type);
 		map.put("text", text);
 		
@@ -121,7 +119,8 @@ public class MyGroupController {
 
 	@RequestMapping("groupListPage.mp")
 	public void getMyGroupListPage(HttpServletResponse response, @RequestParam("userId") String userId, @RequestParam("triger") String triger,
-									@RequestParam("category") String category, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+									@RequestParam("category") String category, @RequestParam(value="page", required=false) Integer page,
+									@RequestParam(value="searchType", required=false) String searchType, @RequestParam(value="searchText", required=false) String searchText) throws JsonIOException, IOException {
 
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("userId", userId);
@@ -132,6 +131,15 @@ public class MyGroupController {
 		if(page != null) {
 			currentPage = page;
 		}
+		
+		String type = "";
+		String text = "";
+		if(searchType != null) {
+			type = searchType;
+			text = searchText;
+		}
+		map.put("type", type);
+		map.put("text", text);
 		
 		int listCount = mgService.getMemberListCount(map) + mgService.getBossListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);

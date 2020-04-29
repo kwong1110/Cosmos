@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,17 +51,25 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping("getRecList.sg")
-	public void getRecList(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+	public void getRecList(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page,
+						   @RequestParam("branchOp") String branchOp, @RequestParam("studyOp") String studyOp,
+						   @RequestParam("typeOp") String typeOp, @RequestParam("sortOp") String sortOp) throws JsonIOException, IOException {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("branchOp", branchOp);
+		map.put("studyOp", studyOp);
+		map.put("typeOp", typeOp);
+		map.put("sortOp", sortOp);
 		
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = sgService.getRecListCount();
+		int listCount = sgService.getRecListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		ArrayList<StudyGroupRecruit> recList = sgService.getRecList(pi);
+		ArrayList<StudyGroupRecruit> recList = sgService.getRecList(map, pi);
 		
 		if(recList != null) {
 			for(StudyGroupRecruit r : recList) {
@@ -83,13 +92,22 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping("getPaging.sg")
-	public void getPaging(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+	public void getPaging(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page,
+			   @RequestParam("branchOp") String branchOp, @RequestParam("studyOp") String studyOp,
+			   @RequestParam("typeOp") String typeOp, @RequestParam("sortOp") String sortOp) throws JsonIOException, IOException {
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("branchOp", branchOp);
+		map.put("studyOp", studyOp);
+		map.put("typeOp", typeOp);
+		map.put("sortOp", sortOp);
+		
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = sgService.getRecListCount();
+		int listCount = sgService.getRecListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		if(pi != null) {

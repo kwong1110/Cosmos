@@ -71,14 +71,51 @@
 		where asg_status = 'Y' and sg_no = #{sgno}
 	</select>
 	
-	<select id="getRecList" resultMap="groupRecruitResultSet">
+	<select id="getRecList" parameterType="hashMap" resultMap="groupRecruitResultSet">
 		select sg_no, rsg_no, study_name, sg_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE, rsg_num, nick, branch_name, sg_goal, sg_content
 		from sgroup g
 			right join rec_sgroup r using(sg_no)
 		    join study_category using(study_no)
 			join branch using(branch_no)
 			join member using(id)
+			<if test="sortOp != ''">
+				<if test="sortOp == 'numAscSort' or sortOp == 'numDescSort'">
+					join m_sgroup using(sg_no)
+				</if>
+			</if>
 		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
+		<if test="branchOp != ''">
+			and branch_name=#{branchOp}
+		</if>
+		<if test="studyOp != ''">
+			and study_name=#{studyOp}
+		</if>
+		<if test="typeOp != ''">
+			<choose>
+				<when test="typeOp == 'once'">
+					and sg_status = 'N'
+				</when>
+				<when test="typeOp == 'long'">
+					and sg_status = 'Y'
+				</when>
+			</choose>
+		</if>
+		<if test="sortOp != ''">
+			<choose>
+				<when test="sortOp == 'timeSort'">
+					order by sg_no desc
+				</when>
+				<when test="sortOp == 'numAscSort'">
+					order by msg_num asc
+				</when>
+				<when test="sortOp == 'numDescSort'">
+					order by msg_num desc
+				</when>
+				<when test="sortOp == 'recCloseSort'">
+					order by D_CLOSE_DATE asc
+				</when>
+			</choose>
+		</if>
 	</select>
 	
 	<select id="getRecCompleteNum" parameterType="_int" resultType="_int">
@@ -87,14 +124,51 @@
 		where rsg_no = #{recNo} and asg_status = 'Y'
 	</select>
 	
-	<select id="getRecListCount" resultType="_int">
+	<select id="getRecListCount" parameterType="hashMap" resultType="_int">
 		select count(*)
 		from sgroup g
 			right join rec_sgroup r using(sg_no)
 		    join study_category using(study_no)
 			join branch using(branch_no)
 			join member using(id)
+			<if test="sortOp != ''">
+				<if test="sortOp == 'numAscSort' or sortOp == 'numDescSort'">
+					join m_sgroup using(sg_no)
+				</if>
+			</if>
 		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
+		<if test="branchOp != ''">
+			and branch_name=#{branchOp}
+		</if>
+		<if test="studyOp != ''">
+			and study_name=#{studyOp}
+		</if>
+		<if test="typeOp != ''">
+			<choose>
+				<when test="typeOp == 'once'">
+					and sg_status = 'N'
+				</when>
+				<when test="typeOp == 'long'">
+					and sg_status = 'Y'
+				</when>
+			</choose>
+		</if>
+		<if test="sortOp != ''">
+			<choose>
+				<when test="sortOp == 'timeSort'">
+					order by sg_no desc
+				</when>
+				<when test="sortOp == 'numAscSort'">
+					order by msg_num asc
+				</when>
+				<when test="sortOp == 'numDescSort'">
+					order by msg_num desc
+				</when>
+				<when test="sortOp == 'recCloseSort'">
+					order by (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) asc
+				</when>
+			</choose>
+		</if>
 	</select>
 	
 	<resultMap type="StudyGroupRecruit" id="groupRecruitResultSet">
