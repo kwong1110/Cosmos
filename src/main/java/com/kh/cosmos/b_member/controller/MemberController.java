@@ -97,7 +97,7 @@ public class MemberController {
 			return "FindIdPwd";
 		}
 	  
-		// 아이디찾기_한솔 
+	// 아이디찾기_한솔 
 		 @RequestMapping("findId.me")
 		   public ModelAndView findMemberId(@ModelAttribute Member m, ModelAndView mv) {
 		      
@@ -132,7 +132,7 @@ public class MemberController {
 		@RequestMapping("findPwd.me")
 		public ModelAndView findPwd(@ModelAttribute Member m, ModelAndView mv, @RequestParam("id") String id, @RequestParam("email") String email) {
 			
-			System.out.println(m);
+			System.out.println(m); //m Member 찍어보기
 			
 			Member member = mService.findMemberPwd(m);
 			
@@ -190,13 +190,12 @@ public class MemberController {
 						ranPw += pwSet2[ranIndex];
 					}
 					
-//					 bcryptPasswordEncoder.encode(m.getPwd());
-	//test
-					
+					// bcryptPasswordEncoder.encode(m.getPwd());
+			
 					String lastPw = firstPw + ranPw + "!"; // 비밀번호를 새로 생성해준
 					String lastPwd = bcryptPasswordEncoder.encode(lastPw);
-					member.setPwd(lastPwd); // 회원비밀번호 임시비밀번호로 변경
-					System.out.println("---멤버---" + member);
+					member.setPwd(lastPwd); // 회원비밀번호 임시비밀번호로 변경 lastPwd는  lastPw 를 암호화해서 lastPwd에 담아줬음
+					System.out.println("---멤버--- : " + member);
 					int result = mService.fakePwd(member);
 					
 					if(result > 0) {
@@ -216,8 +215,10 @@ public class MemberController {
 				} catch (MessagingException e) {
 					e.printStackTrace();
 				}
+//				String maskEmail = member.getEmail();
+//				String[] emailArr = email.split("@");
 						
-				mv.addObject("id",member.getId())
+				mv.addObject("email",member.getEmail())
 		    	 .setViewName("FindPwResult");
 		      }else {
 		         throw new MemberException("정보와 일치하는 아이디가 없습니다.");
