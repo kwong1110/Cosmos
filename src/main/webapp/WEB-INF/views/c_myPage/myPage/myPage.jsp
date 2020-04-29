@@ -95,28 +95,6 @@
 					<div class="btnBox inner">
 						<button type="button" class="defaultBtn pwdUpBtn" onclick="">비밀번호 변경하기</button>
 						<button type="button" class="defaultBtn" onclick="location.href='memberUpView.mp'">회원정보 수정하기</button>
-						
-						<%-- 
-						<c:url var="bupView" value="bupView.bo">
-							<c:param name="bId" value="${ board.bId }"/>
-							<c:param name="page" value="${ page }"/>
-						</c:url>
-						<c:url var="bdelete" value="bdelete.bo">
-							<c:param name="bId" value="${ board.bId }"/>
-						</c:url>
-						<c:url var="blist" value="blist.bo">
-							<c:param name="page" value="${ page }"/>
-						</c:url>
-						
-						<c:if test="${ loginUser.id eq board.bWriter }">
-						<tr>
-							<td colspan="2" align="center">
-								<button onclick="location.href='${ bupView }'">수정하기</button>
-								<button onclick="location.href='${ bdelete }'">삭제하기</button>
-							</td>
-						</tr>
-						</c:if> 
-						--%>
 					</div>
 				</div>
 			</div>
@@ -127,7 +105,33 @@
 	<div id="pwdViewMODAL" class="modal fade" tabindex="-1" role="dialog" >
 		<div class="modal-dialog modal-80size" role="document">
 			<div class="modal-content modal-80size">
-				
+				<div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">비밀번호 수정</h4>
+                </div>
+				<form action="memberPwdUp.mp" method="post">
+					<table>
+						<tr>
+							<td>현재 비밀번호</td>
+							<td><input type="password" name="pwd"></td>
+						</tr>
+						<tr>
+							<td>새 비밀번호</td>
+							<td><input type="password" name="newPwd1"></td>
+						</tr>
+						<tr>
+							<td>새 비밀번호 확인</td>
+							<td><input type="password" name="newPwd2"></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center">
+								<input type="submit" value="수정하기">
+							</td>
+						
+						</tr>
+					</table>
+				</form>
 			</div><!-- /.modal-content -->
 		</div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
@@ -136,14 +140,15 @@
 		$(function(){
 			$('.pwdUpBtn').click(function(){
 				$('#pwdViewMODAL').modal("show");
-				$.ajax({
-					url: "memberPwdUpView.mp",
+				
+				/* $.ajax({
+					url: "memberPwdUp.mp",
 					dataType: 'JSON',
 					success: function(data){
 						
 					}
 					
-				});
+				}); */
 			});
 			
 		});

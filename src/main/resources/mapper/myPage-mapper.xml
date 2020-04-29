@@ -209,5 +209,34 @@
 		<result property="studyEtc" column="STUDY_ETC"/>
 		<result property="studyName" column="STUDY_NAME"/>
 	</resultMap>
+	
+	<!-- 비밀번호 변경 -->
+	<update id="updatePwd" parameterType="Member">
+		update member
+		set pwd=#{pwd}
+		where id=#{id}
+	</update>
+	
+	<!-- 공부카테고리 -->
+	<select id="selectList" parameterType="StudyCategory" resultMap="studyCategoryResultSet"> 
+		select study_no, study_name
+		from study_category 
+	</select>
+	<resultMap type="StudyCategory" id="studyCategoryResultSet">
+		<id property="studyNo" column="STUDY_NO"/>
+		<result property="studyName" column="STUDY_NAME"/>
+	</resultMap>
+	
+	<update id="updateMember" parameterType="Member">
+		update member 
+		set name=#{name}, nick=#{nick}, birth=#{birth}, email=#{email}, phone=#{phone}, gender=#{gender} 
+		where id=${id}
+	</update>
+	
+	<update id="updatePreview" parameterType="Preview">
+		update preview
+		set styudyNo=#{studyNo}, spTerm=#{spTerm}, studyName=#{studyName}, studyEtc=#{studyEtc}
+		where id=${id} 
+	</update>
   
 </mapper>

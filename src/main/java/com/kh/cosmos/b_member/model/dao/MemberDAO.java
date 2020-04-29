@@ -60,9 +60,4 @@ public class MemberDAO {
 		return sqlSession.selectOne("memberMapper.userFindPwd", m);
 	}
 
-	public int updatePwd(SqlSessionTemplate sqlSession, Member m) {
-		// TODO Auto-generated method stub
-		return sqlSession.update("memberMapper.updatePwd", m);
-	}
-
 }
