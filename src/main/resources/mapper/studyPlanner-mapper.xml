@@ -48,4 +48,11 @@
 		set plan_status='N'
 		where plan_no=#{planNo}
 	</update>
+	
+	<update id="updatePlan">
+		update plan
+		set plan_title=#{planTitle}, plan_content=#{planContent}, plan_menu=#{planMenu}, plan_start=#{planStart}, 
+			create_date=sysdate, open_status=#{openStatus}, study_no=#{studyNo}, plan_end=#{planEnd}
+		where plan_no=#{planNo}
+	</update>
 </mapper>

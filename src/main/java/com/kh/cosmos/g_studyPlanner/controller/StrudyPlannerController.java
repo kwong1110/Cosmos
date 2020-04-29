@@ -79,8 +79,6 @@ public class StrudyPlannerController {
 							Model model, RedirectAttributes ra) {
 		// System.out.println("sp확인 : " + sp);
 		
-		System.out.println(daterange);
-		
 		String[] fullDate = daterange.split(" - ");
 
 		String startDate = fullDate[0].split(" ")[0];
@@ -96,7 +94,7 @@ public class StrudyPlannerController {
 		sp.setPlanEnd(endDateSql);
 		//sp.setTime(startTime + "~" + endTime);
 		
-		System.out.println("날짜 담긴 후 sp 확인 : " + sp);
+		// System.out.println("날짜 담긴 후 sp 확인 : " + sp);
 		int result = spService.insertPlan(sp);
 		
 		ra.addFlashAttribute("successMsg", "플래너 등록 성공");
@@ -135,6 +133,40 @@ public class StrudyPlannerController {
 			gson.toJson(result, response.getWriter());
 		} else {
 			throw new StudyPlannerException("플래너 삭제에 실패했습니다");
+		}
+	}
+	
+	@RequestMapping("updatePlan.sp")
+	public String updatePlan(@ModelAttribute StudyPlanner sp, Model model, 
+							 RedirectAttributes ra, @RequestParam("daterange") String daterange) {
+		
+		System.out.println(sp);
+		System.out.println(daterange);
+		
+		String[] fullDate = daterange.split(" - ");
+
+		String startDate = fullDate[0].split(" ")[0];
+		String startTime = fullDate[0].split(" ")[1];
+		String endDate = fullDate[1].split(" ")[0];
+		String endTime = fullDate[1].split(" ")[1];
+		
+		Date startDateSql = Date.valueOf(startDate);
+		Date endDateSql = Date.valueOf(endDate);
+		System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
+		
+		sp.setPlanStart(startDateSql);
+		sp.setPlanEnd(endDateSql);
+		
+		System.out.println("담긴 후 sp : " + sp);
+		
+		int result = spService.updatePlan(sp);
+		
+		if(result > 0){
+			ra.addFlashAttribute("successMsg", "플래너 수정 성공");
+			
+			return "redirect:myPlannerList.sp";
+		} else {
+			throw new StudyPlannerException("플래너 수정에 실패했습니다");
 		}
 	}
 }

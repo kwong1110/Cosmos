@@ -115,7 +115,7 @@
 			selectable: false,				// 날짜에 드래그 사용
 			displayEventTime: false,		// 캘린더에서 title에 시간표시 삭제
 			events: [						// 스케쥴 데이터를 넣는 곳
-				<c:forEach var="l" items="${ list }">
+				<c:forEach var="l" items="${ llist }">
 					{
 						title :	"${ l.lectureTitle }",
 						start : "${ l.lectureStart }",	

@@ -30,4 +30,8 @@ public class StudyPlannerDAO {
 		return sqlSession.update("studyPlannerMapper.deletePlan", planNo);
 	}
 
+	public int updatePlan(SqlSessionTemplate sqlSession, StudyPlanner sp) {
+		return sqlSession.update("studyPlannerMapper.updatePlan", sp);
+	}
+
 }

@@ -16,4 +16,6 @@ public interface StudyPlannerService {
 
 	int deletePlan(int planNo);
 
+	int updatePlan(StudyPlanner sp);
+
 }

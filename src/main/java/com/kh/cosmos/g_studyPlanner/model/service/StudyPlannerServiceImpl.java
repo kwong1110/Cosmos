@@ -44,4 +44,9 @@ public class StudyPlannerServiceImpl implements StudyPlannerService {
 		return spDAO.deletePlan(sqlSession, planNo);
 	}
 
+	@Override
+	public int updatePlan(StudyPlanner sp) {
+		return spDAO.updatePlan(sqlSession, sp);
+	}
+
 }

@@ -24,7 +24,37 @@
 <body>
 	<!-- <textarea id="summernote" style="resize: none"></textarea> -->
 <script>
+
+	// 1개로 들어가는 경우 ID로 사용
 	$('#summernote').summernote({
+		height: 400,                 	// 에디터 높이
+		minHeight: null,             	// 최소 높이  
+		maxHeight: null,             	// 최대 높이
+		focus: true,                 	// 에디터 로딩후 포커스를 맞출지 여부
+		lang: "ko-KR",					// 한글 설정
+			// 모달의 summernote 후 사진 모달창 정상 작동 되게 하기, 아래의 2개 true로 추가.
+		dialogsInBody: true,			// 대화 상자는 bodySummernote가 아닌 곳에 배치 할 수 있음 
+		dialogsFade: true,				// 기본적으로 대화 상자는 페이딩 효과없이 표시되고 숨겨짐. 이걸 켜야됨.
+			// --
+		// placeholder: ''				//placeholder 설정
+		/* toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ], */
+		callbacks: {					// 이미지를 첨부하는 부분
+			onImageUpload : function(files) {
+				uploadSummernoteImageFile(files[0],this);
+			}
+		}
+	});
+	
+	// 2개 들어가는 경우  클래스로 사용. 수정할 경우 위에 ID로 사용하는 경우와 맞추어 주어야 함 
+	$('.summernote').summernote({
 		height: 400,                 	// 에디터 높이
 		minHeight: null,             	// 최소 높이  
 		maxHeight: null,             	// 최대 높이
