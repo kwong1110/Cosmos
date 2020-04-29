@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,17 +51,25 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping("getRecList.sg")
-	public void getRecList(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+	public void getRecList(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page,
+						   @RequestParam("branchOp") String branchOp, @RequestParam("studyOp") String studyOp,
+						   @RequestParam("typeOp") String typeOp, @RequestParam("sortOp") String sortOp) throws JsonIOException, IOException {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("branchOp", branchOp);
+		map.put("studyOp", studyOp);
+		map.put("typeOp", typeOp);
+		map.put("sortOp", sortOp);
 		
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = sgService.getRecListCount();
+		int listCount = sgService.getRecListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		ArrayList<StudyGroupRecruit> recList = sgService.getRecList(pi);
+		ArrayList<StudyGroupRecruit> recList = sgService.getRecList(map, pi);
 		
 		if(recList != null) {
 			for(StudyGroupRecruit r : recList) {
@@ -83,13 +92,22 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping("getPaging.sg")
-	public void getPaging(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page) throws JsonIOException, IOException {
+	public void getPaging(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page,
+			   @RequestParam("branchOp") String branchOp, @RequestParam("studyOp") String studyOp,
+			   @RequestParam("typeOp") String typeOp, @RequestParam("sortOp") String sortOp) throws JsonIOException, IOException {
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("branchOp", branchOp);
+		map.put("studyOp", studyOp);
+		map.put("typeOp", typeOp);
+		map.put("sortOp", sortOp);
+		
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = sgService.getRecListCount();
+		int listCount = sgService.getRecListCount(map);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		if(pi != null) {
@@ -228,5 +246,41 @@ public class StudyGroupController {
 		} else {
 			throw new StudyGroupException("그룹 수정 페이지 호출에 실패하였습니다.");
 		}
+	}
+	
+	@RequestMapping("updateGroup.sg")
+	public String UpdateGroup(@ModelAttribute StudyGroup sg, @RequestParam("msgSwitch") String msgSwitch) {
+		System.out.println(sg);
+		System.out.println(msgSwitch);
+		
+		if(sg.getMsgRule2().equals("")) sg.setMsgRule2(null);
+		if(sg.getMsgRule3().equals("")) sg.setMsgRule3(null);
+		
+		int result;
+		//일회그룹에서 다회그룹으로 변경되었다면 우선 다회그룹테이블에 데이터를 insert해야됨.
+		if(sg.getSgStatus().equals("N") && msgSwitch.equals("on")) {
+			int insertResult = sgService.insertMultiGroup(sg);
+			
+			if(insertResult > 0) {
+				result = sgService.updateGroup(sg);
+			} else {
+				throw new StudyGroupException("스터디 그룹 상태 전환에 실패하였습니다. (일회 -> 다회)");
+			}
+		} else {
+			result = sgService.updateGroup(sg);
+		}
+		
+		if(result > 0) {
+			result = sgService.updateMultiGroup(sg);
+			
+			if(result > 0) {
+				return "redirect:myGroup.mp";
+			} else {
+				throw new StudyGroupException("스터디 그룹 수정에 실패하였습니다. - updateMultiGroup");
+			}
+		} else {
+			throw new StudyGroupException("스터디 그룹 수정에 실패하였습니다. - updateGroup");
+		}
+		
 	}
 }

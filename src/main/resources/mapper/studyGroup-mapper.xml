@@ -71,14 +71,51 @@
 		where asg_status = 'Y' and sg_no = #{sgno}
 	</select>
 	
-	<select id="getRecList" resultMap="groupRecruitResultSet">
+	<select id="getRecList" parameterType="hashMap" resultMap="groupRecruitResultSet">
 		select sg_no, rsg_no, study_name, sg_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE, rsg_num, nick, branch_name, sg_goal, sg_content
 		from sgroup g
 			right join rec_sgroup r using(sg_no)
 		    join study_category using(study_no)
 			join branch using(branch_no)
 			join member using(id)
+			<if test="sortOp != ''">
+				<if test="sortOp == 'numAscSort' or sortOp == 'numDescSort'">
+					join m_sgroup using(sg_no)
+				</if>
+			</if>
 		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
+		<if test="branchOp != ''">
+			and branch_name=#{branchOp}
+		</if>
+		<if test="studyOp != ''">
+			and study_name=#{studyOp}
+		</if>
+		<if test="typeOp != ''">
+			<choose>
+				<when test="typeOp == 'once'">
+					and sg_status = 'N'
+				</when>
+				<when test="typeOp == 'long'">
+					and sg_status = 'Y'
+				</when>
+			</choose>
+		</if>
+		<if test="sortOp != ''">
+			<choose>
+				<when test="sortOp == 'timeSort'">
+					order by sg_no desc
+				</when>
+				<when test="sortOp == 'numAscSort'">
+					order by msg_num asc
+				</when>
+				<when test="sortOp == 'numDescSort'">
+					order by msg_num desc
+				</when>
+				<when test="sortOp == 'recCloseSort'">
+					order by D_CLOSE_DATE asc
+				</when>
+			</choose>
+		</if>
 	</select>
 	
 	<select id="getRecCompleteNum" parameterType="_int" resultType="_int">
@@ -87,14 +124,51 @@
 		where rsg_no = #{recNo} and asg_status = 'Y'
 	</select>
 	
-	<select id="getRecListCount" resultType="_int">
+	<select id="getRecListCount" parameterType="hashMap" resultType="_int">
 		select count(*)
 		from sgroup g
 			right join rec_sgroup r using(sg_no)
 		    join study_category using(study_no)
 			join branch using(branch_no)
 			join member using(id)
+			<if test="sortOp != ''">
+				<if test="sortOp == 'numAscSort' or sortOp == 'numDescSort'">
+					join m_sgroup using(sg_no)
+				</if>
+			</if>
 		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
+		<if test="branchOp != ''">
+			and branch_name=#{branchOp}
+		</if>
+		<if test="studyOp != ''">
+			and study_name=#{studyOp}
+		</if>
+		<if test="typeOp != ''">
+			<choose>
+				<when test="typeOp == 'once'">
+					and sg_status = 'N'
+				</when>
+				<when test="typeOp == 'long'">
+					and sg_status = 'Y'
+				</when>
+			</choose>
+		</if>
+		<if test="sortOp != ''">
+			<choose>
+				<when test="sortOp == 'timeSort'">
+					order by sg_no desc
+				</when>
+				<when test="sortOp == 'numAscSort'">
+					order by msg_num asc
+				</when>
+				<when test="sortOp == 'numDescSort'">
+					order by msg_num desc
+				</when>
+				<when test="sortOp == 'recCloseSort'">
+					order by (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) asc
+				</when>
+			</choose>
+		</if>
 	</select>
 	
 	<resultMap type="StudyGroupRecruit" id="groupRecruitResultSet">
@@ -124,12 +198,21 @@
 	        join m_sgroup using(sg_no)
 	        join study_category using(study_no)
 	    where sg_no = #{sgno} -->
-	    select sg_no, sg_name, sg_goal, sg_content, sg_status, branch_no, id, study_name, nvl(msg_num, rsg_num) as msg_num, msg_rule1, msg_rule2, msg_rule3, nvl(msg_met_rule, rsg_metting_date) as msg_met_rule
+	    <!-- select distinct sg_no, sg_name, sg_goal, sg_content, sg_status, branch_no, id, study_name, nvl(msg_num, rsg_num) as msg_num, msg_rule1, msg_rule2, msg_rule3, nvl(msg_met_rule, rsg_metting_date) as msg_met_rule
 		from sgroup 
 		    left join m_sgroup using(sg_no)
 		    left join rec_sgroup using(sg_no)
 		    join study_category using(study_no)
-		where sg_no = #{sgno}
+		where sg_no = #{sgno} -->
+		select *
+		from (select distinct sg_no, sg_name, sg_goal, sg_content, sg_status, branch_no, id, study_name, nvl(msg_num, rsg_num) as msg_num, msg_rule1, msg_rule2, msg_rule3, nvl(msg_met_rule, rsg_metting_date) as msg_met_rule, rsg_no, substr(rsg_term, 14) as final_rec_date
+		        from sgroup 
+		            left join m_sgroup using(sg_no)
+		            left join rec_sgroup using(sg_no)
+		            join study_category using(study_no)
+		    where sg_no = #{sgno}
+		    order by rsg_no)
+		where rownum = 1
 	</select>
 	
 	<resultMap type="StudyGroup" id="studyGroupResultSet">
@@ -143,9 +226,27 @@
 		<result property="studyNo" column="STUDY_NO"/>
 		<result property="studyName" column="STUDY_NAME"/>
 		<result property="msgNum" column="MSG_NUM"/>
-		<result property="msgRole1" column="MSG_RULE1"/>
-		<result property="msgRole2" column="MSG_RULE2"/>
-		<result property="msgRole3" column="MSG_RULE3"/>
-		<result property="msgMetRole" column="MSG_MET_RULE"/>
+		<result property="msgRule1" column="MSG_RULE1"/>
+		<result property="msgRule2" column="MSG_RULE2"/>
+		<result property="msgRule3" column="MSG_RULE3"/>
+		<result property="msgMetRule" column="MSG_MET_RULE"/>
+		<result property="finalRecDate" column="FINAL_REC_DATE"/>
 	</resultMap>
+	
+	<insert id="insertMultiGroup" parameterType="StudyGroup">
+		insert into m_sgroup
+		values(#{sgNo}, #{msgNum}, #{msgRule1}, #{msgRule2}, #{msgRule3}, 1, #{msgMetRule})
+	</insert>
+	
+	<update id="updateStudyGroup" parameterType="StudyGroup">
+		update sgroup
+		set sg_goal=#{sgGoal}, sg_content=#{sgContent}, branch_no=#{branchNo}
+		where sg_no=#{sgNo}
+	</update>
+	
+	<update id="updateMultiGroup" parameterType="StudyGroup">
+		update m_sgroup
+		set msg_num=#{msgNum}, msg_rule1=#{msgRule1}, msg_rule2=#{msgRule2}, msg_rule3=#{msgRule3}, msg_met_rule=#{msgMetRule}
+		where sg_no=#{sgNo}
+	</update>
 </mapper>

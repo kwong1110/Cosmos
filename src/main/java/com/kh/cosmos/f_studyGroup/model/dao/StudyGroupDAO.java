@@ -1,6 +1,7 @@
 package com.kh.cosmos.f_studyGroup.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -54,23 +55,35 @@ public class StudyGroupDAO {
 		return sqlSession.selectOne("studyGroupMapper.getIngRecCount", sgno);
 	}
 
-	public ArrayList<StudyGroupRecruit> getRecList(SqlSessionTemplate sqlSession, PageInfo pi) {
+	public ArrayList<StudyGroupRecruit> getRecList(SqlSessionTemplate sqlSession, HashMap<String, String> map, PageInfo pi) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 	    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 	    
-		return (ArrayList)sqlSession.selectList("studyGroupMapper.getRecList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getRecList", map, rowBounds);
 	}
 
 	public int getRecCompleteNum(SqlSessionTemplate sqlSession, int recNo) {
 		return sqlSession.selectOne("studyGroupMapper.getRecCompleteNum", recNo);
 	}
 
-	public int getRecListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("studyGroupMapper.getRecListCount");
+	public int getRecListCount(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("studyGroupMapper.getRecListCount", map);
 	}
 
 	public StudyGroup getStudyGroupInfo(SqlSessionTemplate sqlSession, int sgno) {
 		return sqlSession.selectOne("studyGroupMapper.getStudyGroupInfo", sgno);
+	}
+
+	public int insertMultiGroup(SqlSessionTemplate sqlSession, StudyGroup sg) {
+		return sqlSession.insert("studyGroupMapper.insertMultiGroup", sg);
+	}
+
+	public int updateGroup(SqlSessionTemplate sqlSession, StudyGroup sg) {
+		return sqlSession.update("studyGroupMapper.updateStudyGroup", sg);
+	}
+
+	public int updateMultiGroup(SqlSessionTemplate sqlSession, StudyGroup sg) {
+		return sqlSession.update("studyGroupMapper.updateMultiGroup", sg);
 	}
 
 }

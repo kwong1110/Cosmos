@@ -1,6 +1,7 @@
 package com.kh.cosmos.f_studyGroup.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
@@ -28,12 +29,18 @@ public interface StudyGroupService {
 
 	int getIngRecCount(int sgno);
 
-	ArrayList<StudyGroupRecruit> getRecList(PageInfo pi);
+	ArrayList<StudyGroupRecruit> getRecList(HashMap<String, String> map, PageInfo pi);
 
 	int getRecCompleteNum(int recNo);
 
-	int getRecListCount();
+	int getRecListCount(HashMap<String, String> map);
 
 	StudyGroup getStudyGroupInfo(int sgno);
+
+	int updateGroup(StudyGroup sg);
+
+	int insertMultiGroup(StudyGroup sg);
+
+	int updateMultiGroup(StudyGroup sg);
 	
 }

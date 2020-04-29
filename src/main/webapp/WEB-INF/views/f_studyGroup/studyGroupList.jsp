@@ -14,19 +14,21 @@
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
 	#searchArea{width:100%; display:inline-block; text-align:center;}
-	#searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:5%;}
-	#settingArea{width:85%; display:block; margin-bottom: 2%;}
+	#searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:7%;}
+	#reSearchForm{width:70%; display:inline-block; vertical-align:middle; margin-left:3%;}
+	#settingArea{width:90%; display:block; margin-bottom: 2%;}
 	#categoryBtn{width:200px; display:inline-block; text-align:center;}
 	
 	#categoryHiddenArea{width:100%; display:inline; text-align:center;}
 	.categoryDiv{width:100%; min-height:40px; border-radius:8px; margin-top:5px; padding-top:10px; padding-bottom:10px; padding-left:30px; vertical-align: middle; display:inline-block; text-align:left; background-color:lightgray;}
-	.categoryLabel{width:11%; cursor:pointer; margin:0; padding:0; margin-right:50px;float:left; line-height:1.7;}
+	.categoryLabel{width:115px; cursor:pointer; margin:0; padding:0; margin-right:50px;float:left; line-height:1.7;}
 	
 	.pointer{cursor:pointer;}
 	
 	#confirmArea{min-height:40px; margin-top:5px; padding-bottom:10px; padding-left:30px; vertical-align: middle; display:inline-block; float:right;}
 	
 	#sortArea{display:inline-block; float:right;}
+	.sort{font-size:17px;}
 	
 	.typeBadge{
 		font-weight: bold;
@@ -49,20 +51,20 @@
 	.once{background-color: #70B667; color: #fff; margin-right:20px;}
 	.long{background-color: #135D36; color: #fff; margin-right:20px;}
 	
-	#listArea{width:85%; display: block; text-align:center; margin-top:5%;}
-	.recGroup{width:100%; display: inline-block; margin-bottom:5%; text-align:left; background:rgba(255,255,255,0.5); border-radius:20px; padding:15px 20px; cursor: pointer;}
+	#listArea{width:90%; display: block; text-align:center; margin-top:2%;}
+	.recGroup{width:100%; display: inline-block; margin-bottom:3%; text-align:left; background:rgba(255,255,255,0.5); border-radius:20px; padding:15px 20px; cursor: pointer;}
 	.recGroup:hover{background:rgba(255,255,255,0.9);}
 	.firstInfo{}
 	.secondInfo{}
 	.thirdInfo{}
 	.fourthInfo{}
-	.infoTitle{margin-right:20px; font-size: 19px;}
-	.infoLabel{margin-right:10px; font-size: 15px; vertical-align: middle;}
-	.infoContent{margin-right:40px; font-size: 15px; font-weight:normal; vertical-align: middle;}
-	.goalStyle{font-size: 15px; font-weight:normal; text-overflow:ellipsis; white-space:nowrap; max-width:80%; overflow:hidden; vertical-align: middle;}
-	.groupContentStyle{font-size: 15px; max-width:88%; vertical-align: middle; font-size:1em; overflow:hidden; text-overflow:ellipsis; line-height:1.5; height:3em; word-wrap:break-word; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
+	.infoTitle{margin-right:20px; font-size: 21px;}
+	.infoLabel{margin-right:10px; font-size: 18px; vertical-align: middle;}
+	.infoContent{margin-right:40px; font-size: 18px; font-weight:normal; vertical-align: middle;}
+	.goalStyle{font-size: 18px; font-weight:normal; text-overflow:ellipsis; white-space:nowrap; max-width:80%; overflow:hidden; vertical-align: middle;}
+	.groupContentStyle{font-size: 18px; max-width:78%; vertical-align: middle; overflow:hidden; text-overflow:ellipsis; line-height:1.5; word-wrap:break-word; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;}
 	
-	#bottomArea{width:100%; text-align:center; margin-top:5%;}
+	#bottomArea{width:100%; text-align:center; margin-top:0%;}
 	#insertBtnArea{width:20%; display:inline; float:right;}
 	
 </style>
@@ -105,50 +107,68 @@
 							<input type="button" class="defaultBtn" id="categoryBtn" value="카테고리">
 							
 							<div id="sortArea">
-								<label class="sort" id="timeSort">최근 등록순</label>
+								<label class="sort" id="timeSort" onclick="categoryClickOption('sort', this);">최근 등록순</label>
 								&nbsp;&nbsp;|&nbsp;&nbsp;
-								<label class="sort" id="numAscSort">그룹 인원 적은순</label>
+								<label class="sort" id="numAscSort" onclick="categoryClickOption('sort', this);">그룹 인원 적은순</label>
 								&nbsp;&nbsp;|&nbsp;&nbsp;
-								<label class="sort" id="numDescSort">그룹 인원 많은순</label>
+								<label class="sort" id="numDescSort" onclick="categoryClickOption('sort', this);">그룹 인원 많은순</label>
 								&nbsp;&nbsp;|&nbsp;&nbsp;
-								<label class="sort" id="recCloseSort">모집 마감 임박순</label>
+								<label class="sort" id="recCloseSort" onclick="categoryClickOption('sort', this);">모집 마감 임박순</label>
 							</div>
 							
 							<div id="categoryHiddenArea">
-								<div id="locDiv" class="categoryDiv">
+								<div class="categoryDiv">
 									<c:forEach var="item" items="${ branchList }">
-										<label class="categoryLabel">${ item.branchName }</label>
+										<section class="categoryLabel">
+											<label class="pointer branchCategory" onclick="categoryClickOption('branch', this);">${ item.branchName }</label>
+										</section>
 									</c:forEach>
 								</div>
 								
-								<div id="studyDiv" class="categoryDiv">
+								<div class="categoryDiv">
 									<c:forEach items="${ studyList }" var="item" varStatus="status">
 										<c:if test="${ (status.count mod 5) eq 1 }">
-											<!-- <div class="categoryLabel"> -->
-												<label class="pointer">${ item }</label><br>
+											<section class="categoryLabel">
+												<label class="pointer studyCategory" onclick="categoryClickOption('study', this);">${ item }</label><br>
 										</c:if>
 										<c:if test="${ (status.count mod 5) ne 1 && (status.count mod 5) ne 0 }">
-												<label class="pointer">${ item }</label><br>
+												<label class="pointer studyCategory" onclick="categoryClickOption('study', this);">${ item }</label><br>
 										</c:if>
 										<c:if test="${ (status.count mod 5) eq 0 }">
-												<label class="pointer">${ item }</label>
-											<!-- </div> -->
+												<label class="pointer studyCategory" onclick="categoryClickOption('study', this);">${ item }</label>
+											</section>
 										</c:if>
 									</c:forEach>
-									</div>
+								</div>
 								
-									<div id="typeDiv" class="categoryDiv" style="width:65%; float:left; display:inline-block;">
-										<label class="categoryLabel">once</label>
-										<label class="categoryLabel">long</label>
-									</div>
+								<div class="categoryDiv">
+									<section class="categoryLabel">
+										<label class="pointer typeCategory" onclick="categoryClickOption('type', this);">once</label>
+									</section>
+									<section class="categoryLabel">
+										<label class="pointer typeCategory" onclick="categoryClickOption('type', this);">long</label>
+									</section>
+								</div>
+								
+								<div class="categoryDiv" style="width:65%; vertical-align:middle;">
+									<label>결과 내 재검색</label>
+									<form method="get" action="" id="reSearchForm">
+										<div class="input-group search-text">
+											<input type="text" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
+											<span class="input-group-btn">
+												<button class="btn search-submit" type="button">검색</button>
+											</span>
+										</div><!-- /input-group -->
+									</form>
+								</div>
 									
-									<div style="width:35%; min-height:40px; float:right; display:inline-block; padding-top:8px; padding-left:10px; vertical-align: top;">
-										<input type="button" class="defaultBtn" value="초기화" style="width:37%; height:100%;">
-										<input type="button" class="defaultBtn" value="검색" style="width:59%; height:100%; margin-left:3px;">
-									</div>
+								<div style="width:35%; min-height:40px; float:right; display:inline-block; padding-top:8px; padding-left:10px; vertical-align: top;">
+									<input type="button" class="defaultBtn" id="categoryRsetBtn" value="초기화" style="width:37%; height:100%;">
+									<input type="button" class="defaultBtn" id="categorySerchBtn" value="검색" style="width:59%; height:100%; margin-left:3px;">
 								</div>
 							</div>
 						</div>
+					</div>
 						
 						<div id="listArea" class="inner">
 							<div class="recGroup">
@@ -259,19 +279,43 @@
 		})
 		
 		function getRecList() {
+			var branchOp = "";
+			var studyOp = "";
+			var typeOp = "";
+			for(var i = 0; i < $('.pointer').length; i++) {
+				if($('.pointer').eq(i).css('color') == 'rgb(255, 255, 255)') {
+					if(($('.pointer').eq(i).attr('class')).indexOf('branch') != -1) {
+						branchOp = $('.pointer').eq(i).text();
+					} else if($('.pointer').eq(i).attr('class').indexOf('study') != -1) {
+						studyOp = $('.pointer').eq(i).text();
+					} else if($('.pointer').eq(i).attr('class').indexOf('type') != -1) {
+						typeOp = $('.pointer').eq(i).text();
+					}
+				}
+			}
+			
+			var sortOp = "";
+			for(var i = 0; i < $('.sort').length; i++) {
+				if($('.sort').eq(i).css('color') == 'rgb(255, 255, 255)') {
+					sortOp = $('.sort').eq(i).attr('id');
+				}
+			}
+
+			console.log("branchOp : " + branchOp);
+			console.log("studyOp : " + studyOp);
+			console.log("typeOp : " + typeOp);
+			console.log("sortOp : " + sortOp);
+			
 			$.ajax({
 				url:'getRecList.sg',
-				data: {},
+				data: {branchOp:branchOp, studyOp:studyOp, typeOp:typeOp, sortOp:sortOp},
 				dataType: 'json',
 				success: function(data) {
-					console.log(data);
-					
 					var $listArea = $('#listArea');
 					$listArea.html('');
 					
 					if(data.length > 0) {
 						for(var i in data) {
-							console.log(data[i]);
 							
 							var $recGroup = $('<div class="recGroup">');
 							var $firstInfo = $('<div class="firstInfo">');
@@ -305,6 +349,7 @@
 							$thirdInfo.append($('<label class="infoLabel">').text('그룹 목표'));
 							$thirdInfo.append($('<label class="goalStyle">').text(decodeURIComponent(data[i].sgGoal.replace(/\+/g, ' '))));
 
+							$fourthInfo.append($('<label class="infoLabel">').text('그룹 내용'));
 							$fourthInfo.append($('<p class="groupContentStyle">').text(decodeURIComponent(data[i].sgContent.replace(/\+/g, ' '))));
 							
 							$recGroup.append($firstInfo);
@@ -313,15 +358,44 @@
 							$recGroup.append($fourthInfo);
 							$listArea.append($recGroup);
 						}
+					} else {
+						$listArea.append('<label>모집 중인 그룹이 없습니다.</label>');
 					}
 				}
 			});
 		}
 		
 		function getPaging() {
+			var branchOp = "";
+			var studyOp = "";
+			var typeOp = "";
+			for(var i = 0; i < $('.pointer').length; i++) {
+				if($('.pointer').eq(i).css('color') == 'rgb(255, 255, 255)') {
+					if(($('.pointer').eq(i).attr('class')).indexOf('branch') != -1) {
+						branchOp = $('.pointer').eq(i).text();
+					} else if($('.pointer').eq(i).attr('class').indexOf('study') != -1) {
+						studyOp = $('.pointer').eq(i).text();
+					} else if($('.pointer').eq(i).attr('class').indexOf('type') != -1) {
+						typeOp = $('.pointer').eq(i).text();
+					}
+				}
+			}
+
+			var sortOp = "";
+			for(var i = 0; i < $('.sort').length; i++) {
+				if($('.sort').eq(i).css('color') == 'rgb(255, 255, 255)') {
+					sortOp = $('.sort').eq(i).attr('id');
+				}
+			}
+
+			console.log("branchOp : " + branchOp);
+			console.log("studyOp : " + studyOp);
+			console.log("typeOp : " + typeOp);
+			console.log("sortOp : " + sortOp);
+			
 			$.ajax({
 				url: "getPaging.sg",
-				data: {},
+				data: {branchOp:branchOp, studyOp:studyOp, typeOp:typeOp, sortOp:sortOp},
 				dataType: 'json',
 				success: function(data) {
 					$pageUl = $('#pageUl');
@@ -417,10 +491,9 @@
 		$('#categoryBtn').click(function() {
 			if($('#categoryHiddenArea').css('display') == 'none') {
 				$('#categoryHiddenArea').css('display', 'block');
-				$('#listArea').css('margin-top', '7%');
 			} else {
 				$('#categoryHiddenArea').css('display', 'none');
-				$('#listArea').css('margin-top', '0%');
+				$('#listArea').css('margin-top', '2%');
 			}
 		})
 		
@@ -428,15 +501,45 @@
 			location.href="recruitDetailView.sg";
 		})
 		
-		var target = "";
-		$('.sort').click(function() {
-			$('.sort').css({'background':'transparent', 'color':'black', 'font-weoght':'normal'});
+		function categoryClickOption(e, click) {
+			var $where;
+			if(e == 'branch') $where = $('.branchCategory');
+			else if(e == 'study') $where = $('.studyCategory');
+			else if(e == 'type') $where = $('.typeCategory');
+			else $where = $('.sort');
 			
-			if(target != $(this).attr('id')) {
-				$(this).css({'background':'#6DBD6A', 'color':'white', 'font-weight':'bold'});
+			if(e == 'sort') {
+				for(var i = 0; i < $where.length; i++) {
+					if($where.eq(i).attr('id') == $(click).attr('id') && $where.eq(i).css('color') == 'rgb(255, 255, 255)') {
+						$where.eq(i).css({'background':'transparent', 'color':'#333'});
+						return;
+					}
+				}
 			}
 			
-			target = $(this).attr('id');
+			for(var i = 0; i < $where.length; i++) {
+				if($where.eq(i).css('color') == 'rgb(255, 255, 255)') {
+					$where.eq(i).css({'background':'transparent', 'color':'#333'});
+				}
+			}
+			
+			$(click).css({'background':'#135D36', 'color':'white'});
+		}
+		
+		$('#categoryRsetBtn').click(function() {
+			for(var i = 0; i < $('.pointer').length; i++) {
+				$('.pointer').eq(i).css({'background':'transparent', 'color':'#333'});
+			}
+		})
+		
+		$('#categorySerchBtn').click(function() {
+			getRecList();
+			getPaging();
+		})
+		
+		$('.sort').click(function() {
+			getRecList();
+			getPaging();
 		})
 	</script>
 </body>

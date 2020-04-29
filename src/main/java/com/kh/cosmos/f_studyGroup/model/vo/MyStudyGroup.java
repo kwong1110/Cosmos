@@ -16,7 +16,8 @@ public class MyStudyGroup {
 	private Date sortDate;
 	private String appStatus;
 	private Date appDlDate;
-	
+
+	private int recNo;
 	private Date recEnrollDate;
 	private String recTerm;
 	private int recNum;
@@ -43,7 +44,15 @@ public class MyStudyGroup {
 		this.recNum = recNum;
 	}
 
+	
 
+	public int getRecNo() {
+		return recNo;
+	}
+
+	public void setRecNo(int recNo) {
+		this.recNo = recNo;
+	}
 
 	public int getNo() {
 		return no;
@@ -161,8 +170,16 @@ public class MyStudyGroup {
 	public String toString() {
 		return "MyStudyGroup [no=" + no + ", sgNo=" + sgNo + ", sgName=" + sgName + ", sgStatus=" + sgStatus + ", id="
 				+ id + ", nick=" + nick + ", studyName=" + studyName + ", userId=" + userId + ", sortDate=" + sortDate
-				+ ", appStatus=" + appStatus + ", appDlDate=" + appDlDate + ", recEnrollDate=" + recEnrollDate
-				+ ", recTerm=" + recTerm + ", recNum=" + recNum + "]";
+				+ ", appStatus=" + appStatus + ", appDlDate=" + appDlDate + ", recNo=" + recNo + ", recEnrollDate="
+				+ recEnrollDate + ", recTerm=" + recTerm + ", recNum=" + recNum + ", getRecNo()=" + getRecNo()
+				+ ", getNo()=" + getNo() + ", getSgNo()=" + getSgNo() + ", getSgName()=" + getSgName()
+				+ ", getSgStatus()=" + getSgStatus() + ", getId()=" + getId() + ", getNick()=" + getNick()
+				+ ", getStudyName()=" + getStudyName() + ", getUserId()=" + getUserId() + ", getSortDate()="
+				+ getSortDate() + ", getAppStatus()=" + getAppStatus() + ", getAppDlDate()=" + getAppDlDate()
+				+ ", getRecEnrollDate()=" + getRecEnrollDate() + ", getRecTerm()=" + getRecTerm() + ", getRecNum()="
+				+ getRecNum() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()="
+				+ super.toString() + "]";
 	}
+	
 	
 }

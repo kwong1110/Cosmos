@@ -29,7 +29,6 @@
 		color: black;
 		padding: 10px;
 		font-size: 1.5rem;
-		background-color: orange;
 		font-family: 'Binggrae-Bold';
 		text-align: center;
 	}
@@ -133,52 +132,86 @@
 		text-decoration:line-through;
 		text-decoration-color: red;
 	}
+	
+	/* 오른쪽 마우스 */
+	.custom-menu {
+	    z-index:1000;
+	    font-size: 14px;
+	    position: absolute;
+	    background-color: white;
+	    border: 1px solid lightgray;
+		border-radius: 4px;
+	    box-shadow: 2px 2px 3px 1px rgba(30, 30, 30, .4);
+	}
+	.custom-menu a {
+		display: block;
+		padding: 4px 23px 4px 23px;
+		text-decoration: none;
+		transition: ease .2s;
+	}
+	.custom-menu a:hover {
+		background: rgb(186, 186, 186);
+	}
 </style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
 	 
 	var calendarEl = document.getElementById('calendar');
+	var activeWeekends = true;
 	
 	var calendar = new FullCalendar.Calendar(calendarEl, {
+		//주말 숨기기 & 보이기 버튼
+		customButtons: {
+		  viewWeekends: {
+		    text: '주말',
+		    click: function () {
+		    	activeWeekends ? activeWeekends = false : activeWeekends = true;
+		    	/* setOption을 통해 option을 동적으로 변경 */
+		    	calendar.setOption('weekends', activeWeekends);
+		    }
+		  }
+		},
 		plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
 		header: {
-		  left: 'today prevYear,prev',
+		  left: 'today viewWeekends prevYear,prev ',
 		  center: 'title',
 		  right: 'next,nextYear dayGridMonth,timeGridWeek,timeGridDay,listMonth'
 		},
 		locale : "ko",					// 기본언어를 한국어로 설정
 		//defaultDate: "2019-08-22",	// 첫 화면에서 보여질 기본 날짜 설정  
 		navLinks: true, 				// 날짜를 클릭 했을때 상세페이지 보여지게 함
-		// weekNumber: true,			// 주의 숫자를 표시
-		businessHours: false, 			// 시간 표시
-		editable: true,				// 등록된 스케쥴의 위치 이동
-		selectable: false,				// 날짜에 드래그 사용
+	// weekNumber: true,				// 주의 숫자를 표시
+		businessHours: true, 			// 시간 표시
+		editable: true,					// 등록된 스케쥴의 위치 이동
+		selectable: true,				// 날짜에 드래그 사용
 		displayEventTime: false,		// 캘린더에서 title에 시간표시 삭제
+		timezone: "local",
+		timeFormat: 'HH:mm',
 		events: [						// 스케쥴 데이터를 넣는 곳
-			<c:forEach var="p" items="${ pList }">
-			{
-				title :	"${ p.planTitle }",
-				start : "${ p.planStart }",	
-				end : "${ p.planEnd }" + " 24:00",
-				id: '${ p.planNo }',
-				extendedProps: {
-		        	content: '${ p.planContent }',
-		        	menu: '${ p.planMenu }',
-		        	emphasis: '${ p.todayCheck }',
-		        	likeCount: '${ p.likeCount }',
-		        	hit: '${ p.hit }',
-		        	creatDate: '${ p.createDate }',
-		        	status: '${ p.planStatus }',
-		        	openStatus: '${ p.openStatus }',
-		        	userId: '${ p.id }',
-		        	studyName: '${ p.studyName }',
-		        	studyNo: '${ p.studyNo }',
-		        	startDate: '${ p.planStart }',
-		        	endDate: '${ p.planEnd }'
-				}
-			},			
-			</c:forEach>
-		],
+				<c:forEach var="p" items="${ pList }">
+				{
+					title :	"${ p.planTitle }",
+					start : "${ p.planStart }",	
+					end : "${ p.planEnd }" + " 24:00",
+					id: '${ p.planNo }',
+					extendedProps: {
+			        	content: '${ p.planContent }',
+			        	menu: '${ p.planMenu }',
+			        	emphasis: '${ p.todayCheck }',
+			        	likeCount: '${ p.likeCount }',
+			        	hit: '${ p.hit }',
+			        	creatDate: '${ p.createDate }',
+			        	status: '${ p.planStatus }',
+			        	openStatus: '${ p.openStatus }',
+			        	userId: '${ p.id }',
+			        	studyName: '${ p.studyName }',
+			        	studyNo: '${ p.studyNo }',
+			        	startDate: '${ p.planStart }',
+			        	endDate: '${ p.planEnd }'
+					}
+				},			
+				</c:forEach>
+			],
 		// 이벤트 클릭시 모달창에 값전달 후 모달 보여주기.
       	eventClick: function (info) {
 			info.event.extendedProps.openStatus == 'Y' ? $('#open').attr('checked', 'checked') : $('#close').attr('checked', 'checked');
@@ -189,7 +222,6 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#planCreateDate').text(info.event.extendedProps.creatDate);
 			$('#like').text(info.event.extendedProps.likeCount);
 			$('#hit').text(info.event.extendedProps.hit);
-			$('#viewModal').modal("show");
 			
 			$('#content').summernote({
 				toolbar: false,
@@ -200,11 +232,18 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 			$('#content').summernote('code',info.event.extendedProps.content);
 			$('#content').summernote('disable'); 
-			},
-		}); 
+			
+			$('#viewModal').modal("show");
+		},
+		
+		// 날짜 클릭시
+		dateClick: function(info) {
+			insertPlan('DEFAULT', info.dateStr);
+		}
+	}); 
 
-		calendar.render();
-	});
+	calendar.render();
+});
 </script>
 </head>
 <body>
@@ -218,7 +257,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				<div class="content">
 					<div class="conTopBox">
 						<h2>오늘의 할일</h2>
-						<a onclick="insertPlan();"><span class="material-icons myIcon">add_circle_outline</span></a>
+						<a onclick="insertPlan('TODAY');"><span class="material-icons myIcon">add_circle_outline</span></a>
 						<form>
 							<jsp:useBean id="now" class="java.util.Date" />
 							<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
@@ -325,12 +364,13 @@ document.addEventListener('DOMContentLoaded', function() {
 			                    </div>
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
-			                        <form action="" method="post" onsubmit="return checkEmptyValues(insertTitle, summernote, openStatus, planMenu);">
+			                        <form action="planInsert.sp" method="post" onsubmit="return checkEmptyValues(insertTitle, summernote, openStatus1, planMenu);">
 				                        <table class="table">
 											<tr>
 												<th>카테고리</th>
 												<td>
-													<select id="insertCategorySelect" name="categoryNo">
+													<input type="hidden" name="id" value="${ loginUser.id }"/>
+													<select id="insertCategorySelect" name="studyNo">
 														<optgroup label="나의 공부목록">
 															<c:forEach var="us" items="${ userStudyList }">
 															
@@ -350,17 +390,17 @@ document.addEventListener('DOMContentLoaded', function() {
 												</td>
 												<th>모두의플래너</th>
 												<td class="exception">
-													<input id="openStatus" type="radio" name="openStatus" value="Y">공개
-													<input type="radio" name="openStatus" value="N">비공개
+													<input id="openStatus1" type="radio" name="openStatus" value="Y"/>공개
+													<input type="radio" name="openStatus" value="N"/>비공개
 												</td>
 											</tr>
 											<tr>
 												<th>제목</th>
-												<td><input id="insertTitle" type="text" name="planTitle" placeholder="제목"></td>
+												<td><input id="insertTitle" type="text" name="planTitle" placeholder="제목"/></td>
 												<th>종류</th>
 												<td class="exception"> 
-													<input id="planMenu" type="radio" name="planMenu" value="TODAY">오늘의 할일
-													<input type="radio" name="planMenu" value="DEFAULT">기본
+													<input id="planMenu" type="radio" name="planMenu" value="TODAY"/>오늘의 할일
+													<input type="radio" name="planMenu" value="DEFAULT"/>기본
 												</td>
 											</tr>
 											<tr>
@@ -377,7 +417,7 @@ document.addEventListener('DOMContentLoaded', function() {
 											</tr>
 											<tr>
 												<td colspan="4" style="padding: 0;">
-													<textarea id="summernote" placeholder="내용"></textarea>
+													<textarea id="summernote" placeholder="내용" name="planContent"></textarea>
 													<c:import url="../../a_common/summernote.jsp"/>
 												</td>
 											</tr>
@@ -396,16 +436,166 @@ document.addEventListener('DOMContentLoaded', function() {
 		<c:import url="../../a_common/footer.jsp"/>
 	</div>
 	<script>
-		
-		function insertPlan() {
-			$('#insertModal').modal("show");
-		}
-	
 		$(function(){
 			// 처음 로드 시에도 체크된 상태의 CSS가 남아있게 하기 
 			$('input[name=todayTodo]:checked').next().addClass('checkOn');
+			
+			
+			// 오른쪽 마우스
+			// input... : 오늘의할일 우클릭시, fc-content : 캘린더 안의 이벤트 우클릭 시.
+			$('input[name=todayTodo]+label, .fc-content').on("contextmenu", function(event) { 
+				// console.log("클릭한 것의 planNo : " + $(this).attr('for'));
+				console.log($(this).text());
+				
+				var clickId = $(this).attr('for');
+				
+			    $("div.custom-menu").hide();
+			    $("<div class='custom-menu'><a onclick='viewPlan("+ clickId + ")'>상세보기</a><a onclick='deletePlan("+ clickId +")'>삭제</a></div>")
+			        .appendTo("body")
+			        .css({top: event.pageY + "px", left: event.pageX + "px"});
+			    return false;
+			});
+			
+			$('html').on("click", function(event) {
+			    $("div.custom-menu").hide();
+			});
+			
+			// drops down으로 설정해야해서 다시 불러옴. drops만 불러오기가 안됨.
+			$('.input-daterange-timepicker').daterangepicker({
+			       timePicker: true,
+			       timePickerIncrement: 60,
+			       timePicker24Hour: true,
+			       timePickerSeconds: false,
+			       drops : 'down',
+			      	"locale": {
+			      		format: 'YYYY-MM-DD H:mm',
+			      		buttonClasses: ['btn'],
+			      		applyClass: 'okBtn',
+			      		cancelClass: 'cancelBtn',
+			      		"daysOfWeek": [
+			                  "일",
+			                  "월",
+			                  "화",
+			                  "수",
+			                  "목",
+			                  "금",
+			                  "토"
+			              ],
+			              "monthNames": [
+			                  "1월",
+			                  "2월",
+			                  "3월",
+			                  "4월",
+			                  "5월",
+			                  "6월",
+			                  "7월",
+			                  "8월",
+			                  "9월",
+			                  "10월",
+			                  "11월",
+			                  "12월"
+			              ],
+			              "firstDay": 1
+			      	}
+			});
+			
 		});
 		
+		// 우클릭 시 plan 삭제 
+		function deletePlan(clickId){
+			swal({
+				title:"정말 삭제하시겠습니까 ?",
+				text:"삭제 후 복구 할 수 없습니다.",
+				type:"warning",
+				showCancelButton: !0,
+				confirmButtonColor:"#DD6B55",
+				confirmButtonText:"삭제",
+				closeOnConfirm: !1
+				},
+				function(){
+					$.ajax({
+						url: "deletePlan.sp",
+						data: { planNo:clickId },
+						dataType: 'json',
+						success: function(data){
+							if(data > 0){
+								swal({
+									title:'삭제하였습니다!',
+									type:"success",
+									closeOnConfirm: !1
+									},
+									function(){
+										location.reload();
+									}
+								)
+							}
+						}
+					});
+				}
+			)
+		};
+		
+		
+		// 우클릭 시 plan 상세보기
+		function viewPlan(clickId){
+			$.ajax({
+				url: "planDetail.sp",
+				data: { planNo:clickId },
+				dataType: 'json',
+				success: function(data){
+					// console.log(data);
+					data.openStatus == 'Y' ? $('#open').attr('checked', 'checked') : $('#close').attr('checked', 'checked');
+					data.planMenu == 'TODAY' ? $('#today').attr('checked', 'checked') : $('#default').attr('checked', 'checked');
+					$('#categorySelect').val(data.studyNo).prop('selected', true);
+					$('#title').text(decodeURIComponent(data.planTitle.replace(/\+/g, ' ')));
+					$('#planDate').text(data.planStart + "~" + data.planEnd);
+					$('#planCreateDate').text(data.creatDate);
+					$('#like').text(data.likeCount);
+					$('#hit').text(data.hit);
+					
+					$('#content').summernote({
+						toolbar: false,
+						height: 400,                 	// 에디터 높이
+						minHeight: null,             	// 최소 높이  
+						maxHeight: null,             	// 최대 높이
+						lang: "ko-KR",					// 한글 설정
+					});
+					$('#content').summernote('code',decodeURIComponent(data.planContent.replace(/\+/g, ' ')));
+					$('#content').summernote('disable'); 
+					$('#viewModal').modal("show");
+				}
+			});
+		};
+		
+		function insertPlan(menu, dateStr) {
+			// console.log(menu + " " + dateStr);
+
+			$("input[name=planMenu]").attr('checked', false);
+			
+			if(menu == 'TODAY') {
+				
+				$("input[name=planMenu][value='TODAY']").attr('checked', 'checked');
+	
+				// 날짜클릭시 daterange 값을 현재 시간 기준으로 바꿔줌
+				var date = new Date();
+				var nowDate = moment().format('YYYY-MM-DD HH:00');
+				var nowDatePlus = moment(date.getTime()).add("+1", "h").format('YYYY-MM-DD HH:00');	
+				$('#daterange').val(nowDate + " - " + nowDatePlus);
+		
+			} else if(menu == 'DEFAULT'){
+				
+				$("input[name=planMenu][value='DEFAULT']").attr('checked', 'checked');
+				
+				// 날짜클릭시 daterange 값을 현재 시간 기준으로 바꿔줌
+				var date = new Date();
+				var time = moment().format('HH:00');
+				var timePlus = moment(date.getTime()).add("+1", "h").format('HH:00');
+				$('#daterange').val(dateStr + " " + time + " - " + dateStr + " " + timePlus);
+			}
+			
+			$('#insertModal').modal("show");
+		};
+	
 		$(function(){
 			$('input[name=todayTodo]').change(function(){
 				// console.log("클릭한 것의 체크여부 : " + $(this).is(':checked'));
@@ -444,7 +634,7 @@ document.addEventListener('DOMContentLoaded', function() {
 						$(editor).summernote('insertImage', "${ contextPath }/resources/" + data.url);
 					}
 				});
-		}
+		};
 	</script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>

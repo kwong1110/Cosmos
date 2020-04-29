@@ -1,6 +1,7 @@
 package com.kh.cosmos.f_studyGroup.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +69,8 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public ArrayList<StudyGroupRecruit> getRecList(PageInfo pi) {
-		return sgDAO.getRecList(sqlSession, pi);
+	public ArrayList<StudyGroupRecruit> getRecList(HashMap<String, String> map, PageInfo pi) {
+		return sgDAO.getRecList(sqlSession, map, pi);
 	}
 
 	@Override
@@ -78,13 +79,28 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public int getRecListCount() {
-		return sgDAO.getRecListCount(sqlSession);
+	public int getRecListCount(HashMap<String, String> map) {
+		return sgDAO.getRecListCount(sqlSession, map);
 	}
 
 	@Override
 	public StudyGroup getStudyGroupInfo(int sgno) {
 		return sgDAO.getStudyGroupInfo(sqlSession, sgno);
+	}
+
+	@Override
+	public int insertMultiGroup(StudyGroup sg) {
+		return sgDAO.insertMultiGroup(sqlSession, sg);
+	}
+
+	@Override
+	public int updateGroup(StudyGroup sg) {
+		return sgDAO.updateGroup(sqlSession, sg);
+	}
+
+	@Override
+	public int updateMultiGroup(StudyGroup sg) {
+		return sgDAO.updateMultiGroup(sqlSession, sg);
 	}
 
 }

@@ -17,7 +17,7 @@
 	<!-- view 초기 구조 -->
 	<!-- import 경로는 알아서 바꿔줄것. -->
 	<div class="total-wrapper">
-		<c:import url="../a_common/menubar.jsp"/>
+		<c:import url="../../a_common/menubar.jsp"/>
 		<div class="wrapper">
 			<div class="main">
 				
@@ -30,6 +30,10 @@
 					  <li role="presentation"><a href="#">My Group</a></li>
 					  <li role="presentation"><a href="#">강연 내역</a></li>
 					  <li role="presentation"><a href="#">결재 내역</a></li>
+					  <c:url var="memberDelete" value="memberDelete.mp">
+					  	<c:param name="id" value="${loginUser.id}"/>
+					  </c:url>
+					  <li role="presentation"><a href="location.href='${memberDelete}'">회원 탈퇴하기</a></li>
 					</ul>	
 					<table class="inner table table-hover">
 						<tr>
@@ -89,35 +93,73 @@
 						</tr>
 					</table>
 					<div class="btnBox inner">
-						<button class="defaultBtn" onclick=""></button>
-						
-						<%-- 
-						<c:url var="bupView" value="bupView.bo">
-							<c:param name="bId" value="${ board.bId }"/>
-							<c:param name="page" value="${ page }"/>
-						</c:url>
-						<c:url var="bdelete" value="bdelete.bo">
-							<c:param name="bId" value="${ board.bId }"/>
-						</c:url>
-						<c:url var="blist" value="blist.bo">
-							<c:param name="page" value="${ page }"/>
-						</c:url>
-						
-						<c:if test="${ loginUser.id eq board.bWriter }">
-						<tr>
-							<td colspan="2" align="center">
-								<button onclick="location.href='${ bupView }'">수정하기</button>
-								<button onclick="location.href='${ bdelete }'">삭제하기</button>
-							</td>
-						</tr>
-						</c:if> 
-						--%>
-						
+						<button type="button" class="defaultBtn pwdUpBtn" onclick="">비밀번호 변경하기</button>
+						<button type="button" class="defaultBtn" onclick="location.href='memberUpView.mp'">회원정보 수정하기</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<c:import url="../a_common/footer.jsp"/>
+		<c:import url="../../a_common/footer.jsp"/>
 	</div>
+	<!-- 비밀번호 변경 MODAL -->
+	<div id="pwdViewMODAL" class="modal fade" tabindex="-1" role="dialog" >
+		<div class="modal-dialog modal-80size" role="document">
+			<div class="modal-content modal-80size">
+				<div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">비밀번호 수정</h4>
+                </div>
+				<form action="memberPwdUp.mp" method="post">
+					<table>
+						<tr>
+							<td>현재 비밀번호</td>
+							<td><input type="password" name="pwd"></td>
+						</tr>
+						<tr>
+							<td>새 비밀번호</td>
+							<td><input type="password" name="newPwd1"></td>
+						</tr>
+						<tr>
+							<td>새 비밀번호 확인</td>
+							<td><input type="password" name="newPwd2"></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center">
+								<input type="submit" value="수정하기">
+							</td>
+						
+						</tr>
+					</table>
+				</form>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<script>
+		$(function(){
+			$('.pwdUpBtn').click(function(){
+				$('#pwdViewMODAL').modal("show");
+				
+				/* $.ajax({
+					url: "memberPwdUp.mp",
+					dataType: 'JSON',
+					success: function(data){
+						
+					}
+					
+				}); */
+			});
+			
+		});
+	
+	</script>
+	
+	
+	
+	
+	
+	
+	
 </body>
 </html>

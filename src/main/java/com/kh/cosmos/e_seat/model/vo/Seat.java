@@ -6,8 +6,8 @@ public class Seat {
 	private int reserNo;
 	private int reserPeople;
 	private Date reserDay;
-	private String startTime;
-	private String endTime;
+	private int startTime;
+	private int endTime;
 	private String reserYn;
 	private int seatNo;
 	private String id;
@@ -15,14 +15,14 @@ public class Seat {
 	private String reserSort;
 	private Date finishDay;
 	private String reserType;
-	private String totalFee;
+	private int totalFee;
 	 
 	
 	public Seat() {}
 
 
-	public Seat(int reserNo, int reserPeople, Date reserDay, String startTime, String endTime, String reserYn,
-			int seatNo, String id, int branchNo, String reserSort, Date finishDay, String reserType, String totalFee) {
+	public Seat(int reserNo, int reserPeople, Date reserDay, int startTime, int endTime, String reserYn, int seatNo,
+			String id, int branchNo, String reserSort, Date finishDay, String reserType, int totalFee) {
 		super();
 		this.reserNo = reserNo;
 		this.reserPeople = reserPeople;
@@ -70,22 +70,22 @@ public class Seat {
 	}
 
 
-	public String getStartTime() {
+	public int getStartTime() {
 		return startTime;
 	}
 
 
-	public void setStartTime(String startTime) {
+	public void setStartTime(int startTime) {
 		this.startTime = startTime;
 	}
 
 
-	public String getEndTime() {
+	public int getEndTime() {
 		return endTime;
 	}
 
 
-	public void setEndTime(String endTime) {
+	public void setEndTime(int endTime) {
 		this.endTime = endTime;
 	}
 
@@ -160,12 +160,12 @@ public class Seat {
 	}
 
 
-	public String getTotalFee() {
+	public int getTotalFee() {
 		return totalFee;
 	}
 
 
-	public void setTotalFee(String totalFee) {
+	public void setTotalFee(int totalFee) {
 		this.totalFee = totalFee;
 	}
 
@@ -177,6 +177,4 @@ public class Seat {
 				+ ", branchNo=" + branchNo + ", reserSort=" + reserSort + ", finishDay=" + finishDay + ", reserType="
 				+ reserType + ", totalFee=" + totalFee + "]";
 	}
-
-	
 }
