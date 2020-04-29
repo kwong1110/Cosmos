@@ -29,11 +29,11 @@ public class LectureController {
 		// System.out.println("list확인 : " + list);
 		
 		if(list != null) {
-			model.addAttribute("list", list);
 			for(Lecture l : list) {
 				// Fullcalander를 쓰게되면 바로 <textarea>로 값이 들어가는게 아니라 치환을 해주어야 정상적으로 출력된다.
 				l.setLectureRecord(l.getLectureRecord().replaceAll("\r\n", "<br>"));
 			}
+			model.addAttribute("llist", list);
 			return "lectureCalendar";
 		} else {
 			throw new LectureException("강연 전체 조회에 실패하였습니다.");

@@ -217,11 +217,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			info.event.extendedProps.openStatus == 'Y' ? $('#open').attr('checked', 'checked') : $('#close').attr('checked', 'checked');
 			info.event.extendedProps.menu == 'TODAY' ? $('#today').attr('checked', 'checked') : $('#default').attr('checked', 'checked');
 			$('#categorySelect').val(info.event.extendedProps.studyNo).prop('selected', true);
-			$('#title').text(info.event.title);
-			$('#planDate').text(info.event.extendedProps.startDate + "~" + info.event.extendedProps.endDate);
+			$('#title').val(info.event.title);
+			$('#planDate').val(info.event.extendedProps.startDate + "~" + info.event.extendedProps.endDate);
 			$('#planCreateDate').text(info.event.extendedProps.creatDate);
 			$('#like').text(info.event.extendedProps.likeCount);
 			$('#hit').text(info.event.extendedProps.hit);
+			$('#planNo').val(info.event.id);
 			
 			$('#content').summernote({
 				toolbar: false,
@@ -231,7 +232,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				lang: "ko-KR",					// 한글 설정
 			});
 			$('#content').summernote('code',info.event.extendedProps.content);
-			$('#content').summernote('disable'); 
+			// $('#content').summernote('disable'); 
 			
 			$('#viewModal').modal("show");
 		},
@@ -239,7 +240,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		// 날짜 클릭시
 		dateClick: function(info) {
 			insertPlan('DEFAULT', info.dateStr);
-		}
+		},
+		
+		// eventPositioned : 일정이 최종 위치에 배치 된 후 트리거 됨.
+		// 렌더링 된 후 각 이벤트에 id값을 부여함.
+		eventPositioned: function(info) { 
+			// console.log(info);
+			$(info.el).children().attr("id", info.event.id);
+		},
 	}); 
 
 	calendar.render();
@@ -282,7 +290,7 @@ document.addEventListener('DOMContentLoaded', function() {
             				</section>
           				</div>
 					</div>
-					<!-- 강연 상세보기 MODAL -->
+					<!-- 플랜 상세보기 MODAL -->
 			        <div id="viewModal" class="modal fade" tabindex="-1" role="dialog" >
 			            <div class="modal-dialog modal-80size" role="document">
 			                <div class="modal-content modal-80size">
@@ -293,14 +301,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			                        <span>좋아요 수 : </span><span id="like" class="modal-title"></span>
 			                        <span>조회 수 : </span><span id="hit" class="modal-title"></span>
 			                    </div>
+			                    <form action="updatePlan.sp" method="post" onsubmit="return checkEmptyValues(title, content, open, today);">
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
-			                        <form action="" method="post" onsubmit="">
 				                        <table class="table">
 											<tr>
 												<th>카테고리</th>
 												<td>
-													<select id="categorySelect" name="categoryNo" disabled>
+													<input type="hidden" id="planNo" name="planNo"/>
+													<select id="categorySelect" name="studyNo">
 														<optgroup label="나의 공부목록">
 															<c:forEach var="us" items="${ userStudyList }">
 															
@@ -320,40 +329,44 @@ document.addEventListener('DOMContentLoaded', function() {
 												</td>
 												<th>모두의플래너</th>
 												<td class="exception">
-													<input type="radio" id="open" name="openStatus" value="Y" disabled>공개
-													<input type="radio" id="close" name="openStatus" value="N" disabled>비공개
+													<input type="radio" id="open" name="openStatus" value="Y">공개
+													<input type="radio" id="close" name="openStatus" value="N">비공개
 												</td>
 											</tr>
 											<tr>
 												<th>제목</th>
-												<td id="title"></td>
+												<td><input id="title" type="text" name="planTitle"></td>
 												<th>종류</th>
 												<td class="exception">
-													<input type="radio" id="today" name="planMenu" value="TODAY" disabled>오늘의 할일
-													<input type="radio" id="default" name="planMenu" value="DEFAULT" disabled>기본
+													<input type="radio" id="today" name="planMenu" value="TODAY">오늘의 할일
+													<input type="radio" id="default" name="planMenu" value="DEFAULT">기본
 												</td>
 											</tr>
 											<tr>
 												<th>기간</th>
-												<td id="planDate"></td>
+												<td><input id="planDate" type="text" class="form-control input-daterange-timepicker" name="daterange"></td>
 											</tr>
 											<tr>
-												<th>작성일시</th>
+												<th>작성일</th>
 												<td id="planCreateDate"></td>
 											</tr>
 											<tr>
 												<td colspan="6" style="padding: 0;">
-													<div id="content"></div>
+													<textarea id="content" class="summernote" placeholder="내용" name="planContent"></textarea>
 													<c:import url="../../a_common/summernote.jsp"/>
 												</td>
 											</tr>
 										</table>
-									</form>
-			                    </div>
+				                    </div>
+				                     <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
+				                        <button class="btn defaultBtn">수정</button>
+				                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deletePlan('planDetail');">삭제</button>
+				                    </div>
+			                    </form>
 			                </div><!-- /.modal-content -->
 			            </div><!-- /.modal-dialog -->
 			        </div><!-- /.modal -->
-			        <!-- 강연 INSERT MODAL -->
+			        <!-- 플랜 INSERT MODAL -->
 			        <div id="insertModal" class="modal fade" tabindex="-1" role="dialog" >
 			            <div class="modal-dialog modal-80size" role="document">
 			                <div class="modal-content modal-80size">
@@ -364,7 +377,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			                    </div>
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
-			                        <form action="planInsert.sp" method="post" onsubmit="return checkEmptyValues(insertTitle, summernote, openStatus1, planMenu);">
+			                        <form action="planInsert.sp" method="post" onsubmit="return checkEmptyValues(insertTitle, summernote, insertOpenStatus, planMenu);">
 				                        <table class="table">
 											<tr>
 												<th>카테고리</th>
@@ -390,7 +403,7 @@ document.addEventListener('DOMContentLoaded', function() {
 												</td>
 												<th>모두의플래너</th>
 												<td class="exception">
-													<input id="openStatus1" type="radio" name="openStatus" value="Y"/>공개
+													<input id="insertOpenStatus" type="radio" name="openStatus" value="Y"/>공개
 													<input type="radio" name="openStatus" value="N"/>비공개
 												</td>
 											</tr>
@@ -408,7 +421,7 @@ document.addEventListener('DOMContentLoaded', function() {
 												<td><input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange"></td>
 											</tr>
 											<tr>
-												<th>작성일시</th>
+												<th>작성일</th>
 												<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
 												<td>${ today }</td>
 											</tr>
@@ -440,19 +453,26 @@ document.addEventListener('DOMContentLoaded', function() {
 			// 처음 로드 시에도 체크된 상태의 CSS가 남아있게 하기 
 			$('input[name=todayTodo]:checked').next().addClass('checkOn');
 			
-			
 			// 오른쪽 마우스
 			// input... : 오늘의할일 우클릭시, fc-content : 캘린더 안의 이벤트 우클릭 시.
 			$('input[name=todayTodo]+label, .fc-content').on("contextmenu", function(event) { 
-				// console.log("클릭한 것의 planNo : " + $(this).attr('for'));
-				console.log($(this).text());
 				
-				var clickId = $(this).attr('for');
+				// console.log("클릭한 것의 planNo : " + $(this).attr('for'));
+				// console.log("캘린더 클린한 것의 plan No :" + "$(this).attr('id'));
+				
+				var clickId;
+				if($(this).prev().attr('name') == 'todayTodo'){
+					clickId = $(this).attr('for');
+				} else if($(this).attr('class') == 'fc-content') {
+					clickId = $(this).attr('id');
+				}
 				
 			    $("div.custom-menu").hide();
-			    $("<div class='custom-menu'><a onclick='viewPlan("+ clickId + ")'>상세보기</a><a onclick='deletePlan("+ clickId +")'>삭제</a></div>")
-			        .appendTo("body")
-			        .css({top: event.pageY + "px", left: event.pageX + "px"});
+			    $customMenu = $("<div class='custom-menu'>")
+			    .append($("<a onclick='viewPlan("+ clickId + ")'>상세보기</a>"))
+			    .append($("<a onclick='deletePlan("+ clickId +")'>삭제</a>"))
+			    .appendTo("body")
+			    .css({top: event.pageY + "px", left: event.pageX + "px"});
 			    return false;
 			});
 			
@@ -501,8 +521,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 		});
 		
-		// 우클릭 시 plan 삭제 
-		function deletePlan(clickId){
+		// plan 수정
+		// 수정은 form의 action으로 처리.
+		
+		// plan 삭제 
+		function deletePlan(clickId) {
+			if(clickId == 'planDetail'){
+				clickId = $('#planNo').val();
+			}
 			swal({
 				title:"정말 삭제하시겠습니까 ?",
 				text:"삭제 후 복구 할 수 없습니다.",
@@ -535,9 +561,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			)
 		};
 		
-		
-		// 우클릭 시 plan 상세보기
-		function viewPlan(clickId){
+		// plan 상세보기
+		function viewPlan(clickId) {
 			$.ajax({
 				url: "planDetail.sp",
 				data: { planNo:clickId },
@@ -547,26 +572,28 @@ document.addEventListener('DOMContentLoaded', function() {
 					data.openStatus == 'Y' ? $('#open').attr('checked', 'checked') : $('#close').attr('checked', 'checked');
 					data.planMenu == 'TODAY' ? $('#today').attr('checked', 'checked') : $('#default').attr('checked', 'checked');
 					$('#categorySelect').val(data.studyNo).prop('selected', true);
-					$('#title').text(decodeURIComponent(data.planTitle.replace(/\+/g, ' ')));
-					$('#planDate').text(data.planStart + "~" + data.planEnd);
-					$('#planCreateDate').text(data.creatDate);
+					$('#title').val(decodeURIComponent(data.planTitle.replace(/\+/g, ' ')));
+					$('#planDate').val(data.planStart + "~" + data.planEnd);
+					$('#planCreateDate').text(data.createDate);
 					$('#like').text(data.likeCount);
 					$('#hit').text(data.hit);
+					$('#planNo').val(data.planNo);
 					
-					$('#content').summernote({
+					/* $('#content').summernote({
 						toolbar: false,
 						height: 400,                 	// 에디터 높이
 						minHeight: null,             	// 최소 높이  
 						maxHeight: null,             	// 최대 높이
 						lang: "ko-KR",					// 한글 설정
-					});
+					}); */
 					$('#content').summernote('code',decodeURIComponent(data.planContent.replace(/\+/g, ' ')));
-					$('#content').summernote('disable'); 
+					// $('#content').summernote('disable'); 
 					$('#viewModal').modal("show");
 				}
 			});
 		};
 		
+		// plan 등록
 		function insertPlan(menu, dateStr) {
 			// console.log(menu + " " + dateStr);
 
@@ -595,7 +622,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			$('#insertModal').modal("show");
 		};
-	
+		
+		// 오늘의 할일 체크
 		$(function(){
 			$('input[name=todayTodo]').change(function(){
 				// console.log("클릭한 것의 체크여부 : " + $(this).is(':checked'));
@@ -617,6 +645,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			});
 		});
 		
+		// summernote 사진 업로드
 		function uploadSummernoteImageFile(file, editor) {
 			data = new FormData();
 			data.append("file", file);
