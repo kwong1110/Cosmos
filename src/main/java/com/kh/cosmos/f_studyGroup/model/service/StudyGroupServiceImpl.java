@@ -103,4 +103,9 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 		return sgDAO.updateMultiGroup(sqlSession, sg);
 	}
 
+	@Override
+	public int getMsgNum(int sgNo) {
+		return sgDAO.getMsgNum(sqlSession, sgNo);
+	}
+
 }

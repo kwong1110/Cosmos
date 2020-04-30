@@ -42,5 +42,7 @@ public interface StudyGroupService {
 	int insertMultiGroup(StudyGroup sg);
 
 	int updateMultiGroup(StudyGroup sg);
+
+	int getMsgNum(int sgNo);
 	
 }
