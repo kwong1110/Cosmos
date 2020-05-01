@@ -19,6 +19,10 @@ public interface SeatService {
 
 	int seatBuy(Seat s);
 
+	ArrayList<Seat> seatStatusList(Seat s, PageInfo pi);
+
+	int getSeatStatusListCount();
+
 	
 
 	

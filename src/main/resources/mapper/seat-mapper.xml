@@ -72,5 +72,35 @@
 				<if test="reserType.equals('30일권')"> #{finishDay} + 30,</if> #{reserType}, #{totalFee})
 	</insert>
 
+	<select id="seatStatusList" resultMap="seatStatus">
+		select *
+		from reser
+			 join branch using(branch_no)
+			 
+		order by reser_no desc
+	</select>
+	
+	<resultMap id="seatStatus" type="Seat">
+		<id property="reserNo" column="RESER_NO"/>
+		<result property="reserPeople" column="RESER_PEOPLE"/>
+		<result property="reserDay" column="RESER_DAY"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+		<result property="reserYn" column="RESER_YN"/>
+		<result property="seatNo" column="SEAT_NO"/>
+		<result property="id" column="ID"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="reserSort" column="RESER_SORT"/>
+		<result property="finishDay" column="FINISH_DAY"/>
+		<result property="reserType" column="RESER_TYPE"/>
+		<result property="totalFee" column="TOTAL_FEE"/>
+		<result property="branchName" column="BRANCH_NAME"/>
+	</resultMap>
+	
+	<select id="getSeatStatusListCount" resultType="_int">
+		select count(*)
+		from reser
+	</select>
+	
 	
 </mapper>
