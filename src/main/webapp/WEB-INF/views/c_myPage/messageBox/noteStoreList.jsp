@@ -5,17 +5,17 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>쪽지 목록</title>
+<title>쪽지 보관함 목록</title>
 <script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/resources/css/reset.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/sweetalert/sweetalert.css">
 </head>
-<body onload="resizeWindow(this)">
+<body>
 	<div class="content">
 	    	<div class="modal-header">
-				<h2 class="title">쪽지 목록</h2> 
+				<h2 class="title">쪽지 보관함 목록</h2> 
 				<div>
 					<span class="cosmos"><c:out value="${ loginUser.birth }"/></span>님
 				</div>       		
@@ -54,11 +54,7 @@
         	
         	<div>
         		<button onclick="location.href='noteInsertView1.mp';">쪽지 보내기</button>
-        		
-        		<c:url var="noteStorageList" value="noteStorageList.mp">
-        			<c:param name="userId" value="${loginUser.id}"/>
-        		</c:url>
-        		<button onclick="location.href='${noteStorageList}'">보관함</button>
+        		<button onclick="location.href='noteStorageList.mp';">보관함</button>
         	</div>
         	<div class="modal-footer">
         		<!-- 페이징  -->
@@ -73,7 +69,7 @@
 							</c:if>
 							<c:if test="${ pi.currentPage ne pi.startPage }">
 								<c:url var="start" value="noteList.mp">
-									<c:param name="userId" value="${loginUser.id}"/>
+									<c:param name="userId" value="${loginUserId}"/>
 									<c:param name="page" value="${ pi.startPage }"/>
 								</c:url>
 								<a href="${ start }" aria-label="Previous">
@@ -91,7 +87,7 @@
 							</c:if>
 							<c:if test="${ pi.currentPage > 1 }">
 								<c:url var="before" value="noteList.mp">
-									<c:param name="userId" value="${loginUser.id}"/>
+									<c:param name="userId" value="${loginUserId}"/>
 									<c:param name="page" value="${ pi.currentPage - 1 }"/>
 								</c:url>
 								<a href="${ before }" aria-label="Previous">
@@ -107,7 +103,7 @@
 							</c:if>
 							<c:if test="${ p ne pi.currentPage }">
 								<c:url var="pagination" value="noteList.mp">
-									<c:param name="userId" value="${loginUser.id}"/>
+									<c:param name="userId" value="${loginUserId}"/>
 									<c:param name="page" value="${ p }"/>
 								</c:url>
 								<li><a href="${ pagination }">${ p }</a></li>

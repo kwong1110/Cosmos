@@ -5,13 +5,13 @@
 	<select id="getListCount" resultType="_int">
 		select count(*)
 		from note
-		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = 'user01' or note_toid = 'user01')
+		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'N'
 	</select>
 	
 	<select id="selectList" resultMap="noteResultSet" >
 		select *
 		from note
-		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = 'user01' or note_toid = 'user01')
+		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'N'
 		order by note_no desc 
 	</select>
 	<resultMap id="noteResultSet" type="Note">
@@ -26,26 +26,46 @@
 		<result property="noteToStatus" column="NOTE_TOSTATUS"/>
 	</resultMap>
 	
+	<!-- 쪽지 보내기 -->
 	<insert id="insertNote" parameterType="Note">
 		insert into note
 		values(seq_noteNo.nextval, #{noteFromId}, #{noteToId}, #{noteContent}, sysdate, default, default, default, default)
 	</insert>
 	
+	<!-- 쪽지 보기 -->
 	<select id="selectNote" parameterType="_int" resultMap="noteResultSet">
 		select *
 		from note
 		where note_no = #{noteNo} and note_fromstatus = 'Y' and note_tostatus = 'Y'
 	</select>
 	
+	<!-- 쪽지 삭제 -->
 	<update id="deleteNote" parameterType="_int">
 		update note
 		set note_tostatus = 'N'
 		where note_no = #{noteNo}
 	</update>
 	
+	<!-- 쪽지 보관함으로 이동 -->
 	<update id="storeNote" parameterType="_int">
 		update note
-		set note_storage = 'Y' 
+		set note_storage = 'Y'
 		where note_no = #{noteNo}
 	</update>
+	
+	<!-- 쪽지 보관함 목록 갯수 -->
+	<select id="getStoreListCount" resultType="_int">
+		select count(*)
+		from note
+		where (note_fromstatus = 'Y' or note_tostatus = 'Y') and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'Y'
+	</select>
+	
+	<!-- 쪽지 보관함 목록 -->
+	<select id="selectStoreList" resultMap = "noteResultSet">
+		select *
+		from note
+		where (note_fromstatus = 'Y' or note_tostatus = 'Y') and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'Y'
+		order by note_no desc
+		
+	</select>
 </mapper>

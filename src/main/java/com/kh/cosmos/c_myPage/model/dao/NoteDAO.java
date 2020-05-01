@@ -12,15 +12,14 @@ import com.kh.cosmos.c_myPage.model.vo.Note;
 @Repository("nDAO")
 public class NoteDAO {
 
-	public int getListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("noteMapper.getListCount");
+	public int getListCount(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.selectOne("noteMapper.getListCount", userId);
 	}
 
-	public ArrayList<Note> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		
+	public ArrayList<Note> selectList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("noteMapper.selectList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("noteMapper.selectList", userId, rowBounds);
 	}
 
 	public int insertNote(SqlSessionTemplate sqlSession, Note n) {
@@ -39,5 +38,17 @@ public class NoteDAO {
 		return sqlSession.update("noteMapper.storeNote", noteNo);
 	}
 
+	public int getStoreListCount(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.selectOne("noteMapper.getStoreListCount", userId);
+	}
+
+	public ArrayList<Note> selectStoreList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("noteMapper.selectStoreList", userId, rowBounds);
+	}
+
 	
+
+
 }
