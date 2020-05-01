@@ -1,6 +1,7 @@
 package com.kh.cosmos.e_seat.model.dao;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -35,6 +36,17 @@ public class SeatDAO {
 
 	public int seatBuy(SqlSessionTemplate sqlSession, Seat s) {
 		return sqlSession.insert("seatMapper.seatBuy", s);
+	}
+
+	public ArrayList<Seat> seatStatusList(SqlSessionTemplate sqlSession, Seat s, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+	    
+		return (ArrayList)sqlSession.selectList("seatMapper.seatStatusList",s, rowBounds);
+	}
+
+	public int getSeatStatusListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("seatMapper.getSeatStatusListCount");
 	}
 
 	/*public int seatBuy(SqlSessionTemplate sqlSession) {

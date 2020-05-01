@@ -21,6 +21,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.a_common.Pagination_seat;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.e_seat.model.exception.SeatException;
@@ -158,5 +159,39 @@ public class SeatController {
 		
 	}
 	
-
+	@RequestMapping("seatStatus.se")
+	public ModelAndView seatStatusView(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, @ModelAttribute Seat s, HttpServletRequest request,
+									@RequestParam(value="searchCondition", required=false) String condition, @RequestParam(value="searchValue", required=false) String value,
+									@RequestParam("id") String id, @RequestParam("branchName") String branchName) {
+		
+		int currentPage = 1;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = sService.getSeatStatusListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		if(condition.equals("id")) {
+			s.setId(value);
+		} else if(condition.equals("branchName")) {
+			s.setBranchName(value);
+		}
+		
+		ArrayList<Seat> seatStatusList = sService.seatStatusList(s, pi);
+		
+		if(seatStatusList != null) {
+			mv.addObject("seatStatusList", seatStatusList);
+			mv.addObject("pi", pi);
+			mv.addObject("condition",condition);
+			mv.addObject("value",value);
+			mv.setViewName("seatStatus");
+		} else {
+			throw new SeatException("예약현황 전체 조회에 실패하였습니다.");
+		}
+		
+		return mv;
+	}
 }
