@@ -31,6 +31,7 @@
 .id_pw_srh li .PW button {display:block;width:145px;margin:26px auto 0;padding:7px 0;border:1px solid black;background-color:black;font-family:'Malgun Gothic','맑은 고딕';color:#FFFFFF}
 
 
+
 </style>
 </head>
 <body>
@@ -52,7 +53,7 @@
 								회원가입시 등록한 정보로<br> 아이디를 찾을 수 있습니다.
 							</div>
 							<div class="find">
-								<form name="id_form" method="post" action="findId.me" >
+								<form name="id_form" method="post" action="findId.me">
 								<input type="hidden" name="s_type" value="id">
 										<p>
 											<label for="id_name">이름</label> <input type="text" name="name" class="form-control" width="200px" title="이름 입력">
@@ -73,7 +74,7 @@
 								회원가입시 등록한 정보로<br> 비밀번호를 재설정할 수 있습니다.
 							</div>
 							<div class="find">
-								<form name="pw_form" method="post" action="findPwd.me" onsubmit="">
+								<form name="pw_form" method="post" action="findPwd.me">
 								<input type="hidden" name="s_type" value="pw">
 											<p>
 												<label for="pw_name">ID</label> <input type="text" name="id" class="form-control" title="아이디 입력">
@@ -89,44 +90,15 @@
 				</ul>                                  
 					<div class="btnBox inner" align=center>
 						<button type="submit" class="defaultBtn" id="login">로그인</button>
-						<button name="취소" onclick='history.go(-1)' class="defaultBtn">취소</button>
+						<button name="취소" onclick="location.href='${ contextPath }'" class="defaultBtn">취소</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
-		
-		<!-- 로그인 모달 창 -->
-		<div class="modal fade" id="loginModal">
-	  		<div class="modal-dialog">
-		    	<div class="modal-content">
-		        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        			<div class="loginTop">
-	        				<div class="logo imageBox"></div>
-	        			</div>
-			        <div class="loginMid">
-			        	<div class="loginBox">
-				        	<form action="login.me" method="post" onsubmit="return loginUser();">
-				        		<div>
-						        	<div>
-					       				<input type="text" name="id" id="id" placeholder="아이디">
-					       			</div>
-					       			<div>
-					       				<input type="password" name="pwd" id="pwd" placeholder="비밀번호">
-					       			</div> 
-				       				<div>
-				       					<input type="submit" class="btn loginBtn" value="로그인">
-				       				</div>
-				       			</div>
-							</form>
-						</div>		        	
-		        	</div>
-	    		</div><!-- /.modal-content -->
-		  	</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-		
-		<script>
+	<!-- id가 login인 button 클릭시 ↓ 스크립트 실행 -->
+	<script>
 			$('#login').click(function(e){
 				e.preventDefault();
 				$('#loginModal').modal("show");
@@ -164,11 +136,42 @@
 				alert('<%=request.getParameter("msg")%>');
 			<% } %>
 		</script>
-		<script>
+		
+		<!-- 로그인 모달 창 -->
+		<div class="modal fade" id="loginModal">
+	  		<div class="modal-dialog">
+		    	<div class="modal-content">
+		        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        			<div class="loginTop">
+	        				<div class="logo imageBox"></div>
+	        			</div>
+			        <div class="loginMid">
+			        	<div class="loginBox">
+				        	<form action="login.me" method="post" onsubmit="return loginUser();">
+				        		<div>
+						        	<div>
+					       				<input type="text" name="id" id="id" placeholder="아이디">
+					       			</div>
+					       			<div>
+					       				<input type="password" name="pwd" id="pwd" placeholder="비밀번호">
+					       			</div> 
+				       				<div>
+				       					<input type="submit" class="btn loginBtn" value="로그인">
+				       				</div>
+				       			</div>
+							</form>
+						</div>		        	
+		        	</div>
+	    		</div><!-- /.modal-content -->
+		  	</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		
+<!-- 		<script>
 	
 		function showPopup() {
-			window.open("", "a", "width=400, height=300, left=100, top=50");
+			window.open("FindResult.jsp", "a", "width=400, height=300, left=100, top=50");
 		}
-		</script>
+		</script> -->
 </body>
 </html>

@@ -32,17 +32,15 @@
 				</div>
 				<!-- ID/PW 검색박스 -->
 				<div class="content">
-					<div class=resultArea>
+					<div class=resultArea style="border:1px solid black; width:70%; height:160px; margin:auto" >
 							<div class="find">
-								<p style="text-align:center">회원님의 ID는  ${id} 입니다.</p>
-								 
-						</div>
-				
-						</div>
+								<p style="text-align:center;line-height:160px">회원님의 ID는  ${id} 입니다.</p> 
+							</div>
+					</div>
 			                                 
-					<div class="btnBox inner" align=center>
+					<div class="btnBox inner" align=center >
 						<button type="submit" class="defaultBtn" id="login">로그인</button>
-						<button name="취소" onclick='history.go(-1)' class="defaultBtn">취소</button>
+						<button name="취소" onclick="location.href='${ contextPath }'" class="defaultBtn">취소</button>
 					</div>
 				</div>
 			</div>

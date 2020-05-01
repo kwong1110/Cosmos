@@ -1,6 +1,7 @@
 package com.kh.cosmos.d_adminPage.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,7 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.d_adminPage.model.exception.AdminPageException;
@@ -36,6 +40,8 @@ public class EnrollBranchController {
 		
 		return "EnrollBranchForm";
 	}
+	
+	// 지점 등록
 	
 	@RequestMapping("binsert.ap")
 	public String MasterInsert(@ModelAttribute ViewBranch vr,@ModelAttribute Master m, @ModelAttribute Member me,
@@ -71,17 +77,39 @@ public class EnrollBranchController {
 			System.out.println("member : " + member);
 			System.out.println("master :" + m);
 			
-			return "redirect:home.do";
-		
+			/*return "redirect:branchList.ap";*/
+			return "redirect:branchList.ap";
 		} else {
 			throw new AdminPageException("지점 등록에 실패하였습니다.");
 		}
 	}
 
 	@RequestMapping("branchList.ap")
-	public String branchList() {
-		return "BranchListView";
+	public ModelAndView branchList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv) { 
+		int currentPage = 1;
+		if (page != null) { // 페이지가 널이 아닐떄
+			
+			currentPage = page;
+		}
+		
+		int listCount = ebService.getListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<ViewBranch> list = ebService.selectList(pi);
+		
+		if(list != null) {
+			mv.addObject("list",list); //add Object 내가 보낼 객체  
+			mv.addObject("pi", pi);
+			mv.setViewName("BranchListView"); // mv 갈 view 두개를 mv에 담았어
+		} else {
+			throw new AdminPageException("게시글 전체 조회에 실패하여씁니다.");
+		}
+		
+		return mv;
 	}
+	
+	
 	
 	// 0423 지점명 중복 확인
 		@RequestMapping("dupName.ap")

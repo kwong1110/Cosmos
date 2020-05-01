@@ -203,7 +203,7 @@ public class MemberController {
 					} else {
 						System.out.println("임시비밀번호로 변경실패");
 					}
-					message.setText("임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");
+					message.setText("회원님의 임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");
 					
 					
 					//이메일 보내기
