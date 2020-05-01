@@ -61,14 +61,14 @@ table.inner td {
 									<th>지점 ID</th>
 								</tr>
 							</thead>
-							<tbody>
-<%-- 								<c:forEach var="b" items="${ list }">
+						  	<tbody>
+								<c:forEach var="vr" items="${ list }">
 									<tr class="contentTR">
-										<td align ="center">${ b.masterId }</td>
+										<td align ="center">${ m.masterId }</td>
 										<td align ="center">${ b.branchNo }</td>
 										<td align ="center">${ b.branchName }</td>
 									</tr>
-								</c:forEach> --%>
+								</c:forEach> 
 								<tr th:if="${ #list.size(list)} > 0" th:each="list: ${list }">
 									
 								</tr>
@@ -76,7 +76,7 @@ table.inner td {
 									<td colspan="4">조회된 결과가 없습니다.</td>
 								</tr>
 								
-							</tbody>
+							</tbody> 
 						</table>
 						<div id="bottomArea" class="inner" align="center">
 						<!-- 페이징  -->

@@ -58,6 +58,8 @@ table.inner td {
 								<th>신고당한 회원 ID</th>
 								<th>신고 사유</th>
 								<th>신고한 회원 ID</th>
+								<th>회원상태</th>
+								<th>신고처리상태</th>
 							</tr>
 							</tr>
 							<tr >
@@ -65,6 +67,11 @@ table.inner td {
 								<td>user01</td>
 								<td>공부안함</td>
 								<td>user02</td>
+								<td>일반회원/금지회원</td>
+								<td>
+									<input type="button" value="수락" class="stbtn" style="background:green; color:white" >
+									<input type="button" value="거절" class="stbtn" style="background:red; color:white">
+								</td>
 							</tr>
 						</table>
 						<div id="bottomArea" class="inner" align="center">

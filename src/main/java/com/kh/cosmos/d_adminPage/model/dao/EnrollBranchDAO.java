@@ -1,8 +1,12 @@
 package com.kh.cosmos.d_adminPage.model.dao;
 
+import java.util.ArrayList;
+
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.d_adminPage.model.vo.Master;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
@@ -33,6 +37,21 @@ public class EnrollBranchDAO {
 		return sqlSession.insert("viewBranchMapper.insertMember", me);
 	
 	}
+	
+	// 지점목록
+	public ArrayList<ViewBranch> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+			RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		      
+		return (ArrayList)sqlSession.selectList("viewBranchMapper.selectList", null, rowBounds);
+    }
+
+	//
+	public ViewBranch selectBranch(SqlSessionTemplate sqlSession, int branchNo) {
+		
+		return sqlSession.selectOne("viewBranchMapper.selectBoard", branchNo);
+	}
+
 
 
 }
