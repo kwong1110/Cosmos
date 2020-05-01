@@ -1,26 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="noteMapper">
-	<select id="noteList" resultMap="noteResultSet" >
-	<![CDATA[
+
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from note
+		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = 'user01' or note_toid = 'user01')
+	</select>
+	
+	<select id="selectList" resultMap="noteResultSet" >
 		select *
 		from note
-		where ((noteFromId=#{noteFromId} and noteToId=#{noteToId}) or (noteFromId=#{noteToId} and noteToId=#{noteFromId}))
-				and noteNo > #{noteNo} order by noteTime
-	]]>
+		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = 'user01' or note_toid = 'user01')
+		order by note_no desc 
 	</select>
-
 	<resultMap id="noteResultSet" type="Note">
 		<id property="noteNo" column="NOTE_NO"/>
 		<result property="noteFromId" column="NOTE_FROMID"/>
 		<result property="noteToId" column="NOTE_TOID"/>
 		<result property="noteContent" column="NOTE_CONTENT"/>
 		<result property="noteTime" column="NOTE_TIME"/>
-		<result property="noteStatus" column="NOTE_STATUS"/>
+		<result property="noteFromStatus" column="NOTE_FROMSTATUS"/>
+		<result property="noteAlarm" column="NOTE_ALARM"/>
+		<result property="noteStorage" column="NOTE_STORAGE"/>
+		<result property="noteToStatus" column="NOTE_TOSTATUS"/>
 	</resultMap>
 	
-	<insert id="noteChatSubmit" parameterType="Note">
+	<insert id="insertNote" parameterType="Note">
 		insert into note
-		values(seq_noteNo.nextval, #{noteFromId}, #{noteToId}, #{noteContent}, sysdate, default)
+		values(seq_noteNo.nextval, #{noteFromId}, #{noteToId}, #{noteContent}, sysdate, default, default, default, default)
 	</insert>
+	
+	<select id="selectNote" parameterType="_int" resultMap="noteResultSet">
+		select *
+		from note
+		where note_no = #{noteNo} and note_fromstatus = 'Y' and note_tostatus = 'Y'
+	</select>
+	
+	<update id="deleteNote" parameterType="_int">
+		update note
+		set note_tostatus = 'N'
+		where note_no = #{noteNo}
+	</update>
+	
+	<update id="storeNote" parameterType="_int">
+		update note
+		set note_storage = 'Y' 
+		where note_no = #{noteNo}
+	</update>
 </mapper>

@@ -99,7 +99,7 @@ public class MyPageController {
 		public String updateMember(@ModelAttribute Member m, @RequestParam("studyGroupChk") int[] chkSname, @RequestParam("studyEtcNo") int[] etcSno, 
 				   				   @RequestParam("studyEtcName") String[] etcSname, @RequestParam("term") String[] t, Model model) {
 			
-	
+		System.out.println("controller : " + m);
 		// 체크된 과목과 기간을 Preview pList에 담기
 			
 		ArrayList<Preview> pList = new ArrayList<Preview>();
