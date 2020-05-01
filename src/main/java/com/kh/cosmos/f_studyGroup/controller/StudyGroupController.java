@@ -53,13 +53,24 @@ public class StudyGroupController {
 	@RequestMapping("getRecList.sg")
 	public void getRecList(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page,
 						   @RequestParam("branchOp") String branchOp, @RequestParam("studyOp") String studyOp,
-						   @RequestParam("typeOp") String typeOp, @RequestParam("sortOp") String sortOp) throws JsonIOException, IOException {
+						   @RequestParam("typeOp") String typeOp, @RequestParam("sortOp") String sortOp,
+						   @RequestParam(value="searchType", required=false) String searchType, @RequestParam(value="searchText", required=false) String searchText,
+						   @RequestParam(value="reSearchText", required=false) String reSearchText) throws JsonIOException, IOException {
 		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("branchOp", branchOp);
 		map.put("studyOp", studyOp);
 		map.put("typeOp", typeOp);
 		map.put("sortOp", sortOp);
+
+		if(searchType != null) {
+			map.put("searchType", searchType);
+			map.put("searchText", searchText);
+			
+			if(reSearchText != null) {
+				map.put("reSearchText", reSearchText);
+			}
+		}
 		
 		int currentPage = 1;
 		if(page != null) {
@@ -73,6 +84,10 @@ public class StudyGroupController {
 		
 		if(recList != null) {
 			for(StudyGroupRecruit r : recList) {
+				if((r.getSgStatus()).equals("Y")) {
+					r.setMsgNum(sgService.getMsgNum(r.getSgNo()));
+				}
+				
 				r.setSgName(URLEncoder.encode(r.getSgName(), "UTF-8"));
 				r.setStudyName(URLEncoder.encode(r.getStudyName(), "UTF-8"));
 				r.setSgGoal(URLEncoder.encode(r.getSgGoal(), "UTF-8"));
@@ -94,13 +109,24 @@ public class StudyGroupController {
 	@RequestMapping("getPaging.sg")
 	public void getPaging(HttpServletResponse response, @RequestParam(value="page", required=false) Integer page,
 			   @RequestParam("branchOp") String branchOp, @RequestParam("studyOp") String studyOp,
-			   @RequestParam("typeOp") String typeOp, @RequestParam("sortOp") String sortOp) throws JsonIOException, IOException {
-
+			   @RequestParam("typeOp") String typeOp, @RequestParam("sortOp") String sortOp,
+			   @RequestParam(value="searchType", required=false) String searchType, @RequestParam(value="searchText", required=false) String searchText,
+			   @RequestParam(value="reSearchText", required=false) String reSearchText) throws JsonIOException, IOException {
+		
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("branchOp", branchOp);
 		map.put("studyOp", studyOp);
 		map.put("typeOp", typeOp);
 		map.put("sortOp", sortOp);
+		
+		if(searchType != null) {
+			map.put("searchType", searchType);
+			map.put("searchText", searchText);
+			
+			if(reSearchText != null) {
+				map.put("reSearchText", reSearchText);
+			}
+		}
 		
 		int currentPage = 1;
 		if(page != null) {

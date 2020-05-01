@@ -71,8 +71,14 @@
 		where asg_status = 'Y' and sg_no = #{sgno}
 	</select>
 	
+	<select id="getMsgNum" parameterType="_int" resultType="_int">
+		select msg_num
+		from m_sgroup
+		where sg_no = #{sgNo}
+	</select>
+	
 	<select id="getRecList" parameterType="hashMap" resultMap="groupRecruitResultSet">
-		select sg_no, rsg_no, study_name, sg_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE, rsg_num, nick, branch_name, sg_goal, sg_content
+		select sg_no, sg_status, rsg_no, study_name, sg_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE, rsg_num, nick, branch_name, sg_goal, sg_content
 		from sgroup g
 			right join rec_sgroup r using(sg_no)
 		    join study_category using(study_no)
@@ -99,6 +105,25 @@
 					and sg_status = 'Y'
 				</when>
 			</choose>
+		</if>
+		<if test="searchType != ''">
+			<choose>
+				<when test="searchType == 'title'">
+					and sg_name like '%'||#{searchText}||'%'
+				</when>
+				<when test="searchType == 'nick'">
+					and nick like '%'||#{searchText}||'%'
+				</when>
+				<when test="searchType == 'content'">
+					and sg_content like '%'||#{searchText}||'%'
+				</when>
+				<when test="searchType == 'goal'">
+					and sg_goal like '%'||#{searchText}||'%'
+				</when>
+			</choose>
+			<if test="reSearchText != ''">
+				and (sg_name||nick||sg_content||sg_goal) like '%'||#{reSearchText}||'%'
+			</if>
 		</if>
 		<if test="sortOp != ''">
 			<choose>
@@ -152,6 +177,25 @@
 					and sg_status = 'Y'
 				</when>
 			</choose>
+		</if>
+		<if test="searchType != ''">
+			<choose>
+				<when test="searchType == 'title'">
+					and sg_name like '%'||#{searchText}||'%'
+				</when>
+				<when test="searchType == 'nick'">
+					and nick like '%'||#{searchText}||'%'
+				</when>
+				<when test="searchType == 'content'">
+					and sg_content like '%'||#{searchText}||'%'
+				</when>
+				<when test="searchType == 'goal'">
+					and sg_goal like '%'||#{searchText}||'%'
+				</when>
+			</choose>
+			<if test="reSearchText != ''">
+				and (sg_name||nick||sg_content||sg_goal) like '%'||#{reSearchText}||'%'
+			</if>
 		</if>
 		<if test="sortOp != ''">
 			<choose>

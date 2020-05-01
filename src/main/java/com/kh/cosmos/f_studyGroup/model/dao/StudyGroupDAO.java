@@ -86,4 +86,8 @@ public class StudyGroupDAO {
 		return sqlSession.update("studyGroupMapper.updateMultiGroup", sg);
 	}
 
+	public int getMsgNum(SqlSessionTemplate sqlSession, int sgNo) {
+		return sqlSession.selectOne("studyGroupMapper.getMsgNum", sgNo);
+	}
+
 }

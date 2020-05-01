@@ -13,9 +13,11 @@
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
+	.pageTitle:hover{color:#17955F; cursor:pointer;}
+	
 	#searchArea{width:100%; display:inline-block; text-align:center;}
-	#searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:7%;}
-	#reSearchForm{width:70%; display:inline-block; vertical-align:middle; margin-left:3%;}
+	.searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:7%;}
+	#reSearchText{width:70%; display:inline-block; vertical-align:middle; margin-left:3%;}
 	#settingArea{width:90%; display:block; margin-bottom: 2%;}
 	#categoryBtn{width:200px; display:inline-block; text-align:center;}
 	
@@ -84,22 +86,22 @@
 					<!-- 검색창 -->
 				  	<!-- 드롭다운 + 검색 -->
 					<div class="inner" id="searchArea">
-					<form method="get" action="" id="searchForm">
+						<div class="searchForm">
 						<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
-						<select style="width: 20%;" class="form-control search-select">
+						<select style="width: 20%;" id="searchType" class="form-control search-select">
 							<option>분류</option>
-							<option>그룹 명</option>
-							<option>그룹장 닉네임</option>
-							<option>그룹 내용</option>
-							<option>그룹 목표</option>
+							<option value="title">그룹 명</option>
+							<option value="nick">그룹장 닉네임</option>
+							<option value="content">그룹 내용</option>
+							<option value="goal">그룹 목표</option>
 						</select>
 						<div class="input-group search-text" style="width: 78%;">
-							<input type="text" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
+							<input type="text" id="searchText" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
 							<span class="input-group-btn">
-								<button class="btn search-submit" type="button">검색</button>
+								<button class="btn search-submit" id="allSearchBtn" type="button">검색</button>
 							</span>
 						</div><!-- /input-group -->
-					</form>
+						</div>
 					</div>
 					
 					<div id="settingArea" class="inner">
@@ -141,7 +143,7 @@
 									</c:forEach>
 								</div>
 								
-								<div class="categoryDiv">
+								<div class="categoryDiv" id="typeOpArea" style="width:65%;">
 									<section class="categoryLabel">
 										<label class="pointer typeCategory" onclick="categoryClickOption('type', this);">once</label>
 									</section>
@@ -150,16 +152,9 @@
 									</section>
 								</div>
 								
-								<div class="categoryDiv" style="width:65%; vertical-align:middle;">
+								<div class="categoryDiv" id="reSerchArea" style="width:65%; vertical-align:middle;">
 									<label>결과 내 재검색</label>
-									<form method="get" action="" id="reSearchForm">
-										<div class="input-group search-text">
-											<input type="text" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
-											<span class="input-group-btn">
-												<button class="btn search-submit" type="button">검색</button>
-											</span>
-										</div><!-- /input-group -->
-									</form>
+									<input type="text" id="reSearchText" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
 								</div>
 									
 								<div style="width:35%; min-height:40px; float:right; display:inline-block; padding-top:8px; padding-left:10px; vertical-align: top;">
@@ -271,8 +266,11 @@
 		</div>
 	
 	<script>
+		var searchPoint = "";
+		
 		$(function() {
 			$('#categoryHiddenArea').css('display', 'none');
+			$('#reSerchArea').css('display', 'none');
 			
 			getRecList();
 			getPaging();
@@ -300,31 +298,75 @@
 					sortOp = $('.sort').eq(i).attr('id');
 				}
 			}
+			
+			var searchType = "";
+			var searchText = "";
+			var reSearchText = "";
+			if(searchPoint == 'all') {
+				searchType = $('#searchType').val();
+				searchText = $('#searchText').val();
+			} else if(searchPoint == 're') {
+				searchType = $('#searchType').val();
+				searchText = $('#searchText').val();
+				reSearchText = $('#reSearchText').val();
+			}
+			
+			var sendData;
+			
+			if(searchPoint == "") {
+				sendData = {"branchOp":branchOp, "studyOp":studyOp, "typeOp":typeOp, "sortOp":sortOp};
+			} else if(searchPoint == "all") {
+				sendData = {"branchOp":branchOp, "studyOp":studyOp, "typeOp":typeOp, "sortOp":sortOp, "searchType":searchType, "searchText":searchText};
+				$('#typeOpArea').css('width','100%');
+				$('#reSerchArea').css('display','inline-block');
+			} else if(searchPoint == "re") {
+				sendData = {"branchOp":branchOp, "studyOp":studyOp, "typeOp":typeOp, "sortOp":sortOp, "searchType":searchType, "searchText":searchText, "reSearchText":reSearchText};
+				$('#typeOpArea').css('width','100%');
+				$('#reSerchArea').css('display','inline-block');
+			}
 
+			console.log("searchPoint : " + searchPoint);
 			console.log("branchOp : " + branchOp);
 			console.log("studyOp : " + studyOp);
 			console.log("typeOp : " + typeOp);
 			console.log("sortOp : " + sortOp);
+			console.log("searchType : " + searchType);
+			console.log("searchText : " + searchText);
+			console.log("reSearchText : " + reSearchText);
+			console.log("---------------------------");
 			
 			$.ajax({
 				url:'getRecList.sg',
-				data: {branchOp:branchOp, studyOp:studyOp, typeOp:typeOp, sortOp:sortOp},
+				data: sendData,
 				dataType: 'json',
+				async: false,
 				success: function(data) {
 					var $listArea = $('#listArea');
 					$listArea.html('');
+					var $label = $('<label style="padding:5px 8px 5px 8px; margin:30px; font-size:20px; background:#868686; color:white;">');
+					var $notice = $('<label style="color:gray;">');
 					
 					if(data.length > 0) {
+						if(searchPoint == 'all') {
+							$notice.text($('#searchType option:checked').text() + '을(를) "' + $('#searchText').val() + '"로 검색한 결과입니다.');
+							$listArea.append($notice);
+						} else if(searchPoint == 're') {
+							$notice.text($('#searchType option:checked').text() + '을(를) "' + $('#searchText').val() + '"로 검색한 결과 중 "' + $('#reSearchText').val() + '"을(를) 추가로 검색한 결과입니다.');
+							$listArea.append($notice);
+						}
+						
 						for(var i in data) {
 							
-							var $recGroup = $('<div class="recGroup">');
+							var $recGroup = $('<div class="recGroup" onclick="goToDetail(' + data[i].sgNo + ');">');
 							var $firstInfo = $('<div class="firstInfo">');
 							var $secondInfo = $('<div class="secondInfo">');
 							var $thirdInfo = $('<div class="thirdInfo">');
 							var $fourthInfo = $('<div class="fourthInfo">');
+
+							$recGroup.append('<input type="hidden" value="' + data[i].sgNo + '">');
 							
 							var $span;
-							if(data[i].sgStatus == 'Y')
+							if(data[i].sgStatus != 'Y')
 								$span = $('<span class="typeBadge once">').text('once');
 							else
 								$span = $('<span class="typeBadge long">').text('long');
@@ -341,6 +383,12 @@
 							
 							$secondInfo.append($('<label class="infoLabel">').text('모집 현황'));
 							$secondInfo.append($('<label class="infoContent">').text(data[i].partNum + "/" + data[i].recNum));
+							
+							if(data[i].sgStatus == 'Y') {
+								$secondInfo.append($('<label class="infoLabel">').text('그룹 인원'));
+								$secondInfo.append($('<label class="infoContent">').text(data[i].msgNum + "명"));
+							}
+							
 							$secondInfo.append($('<label class="infoLabel">').text('그룹장'));
 							$secondInfo.append($('<label class="infoContent">').text(decodeURIComponent(data[i].nick.replace(/\+/g, ' '))));
 							$secondInfo.append($('<label class="infoLabel">').text('모임 장소'));
@@ -359,7 +407,13 @@
 							$listArea.append($recGroup);
 						}
 					} else {
-						$listArea.append('<label>모집 중인 그룹이 없습니다.</label>');
+						if(searchPoint != '') {
+							$label.text(' 검색 결과가 없습니다. ');
+							$listArea.append($label);
+						} else {
+							$label.text(' 조건에 맞는 결과가 없습니다. ');
+							$listArea.append($label);
+						}
 					}
 				}
 			});
@@ -387,15 +441,32 @@
 					sortOp = $('.sort').eq(i).attr('id');
 				}
 			}
-
-			console.log("branchOp : " + branchOp);
-			console.log("studyOp : " + studyOp);
-			console.log("typeOp : " + typeOp);
-			console.log("sortOp : " + sortOp);
+			
+			var searchType = "";
+			var searchText = "";
+			var reSearchText = "";
+			if(searchPoint == 'all') {
+				searchType = $('#searchType').val();
+				searchText = $('#searchText').val();
+			} else if(searchPoint == 're') {
+				searchType = $('#searchType').val();
+				searchText = $('#searchText').val();
+				reSearchText = $('#reSearchText').val();
+			}
+			
+			var sendData;
+			
+			if(searchPoint == "") {
+				sendData = {"branchOp":branchOp, "studyOp":studyOp, "typeOp":typeOp, "sortOp":sortOp};
+			} else if(searchPoint == "all") {
+				sendData = {"branchOp":branchOp, "studyOp":studyOp, "typeOp":typeOp, "sortOp":sortOp, "searchType":searchType, "searchText":searchText};
+			} else if(searchPoint == "re") {
+				sendData = {"branchOp":branchOp, "studyOp":studyOp, "typeOp":typeOp, "sortOp":sortOp, "searchType":searchType, "searchText":searchText, "reSearchText":reSearchText};
+			}
 			
 			$.ajax({
 				url: "getPaging.sg",
-				data: {branchOp:branchOp, studyOp:studyOp, typeOp:typeOp, sortOp:sortOp},
+				data: sendData,
 				dataType: 'json',
 				success: function(data) {
 					$pageUl = $('#pageUl');
@@ -486,6 +557,8 @@
 					}		
 				}
 			})
+			
+			searchPoint = "";
 		}
 		
 		$('#categoryBtn').click(function() {
@@ -497,9 +570,9 @@
 			}
 		})
 		
-		$('.recGroup').click(function() {
-			location.href="recruitDetailView.sg";
-		})
+		function goToDetail(sgno) {
+			location.href = "recruitDetailView.sg?sgno=" + sgno;
+		}
 		
 		function categoryClickOption(e, click) {
 			var $where;
@@ -530,17 +603,73 @@
 			for(var i = 0; i < $('.pointer').length; i++) {
 				$('.pointer').eq(i).css({'background':'transparent', 'color':'#333'});
 			}
+			$('#reSearchText').val('');
+			
+			/* $('#typeOpArea').css('width','65%');
+			$('#reSearchText').val('');
+			$('#reSerchArea').css('display','none'); */
 		})
 		
 		$('#categorySerchBtn').click(function() {
+			$('#categoryBtn').click();
+			
+			if($('#reSearchText').val() != '') {
+				searchPoint = "re";
+			} else if($('#searchType').val() != '분류' && $('searchText').val() != '') {
+				searchPoint = "all";
+			} else {
+				$('#typeOpArea').css('width','100%');
+				$('#reSerchArea').css('display','inline-block');
+				
+				searchPoint = "";
+			}
+			
 			getRecList();
 			getPaging();
 		})
 		
 		$('.sort').click(function() {
-			getRecList();
-			getPaging();
+			if($('#searchType').val() != '분류' && $('#searchText').val().trim() != '') {
+				if($('#reSearchText').val().trim() != '') {
+					searchPoint = "re";
+				} else {
+					searchPoint = "all";
+				}
+				
+				getRecList();
+				getPaging();
+			} else {
+				getRecList();
+				getPaging();
+			}
 		})
+		
+		$('#allSearchBtn').click(function() {
+			if($('#categoryHiddenArea').css('display') != 'none') $('#categoryBtn').click();
+			
+			if($('#searchText').val().trim() != '') {
+				if($('#searchType').val() != '분류') {
+					$('#categoryRsetBtn').click();
+					
+					searchPoint = "all";
+					
+					getRecList();
+					getPaging();
+				} else {
+					alert('검색분류를 선택해주세요.');
+				}
+			} else {
+				alert('검색어를 입력해주세요.');
+			}
+		})
+		
+		$('.pageTitle').click(function() {
+			location.reload();
+		});
+		
+		$('#searchText').keydown(function (key) {
+	        if(key.keyCode == 13) $('#allSearchBtn').click();
+	    });
 	</script>
 </body>
 </html>
