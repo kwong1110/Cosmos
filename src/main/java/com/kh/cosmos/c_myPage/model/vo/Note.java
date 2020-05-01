@@ -9,18 +9,25 @@ public class Note {
 	private String noteToId;
 	private String noteContent;
 	private Date noteTime;
-	private String noteStatus;
+	private String noteFromStatus;
+	private String noteAlarm;
+	private String noteStorage;
+	private String noteToStatus;
 	
 	public Note() {}
 
-	public Note(int noteNo, String noteFromId, String noteToId, String noteContent, Date noteTime, String noteStatus) {
+	public Note(int noteNo, String noteFromId, String noteToId, String noteContent, Date noteTime,
+			String noteFromStatus, String noteAlarm, String noteStorage, String noteToStatus) {
 		super();
 		this.noteNo = noteNo;
 		this.noteFromId = noteFromId;
 		this.noteToId = noteToId;
 		this.noteContent = noteContent;
 		this.noteTime = noteTime;
-		this.noteStatus = noteStatus;
+		this.noteFromStatus = noteFromStatus;
+		this.noteAlarm = noteAlarm;
+		this.noteStorage = noteStorage;
+		this.noteToStatus = noteToStatus;
 	}
 
 	public int getNoteNo() {
@@ -63,18 +70,43 @@ public class Note {
 		this.noteTime = noteTime;
 	}
 
-	public String getNoteStatus() {
-		return noteStatus;
+	public String getNoteFromStatus() {
+		return noteFromStatus;
 	}
 
-	public void setNoteStatus(String noteStatus) {
-		this.noteStatus = noteStatus;
+	public void setNoteFromStatus(String noteFromStatus) {
+		this.noteFromStatus = noteFromStatus;
+	}
+
+	public String getNoteAlarm() {
+		return noteAlarm;
+	}
+
+	public void setNoteAlarm(String noteAlarm) {
+		this.noteAlarm = noteAlarm;
+	}
+
+	public String getNoteStorage() {
+		return noteStorage;
+	}
+
+	public void setNoteStorage(String noteStorage) {
+		this.noteStorage = noteStorage;
+	}
+
+	public String getNoteToStatus() {
+		return noteToStatus;
+	}
+
+	public void setNoteToStatus(String noteToStatus) {
+		this.noteToStatus = noteToStatus;
 	}
 
 	@Override
 	public String toString() {
 		return "Note [noteNo=" + noteNo + ", noteFromId=" + noteFromId + ", noteToId=" + noteToId + ", noteContent="
-				+ noteContent + ", noteTime=" + noteTime + ", noteStatus=" + noteStatus + "]";
+				+ noteContent + ", noteTime=" + noteTime + ", noteFromStatus=" + noteFromStatus + ", noteAlarm="
+				+ noteAlarm + ", noteStorage=" + noteStorage + ", noteToStatus=" + noteToStatus + "]";
 	}
 
 }
