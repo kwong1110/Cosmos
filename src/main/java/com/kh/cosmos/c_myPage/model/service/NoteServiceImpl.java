@@ -20,13 +20,13 @@ public class NoteServiceImpl implements NoteService {
 	private SqlSessionTemplate sqlSession;
 
 	@Override
-	public int getListCount() {
-		return nDAO.getListCount(sqlSession);
+	public int getListCount(String userId) {
+		return nDAO.getListCount(sqlSession, userId);
 	}
 
 	@Override
-	public ArrayList<Note> selectList(PageInfo pi) {
-		return nDAO.selectList(sqlSession, pi);
+	public ArrayList<Note> selectList(PageInfo pi, String userId) {
+		return nDAO.selectList(sqlSession, pi, userId);
 	}
 
 	@Override
@@ -46,8 +46,17 @@ public class NoteServiceImpl implements NoteService {
 
 	@Override
 	public int storeNote(int noteNo) {
-		return nDAO.storeNote(sqlSession, noteNo);
+		return nDAO.storeNote(sqlSession, noteNo); 
 	}
 
+	@Override
+	public int getStoreListCount(String userId) {
+		return nDAO.getStoreListCount(sqlSession, userId);
+	}
+
+	@Override
+	public ArrayList<Note> selectStoreList(PageInfo pi, String userId) {
+		return nDAO.selectStoreList(sqlSession, pi, userId);
+	}
 
 }

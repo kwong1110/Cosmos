@@ -7,9 +7,9 @@ import com.kh.cosmos.c_myPage.model.vo.Note;
 
 public interface NoteService {
 
-	int getListCount();
+	int getListCount(String userId);
 
-	ArrayList<Note> selectList(PageInfo pi);
+	ArrayList<Note> selectList(PageInfo pi, String userId);
 
 	int insertNote(Note n);
 
@@ -18,5 +18,9 @@ public interface NoteService {
 	int deleteNote(int noteNo);
 
 	int storeNote(int noteNo);
+
+	int getStoreListCount(String userId);
+
+	ArrayList<Note> selectStoreList(PageInfo pi, String userId);
 
 }

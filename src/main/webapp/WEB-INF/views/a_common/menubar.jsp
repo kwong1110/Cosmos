@@ -528,16 +528,19 @@
 	
 	// 쪽지 팝업 
 	 function popup(){
-		var url = "noteList.mp";
-        var name = "notePopup";
-        
-        var popLeft = Math.ceil(( window.screen.width - 1200 )/2);
-        var popTop = Math.ceil(( window.screen.height - 600 )/2);
-        
-        var option = "width = 1200, height = 600, top =" + popTop + ", left = " + popLeft +", location = no";
-        
-        window.open(url, name, option); 
+		if("${loginUser.id}" != ""){
+			var url = "noteList.mp?userId=" + "${loginUser.id}";
+	        var name = "notePopup";
+	        
+	        var popLeft = Math.ceil(( window.screen.width - 1200 )/2);
+	        var popTop = Math.ceil(( window.screen.height - 600 )/2);
+	        
+	        var option = "width = 1200, height = 600, top =" + popTop + ", left = " + popLeft +", location = no";
+	        
+	        window.open(url, name, option); 
+		}
      }
+	
 	
 </script>
 	<!-- 부트스트랩 -->

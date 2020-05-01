@@ -70,7 +70,6 @@
 		<!--모달 푸터-->
 		<div class="modal-footer">
 			<input type="submit" value="등록 하기"> &nbsp;
-			<button onclick="location.href='noteList.mp'">목록으로</button>
 		</div>
 		</form>
 	</div>

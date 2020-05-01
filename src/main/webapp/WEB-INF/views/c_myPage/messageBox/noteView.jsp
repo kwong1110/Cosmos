@@ -33,6 +33,7 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/reset.css"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<link rel="stylesheet" href="${contextPath}/resources/css/plugins/sweetalert/sweetalert.css">
 </head>
 <body>
 <div class="content note-content">
@@ -68,10 +69,18 @@
 	</c:url>
 	<div class="modal-footer">
 		<button type="button" class="send-btn" onclick="location.href='${noteReply}'">답장</button>
-		<button type="button" class="del-btn" onclick="location.href='${noteDelete}'">삭제</button>
+		<button type="button" class="del-btn" onclick="return sweetConfirm();">삭제</button>
 		<button type="button" class="del-btn" onclick="location.href='${noteStorage}'">보관함</button>
 	</div>
 	</form>
 </div>
 </body>
+<script>
+	function statusUpdate(){
+		location.href='${noteDelete}'		
+	}
+</script>
+	<!-- sweet alert -->
+<script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.cosmos.js"></script>
 </html>
