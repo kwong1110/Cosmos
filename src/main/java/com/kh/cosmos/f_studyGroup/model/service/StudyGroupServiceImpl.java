@@ -8,7 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.b_member.model.vo.Preview;
 import com.kh.cosmos.f_studyGroup.model.dao.StudyGroupDAO;
+import com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
@@ -46,11 +48,6 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	@Override
 	public ArrayList<StudyGroup> getStudyGroupList(String id) {
 		return sgDAO.getStudyGroupList(sqlSession, id);
-	}
-
-	@Override
-	public StudyGroupRecruit getStudyGroupRecruit(int sgno) {
-		return sgDAO.getStudyGroupRecruit(sqlSession, sgno);
 	}
 
 	@Override
@@ -106,6 +103,41 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	@Override
 	public int getMsgNum(int sgNo) {
 		return sgDAO.getMsgNum(sqlSession, sgNo);
+	}
+
+	@Override
+	public String getSgStatus(int sgno) {
+		return sgDAO.getSgStatus(sqlSession, sgno);
+	}
+
+	@Override
+	public StudyGroupRecruit getRecDetail(int sgno, int ingRecCount, String sgStatus) {
+		return sgDAO.getRecDetail(sqlSession, sgno, ingRecCount, sgStatus);
+	}
+
+	@Override
+	public int getApproachStatus(HashMap<String, String> map) {
+		return sgDAO.getApproachStatus(sqlSession, map);
+	}
+
+	@Override
+	public int insertApp(HashMap<String, String> map) {
+		return sgDAO.insertApp(sqlSession, map);
+	}
+
+	@Override
+	public ArrayList<ApproachGroup> getAppList(int recno) {
+		return sgDAO.getAppList(sqlSession, recno);
+	}
+
+	@Override
+	public ArrayList<Preview> getAppUserInfo(String id) {
+		return sgDAO.getAppUserInfo(sqlSession, id);
+	}
+
+	@Override
+	public HashMap<String, Integer> confirmApproach(HashMap<String, String> map) {
+		return sgDAO.confirmApproach(sqlSession, map);
 	}
 
 }

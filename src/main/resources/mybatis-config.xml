@@ -17,6 +17,7 @@
 		<typeAlias type="com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit" alias="StudyRecruit"/>
 		<typeAlias type="com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit" alias="StudyGroupRecruit"/>
 		<typeAlias type="com.kh.cosmos.f_studyGroup.model.vo.MyStudyGroup" alias="MyStudyGroup"/>
+		<typeAlias type="com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup" alias="ApproachGroup"/>
 		<typeAlias type="com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner" alias="StudyPlanner"/>
 		<typeAlias type="com.kh.cosmos.h_viewBranch.model.vo.ViewBranch" alias="ViewBranch"/>
 		<typeAlias type="com.kh.cosmos.i_lecture.model.vo.Lecture" alias="Lecture"/>

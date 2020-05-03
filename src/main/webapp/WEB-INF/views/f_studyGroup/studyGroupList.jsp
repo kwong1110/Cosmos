@@ -15,7 +15,7 @@
 	
 	.pageTitle:hover{color:#17955F; cursor:pointer;}
 	
-	#searchArea{width:100%; display:inline-block; text-align:center;}
+	#searchArea{width:100%; display:inline-block; text-align:center; margin-top:5%;}
 	.searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:7%;}
 	#reSearchText{width:70%; display:inline-block; vertical-align:middle; margin-left:3%;}
 	#settingArea{width:90%; display:block; margin-bottom: 2%;}
@@ -351,7 +351,11 @@
 							$notice.text($('#searchType option:checked').text() + '을(를) "' + $('#searchText').val() + '"로 검색한 결과입니다.');
 							$listArea.append($notice);
 						} else if(searchPoint == 're') {
-							$notice.text($('#searchType option:checked').text() + '을(를) "' + $('#searchText').val() + '"로 검색한 결과 중 "' + $('#reSearchText').val() + '"을(를) 추가로 검색한 결과입니다.');
+							if($('#searchType').val() != '분류') {
+								$notice.text($('#searchType option:checked').text() + '을(를) "' + $('#searchText').val() + '"로 검색한 결과 중 "' + $('#reSearchText').val() + '"을(를) 추가로 검색한 결과입니다.');
+							} else {
+								$notice.text('카테고리 선택 결과 중 "' + $('#reSearchText').val() + '"을(를) 추가로 검색한 결과입니다.');
+							}
 							$listArea.append($notice);
 						}
 						
