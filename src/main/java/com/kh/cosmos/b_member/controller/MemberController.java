@@ -215,10 +215,19 @@ public class MemberController {
 				} catch (MessagingException e) {
 					e.printStackTrace();
 				}
-//				String maskEmail = member.getEmail();
-//				String[] emailArr = email.split("@");
-						
-				mv.addObject("email",member.getEmail())
+				
+				String maskEmail = member.getEmail().toString();
+				System.out.println("email가져와보기 :" + maskEmail);
+				
+				String[] emailArr = maskEmail.split("@");
+				System.out.println(emailArr[0]);		
+								
+				String test = emailArr[0].substring(0, emailArr[0].length() - 3);
+				System.out.println("test1:" + test);
+				
+				test = test + "***@" + emailArr[1];
+				System.out.println("test2: " + test);
+				mv.addObject("email",test)
 		    	 .setViewName("FindPwResult");
 		      }else {
 		         throw new MemberException("정보와 일치하는 아이디가 없습니다.");

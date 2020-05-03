@@ -608,6 +608,7 @@
 		console.log(reasonText);
 		
 		var sendData = {"userId": userId, "reason":reason, "reasonText":reasonText, "targetId":'test'};
+		// ★test라고 임의의 값으로 넣어준거를 나중에 신고당한 회원으로 교체해야함 ★
 		
 		$.ajax({
 			url: "reportInsert.ap",
