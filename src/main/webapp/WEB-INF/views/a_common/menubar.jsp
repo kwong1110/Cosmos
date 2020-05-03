@@ -403,13 +403,13 @@
 						<form>
 							<table>
 								<tr>
-									<td><input type="radio" name="reason"  id="r2" value="0" checked><label for="r1">스터디 모임 불참이 잦음</label></td>
-									<td><input type="radio" name="reason" id="r2" value="0"><label for="r1">공부하지 않음</label></td>					
-									<td><input type="radio" name="reason" id="r2" value="0"><label for="r1">타인 비하 발언</label></td>
+									<td><input type="radio" name="reason" data-value="0" id="r2" value="1" checked><label for="r1">스터디 모임 불참이 잦음</label></td>
+									<td><input type="radio" name="reason" data-value="0" id="r2" value="2"><label for="r1">공부하지 않음</label></td>					
+									<td><input type="radio" name="reason" data-value="0" id="r2" value="3"><label for="r1">타인 비하 발언</label></td>
 								</tr>
 								<tr>
-									<td><input type="radio" name="reason" id="r2" value="0" ><label for="r1">유흥분위기 주도</label></td>					
-									<td><input type="radio" name="reason" id="r2" value="1"><label for="r2">기타</label></td>
+									<td><input type="radio" name="reason" data-value="0" id="r2" value="4" ><label for="r1">유흥분위기 주도</label></td>					
+									<td><input type="radio" name="reason" data-value="1" id="r2" value="0"><label for="r2">기타</label></td>
 									<td><input type="text" name="text"></td>
 								</tr>		
 							</table>
@@ -582,11 +582,11 @@
     // 라디오버튼 클릭시 이벤트 발생
     $("input:radio[name=reason]").click(function(){
  
-        if($("input[name=reason]:checked").val() == "1"){
+        if($("input[name='reason']:checked").data("value") == "1"){
             $("input:text[name=text]").attr("disabled",false);
             // radio 버튼의 value 값이 1이라면 활성화
  
-        }else if($("input[name=reason]:checked").val() == "0"){
+        }else if($("input[name='reason']:checked").data("value") == "0"){
               $("input:text[name=text]").attr("disabled",true);
             // radio 버튼의 value 값이 0이라면 비활성화
         }
@@ -596,7 +596,27 @@
 	// 신고 알럿
 	function success(){
 		alert("신고되었습니다.");
-		$("#report").modal('hide');
+		
+		// ajax
+		// callback
+		var userId = "${ loginUser.id }";
+		var reason = $("input[name='reason']:checked").val();
+		var reasonText = $("input[name='text']").val();
+		
+		console.log(userId);
+		console.log(reason);
+		console.log(reasonText);
+		
+		var sendData = {"userId": userId, "reason":reason, "reasonText":reasonText, "targetId":'test'};
+		
+		$.ajax({
+			url: "reportInsert.ap",
+			data: sendData,
+			dataType: 'json',
+			success: function(data) {
+				$("#report").modal('hide');
+			}
+		});
 	}
 
 	

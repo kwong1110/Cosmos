@@ -48,7 +48,7 @@ table.inner td {
 				<div class="main">
 					<div class="pageTitle" align="center">
 						<h1>신고회원 리스트(관리자)</h1>
-						<h4 align="center">총 신고된 회원 수 :<%--  ${ pi.listCount } --%> 10</h4>
+						<h4 align="center">총 신고된 회원 수 :  ${ pi.listCount } </h4>
 					</div>
 					
 					<div class="content" align="center">
@@ -62,17 +62,19 @@ table.inner td {
 								<th>신고처리상태</th>
 							</tr>
 							</tr>
-							<tr >
-								<td>10</td>
-								<td>user01</td>
-								<td>공부안함</td>
-								<td>user02</td>
-								<td>일반회원/금지회원</td>
-								<td>
-									<input type="button" value="수락" class="stbtn" style="background:green; color:white" >
-									<input type="button" value="거절" class="stbtn" style="background:red; color:white">
-								</td>
-							</tr>
+								<c:forEach var="rp" items="${ list }">
+									<tr class="contentTR">
+										<td align ="center">${ rp.reportNo }</td>
+										<td align ="center">${ rp.reportMid }</td>				
+										<td align ="center">${ rp.reportReason}</td>	
+										<td align ="center">${ rp.mid}</td>
+										<td align ="center">${ rp.reportStatus}</td>		
+										<td>
+											<input type="button" value="수락" class="stbtn" style="background:green; color:white" >
+											<input type="button" value="거절" class="stbtn" style="background:red; color:white">
+										</td>
+									</tr>
+								</c:forEach> 
 						</table>
 						<div id="bottomArea" class="inner" align="center">
 						<!-- 페이징  -->
