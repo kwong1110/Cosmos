@@ -12,6 +12,11 @@ public class ReportController {
 	@Autowired
 	private ReportService rService;
 	
+	@RequestMapping("reportApply.ap")
+	public String Report() {
+		return null;
+	}
+	
 	@RequestMapping("reportList.ap")
 	public String  ReportList() {
 		return "reportList";

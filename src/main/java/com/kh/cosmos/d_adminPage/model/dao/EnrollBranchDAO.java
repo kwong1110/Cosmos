@@ -10,6 +10,7 @@ import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.d_adminPage.model.vo.Master;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
+import com.kh.cosmos.i_lecture.model.vo.Lecture;
 
 @Repository("ebDAO")
 public class EnrollBranchDAO {
@@ -21,6 +22,7 @@ public class EnrollBranchDAO {
 		return sqlSession.selectOne("viewBranchMapper.checkNameDup",masterName);
 	}
 
+	// 지점 등록
 	public int insertMaster(SqlSessionTemplate sqlSession, Master m) {
 		
 		return sqlSession.insert("viewBranchMapper.insertMaster", m);
@@ -52,6 +54,25 @@ public class EnrollBranchDAO {
 		return sqlSession.selectOne("viewBranchMapper.selectBoard", branchNo);
 	}
 
+
+
+
+	// 0503브랜치 리스트
+	/*	public ArrayList<ViewBranch> branchList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("viewBranchMapper.selectbranchList", null, rowBounds);
+	}
+*/
+	// 지점 갯수 조회
+	public int getListCount(SqlSessionTemplate sqlSession) {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("viewBranchMapper.getListCount");
+	}
+
+	
+	
 
 
 }

@@ -4,14 +4,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
@@ -21,6 +24,8 @@ import com.kh.cosmos.d_adminPage.model.exception.AdminPageException;
 import com.kh.cosmos.d_adminPage.model.service.EnrollBranchService;
 import com.kh.cosmos.d_adminPage.model.vo.Master;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
+import com.kh.cosmos.i_lecture.model.exception.LectureException;
+import com.kh.cosmos.i_lecture.model.vo.Lecture;
 
 @Controller
 public class EnrollBranchController {
@@ -50,7 +55,8 @@ public class EnrollBranchController {
 														 @RequestParam("address2") String address2,
 														 @RequestParam("tel1") String tel1,
 														 @RequestParam("tel2") String tel2,
-														 @RequestParam("tel3") String tel3) {
+														 @RequestParam("tel3") String tel3,
+														 RedirectAttributes ra) {
 		
 		vr.setBranchAddress( address1  + address2);
 		vr.setBranchTel( tel1 + tel2 + tel3);
@@ -77,48 +83,56 @@ public class EnrollBranchController {
 			System.out.println("member : " + member);
 			System.out.println("master :" + m);
 			
-			/*return "redirect:branchList.ap";*/
+			ra.addFlashAttribute("successMsg", "성공");
+		
 			return "redirect:branchList.ap";
 		} else {
 			throw new AdminPageException("지점 등록에 실패하였습니다.");
 		}
 	}
 
+	
+	// 지점리스트
 	@RequestMapping("branchList.ap")
-	public ModelAndView branchList(@RequestParam(value="page", required=false) Integer page, ModelAndView mv) { 
-		int currentPage = 1;
-		if (page != null) { // 페이지가 널이 아닐떄
-			
-			currentPage = page;
-		}
-		
-		int listCount = ebService.getListCount();
-		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		
-		ArrayList<ViewBranch> list = ebService.selectList(pi);
-		
-		if(list != null) {
-			mv.addObject("list",list); //add Object 내가 보낼 객체  
-			mv.addObject("pi", pi);
-			mv.setViewName("BranchListView"); // mv 갈 view 두개를 mv에 담았어
-		} else {
-			throw new AdminPageException("게시글 전체 조회에 실패하여씁니다.");
-		}
-		
-		return mv;
-	}
-	
-	
+	public String branchList() {
+
+		return "BranchListView";
+	};
 	
 	// 0423 지점명 중복 확인
-		@RequestMapping("dupName.ap")
-		public void nameDuplicateCheck(HttpServletResponse response, @RequestParam("masterName") String masterName) throws IOException {
-			
-			boolean isUsable =ebService.checkNameDup(masterName) == 0 ? true : false;
-			response.getWriter().print(isUsable);
-		} 
+	@RequestMapping("dupName.ap")
+	public void nameDuplicateCheck(HttpServletResponse response, @RequestParam("masterName") String masterName) throws IOException {
+		
+		boolean isUsable =ebService.checkNameDup(masterName) == 0 ? true : false;
+		response.getWriter().print(isUsable);
+	} 
 
-	
+		
+		
+		
+		/*	@RequestMapping("branchList.ap")
+		public String branchList() {
+			
+			int currentPage = 1;
+			
+			if(page != null) {
+				currentPage = page;
+			}
+			
+			int listCount = ebService.getListCount();
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+
+		
+			ArrayList<ViewBranch> list = ebService.selectList(pi);
+			
+			if(list != null) {
+				model.addAttribute("list", list);
+				model.addAttribute("pi", pi);
+				return "BranchListView";
+			} else {
+				throw new AdminPageException("지점 목록 조회에 실패하였습니다.");
+			}
+		};*/
 	
 }

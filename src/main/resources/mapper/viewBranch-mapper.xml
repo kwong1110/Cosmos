@@ -68,4 +68,21 @@
 		from branch
 		where branch_name=#{branch_Name}
 	</select>
+	
+	
+<!--  	  지점 목록 
+	목록 갯수 
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from branch
+	</select>
+	
+	조회
+	<select id="selectBranchList" parameterType="_int" resultMap="branchResultSet">
+	SELECT BRANCH_NO, MASTER_ID, BRANCH_NAME
+	FROM BRANCH
+		JOIN MASTER USING(BRANCH_NO)
+		ORDER BY BRANCH_NO DESC;
+	</select>
+	 -->
 </mapper>
