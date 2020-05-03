@@ -23,9 +23,11 @@ import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.b_member.model.vo.Member;
+import com.kh.cosmos.b_member.model.vo.Preview;
 import com.kh.cosmos.c_myPage.model.exception.MyPageException;
 import com.kh.cosmos.f_studyGroup.model.exception.StudyGroupException;
 import com.kh.cosmos.f_studyGroup.model.service.StudyGroupService;
+import com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.MyStudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
@@ -237,19 +239,112 @@ public class StudyGroupController {
 			throw new StudyGroupException("모집 등록에 실패하였습니다.");
 		}
 	}
+	
+	@RequestMapping("getAppInfo.sg")
+	public void ApproachInfo(HttpServletRequest request, HttpServletResponse response, @RequestParam("recno") int recno) throws JsonIOException, IOException {
+		HttpSession session = request.getSession();
+		String id = ((Member)session.getAttribute("loginUser")).getId(); //비로그인 유저는 뷰에서 걸러줬음
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("recno", recno+"");
+		int count = sgService.getApproachStatus(map);
+		
+		String result;
+		if(count > 0) result = "Y";
+		else result = "N";
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(result, response.getWriter());
+	}
+	
+	@RequestMapping("doAppGroup.sg")
+	public void ApproachRecruit(HttpServletRequest request, HttpServletResponse response, @RequestParam("sgno") int sgno, @RequestParam("recno") int recno) throws JsonIOException, IOException {
+		HttpSession session = request.getSession();
+		String id = ((Member)session.getAttribute("loginUser")).getId(); //비로그인 유저는 뷰에서 걸러줬음
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		map.put("sgno", sgno+"");
+		map.put("recno", recno+"");
+		
+		int result = sgService.insertApp(map);
+		
+		if(result > 0) {
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(result, response.getWriter());
+		} else {
+			throw new StudyGroupException("참가 신청에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("approachList.sg")
+	public void ApproachList(HttpServletResponse response, @RequestParam("recno") int recno) throws JsonIOException, IOException {
+		ArrayList<ApproachGroup> apList = sgService.getAppList(recno);
+		
+		if(apList != null) {
+			
+			for(ApproachGroup ag : apList) {
+				ag.setNick(URLEncoder.encode(ag.getNick(), "UTF-8"));
+			}
+			
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(apList, response.getWriter());
+		} else {
+			throw new StudyGroupException("참가 신청 리스트 조회에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("getAppUserInfo.sg")
+	public void ApproachUserInfo(HttpServletResponse response, @RequestParam("id") String id) throws JsonIOException, IOException {
+		ArrayList<Preview> previewList = sgService.getAppUserInfo(id);
+		
+		if(previewList != null) {
+			for(Preview p : previewList) {
+				p.setSpTerm(URLEncoder.encode(p.getSpTerm(), "UTF-8"));
+				if(p.getStudyName() != null) p.setStudyName(URLEncoder.encode(p.getStudyName(), "UTF-8"));
+				if(p.getStudyEtc() != null) p.setStudyEtc(URLEncoder.encode(p.getStudyEtc(), "UTF-8"));
+			}
+			
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(previewList, response.getWriter());
+		} else {
+			throw new StudyGroupException("참가 신청자 정보 조회에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("confirmApproach.sg")
+	public void ConfirmApproach(HttpServletResponse response, @RequestParam("type") String type, @RequestParam("recno") int recno, @RequestParam("nick") String nick) throws JsonIOException, IOException {
+		
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("type", type);
+		map.put("recno", recno+"");
+		map.put("nick", nick);
+		
+		HashMap<String, Integer> resultArr = sgService.confirmApproach(map);
+		
+		if(resultArr.get("result") > 0) {
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson(resultArr.get("count"), response.getWriter());
+		} else {
+			throw new StudyGroupException("참가 신청 처리에 실패하였습니다.");
+		}
+	}
 
 	@RequestMapping("recruitDetailView.sg")
-	public ModelAndView RecruitDetailView(@RequestParam("sgno") int sgno, ModelAndView mv) {
-		/*System.out.println(sgno);
+	public ModelAndView RecruitDetailView(/*HttpServletRequest request, */@RequestParam("sgno") int sgno, ModelAndView mv) {
 		
-		StudyGroupRecruit info = sgService.getStudyGroupRecruit(sgno);
+		int ingRecCount = sgService.getIngRecCount(sgno);
+		String sgStatus = sgService.getSgStatus(sgno);
+		
+		StudyGroupRecruit info = sgService.getRecDetail(sgno, ingRecCount, sgStatus);
 		
 		if(info != null) {
 			mv.addObject("info", info);
 			mv.setViewName("recruitDetail");
 		} else {
 			throw new StudyGroupException("그룹 조회에 실패하였습니다.");
-		}*/
+		}
 		
 		mv.setViewName("recruitDetail");
 		return mv;
@@ -276,9 +371,6 @@ public class StudyGroupController {
 	
 	@RequestMapping("updateGroup.sg")
 	public String UpdateGroup(@ModelAttribute StudyGroup sg, @RequestParam("msgSwitch") String msgSwitch) {
-		System.out.println(sg);
-		System.out.println(msgSwitch);
-		
 		if(sg.getMsgRule2().equals("")) sg.setMsgRule2(null);
 		if(sg.getMsgRule3().equals("")) sg.setMsgRule3(null);
 		
