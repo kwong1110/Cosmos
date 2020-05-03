@@ -42,11 +42,15 @@ public class SeatDAO {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 	    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 	    
-		return (ArrayList)sqlSession.selectList("seatMapper.seatStatusList",s, rowBounds);
+		return (ArrayList)sqlSession.selectList("seatMapper.seatStatusList",null, rowBounds); 
 	}
 
 	public int getSeatStatusListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("seatMapper.getSeatStatusListCount");
+	}
+
+	public int getSearchListCount(SqlSessionTemplate sqlSession, Seat s) {
+		return sqlSession.selectOne("seatMapper.getSearchListCount", s);
 	}
 
 	/*public int seatBuy(SqlSessionTemplate sqlSession) {
