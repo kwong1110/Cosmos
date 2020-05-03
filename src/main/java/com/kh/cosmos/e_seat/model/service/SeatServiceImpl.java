@@ -56,6 +56,11 @@ public class SeatServiceImpl implements SeatService{
 		return sDAO.getSeatStatusListCount(sqlSession);
 	}
 
+	@Override
+	public int getSearchListCount(Seat s) {
+		return sDAO.getSearchListCount(sqlSession, s);
+	}
+
 	
 	
 	

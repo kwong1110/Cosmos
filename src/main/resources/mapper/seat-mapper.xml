@@ -100,7 +100,18 @@
 	<select id="getSeatStatusListCount" resultType="_int">
 		select count(*)
 		from reser
+		where reser_yn='Y'
 	</select>
 	
-	
+	<select id="getSearchListCount" resultType="_int" parameterType="Seat">
+		select count(*)
+		from reser
+			 join branch using(branch_no)
+		<if test ="id != null">
+			and id like '%'||#{id}||'%'
+		</if>
+		<if test ="branchName != null">
+			and branch_name like '%'||#{branchName}||'%'
+		</if>	 
+	</select>
 </mapper>

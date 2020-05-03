@@ -23,6 +23,8 @@ public interface SeatService {
 
 	int getSeatStatusListCount();
 
+	int getSearchListCount(Seat s);
+
 	
 
 	
