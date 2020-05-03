@@ -111,7 +111,7 @@
 			and id like '%'||#{id}||'%'
 		</if>
 		<if test ="branchName != null">
-			and branch_name like '%'||#{branchName}||'%'
+			and branch_name like '%'||#{branchName}||'%' 
 		</if>	 
 	</select>
 </mapper>

@@ -129,7 +129,7 @@
 										</li>
 									</ul>
 									<div id="searchArea" align="center">
-										<label>검색 조건</label>
+										<label>검색 조건</label> 
 										<select id="searchCondition" name="searchCondition">
 											<option>-------</option>
 											<option value="id">예약자</option>

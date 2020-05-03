@@ -46,7 +46,7 @@ public class SeatServiceImpl implements SeatService{
 		return sDAO.seatBuy(sqlSession, s);
 	}
 
-	@Override
+	@Override 
 	public ArrayList<Seat> seatStatusList(Seat s, PageInfo pi) {
 		return sDAO.seatStatusList(sqlSession, s, pi);
 	}

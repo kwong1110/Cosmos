@@ -197,5 +197,5 @@ public class SeatController {
 		}
 		
 		return mv;
-	}
+	} 
 }
