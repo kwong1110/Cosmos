@@ -92,12 +92,12 @@ public class EnrollBranchController {
 	}
 
 	
-	// 지점리스트
+/*	// 지점리스트
 	@RequestMapping("branchList.ap")
 	public String branchList() {
 
 		return "BranchListView";
-	};
+	};*/
 	
 	// 0423 지점명 중복 확인
 	@RequestMapping("dupName.ap")
@@ -110,8 +110,8 @@ public class EnrollBranchController {
 		
 		
 		
-		/*	@RequestMapping("branchList.ap")
-		public String branchList() {
+			@RequestMapping("branchList.ap")
+		public String branchList(Model model, @RequestParam(value="page", required=false) Integer page) {
 			
 			int currentPage = 1;
 			
@@ -122,17 +122,16 @@ public class EnrollBranchController {
 			int listCount = ebService.getListCount();
 			
 			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-
-		
-			ArrayList<ViewBranch> list = ebService.selectList(pi);
+			ArrayList<ViewBranch> list = ebService.branchList(pi);
 			
 			if(list != null) {
 				model.addAttribute("list", list);
 				model.addAttribute("pi", pi);
+				model.addAttribute("listCount", listCount);
 				return "BranchListView";
 			} else {
 				throw new AdminPageException("지점 목록 조회에 실패하였습니다.");
 			}
-		};*/
+		};
 	
 }

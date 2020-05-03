@@ -61,9 +61,9 @@ table.inner td {
 								</tr>
 								<c:forEach var="vr" items="${ list }">
 									<tr class="contentTR">
-										<td align ="center">${ b.branchNo }</td>
-										<td align ="center">${ m.masterId }</td>				
-										<td align ="center">${ b.branchName }</td>	
+										<td align ="center">${ vr.branchNo }</td>
+										<td align ="center">${ vr.branchName }</td>				
+										<td align ="center">${ vr.masterId}</td>	
 									</tr>
 								</c:forEach> 
 						</table>

@@ -49,12 +49,21 @@ public class EnrollBranchServiceImpl implements EnrollBranchService{
 		return ebDAO.insertMember(sqlSession, me);
 	}
 	
-	// 지점개수조회 오류남
+	// 지점개수조회
 		@Override
 	public int getListCount() {
 		// TODO Auto-generated method stub
 		return ebDAO.getListCount(sqlSession);
 	}
+
+
+	@Override
+	public ArrayList<ViewBranch> branchList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		System.out.println(pi);
+		return ebDAO.selectList(sqlSession, pi);
+	}
+
 
 
 		

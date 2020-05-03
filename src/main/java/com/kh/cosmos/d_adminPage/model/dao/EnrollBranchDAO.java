@@ -42,34 +42,20 @@ public class EnrollBranchDAO {
 	
 	// 지점목록
 	public ArrayList<ViewBranch> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-			RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
 		      
-		return (ArrayList)sqlSession.selectList("viewBranchMapper.selectList", null, rowBounds);
+		return (ArrayList)sqlSession.selectList("viewBranchMapper.selectBList");
     }
 
-	//
-	public ViewBranch selectBranch(SqlSessionTemplate sqlSession, int branchNo) {
-		
-		return sqlSession.selectOne("viewBranchMapper.selectBoard", branchNo);
-	}
 
 
-
-
-	// 0503브랜치 리스트
-	/*	public ArrayList<ViewBranch> branchList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		
-		return (ArrayList)sqlSession.selectList("viewBranchMapper.selectbranchList", null, rowBounds);
-	}
-*/
 	// 지점 갯수 조회
 	public int getListCount(SqlSessionTemplate sqlSession) {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("viewBranchMapper.getListCount");
 	}
+
+
 
 	
 	

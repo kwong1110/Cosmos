@@ -22,9 +22,7 @@ public interface EnrollBranchService {
 	
 	int getListCount();
 		
-/*	ArrayList<ViewBranch> selectList(PageInfo pi);
+	ArrayList<ViewBranch> branchList(PageInfo pi);
 	
-	ViewBranch selectBranch(int branchNo);
-	*/
 
 }

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.cosmos.d_adminPage.model.dao.ReportDAO;
+import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Service("rService")
 public class ReportServiceImpl implements ReportService{
@@ -14,4 +15,6 @@ public class ReportServiceImpl implements ReportService{
 	
 	@Autowired
 	private SqlSessionTemplate sqlSession;
+
+
 }
