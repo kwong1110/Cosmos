@@ -1,9 +1,11 @@
 package com.kh.cosmos.c_myPage.model.vo;
 
+import java.sql.Date;
+
 public class Coupon {
 
 	private int cNo;
-	private String cInsertDate;
+	private Date cInsertDate;
 	private int cStamp;
 	private int cTotalStamp;
 	private String cContent;
@@ -12,7 +14,7 @@ public class Coupon {
 	
 	public Coupon() {}
 
-	public Coupon(int cNo, String cInsertDate, int cStamp, int cTotalStamp, String cContent, String id, int reserNo) {
+	public Coupon(int cNo, Date cInsertDate, int cStamp, int cTotalStamp, String cContent, String id, int reserNo) {
 		super();
 		this.cNo = cNo;
 		this.cInsertDate = cInsertDate;
@@ -26,16 +28,16 @@ public class Coupon {
 	public int getcNo() {
 		return cNo;
 	}
-
+	
 	public void setcNo(int cNo) {
 		this.cNo = cNo;
 	}
 
-	public String getcInsertDate() {
+	public Date getcInsertDate() {
 		return cInsertDate;
 	}
 
-	public void setcInsertDate(String cInsertDate) {
+	public void setcInsertDate(Date cInsertDate) {
 		this.cInsertDate = cInsertDate;
 	}
 

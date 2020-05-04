@@ -165,7 +165,7 @@
 	
 	#stampListArea{width:100%; text-align:center;}
 	#stampListArea>div{width:80%; display:inline-block;}
-	#stampListArea>div table{width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
+	#stampListArea>div>table{width:100%; font-size:20px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
 	/* 쿠폰 모달 스타일 끝 */
 </style>
 <body>
@@ -532,7 +532,7 @@
 					for(var i in data) {
 						var $tr = $('<tr>');
 						
-						$tr.append('<td style="width:30%;">' + data[i].cInsertDate + '</td>');
+						$tr.append('<td style="width:20%;">' + data[i].cInsertDate + '</td>');
 						$tr.append('<td>' + decodeURIComponent(data[i].cContent.replace(/\+/g, ' ')) + '</td>');
 						$tr.append('<td style="width:15%;">' + data[i].cStamp + '</td>');
 						$stampTable.append($tr);
