@@ -298,7 +298,7 @@
 				<div><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
 				<div class="s-menu">
 					<div><a href="myPlannerList.sp">나의 플래너</a></div>
-					<div><a href="#">모두의 플래너</a></div>								
+					<div><a href="allPlannerList.sp">모두의 플래너</a></div>								
 				</div>
 			</div>
 			<div class="menuTitle"><a href="viewBranchList.vb"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>

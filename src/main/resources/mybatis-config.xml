@@ -24,6 +24,7 @@
 		<typeAlias type="com.kh.cosmos.c_myPage.model.vo.Coupon" alias="Coupon"/>
 		<typeAlias type="com.kh.cosmos.c_myPage.model.vo.Note" alias="Note"/>
 		<typeAlias type="com.kh.cosmos.e_seat.model.vo.SortTable" alias="SortTable"/>
+		<typeAlias type="com.kh.cosmos.a_common.Reply" alias="Reply"/>
 	</typeAliases>
 	
 	<mappers>

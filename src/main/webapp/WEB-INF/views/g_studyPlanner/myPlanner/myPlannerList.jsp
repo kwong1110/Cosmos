@@ -20,6 +20,8 @@
 	<script src='resources/js/plugins/fullcalendar/packages/list/main.js'></script>
 <!-- 템플릿 custom end -->
 
+	<!-- tooltip css (tooltip사용할 경우 주석 해제) -->
+	<!-- <link href='resources/css/tooltip.css' rel='stylesheet' /> -->
 <style>
 	.fc-event{
 		border-color: white;
@@ -95,6 +97,11 @@
 		background-color: rgb(247, 239, 193);
 	}
 	
+	.exception>input {
+		width: auto;
+		height: auto;
+	}
+	
 	/* 플래너 전용*/
 	
 	.myIcon{
@@ -122,10 +129,7 @@
 		margin: 0;
 		font-size: 1.75em;
 	}
-	.exception>input {
-		width: auto;
-		height: auto;
-	}
+	
 	
 	/* 체크박스 체크시 */
 	.checkOn {
@@ -143,12 +147,14 @@
 		border-radius: 4px;
 	    box-shadow: 2px 2px 3px 1px rgba(30, 30, 30, .4);
 	}
+	
 	.custom-menu a {
 		display: block;
 		padding: 4px 23px 4px 23px;
 		text-decoration: none;
 		transition: ease .2s;
 	}
+	
 	.custom-menu a:hover {
 		background: rgb(186, 186, 186);
 	}
@@ -242,12 +248,80 @@ document.addEventListener('DOMContentLoaded', function() {
 			insertPlan('DEFAULT', info.dateStr);
 		},
 		
+		// popover
+		eventRender: function(info) {
+			
+	      	/* 툴팁 사용할 경우 위의 style 주석도 해제 후 사용! */
+	      	/*$(info.el).tooltip({
+	      		title: info.event.extendedProps.content
+	      	}) */
+
+	      	// popover 시작
+	      	var menuName;
+	      	info.event.extendedProps.menu == 'TODAY' ? menuName='오늘의 할일' : menuName='기본';
+	      	$(info.el).popover({
+	            title: info.event.title,
+	            content: $('<div />', {
+	                //class: 'popoverInfoCalendar'
+	           		 }).append('<p><strong>종류:</strong> ' + menuName + '</p>')
+	            	.append('<p><strong>카테고리:</strong> ' + info.event.extendedProps.studyName + '</p>')
+	            	.append('<p><strong>메모:</strong> ' + "메모칼럼 추가해야함" + '</p>'),
+	            placement: 'top',
+	            html: 'true',
+	            trigger: 'hover',
+	            animation: 'true',
+	            container: 'body'
+	      	})
+		},
+		
 		// eventPositioned : 일정이 최종 위치에 배치 된 후 트리거 됨.
 		// 렌더링 된 후 각 이벤트에 id값을 부여함.
 		eventPositioned: function(info) { 
 			// console.log(info);
 			$(info.el).children().attr("id", info.event.id);
 		},
+		
+		// 일정 리사이즈
+		eventResize: function(info) {
+			$('.popover.fade.top').remove();	// 리사이즈시, popover 잔상 제거. 
+			
+			// ajax로 연결해주어야함.
+			alert(info.event.title + " end is now " + info.event.end.toISOString());
+		
+			if (!confirm("is this okay?")) {
+				info.revert();
+			}
+		},
+		
+		//일정 드래그앤드롭
+		eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+			$('.popover.fade.top').remove();
+
+		    //주,일 view일때 종일 <-> 시간 변경불가
+			if (view.type === 'agendaWeek' || view.type === 'agendaDay') {
+				if (draggedEventIsAllDay !== event.allDay) {
+					sweetWrong('드래그앤드롭으로 종일<->시간 변경은 불가합니다.');
+					location.reload();
+					return false;
+				}
+			}
+
+		    // 드랍시 수정된 날짜반영
+		    //var newDates = calDateWhenDragnDrop(event);
+
+		    //드롭한 일정 업데이트
+		   /*  $.ajax({
+		      type: "get",
+		      url: "",
+		      data: {
+		        //...
+		      },
+		      success: function (response) {
+		        alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
+		      }
+		    });*/
+
+		  },
 	}); 
 
 	calendar.render();
@@ -671,6 +745,10 @@ document.addEventListener('DOMContentLoaded', function() {
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-timepicker.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/daterangepicker.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/form-pickers-init.js"></script>
+	
+	<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
+	<script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
+	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </body>
 </html>

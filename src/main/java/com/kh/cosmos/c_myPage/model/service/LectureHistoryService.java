@@ -9,6 +9,6 @@ public interface LectureHistoryService {
 
 	ArrayList<Lecture> selectList(PageInfo pi, String loginUserId);
 
-	int getListCount();
+	int getListCount(String loginUserId);
 
 }

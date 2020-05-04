@@ -19,8 +19,8 @@ public class LectureHistoryDAO {
 		return (ArrayList)sqlSession.selectList("lectureMapper.getMyLectureList", loginUserId, rowBounds);
 	}
 
-	public int getListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("lectureMapper.getMyListCount");
+	public int getListCount(SqlSessionTemplate sqlSession, String loginUserId) {
+		return sqlSession.selectOne("lectureMapper.getMyListCount", loginUserId);
 	}
 
 }
