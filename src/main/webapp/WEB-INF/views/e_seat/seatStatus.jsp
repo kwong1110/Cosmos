@@ -54,7 +54,7 @@
 				      
 				   </table>
 				   
-				   <div class="searchPaging" style="text-align:center;">
+				  	 <div class="searchPaging" style="text-align:center;">
 									  <ul class="pagination">
 										<li>
 											<c:if test="${ pi.currentPage eq pi.startPage }">
@@ -128,27 +128,26 @@
 											</c:if>
 										</li>
 									</ul>
-					            </div>
-					            
-					            <div id="searchArea" align="center">
-									<label>검색 조건</label>
-									<select id="searchCondition" name="searchCondition">
-										<option>-------</option>
-										<option value="id">예약자</option>
-										<option value="branchName">예약지점</option>
-									</select>
-									
-									<input id="searchValue" type="search">
-									<button onclick="searchBoard();">검색하기</button>
-								</div>
-								<script type="text/javascript">
-									function searchBoard(){
-										var searchCondition = $("#searchCondition").val();
-										var searchValue = $("#searchValue").val();
+									<div id="searchArea" align="center">
+										<label>검색 조건</label> 
+										<select id="searchCondition" name="searchCondition">
+											<option>-------</option>
+											<option value="id">예약자</option>
+											<option value="branchName">예약지점</option>
+										</select>
 										
-										location.href="seatStatus.se?searchCondition="+searchCondition+"&searchValue="+searchValue;
-									}
-								</script>
+										<input id="searchValue" type="search">
+										<button onclick="searchKeyword();">검색하기</button>
+									</div>
+									<script type="text/javascript">
+										function searchKeyword(){
+											var searchCondition = $("#searchCondition").val();
+											var searchValue = $("#searchValue").val();
+											
+											location.href="seatStatus.se?searchCondition="+searchCondition+"&searchValue="+searchValue;
+										}
+									</script>
+					        </div>
 				</div>
 			</div>
 		</div>

@@ -53,30 +53,19 @@ table.inner td {
 					</div>
 					
 					<div class="content" align="center">
-						<table class="inner">
-							<thead>
+						<table class="table-hover inner">
 								<tr >
 									<th>No.</th>
 									<th>지점 명</th>
 									<th>지점 ID</th>
 								</tr>
-							</thead>
-						  	<tbody>
 								<c:forEach var="vr" items="${ list }">
 									<tr class="contentTR">
-										<td align ="center">${ m.masterId }</td>
-										<td align ="center">${ b.branchNo }</td>
-										<td align ="center">${ b.branchName }</td>
+										<td align ="center">${ vr.branchNo }</td>
+										<td align ="center">${ vr.branchName }</td>				
+										<td align ="center">${ vr.masterId}</td>	
 									</tr>
 								</c:forEach> 
-								<tr th:if="${ #list.size(list)} > 0" th:each="list: ${list }">
-									
-								</tr>
-								<tr th:unless="${#list.size(list) } > 0">
-									<td colspan="4">조회된 결과가 없습니다.</td>
-								</tr>
-								
-							</tbody> 
 						</table>
 						<div id="bottomArea" class="inner" align="center">
 						<!-- 페이징  -->

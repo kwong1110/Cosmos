@@ -89,7 +89,7 @@
 						</table>
 						<div class="inner" align="center" >
 							<div class="btnBox">
-								<button type="submit" class="defaultBtn" onclick="validate();" >등록</button>
+								<button type="submit" class="defaultBtn" id="enrollBtn" onclick="validate();" >등록</button>
 								<button name="취소"  class="defaultBtn"" onclick="location.href='${ contextPath }'">취소</button>	
 							</div> 
 						</div>
@@ -149,6 +149,8 @@
     		$(this).val($(this).val().replace(/[^0-9]/g,""));
 		});
    </script>
+
+   <!-- 지점등록시 -->	
 	
 </body>
 </html>

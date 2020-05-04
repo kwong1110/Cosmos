@@ -8,6 +8,8 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.b_member.model.vo.Preview;
+import com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
@@ -37,10 +39,6 @@ public class StudyGroupDAO {
 
 	public ArrayList<StudyGroup> getStudyGroupList(SqlSessionTemplate sqlSession, String id) {
 		return (ArrayList)sqlSession.selectList("studyGroupMapper.getStudyGroup", id);
-	}
-
-	public StudyGroupRecruit getStudyGroupRecruit(SqlSessionTemplate sqlSession, int sgno) {
-		return sqlSession.selectOne("studyGroupMapper.getStudyGroupRecruit", sgno);
 	}
 
 	public StudyGroupRecruit getGroupInfoForRec(SqlSessionTemplate sqlSession, int sgno) {
@@ -88,6 +86,74 @@ public class StudyGroupDAO {
 
 	public int getMsgNum(SqlSessionTemplate sqlSession, int sgNo) {
 		return sqlSession.selectOne("studyGroupMapper.getMsgNum", sgNo);
+	}
+
+	public String getSgStatus(SqlSessionTemplate sqlSession, int sgno) {
+		return sqlSession.selectOne("studyGroupMapper.getSgStatus", sgno);
+	}
+
+	public StudyGroupRecruit getRecDetail(SqlSessionTemplate sqlSession, int sgno, int ingRecCount, String sgStatus) {
+		
+		StudyGroupRecruit result = null;
+		
+		if(ingRecCount > 0) { // 모집 중
+			if(sgStatus.equals("Y")) { // Y 다회
+				result = sqlSession.selectOne("studyGroupMapper.getRecMultiDetail", sgno);
+				result.setGroupType("recMulti");
+			} else if(sgStatus.equals("N")) { // N 일회
+				result = sqlSession.selectOne("studyGroupMapper.getRecOnceDetail", sgno);
+				result.setGroupType("recOnce");
+			}
+			
+			if(result != null) {
+				int rsgno = result.getRecNo();
+				int partnum = sqlSession.selectOne("studyGroupMapper.getRecPartNum", rsgno);
+				int partmemnum = sqlSession.selectOne("studyGroupMapper.getPartMemberNum", sgno);
+				result.setPartNum(partnum);
+				result.setPartMemNum(partmemnum+1);
+			}
+		} else { // 모집 X
+			if(sgStatus.equals("Y") || sgStatus.equals("D")) { // Y,D 다회
+				result = sqlSession.selectOne("studyGroupMapper.getMultiDetail", sgno);
+				result.setGroupType("Multi");
+			} else if(sgStatus.equals("N") || sgStatus.equals("E")) { // N,E 일회
+				result = sqlSession.selectOne("studyGroupMapper.getRecOnceDetail", sgno);
+				//result = sqlSession.selectOne("studyGroupMapper.getOnceDetail", sgno);
+				result.setGroupType("Once");
+			}
+		}
+		
+		result.setSgNo(sgno);
+		return result;
+	}
+
+	public int getApproachStatus(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.selectOne("studyGroupMapper.getApproachStatus", map);
+	}
+
+	public int insertApp(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.insert("studyGroupMapper.insertApp", map);
+	}
+
+	public ArrayList<ApproachGroup> getAppList(SqlSessionTemplate sqlSession, int recno) {
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getAppList", recno);
+	}
+
+	public ArrayList<Preview> getAppUserInfo(SqlSessionTemplate sqlSession, String id) {
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getAppUserInfo", id);
+	}
+
+	public HashMap<String, Integer> confirmApproach(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		
+		int result = sqlSession.update("studyGroupMapper.confirmApproach", map);
+		int rsgno = Integer.parseInt(map.get("recno"));
+		int count = sqlSession.selectOne("studyGroupMapper.getRecPartNum", rsgno);
+		
+		HashMap<String, Integer> resultMap = new HashMap<String, Integer>();
+		resultMap.put("result", result);
+		resultMap.put("count", count);
+		
+		return resultMap;
 	}
 
 }

@@ -193,6 +193,30 @@
 		where rsg_no = #{recno}
 	</update>
 	<!-- @@@@ 마이 그룹 관련 끝 @@@@ -->
+	
+	<!-- @@@@ 쿠폰 관련 시작 @@@@ -->
+	<select id="couponListCount" parameterType="string" resultType="_int">
+		select count(*)
+		from coupon
+		where id=#{id}
+	</select>
+	
+	<select id="couponList" parameterType="string" resultMap="CouponResultSet">
+		select *
+		from coupon
+		where id=#{id}
+	</select>
+	
+	<resultMap id="CouponResultSet" type="Coupon">
+		<id property="cNo" column="C_NO"/>
+		<result property="cInsertDate" column="C_INSERT_DATE"/>
+		<result property="cStamp" column="C_STAMP"/>
+		<result property="cTotalStamp" column="C_TOTAL_STAMP"/>
+		<result property="cContent" column="C_CONTENT"/>
+		<result property="id" column="ID"/>
+		<result property="reserNo" column="RESER_NO"/>
+	</resultMap>
+	<!-- @@@@ 쿠폰 관련 끝 @@@@ -->
   
 	<!-- loginUser의 공부 중인 항목 -->
 	<select id="getStudyList" parameterType="Preview" resultMap="previewResultSet">

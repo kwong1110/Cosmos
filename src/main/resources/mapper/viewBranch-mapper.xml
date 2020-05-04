@@ -22,8 +22,9 @@
 		<result property="branchRest" column="BRANCH_REST"/>
 		<result property="originalFileName" column="ORGINAL_FILENAME"/>
 		<result property="renameFileName" column="RENAME_FILENAME"/>
-		
+		<result property="masterId" column="MASTER_ID"/>
 	</resultMap>
+	
 	
 	<!-- viewBranchDetail -->
 	<select id="selectBranch" parameterType="_int" resultMap="branchResultSet">
@@ -68,4 +69,22 @@
 		from branch
 		where branch_name=#{branch_Name}
 	</select>
+	
+	
+  	<!--   지점 목록 
+	목록 갯수 
+	<select id="getListCount" resultType="_int">
+		select count(*)
+		from branch
+	</select> -->
+	
+<!-- 	조회 -->
+	<select id="selectBList" parameterType="_int" resultMap="branchResultSet">
+	SELECT BRANCH_NO, MASTER_ID, BRANCH_NAME
+	FROM BRANCH
+		JOIN MASTER USING(BRANCH_NO)
+		ORDER BY BRANCH_NO DESC
+	</select>
+
+	 
 </mapper>

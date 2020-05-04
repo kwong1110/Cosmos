@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.b_member.model.vo.Preview;
+import com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
@@ -20,8 +22,6 @@ public interface StudyGroupService {
 	int insertRecruit(StudyRecruit sr);
 
 	ArrayList<StudyGroup> getStudyGroupList(String id);
-
-	StudyGroupRecruit getStudyGroupRecruit(int sgno);
 
 	StudyGroupRecruit getGroupInfoForRec(int sgno);
 
@@ -44,5 +44,19 @@ public interface StudyGroupService {
 	int updateMultiGroup(StudyGroup sg);
 
 	int getMsgNum(int sgNo);
+
+	String getSgStatus(int sgno);
+
+	StudyGroupRecruit getRecDetail(int sgno, int ingRecCount, String sgStatus);
+	
+	int getApproachStatus(HashMap<String, String> map);
+
+	int insertApp(HashMap<String, String> map);
+
+	ArrayList<ApproachGroup> getAppList(int recno);
+
+	ArrayList<Preview> getAppUserInfo(String id);
+
+	HashMap<String, Integer> confirmApproach(HashMap<String, String> map);
 	
 }

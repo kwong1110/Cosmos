@@ -1,5 +1,7 @@
 package com.kh.cosmos.f_studyGroup.model.vo;
 
+import java.sql.Date;
+
 public class StudyGroupRecruit {
 	private int sgNo;
 	private int recNo;
@@ -8,11 +10,11 @@ public class StudyGroupRecruit {
 	private String sgName;
 	private String recTerm;
 	private int recNum;
-	private int partNum;
 	private String nick;
 	private String branchName;
 	private String sgGoal;
 	private String sgContent;
+	private Date rsgMetDate;
 	private String msgRule1;
 	private String msgRule2;
 	private String msgRule3;
@@ -21,6 +23,10 @@ public class StudyGroupRecruit {
 	private int msgNum;
 
 	private int dCloseDate;
+
+	private int partNum;
+	private int partMemNum;
+	private String groupType;
 	
 	public StudyGroupRecruit() {}
 
@@ -48,6 +54,30 @@ public class StudyGroupRecruit {
 	}
 	
 	
+
+	public int getPartMemNum() {
+		return partMemNum;
+	}
+
+	public void setPartMemNum(int partMemNum) {
+		this.partMemNum = partMemNum;
+	}
+
+	public String getGroupType() {
+		return groupType;
+	}
+
+	public void setGroupType(String groupType) {
+		this.groupType = groupType;
+	}
+
+	public Date getRsgMetDate() {
+		return rsgMetDate;
+	}
+
+	public void setRsgMetDate(Date rsgMetDate) {
+		this.rsgMetDate = rsgMetDate;
+	}
 
 	public int getdCloseDate() {
 		return dCloseDate;

@@ -11,11 +11,12 @@ public class ViewBranch {
 	private String branchRest;
 	private String originalFileName;
 	private String renameFileName;
+	private String masterId;
 	
 	public ViewBranch() {}
 
 	public ViewBranch(int branchNo, String branchName, String branchAddress, String branchTel, String branchContent,
-			String branchTime, String branchRest, String originalFileName, String renameFileName) {
+			String branchTime, String branchRest, String originalFileName, String renameFileName, String masterId) {
 		super();
 		this.branchNo = branchNo;
 		this.branchName = branchName;
@@ -26,6 +27,7 @@ public class ViewBranch {
 		this.branchRest = branchRest;
 		this.originalFileName = originalFileName;
 		this.renameFileName = renameFileName;
+		this.masterId = masterId;
 	}
 
 	public int getBranchNo() {
@@ -99,13 +101,22 @@ public class ViewBranch {
 	public void setRenameFileName(String renameFileName) {
 		this.renameFileName = renameFileName;
 	}
+	
+	public String getMasterId() {
+		return masterId;
+	}
+
+	public void setMasterId(String masterId) {
+		this.masterId = masterId;
+	}
 
 	@Override
 	public String toString() {
 		return "ViewBranch [branchNo=" + branchNo + ", branchName=" + branchName + ", branchAddress=" + branchAddress
 				+ ", branchTel=" + branchTel + ", branchContent=" + branchContent + ", branchTime=" + branchTime
 				+ ", branchRest=" + branchRest + ", originalFileName=" + originalFileName + ", renameFileName="
-				+ renameFileName + "]";
+				+ renameFileName + ", masterId=" + masterId + "]";
 	}
+
 
 }

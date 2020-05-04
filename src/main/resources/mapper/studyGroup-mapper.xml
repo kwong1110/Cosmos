@@ -24,7 +24,7 @@
 	
 	<insert id="insertGroup" parameterType="StudyGroup">
 		insert into sgroup
-		values(seq_sgid.nextval, #{sgName}, #{sgGoal}, #{sgContent}, default, #{branchNo}, #{id}, #{studyNo}, default)
+		values(seq_sgid.nextval, #{sgName}, #{sgGoal}, #{sgContent}, default, sysdate, #{branchNo}, #{id}, #{studyNo})
 	</insert>
 	
 	<insert id="insertRecruit">
@@ -44,11 +44,120 @@
 		where id=#{id} and sg_status='Y'
 	</select>
 	
-	<select id="getStudyGroupRecruit" parameterType="_int" resultMap="groupRecruitResultSet">
-		select sg_no, sg_status
+	<select id="getSgStatus" parameterType="_int" resultType="string">
+		select sg_status
 		from sgroup
 		where sg_no = #{sgno}
 	</select>
+	
+	<select id="getRecMultiDetail" parameterType="_int" resultMap="groupRecruitResultSet">
+		select *
+        from (select sg_no, rsg_no, sg_name, nick, sg_status, study_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE,
+				rsg_num, branch_name, sg_goal, sg_content, msg_met_rule, msg_num, msg_met, msg_rule1, nvl(msg_rule2, '') as msg_rule2, nvl(msg_rule3, '') as msg_rule3
+            from sgroup
+                join m_sgroup using(sg_no)
+                join rec_sgroup using(sg_no)
+                join member using(id)
+                join branch using(branch_no)
+                join study_category using(study_no)
+            where sg_no = #{sgno}
+            order by rsg_no desc)
+        where rownum = 1
+	</select>
+	
+	<select id="getRecOnceDetail" parameterType="_int" resultMap="groupRecruitResultSet">
+		select *
+        from (select sg_no, rsg_no, sg_name, nick, sg_status, study_name, SUBSTR(RSG_TERM, 14) as rsg_term, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE,
+				rsg_num, branch_name, sg_goal, sg_content, rsg_metting_date
+            from sgroup
+                join rec_sgroup using(sg_no)
+                join member using(id)
+                join branch using(branch_no)
+                join study_category using(study_no)
+            where sg_no = #{sgno}
+            order by rsg_no desc)
+        where rownum = 1
+	</select>
+	
+	<select id="getMultiDetail" parameterType="_int" resultMap="groupRecruitResultSet">
+		select *
+        from (select sg_no, sg_name, nick, sg_status, study_name,
+				branch_name, sg_goal, sg_content, msg_met_rule, msg_num, msg_met, msg_rule1, nvl(msg_rule2, '') as msg_rule2, nvl(msg_rule3, '') as msg_rule3
+            from sgroup
+                join m_sgroup using(sg_no)
+                join rec_sgroup using(sg_no)
+                join member using(id)
+                join branch using(branch_no)
+                join study_category using(study_no)
+            where sg_no = #{sgno}
+            order by rsg_no desc)
+        where rownum = 1
+	</select>
+	
+	<!-- <select id="getOnceDetail" parameterType="_int" resultMap="groupRecruitResultSet">
+		select *
+        from (select sg_no, sg_name, nick, sg_status, study_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE,
+				rsg_num, branch_name, sg_goal, sg_content, rsg_metting_date
+            from sgroup
+                join rec_sgroup using(sg_no)
+                join member using(id)
+                join branch using(branch_no)
+                join study_category using(study_no)
+            where sg_no = #{sgno}
+            order by rsg_no desc)
+        where rownum = 1
+	</select> -->
+	
+	<select id="getApproachStatus" parameterType="hashMap" resultType="_int">
+		select count(*)
+		from ap_sgroup
+		where rsg_no = to_number(#{recno}) and id = #{id}
+	</select>
+	
+	<insert id="insertApp" parameterType="hashMap">
+		insert into ap_sgroup
+		values(#{id}, to_number(#{recno}), to_char(sysdate,'yyyy.mm.dd hh24:mi'), null, default, to_number(#{sgno}))
+	</insert>
+	
+	<select id="getRecPartNum" parameterType="_int" resultType="_int">
+		select count(*)
+		from ap_sgroup
+		where rsg_no = #{rsgno} and asg_status = 'Y'
+	</select>
+	
+	<select id="getAppList" parameterType="_int" resultMap="ApproachResultSet">
+		select id, nick, asg_date, asg_dl_date, asg_status
+		from ap_sgroup
+		join member using(id)
+		where rsg_no = #{recno}
+		order by asg_date desc
+	</select>
+	
+	<resultMap id="ApproachResultSet" type="ApproachGroup">
+		<id property="rsgNo" column="RSG_NO"/>
+		<result property="sgNo" column="SG_NO"/>
+		<result property="id" column="ID"/>
+		<result property="nick" column="NICK"/>
+		<result property="asgDate" column="ASG_DATE"/>
+		<result property="asgDlDate" column="ASG_DL_DATE"/>
+		<result property="asgStatus" column="ASG_STATUS"/>
+	</resultMap>
+	
+	<select id="getAppUserInfo" parameterType="string" resultMap="PreviewResultSet">
+		select id, study_no, study_name, sp_term, study_etc
+		from preview
+		join study_category using(study_no)
+		where id=#{id}
+	</select>
+	
+	<resultMap id="PreviewResultSet" type="Preview">
+		<id property="id" column="ID"/>
+		<result property="nick" column="NICK"/>
+		<result property="studyNo" column="STUDY_NO"/>
+		<result property="spTerm" column="SP_TERM"/>
+		<result property="studyEtc" column="STUDY_ETC"/>
+		<result property="studyName" column="STUDY_NAME"/>
+	</resultMap>
 	
 	<select id="getGroupInfoForRec" parameterType="_int" resultMap="groupRecruitResultSet">
 		select sg_no, study_name, msg_num, branch_name, msg_met_rule, sg_goal, msg_rule1, msg_rule2, msg_rule3, sg_content
@@ -224,8 +333,10 @@
 		<id property="nick" column="NICK"/>
 		<id property="sgStatus" column="SG_STATUS"/>
 		<id property="studyName" column="STUDY_NAME"/>
+		<id property="rsgMetDate" column="rsg_metting_date"/>
 		<id property="msgNum" column="MSG_NUM"/>
 		<id property="branchName" column="BRANCH_NAME"/>
+		<id property="msgMet" column="MSG_MET"/>
 		<id property="msgMetRule" column="MSG_MET_RULE"/>
 		<id property="sgName" column="SG_NAME"/>
 		<id property="sgStatus" column="SG_STATUS"/>
@@ -292,5 +403,15 @@
 		update m_sgroup
 		set msg_num=#{msgNum}, msg_rule1=#{msgRule1}, msg_rule2=#{msgRule2}, msg_rule3=#{msgRule3}, msg_met_rule=#{msgMetRule}
 		where sg_no=#{sgNo}
+	</update>
+	
+	<update id="confirmApproach" parameterType="hashMap">
+		update ap_sgroup
+		set asg_dl_date = sysdate, asg_status =
+		<choose>
+			<when test="type == 'acc'">'Y'</when>
+			<when test="type == 'rej'">'N'</when>
+		</choose>
+		where id = (select id from member where nick=#{nick}) and rsg_no = to_number(#{recno})
 	</update>
 </mapper>
