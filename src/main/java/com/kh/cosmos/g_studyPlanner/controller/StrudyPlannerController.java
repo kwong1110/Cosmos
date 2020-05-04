@@ -14,11 +14,15 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
+import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.a_common.Pagination;
+import com.kh.cosmos.a_common.Reply;
 import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.b_member.model.vo.Preview;
@@ -44,14 +48,15 @@ public class StrudyPlannerController {
 	@RequestMapping("myPlannerList.sp")
 	public String myPlannerList(Model model, @ModelAttribute StudyCategory sc, HttpSession session) {
 		
-		ArrayList<StudyPlanner> pList = spService.selectList();
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String loginUserId = loginUser.getId();
+		
+		ArrayList<StudyPlanner> pList = spService.selectList(loginUserId);
 		// System.out.println("list 확인 : " + list);
 		
 		// 전체 스터디카테고리 불러오기
 		ArrayList<StudyCategory> sList = mService.selectStudyCategoryList(sc);
 		// 로그인한 유저의 전체 카테고리 불러오기
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		String loginUserId = loginUser.getId();
 		ArrayList<Preview> userStudyList = mpService.getStudyList(loginUserId);
 		
 		if(pList != null) {
@@ -167,6 +172,132 @@ public class StrudyPlannerController {
 			return "redirect:myPlannerList.sp";
 		} else {
 			throw new StudyPlannerException("플래너 수정에 실패했습니다");
+		}
+	}
+	
+	@RequestMapping("allPlannerList.sp")
+	public String allPlannerList(Model model, @ModelAttribute StudyCategory sc, HttpSession session,
+								 @RequestParam(value="page", required=false) Integer page) {
+		
+		// 전체 스터디카테고리 불러오기
+		ArrayList<StudyCategory> sList = mService.selectStudyCategoryList(sc);
+		
+		// 로그인한 유저의 전체 카테고리 불러오기
+		if((Member)session.getAttribute("loginUser") != null) {
+			
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			String loginUserId = loginUser.getId();
+			
+			ArrayList<Preview> userStudyList = mpService.getStudyList(loginUserId);
+			
+			model.addAttribute("userStudyList", userStudyList);
+		}
+		
+		int currentPage = 1;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = spService.getAllListCount();
+
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<StudyPlanner> pList = spService.selectAllList(pi);
+		
+		
+		if(pList != null) {
+			model.addAttribute("pList", pList);
+			model.addAttribute("sList", sList);
+			model.addAttribute("pi", pi);
+			return "/allPlanner/allPlannerList";
+		} else {
+			throw new StudyPlannerException("모두의 플래너 전체 조회에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("replyList.sp")
+	public void getReplyList(HttpServletResponse response, @RequestParam("planNo") String planNo) throws JsonIOException, IOException {
+		ArrayList<Reply> rList = spService.selectReplyList(Integer.parseInt(planNo));
+		
+		for(Reply r : rList) {
+			r.setReplyContent(URLEncoder.encode(r.getReplyContent(), "UTF-8"));
+			r.setNickName(URLEncoder.encode(r.getNickName(), "UTF-8"));
+		}
+		
+		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+		gson.toJson(rList, response.getWriter());
+	}
+	
+	@RequestMapping("addReply.sp")
+	@ResponseBody
+	public String addReply(Reply r, HttpSession session) {
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String Writer = loginUser.getId();
+		
+		r.setId(Writer);
+
+		int result = spService.insertReply(r);
+		
+		if(result > 0) {
+			return "successReplyInsert";
+		} else {
+			throw new StudyPlannerException("댓글 등록에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("updateReply.sp")
+	@ResponseBody
+	public String updateReply(Reply r) {
+		
+		int result = spService.updateReply(r);
+		
+		if(result > 0) {
+			return "successReplyUpdate";
+		} else {
+			throw new StudyPlannerException("댓글 수정에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("deleteReply.sp")
+	@ResponseBody
+	public String deleteReply(Reply r) {
+		
+		int result = spService.deleteReply(r);
+		
+		if(result > 0) {
+			return "successReplyDelete";
+		} else {
+			throw new StudyPlannerException("댓글 수정에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("addReReply.sp")
+	@ResponseBody
+	public String addReReply(Reply r, HttpSession session, @RequestParam("reReplyOn") String reReplyOn) {
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String Writer = loginUser.getId();
+		
+		r.setId(Writer);
+		
+		
+		// 만약 답글에 1개의 답글이 더 있을 경웅 order(순서)를 바꿔주어야 한다.
+		if(r.getReGrpOrder() == 0 && !reReplyOn.equals("reReplyOn")) {
+			int orderResult = spService.updateReplyOrder(r);
+		}
+		
+		// 답글에 답글일 경우
+		if(reReplyOn.equals("reReplyOn")) {
+			int reReplyResult = spService.updateReReplyOrder(r);
+		}
+
+		int result = spService.insertReReply(r);
+		
+		if(result > 0) {
+			return "successReReplyInsert";
+		} else {
+			throw new StudyPlannerException("댓글 등록에 실패하였습니다.");
 		}
 	}
 }

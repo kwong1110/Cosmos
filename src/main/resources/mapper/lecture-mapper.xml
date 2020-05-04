@@ -51,6 +51,7 @@
 	<select id="getListCount" resultType="_int">
 		select count(*)
 		from lecture
+		where lecture_status != 'DELETE'
 	</select>
 	
 	<select id="selectLecture" parameterType="_int" resultMap="lectureResultSet">
@@ -76,13 +77,13 @@
 		from lecture
     		join member using(id)
     		join branch using(branch_no)
-		where ID=#{loginUserId} and lecture_status != 'DELETE'
+		where id=#{loginUserId} and lecture_status != 'DELETE'
 		order by lecture_date desc
 	</select>
 	
 	<select id="getMyListCount" resultType="_int">
 		select count(*)
 		from lecture
-		where ID=#{loginUserId}
+		where id=#{ loginUserId } and lecture_status != 'DELETE'
 	</select>
 </mapper>

@@ -40,15 +40,14 @@
 			                                 
 					<div class="btnBox inner" align=center >
 						<button type="submit" class="defaultBtn" id="login">로그인</button>
-						<button name="취소" onclick="location.href='${ contextPath }'" class="defaultBtn">취소</button>
+						<button name="취소" onclick="history.back()" class="defaultBtn">취소</button>
 					</div>
 				</div>
 			</div>
 		</div>
 		<c:import url="../a_common/footer.jsp"/>
-	</div>
-		
-		<!-- 로그인 모달 창 -->
+	</div>	
+	<!-- 로그인 모달 창 -->
 		<div class="modal fade" id="loginModal">
 	  		<div class="modal-dialog">
 		    	<div class="modal-content">

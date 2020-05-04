@@ -20,24 +20,49 @@
 <link rel="stylesheet" href="${contextPath}/resources/css/layout-style.css">
 </head>
 <style>
-	.loginTop,.loginMid{
+	.loginTop, .loginMid {
 		display: flex;
   		justify-content: center;
-  		align-items: center;
-		text-align: center;  		
 	}
+	
+	/* 로그인 창 색상 ------------------ */
+	div.modal-content {
+		background-color: rgb(23, 149, 95);
+	}
+	.loginMid {
+		background-color: rgb(255, 255, 224);
+	}
+	div.loginBox input.loginBtn {
+		padding : 7px 0;
+	
+	}
+	
+	div.btnBox button.btn2 {
+		background: transparent;
+		padding-left:3px;
+		padding-right:3px;
+	}
+	
+	div.btnBox button.btn2:focus {
+		outline:0;
+		box-shadow : none;
+	}
+	
+	/* --------------------------- */
+	
 	.loginMid div{
 		margin: 5px;
 	}
-	.loginBtn{
-		width: 100px;
-	}
-	.loginBox{
+
+	div.loginBox{
 		width: 54%;
+		margin: 20px auto;
 	}
 	.loginBox input{
 		width: 100%;
+		padding : 3px 5px;
 	}
+	
 	/* 빙그레체에서는 password동그라미가 지원되지않아 설정해준 것. */
 	input[type=password] {
         font-family: "serif";
@@ -129,6 +154,8 @@
     }
     
     .s-menu{
+    	display: none; 
+    	
     	background-color:rgb(254, 245, 198);
     	color : #444;
     }
@@ -138,10 +165,28 @@
     }
     
     .menuTitle:hover{
-    	background-color:rgb(100, 222, 109);
+    	background-color:rgba(100, 222, 109, 0.7);
     }
 	.s-menu>div:hover {
 		background-color:rgba(228, 208, 106, 0.2);
+	}
+	
+	/* menu.on --------------------------------- */
+	.menuTitle.on
+	{
+    	background-color:rgb(100, 222, 109);
+    }
+    .s-menu>div.on a::after {
+    	content : " :: ";
+    }
+    /* ----------------------------------------- */
+	
+	.note-modalMask {
+		position: absolute;
+		left: 0;
+		top: 0;
+		z-index: 100;
+		background: rgba(0, 0, 0, 0.4);
 	}
 	
 	/* 쿠폰 모달 스타일 */
@@ -195,13 +240,17 @@
 						<c:url var="logout" value="logout.me"/>				
 						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
 						<div class="user-menu clear-fix">
-							<div onclick="popup();"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
+
+							<div class="noteBtn"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
+<!-- 							<div onclick="popup();"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div> -->
 							<div onclick="openCoupon();"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
+
 							<div>
 								<c:url var="mypage" value="myPage.mp">
 									<c:param name="id" value="${ loginUser.id }"/>
 								</c:url>
 							<a href="${mypage}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>마이 페이지</a></div>
+							<div data-toggle="modal" data-target="#report"aria-hidden="true"><span class="glyphicon glyphicon-thumbs-down"></span>신고</div>
 						</div>
 					</div>
 				</c:if>
@@ -249,7 +298,7 @@
 				<div><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
 				<div class="s-menu">
 					<div><a href="myPlannerList.sp">나의 플래너</a></div>
-					<div><a href="#">모두의 플래너</a></div>								
+					<div><a href="allPlannerList.sp">모두의 플래너</a></div>								
 				</div>
 			</div>
 			<div class="menuTitle"><a href="viewBranchList.vb"><span class="glyphicon glyphicon-tree-deciduous" aria-hidden="true"></span>지점찾기</a></div>
@@ -268,30 +317,30 @@
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        		<div class="loginTop">
-        			<div class="logo imageBox"></div>
-        		</div>
-	        	<div class="loginMid">
-	        		<div class="loginBox">
-		        		<form action="login.me" method="post" onsubmit="return loginUser();">
-		        			<div>
-				        		<div>
-			       					<input type="text" name="id" id="id" placeholder="아이디">
-			       				</div>
-			       				<div>
-			       					<input type="password" name="pwd" id="pwd" placeholder="비밀번호">
-			       				</div> 
-		       					<div>
-		       						<input type="submit" class="btn loginBtn" value="로그인">
-		       					</div>
+       		<div class="loginTop">
+       			<div class="login_green imageBox"></div>
+       		</div>
+        	<div class="loginMid">
+        		<div class="loginBox">
+	        		<form action="login.me" method="post" onsubmit="return loginUser();">
+	        			<div>
+			        		<div>
+		       					<input type="text" name="id" id="id" placeholder="아이디">
 		       				</div>
-			        		<div class="btnBox">
-				        		<button type="button" class="btn" onclick="location.href='find.me'">아이디 / 비밀번호 찾기</button>
-				        		<button type="button" class="btn">회원가입</button>
-							</div> 
-						</form>
-					</div>		          	
-		        </div>
+		       				<div>
+		       					<input type="password" name="pwd" id="pwd" placeholder="비밀번호">
+		       				</div> 
+	       					<div>
+	       						<input type="submit" class="btn loginBtn" value="로그인">
+	       					</div>
+	       				</div>
+		        		<div class="btnBox">
+			        		<button type="button" class="btn btn2" onclick="location.href='find.me'"><span class="glyphicon glyphicon-search" aria-hidden="true"></span>아이디 / 비밀번호 찾기</button>
+			        		<button type="button" class="btn btn2" onclick="location.href='agree.me'"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span>회원가입</button>
+						</div> 
+					</form>
+				</div>		          	
+	        </div>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
 	</div><!-- /.modal -->
@@ -340,11 +389,45 @@
 		</div>
 	</div>
 	<!-- 쿠폰 모달 -->
-	
+	<!-- 신고 모달 -->
+	<div id="report" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-content ">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h2 class="modal-title reportTitle" style="text-align:center">신고사유</h2>
+				</div>
+				<div id="reportReason">
+					<div class="modal-body">
+						<form>
+							<table>
+								<tr>
+									<td><input type="radio" name="reason" data-value="0" id="r2" value="1" checked><label for="r1">스터디 모임 불참이 잦음</label></td>
+									<td><input type="radio" name="reason" data-value="0" id="r2" value="2"><label for="r1">공부하지 않음</label></td>					
+									<td><input type="radio" name="reason" data-value="0" id="r2" value="3"><label for="r1">타인 비하 발언</label></td>
+								</tr>
+								<tr>
+									<td><input type="radio" name="reason" data-value="0" id="r2" value="4" ><label for="r1">유흥분위기 주도</label></td>					
+									<td><input type="radio" name="reason" data-value="1" id="r2" value="0"><label for="r2">기타</label></td>
+									<td><input type="text" name="text"></td>
+								</tr>		
+							</table>
+							<div class="btnBox">
+				        		<button type="button" class="btn" onclick="success()">신고</button>
+							</div> 
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 신고모달 -->
 	
 	
 </body>
 <script>
+	var idx = 0;
+	
 	$('#login').click(function(e){
 		e.preventDefault();
 		$('#loginModal').modal("show");
@@ -386,76 +469,92 @@
 	$(function(){
 		
 		/* 하위 메뉴 슬라이드 */
-		/* $(".s-menu").css({display:"none"});
+		$("div.s-menu").css({display: "none"});
 		
-		$(".menuTitle").click(function(){
-			$(".s-menu").each(function(){
-				if($(this).css("display") == "block"){
-					$(this).slideUp("fast");
-				}
-			});
+		$("div.menuTitle").click(function(){
+			if($(this).find("div.s-menu").css("display") == "none"){
+				$("div.s-menu").each(function(){
+					if($(this).css("display") == "block"){
+						$(this).slideUp("fast");
+					}
+				});
+				$(this).find("div.s-menu").slideDown("fast");
+
+			} else {
+				// return false;
+			}
 			
-			$(this).find(".s-menu").slideDown("fast");
-		}); */
-		
+		});
 		
 		/* 메뉴 고정 : 모든 메뉴 완성되면 구현하기 */
 		var url = location.href;
 		
 		// 메인메뉴
 		var mainMenu = new Array;
-		mainMenu[0] = "company";
-		mainMenu[1] = "event";
-		mainMenu[2] = "games";
-		mainMenu[3] = "board";
-		mainMenu[4] = "lecture";
+		mainMenu[0] = "reservation";
+		mainMenu[1] = "listView";
+		mainMenu[2] = "myPlanner"; // 미정
+		mainMenu[3] = "viewBranch";
+		mainMenu[4] = "lecture"; // 미정
 		var getMain0 = url.indexOf(mainMenu[0]);
 		var getMain1 = url.indexOf(mainMenu[1]);
 		var getMain2 = url.indexOf(mainMenu[2]);
 		var getMain3 = url.indexOf(mainMenu[3]);
 		var getMain4 = url.indexOf(mainMenu[4]);
 		
-		// 서브메뉴 가지고 있는 메뉴1
-		var gamesSub = new Array;
-		gamesSub[0] = "games/sub3.html";
-		gamesSub[1] = "games/sub4.html";
-		var getGamesSub0 = url.indexOf(gamesSub[0]);
-		var getGamesSub1 = url.indexOf(gamesSub[1]);
+		// 서브메뉴 가지고 있는 메뉴 : 플래너
+		var plannerSub = new Array;
+		plannerSub[0] = "myPlannerList";
+		plannerSub[1] = "ourPlannerList"; // 미정
+		var getPlannerSub0 = url.indexOf(plannerSub[0]);
+		var getPlannerSub1 = url.indexOf(plannerSub[1]);
 		
-		// 서브메뉴 가지고 있는 메뉴2
+		// 서브메뉴 가지고 있는 메뉴 : 강연
 		var lectureSub = new Array;
-		lectureSub[0] = "lecture/sub6.html";
-		lectureSub[1] = "lecture/sub7.html";
+		lectureSub[0] = "lectureCalendar";
+		lectureSub[1] = "lectureApplyGuide";
 		var getLectureSub0 = url.indexOf(lectureSub[0]);
 		var getLectureSub1 = url.indexOf(lectureSub[1]);
 		
 		if (getMain0 != -1) {
-			$(".menuTitle:eq(0) > a").addClass("on");
-		};
+			$(".menuTitle:eq(0)").addClass("on");
+		}
+
 		if (getMain1 != -1) {
-			$(".menuTitle:eq(1) > a").addClass("on");
-		};
-		if (getMain2 != -1) {
+			$(".menuTitle:eq(1)").addClass("on");
+		}
+
+		if (getMain2 != -1) {	
+			$(".menuTitle:eq(2)").addClass("on");
+		}
+		if (getPlannerSub0 != -1){	
+			$(".menuTitle:eq(2)").addClass("on");
+			$(".menuTitle:eq(2) > div.s-menu > div:first-child").addClass("on");
+			$(".menuTitle:eq(2) > div.s-menu").css("display", "block");
+		} 
+		if (getPlannerSub1 != -1){
 			$(".menuTitle:eq(2) > div > a").addClass("on");
-			if(getGamesSub0 != -1){
-				$(".menuTitle:eq(2) > .s-menu > div:first-child > a").addClass("on");
-			} 
-			if(getGamesSub1 != -1){
-				$(".menuTitle:eq(2) > .s-menu > div:last-child > a").addClass("on");
-			} 
-		};
+			$(".menuTitle:eq(2) > div.s-menu > div:last-child").addClass("on");
+			$(".menuTitle:eq(2) > div.s-menu").css("display", "block");
+		} 
 		if (getMain3 != -1) {
-			$(".menuTitle:eq(3) > a").addClass("on");
-		};
+			$(".menuTitle:eq(3)").addClass("on");
+		}
+
 		if (getMain4 != -1) {
-			$(".menuTitle:eq(4) > div > a").addClass("on");
-			if(getLectureSub0 != -1){
-				$(".menuTitle:eq(4) > .s-menu > div:first-child > a").addClass("on");
-			} 
-			if(getLectureSub1 != -1){
-				$(".menuTitle:eq(4) > .s-menu > div:last-child > a").addClass("on");
-			} 
-		};
+			$(".menuTitle:eq(4)").addClass("on");
+		}
+		if (getLectureSub0 != -1){
+			$(".menuTitle:eq(4)").addClass("on");
+			$(".menuTitle:eq(4) > div.s-menu > div:first-child").addClass("on");
+			$(".menuTitle:eq(4) > div.s-menu").css("display", "block");
+			
+		} 
+		if (getLectureSub1 != -1){
+			$(".menuTitle:eq(4)").addClass("on");
+			$(".menuTitle:eq(4) > div.s-menu > div:last-child").addClass("on");
+			$(".menuTitle:eq(4) > div.s-menu").css("display", "block");
+		} 
 	});
 	
 	// 회원가입 성공시 로그인 창 바로 뜨기
@@ -478,19 +577,46 @@
 	});
 	
 	// 쪽지 팝업 
-	 function popup(){
-		if("${loginUser.id}" != ""){
-			var url = "noteList.mp?userId=" + "${loginUser.id}";
-	        var name = "notePopup";
-	        
-	        var popLeft = Math.ceil(( window.screen.width - 1200 )/2);
-	        var popTop = Math.ceil(( window.screen.height - 600 )/2);
-	        
-	        var option = "width = 1200, height = 600, top =" + popTop + ", left = " + popLeft +", location = no";
-	        
-	        window.open(url, name, option); 
+	$(function(){
+		$("body").append("<div class='note-modalMask'></div>");
+		
+		function maskInit(){
+			var maskW = $(document).width();
+			var maskH = $(document).height();
+			$(".note-modalMask").css({"width" : maskW +"px", "height" : maskH + "px"});
 		}
-     }
+		
+		function popup(){
+			if("${loginUser.id}" != ""){
+				var url = "noteList.mp?userId=" + "${loginUser.id}";
+		        var name = "notePopup";
+		        
+		        var popLeft = Math.ceil(( window.screen.width - 700 )/2);
+		        var popTop = Math.ceil(( window.screen.height - 670 )/2);
+		        
+		        var option = "width = 700, height = 670, top =" + popTop + ", left = " + popLeft +", location = no";
+		        
+		        child = window.open(url, name, option); 
+			}
+	    }
+		
+		$(window).resize(function(){
+			maskInit();
+			popup();
+		});
+		
+		$(".noteBtn").click(function(){
+			$(".note-modalMask").fadeIn();
+			maskInit();
+			popup();
+		});
+		
+		$(".note-modalMask").click(function(){
+			 child.close(); 
+			$(".note-modalMask").fadeOut();
+		}); 
+	});
+	
 	
 	//쿠폰 팝업
 	function openCoupon() {
@@ -642,6 +768,52 @@
 		})
 	}
 	
+	
+	
+	// 신고하기 라디오버튼 활성화
+	$(document).ready(function(){
+ 
+    // 라디오버튼 클릭시 이벤트 발생
+    $("input:radio[name=reason]").click(function(){
+ 
+        if($("input[name='reason']:checked").data("value") == "1"){
+            $("input:text[name=text]").attr("disabled",false);
+            // radio 버튼의 value 값이 1이라면 활성화
+ 
+        }else if($("input[name='reason']:checked").data("value") == "0"){
+              $("input:text[name=text]").attr("disabled",true);
+            // radio 버튼의 value 값이 0이라면 비활성화
+        }
+    });
+   
+});
+	// 신고 알럿
+	function success(){
+		alert("신고되었습니다.");
+		
+		// ajax
+		// callback
+		var userId = "${ loginUser.id }";
+		var reason = $("input[name='reason']:checked").val();
+		var reasonText = $("input[name='text']").val();
+		
+		console.log(userId);
+		console.log(reason);
+		console.log(reasonText);
+		
+		var sendData = {"userId": userId, "reason":reason, "reasonText":reasonText, "targetId":'test'};
+		// ★test라고 임의의 값으로 넣어준거를 나중에 신고당한 회원으로 교체해야함 ★
+		
+		$.ajax({
+			url: "reportInsert.ap",
+			data: sendData,
+			dataType: 'json',
+			success: function(data) {
+				$("#report").modal('hide');
+			}
+		});
+	}
+
 	
 </script>
 	<!-- 부트스트랩 -->

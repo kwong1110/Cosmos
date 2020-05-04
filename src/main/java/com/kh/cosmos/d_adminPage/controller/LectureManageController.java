@@ -46,7 +46,7 @@ public class LectureManageController {
 		ArrayList<Lecture> list = lmService.lectureManageList(pi);
 		
 		if(list != null) {
-			model.addAttribute("list", list);
+			model.addAttribute("lList", list);
 			model.addAttribute("pi", pi);
 			return "lectureManage";
 		} else {

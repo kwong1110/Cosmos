@@ -1,13 +1,17 @@
 package com.kh.cosmos.d_adminPage.model.service;
 
+import java.util.ArrayList;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.d_adminPage.model.dao.EnrollBranchDAO;
 import com.kh.cosmos.d_adminPage.model.vo.Master;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
+import com.kh.cosmos.i_lecture.model.vo.Lecture;
 
 @Service("ebService")
 public class EnrollBranchServiceImpl implements EnrollBranchService{
@@ -45,5 +49,27 @@ public class EnrollBranchServiceImpl implements EnrollBranchService{
 		return ebDAO.insertMember(sqlSession, me);
 	}
 	
+	// 지점개수조회
+		@Override
+	public int getListCount() {
+		// TODO Auto-generated method stub
+		return ebDAO.getListCount(sqlSession);
+	}
+
+
+	@Override
+	public ArrayList<ViewBranch> branchList(PageInfo pi) {
+		// TODO Auto-generated method stub
+		System.out.println(pi);
+		return ebDAO.selectList(sqlSession, pi);
+	}
+
+
+
+		
+
+
+	
+
 	
 }
