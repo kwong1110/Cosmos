@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
@@ -33,7 +34,7 @@ public class ReportController {
 	}
 	
 	@RequestMapping("reportList.ap")
-	public String ReportList(Model model, @RequestParam(value="page", required=false) Integer page) {
+	public ModelAndView ReportList(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
 		
 		int currentPage = 1;
 		
@@ -47,15 +48,14 @@ public class ReportController {
 		ArrayList<Report> list = rService.reportList(pi);
 		
 		if(list != null) {
-			model.addAttribute("list", list);
-			model.addAttribute("pi", pi);
-			model.addAttribute("listCount", listCount);
-			
-			return "reportList";
-			
+			mv.addObject("list", list);
+			mv.addObject("pi", pi);
+			mv.addObject("listCount", listCount);
+			mv.setViewName("reportList");
 		} else {
-			throw new AdminPageException("지점 목록 조회에 실패하였습니다.");
+			throw new AdminPageException("신고목록 조회에 실패하였습니다.");
 		}
+		return mv;
 	}
 		
 	
@@ -68,7 +68,8 @@ public class ReportController {
 		rp.setReportMid(targetId);
 		
 		int result = rService.reportInsert(rp);
-				
+		
+		
 		return result;
 	}
 	

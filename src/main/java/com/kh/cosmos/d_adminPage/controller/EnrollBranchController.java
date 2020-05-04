@@ -110,8 +110,8 @@ public class EnrollBranchController {
 		
 		
 		
-			@RequestMapping("branchList.ap")
-		public String branchList(Model model, @RequestParam(value="page", required=false) Integer page) {
+	@RequestMapping("branchList.ap")
+		public ModelAndView branchList(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
 			
 			int currentPage = 1;
 			
@@ -125,13 +125,15 @@ public class EnrollBranchController {
 			ArrayList<ViewBranch> list = ebService.branchList(pi);
 			
 			if(list != null) {
-				model.addAttribute("list", list);
-				model.addAttribute("pi", pi);
-				model.addAttribute("listCount", listCount);
-				return "BranchListView";
+				mv.addObject("list", list);
+				mv.addObject("pi", pi);
+				mv.addObject("listCount", listCount);
+				mv.setViewName("BranchListView");
 			} else {
 				throw new AdminPageException("지점 목록 조회에 실패하였습니다.");
 			}
-		};
+			
+			return mv;
+		}
 	
 }

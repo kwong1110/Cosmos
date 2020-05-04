@@ -42,9 +42,10 @@ public class EnrollBranchDAO {
 	
 	// 지점목록
 	public ArrayList<ViewBranch> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
-		
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	      RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		      
-		return (ArrayList)sqlSession.selectList("viewBranchMapper.selectBList");
+		return (ArrayList)sqlSession.selectList("viewBranchMapper.selectBList",null, rowBounds);
     }
 
 
