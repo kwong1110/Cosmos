@@ -29,7 +29,7 @@
 	<!-- 쪽지 보내기 -->
 	<insert id="insertNote" parameterType="Note">
 		insert into note
-		values(seq_noteNo.nextval, #{noteFromId}, #{noteToId}, #{noteContent}, sysdate, default, default, default, default)
+		values(seq_noteNo.nextval, #{noteFromId}, #{noteToId}, #{noteContent}, to_date(sysdate,'yyyy.mm.dd hh24:mi'), default, default, default, default)
 	</insert>
 	
 	<!-- 쪽지 보기 -->
