@@ -96,6 +96,18 @@ body {
 	margin-right: auto;
 }
 
+.login_green {
+	display: block;
+	background-size: contain;
+	background-image: url("../image/mainLogo.png");
+	background-repeat: no-repeat;
+	width: 250px;
+	height: 180px;
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 30px;
+}
+
 /* 내용(body상단) 부분 */
 .wrapper {
 	background-color: rgb(254, 245, 198);

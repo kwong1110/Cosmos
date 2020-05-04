@@ -8,68 +8,44 @@
 <title>Insert title here</title>
 <script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
 <link rel="stylesheet" href="${contextPath}/resources/css/reset.css"/>
+<link rel="stylesheet" href="${contextPath}/resources/css/note.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
-<style>
-	.note-content {
-		background: yellow;
-		width: 50%;
-		margin: auto;
-	}
-	
-	textarea {
-		resize: none;
-		width: 80%;
-		margin: 50px auto;
-		height: 200px;
-	}
-	
-	input {
-		padding-bottom: 10px;
-		margin-left: 40px;
-	}
-	
-	.send-btn {
-		padding: 10px 15px;
-		font-size: 1.2rem;
-		background: #003366;
-		border: 0;
-		color: #fff;
-	}
-
-	</style>
+<link rel="stylesheet" href="${contextPath}/resources/css/plugins/sweetalert/sweetalert.css">
 </head>
-<body>
-	<div class="content note-content">
-	보내는 사람 : ${ loginUser.id }
-	
-		<!--모달 헤더-->
-		<div class="modal-header">
-			<h2 class="modal-title">쪽지 쓰기</h2>
+<body class="body">
+	<div class="content">
+		<div class="note-header">
+			<h2 class="title"><span class="cosmos">쪽지 쓰기</span></h2>
 		</div>
+		
 		<form action="noteInsert.mp" method="post">
 		<input type="hidden" name="noteFromId" value="${ loginUser.id }">
-		<!--모달 바디-->
-		<div class="modal-body">
+		<div class="note-body">
 	
-			<h3>
-				받는 사람 : 
+			<div class="insert-area">
+				<span>받는 사람 :</span> 
 				<c:if test="${ !empty noteToId }">
-				<input type="hidden" name="noteToId" value="${ noteToId }">${ noteToId }
+				<input type="hidden" name="noteToId" value="${ noteToId }">
+				<input type="text" name="noteToId" class="form-control" value="${ noteToId }" readonly>
 				</c:if>
 				<c:if test="${ empty noteToId }">
-				<input type="text" name="noteToId">
+				<input type="text" name="noteToId" class="form-control">
 				</c:if>
-			</h3>
+			</div>
 			<div>
-				<textarea name="noteContent"></textarea>
+				<textarea name="noteContent" class="note-content"></textarea>
 			</div>
 	
 		</div>
-	
-		<!--모달 푸터-->
-		<div class="modal-footer">
-			<input type="submit" value="등록 하기"> &nbsp;
+		
+		<c:url var="noteList" value="noteList.mp">
+			<c:param name="userId" value="${loginUser.id}"/>
+		</c:url>
+		<!-- 푸터-->
+		<div class="btn-box">
+			<input type="submit" class="btn btnNote" value="등록 하기">
+			<button type="button" class="btn btnNote" onclick="location.href='${noteList}'">목록으로</button>
 		</div>
 		</form>
 	</div>

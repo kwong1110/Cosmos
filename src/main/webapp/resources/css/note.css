@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+html {overflow:hidden;} 
+
+.body {
+	background:  rgb(254, 245, 198);
+}
+
+a {
+	color:inherit!important;
+	text-decoration: none!important;
+}
+
+.pagination a {
+	cursor:pointer;
+}
+
+.content {
+	background:  rgb(254, 245, 198);
+	padding : 0 40px;
+}
+
+.content p {
+	font-size: 1.5rem;
+}
+
+.note-header{
+	background:  rgb(23, 149, 95);
+	padding : 20px 40px;
+	color : #fff;
+	margin : 0 -40px;
+}
+
+.note-header h2.title{
+	padding:0; 
+	margin:0;
+	font-size : 1.4rem;
+}
+
+.note-header h2.title span.cosmos{
+	font-size : 2rem;
+}
+.note-body {
+	margin-top : 30px;
+	min-height : 480px;
+}
+
+.note-body table{
+	margin:20px 0;
+	border-top : 2px solid #ddd; 
+	border-bottom : 2px solid #ddd; 
+}
+
+.note-content {
+	margin : 30px auto;
+	border : 1px solid #ccc;
+	background : rgba(255, 255, 255, 0.7);
+	min-height:380px;
+	padding : 20px;
+	overflow : auto;
+}
+div.insert-area span {
+	display : inline-block;
+}
+div.insert-area input.form-control {
+	width:86%;
+	display : inline-block;
+	margin-left:10px;
+}
+textarea.note-content {
+	margin : 30px auto 20px;
+	border : 1px solid #ccc;
+	background : rgba(255, 255, 255, 0.7);
+	width : 100%;
+	min-height:390px;
+	padding : 20px;
+	resize:none;
+}
+
+.thead th {
+	text-align : center;
+	background-color: rgb(218, 218, 218); 
+}
+.tbody td{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	
+	text-align : center;
+}
+
+.tbody td.contentTD{
+	text-align : left;
+}
+
+/* 버튼 */
+.btn-box {
+	float : right;
+	margin-top : 20px;
+}
+
+.btnNote {
+	padding: 5px 0;
+}
+
+.btn-report {
+	background : transparent;
+	font-size:1.4rem;
+	vertical-align : middle;
+}
+.note-body > div > span{
+	vertical-align : middle;
+	font-size : 1.5rem;
+}
+.note-body div button.btn-report:focus {
+	outline:0;
+	box-shadow : none;
+}
+
+/* 검색 창 */
+select.form-control{
+	display : inline-block!important;
+}
+
+div.input-group, span.input-group-btn {
+	display : inline-block!important;
+}
+
+div.input-group input.form-control {
+	width:99%;
+	padding:6px 10px;
+	border-right:none;
+}
+
+.form-area form {
+	float : left;
+	margin-bottom:20px;
+}
+.category select.form-control {
+	width:150px;
+	margin-right : 62px;
+}
+
+.form-area select { 
+	width:110px;
+}
+
+.clear-fix {
+	content: "";
+	display : block;
+	clear:left;
+}
+
