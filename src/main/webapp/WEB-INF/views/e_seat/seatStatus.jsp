@@ -21,7 +21,7 @@
 				</div>
 				<div class="content">
 					<table border="1" class="seatstatus">
-				      <tr style="border-bottom:1px solid black;">
+				      <tr style=" background:#67A261;">
 				         <th>예약번호</th>
 				         <th>예약인원</th>
 				         <th>시작날짜</th>
