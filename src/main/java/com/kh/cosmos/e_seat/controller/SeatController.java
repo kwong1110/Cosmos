@@ -160,9 +160,9 @@ public class SeatController {
 	}
 	
 	@RequestMapping("seatStatus.se")
-	public ModelAndView seatStatusView(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, @ModelAttribute Seat s, HttpServletRequest request,
-									@RequestParam("searchCondition") String searchCondition, @RequestParam("searchValue") String searchValue,
-									@RequestParam("id") String id, @RequestParam("branchName") String branchName) {
+	public ModelAndView seatStatusView(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, @ModelAttribute Seat s, HttpServletRequest request
+									/*@RequestParam("searchCondition") String searchCondition, @RequestParam("searchValue") String searchValue,
+									@RequestParam("id") String id, @RequestParam("branchName") String branchName*/) {
 		
 		int currentPage = 1;
 		
@@ -170,27 +170,28 @@ public class SeatController {
 			currentPage = page;
 		}
 		
-		if(searchCondition.equals("id")) {
+		/*if(searchCondition.equals("id")) {
 			s.setId(searchValue);
 		} else if(searchCondition.equals("branchName")) {
 			s.setBranchName(searchValue);
-		}
+		}*/
 		
 		int listCount = sService.getSeatStatusListCount();
 		
-		int searchListCount = sService.getSearchListCount(s);
+		/*int searchListCount = sService.getSearchListCount(s);*/
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, searchListCount);
+		/*PageInfo pi = Pagination.getPageInfo(currentPage, searchListCount);*/
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		ArrayList<Seat> seatStatusList = sService.seatStatusList(s, pi);
 		
 		if(seatStatusList != null) {
 			mv.addObject("seatStatusList", seatStatusList);
 			mv.addObject("listCount", listCount);
-			mv.addObject("searchListCount", searchListCount);
+			/*mv.addObject("searchListCount", searchListCount);*/
 			mv.addObject("pi", pi);
-			mv.addObject("searchCondition",searchCondition);
-			mv.addObject("searchValue",searchValue);
+		/*	mv.addObject("searchCondition",searchCondition);
+			mv.addObject("searchValue",searchValue);*/
 			mv.setViewName("seatStatus");
 		} else {
 			throw new SeatException("예약현황 전체 조회에 실패하였습니다.");
