@@ -18,13 +18,14 @@ public class StudyPlanner {
 	private int studyNo;
 	private Date planEnd;
 	
+	private String nickName;
 	private String studyName;
 	
 	public StudyPlanner() {}
 
 	public StudyPlanner(int planNo, String planTitle, String planContent, String planMenu, String todayCheck,
 			int likeCount, int hit, Date planStart, Date createDate, String planStatus, String openStatus, String id,
-			int studyNo, String studyName, Date planEnd) {
+			int studyNo, Date planEnd, String nickName, String studyName) {
 		this.planNo = planNo;
 		this.planTitle = planTitle;
 		this.planContent = planContent;
@@ -38,8 +39,9 @@ public class StudyPlanner {
 		this.openStatus = openStatus;
 		this.id = id;
 		this.studyNo = studyNo;
-		this.studyName = studyName;
 		this.planEnd = planEnd;
+		this.nickName = nickName;
+		this.studyName = studyName;
 	}
 
 	public int getPlanNo() {
@@ -98,6 +100,14 @@ public class StudyPlanner {
 		this.hit = hit;
 	}
 
+	public Date getPlanStart() {
+		return planStart;
+	}
+
+	public void setPlanStart(Date planStart) {
+		this.planStart = planStart;
+	}
+
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -138,22 +148,6 @@ public class StudyPlanner {
 		this.studyNo = studyNo;
 	}
 
-	public String getStudyName() {
-		return studyName;
-	}
-
-	public void setStudyName(String studyName) {
-		this.studyName = studyName;
-	}
-	
-	public Date getPlanStart() {
-		return planStart;
-	}
-
-	public void setPlanStart(Date planStart) {
-		this.planStart = planStart;
-	}
-
 	public Date getPlanEnd() {
 		return planEnd;
 	}
@@ -162,15 +156,29 @@ public class StudyPlanner {
 		this.planEnd = planEnd;
 	}
 
+	public String getNickName() {
+		return nickName;
+	}
+
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+
+	public String getStudyName() {
+		return studyName;
+	}
+
+	public void setStudyName(String studyName) {
+		this.studyName = studyName;
+	}
+
 	@Override
 	public String toString() {
 		return "StudyPlanner [planNo=" + planNo + ", planTitle=" + planTitle + ", planContent=" + planContent
 				+ ", planMenu=" + planMenu + ", todayCheck=" + todayCheck + ", likeCount=" + likeCount + ", hit=" + hit
 				+ ", planStart=" + planStart + ", createDate=" + createDate + ", planStatus=" + planStatus
 				+ ", openStatus=" + openStatus + ", id=" + id + ", studyNo=" + studyNo + ", planEnd=" + planEnd
-				+ ", studyName=" + studyName + "]";
+				+ ", nickName=" + nickName + ", studyName=" + studyName + "]";
 	}
-
-	
 	
 }

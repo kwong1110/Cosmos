@@ -25,8 +25,8 @@ public class LectureHistoryServiceImpl implements LectureHistoryService {
 	}
 
 	@Override
-	public int getListCount() {
-		return lhDAO.getListCount(sqlSession);
+	public int getListCount(String loginUserId) {
+		return lhDAO.getListCount(sqlSession, loginUserId);
 	}
 
 }

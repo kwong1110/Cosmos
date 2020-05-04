@@ -27,23 +27,24 @@ public class LectureHistoryController {
 	public String lectureApplyGuide(Model model, @RequestParam(value="page", required=false) Integer page, 
 									HttpSession session) {
 		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String loginUserId = loginUser.getId();
+
 		int currentPage = 1;
 		
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = lhService.getListCount();
+		int listCount = lhService.getListCount(loginUserId);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		String loginUserId = loginUser.getId();
 
 		ArrayList<Lecture> list = lhService.selectList(pi, loginUserId);
 		
 		if(list != null) {
-			model.addAttribute("list", list);
+			model.addAttribute("lList", list);
 			model.addAttribute("pi", pi);
 			return "myPage/lectureHistory";
 		} else {

@@ -5,7 +5,7 @@
 		select *
 		from plan
 			join study_category using(study_no)
-		where plan_status='Y'
+		where plan_status='Y' and id=#{ loginUserId }
 		order by create_date desc
 	</select>
 	
@@ -25,6 +25,7 @@
 		<result property="studyNo" column="STUDY_NO"/>
 		<result property="studyName" column="STUDY_NAME"/>
 		<result property="planEnd" column="PLAN_END"/>
+		<result property="nickName" column="NICK"/>
 	</resultMap>
 	
 	<update id="todayCheck">
@@ -41,6 +42,7 @@
 		select *
 		from plan
 		where plan_no=#{planNo} and plan_status='Y'
+		order by plan_no desc
 	</select>
 	
 	<update id="deletePlan" parameterType="_int">
@@ -54,5 +56,79 @@
 		set plan_title=#{planTitle}, plan_content=#{planContent}, plan_menu=#{planMenu}, plan_start=#{planStart}, 
 			create_date=sysdate, open_status=#{openStatus}, study_no=#{studyNo}, plan_end=#{planEnd}
 		where plan_no=#{planNo}
+	</update>
+	
+	<select id="getAllPlannerList" resultMap="planResultSet">
+		select *
+		from plan
+			join study_category using(study_no)
+			join member using(id)
+		where plan_status='Y' and open_status='Y'
+		order by plan_no desc
+	</select>
+	
+	<select id="getAllListCount" resultType="_int">
+		select count(*)
+		from plan
+		where plan_status='Y' and open_status='Y'
+	</select>
+	
+	<select id="selectReplyList" resultMap="replyResultSet">
+		select * 
+		from reply
+        	join member using(id)
+		where PLAN_NO=#{ planNo } and reply_status='Y'
+		order by PLAN_NO desc, re_grp_no desc, re_grp_order asc, re_grp_depth asc
+	</select>
+	
+	<resultMap id="replyResultSet" type="Reply">
+		<id property="replyNo" column="REPLY_NO"/>
+		<result property="replyContent" column="REPLY_CONTENT"/>
+		<result property="createDate" column="CREATE_DATE"/>
+		<result property="modifyDate" column="MODIFY_DATE"/>
+		<result property="replyStatus" column="REPLY_STATUS"/>
+		<result property="id" column="ID"/>
+		<result property="planNo" column="PLAN_NO"/>
+		<result property="reGrpNo" column="RE_GRP_NO"/>
+		<result property="reGrpOrder" column="RE_GRP_ORDER"/>
+		<result property="reGrpDepth" column="RE_GRP_DEPTH"/>
+		<result property="nickName" column="NICK"/>
+	</resultMap>
+	
+	<insert id="insertReply">
+		insert into reply
+		values(seq_replyid.nextval, #{ replyContent }, sysdate, sysdate, 'Y', #{ id }, #{ planNo }, 
+			   seq_replyid.currval, 0, 1)
+	</insert>
+	
+	<update id="updateReply">
+		update reply
+		set reply_content=#{ replyContent }, modify_date=sysdate
+		where reply_no=#{ replyNo }
+	</update>
+	
+	<update id="deleteReply">
+		update reply
+		set reply_status='N'
+		where reply_no=#{ replyNo }
+	</update>
+	
+	
+	<insert id="insertReReply">
+		insert into reply
+		values(seq_replyid.nextval, #{ replyContent }, sysdate, sysdate, 'Y', #{ id }, #{ planNo }, 
+			   #{ reGrpNo }, #{ reGrpOrder }+1, #{ reGrpDepth }+1)
+	</insert>
+	
+	<update id="updateReplyOrder">
+		update reply
+		set re_grp_order=re_grp_order+1 
+		where re_grp_no=#{ reGrpNo } and re_grp_order > 0
+	</update>
+	
+	<update id="updateReReplyOrder">
+		update reply
+		set re_grp_order=re_grp_order+1 
+		where re_grp_no=#{ reGrpNo } and re_grp_order > #{ reGrpNo }
 	</update>
 </mapper>

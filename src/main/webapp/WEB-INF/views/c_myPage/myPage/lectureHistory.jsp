@@ -89,7 +89,7 @@
 							<th>참가비</th>
 							<th>상태</th>
 						</tr>
-						<c:forEach var="l" items="${ list }">
+						<c:forEach var="l" items="${ lList }">
 							<tr class="contentTR">
 								<td>${ l.lectureNo }</td>
 								<td>${ l.name }(${ l.id })</td>
