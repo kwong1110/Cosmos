@@ -42,7 +42,7 @@ html, body {
 .footer {
 	flex: 1 1 100px;
 	
-	background-color: rgb(254, 245, 198); 
+	background-color: rgb(254, 245, 198);
 	font-family: 'Binggrae';
 	color: rgb(23, 149, 95);
 	
@@ -58,10 +58,14 @@ html, body {
 
 .footer .copy {
 	display: inline-block;
-	background:url("../image/copy.png") no-repeat center center;
+	background:url("../image/copy_w.png") no-repeat center center;
 	width: 25px;
 	height: 25px;
 	background-size: contain;
 	padding-right: 5px;
 	transform: rotate(90deg);
 }
+
+
+
+

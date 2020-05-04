@@ -7,9 +7,48 @@
 <meta charset="UTF-8">
 <title>회원 상세보기</title>
 <style>
-	ul.nav-tabs {
-		margin-bottom :20px;
-		border-bottom : none;
+	/* 소메뉴 */
+	div.content ul.nav-tabs {
+		border-bottom-color: transparent;
+	}
+	
+	div.content ul.nav-tabs {
+		margin-bottom :70px;
+		display:flex;
+		justify-content: space-between;
+	}
+	
+	div.content ul.nav-tabs>li {
+		flex : 2 1 auto;
+	}
+	
+	div.content ul.nav-tabs>li>a {
+	    margin-right: 3px;
+	    line-height: 1.42857143;
+	    background-color: rgba(255, 255, 255, 0.5);
+	    border: 1px solid #ddd;
+	    border-radius: 4px 4px 0 0;
+	    font-family: 'Binggrae';
+	    text-align : center;
+	}
+	
+	div.content ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+	    color: #555;
+	    cursor: default;
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	}
+	
+	.nav>li>a {
+	    position: relative;
+	    display: block;
+	    padding: 10px 15px;
+	}
+	
+	/* 타이틀 이렇게 하면 어떨까? */
+	div.pageTitle h1{
+		font-family: 'Nanum Gothic', sans-serif;
+		letter-spacing:-2px;
 	}
 </style>
 </head>

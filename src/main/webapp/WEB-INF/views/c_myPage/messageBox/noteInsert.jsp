@@ -20,7 +20,7 @@
 		</div>
 		
 		<form action="noteInsert.mp" method="post">
-		<input type="hidden" name="noteFromId" value="${ loginUser.id }">
+		<input type="hidden" name="noteFromId" value="${ loginUser.nick }">
 		<div class="note-body">
 	
 			<div class="insert-area">

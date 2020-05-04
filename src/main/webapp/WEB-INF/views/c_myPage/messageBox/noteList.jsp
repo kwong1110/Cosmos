@@ -18,7 +18,7 @@
 	    	<div class="note-header">
 				<div>
 					<h2 class="title">
-						<span class="cosmos"><c:out value="${ loginUser.id }"/>님</span>
+						<span class="cosmos"><c:out value="${ loginUser.nick }"/>님</span>
 						| 쪽지 목록 <span class="note-total">(총 쪽지 갯수 : ${ pi.listCount })</span>
 					</h2>
 				</div>       		
@@ -43,7 +43,7 @@
 						<select class="form-control"><!--  search-select -->
 							<option>검색</option>
 							<option>아이디</option>
-							<option>별명</option>
+							<option>닉네임</option>
 							<option>내용</option>
 						</select>
 						<div class="input-group"><!-- search-text -->
@@ -69,9 +69,9 @@
 							<td>${ n.noteNo }</td>
 							<td>
 								<c:url var="nInsert" value="noteInsertView.mp">
-									<c:param name="noteToId" value="${n.noteFromId}"/>
+									<c:param name="noteToId" value="${n.nick}"/>
 								</c:url>
-								<a href="${nInsert}">${ n.noteFromId }</a>
+								<a href="${nInsert}">${ n.nick }</a>
 							</td>
 							<td class="contentTD">
 								<c:url var="ndetail" value="noteDetail.mp">
@@ -91,7 +91,7 @@
         		<button class="btn btnNote btnSendNote" onclick="location.href='noteInsertView1.mp';">쪽지 쓰기</button>
         		
         		<c:url var="noteStorageList" value="noteStorageList.mp">
-        			<c:param name="userId" value="${loginUser.id}"/>
+        			<c:param name="userId" value="${loginUser.nick}"/>
         		</c:url>
         		<button class="btn btnNote" onclick="location.href='${noteStorageList}'">보관함</button>
         		
