@@ -140,4 +140,9 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 		return sgDAO.confirmApproach(sqlSession, map);
 	}
 
+	@Override
+	public ArrayList<StudyGroup> getIngStudyGroupList(String id) {
+		return sgDAO.getIngStudyGroupList(sqlSession, id);
+	}
+
 }

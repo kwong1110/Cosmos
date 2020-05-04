@@ -115,7 +115,7 @@
 								</td>
 								<td>
 									<c:if test="${ info.groupType eq 'Once' }">
-										<label class="infoTitleStyle">${ info.recTerm }</label>
+										<label class="infoStyle">${ info.recTerm }</label>
 									</c:if>
 									<c:if test="${ info.groupType eq 'recOnce' }">
 										<c:if test="${ info.dCloseDate ge 1 }">

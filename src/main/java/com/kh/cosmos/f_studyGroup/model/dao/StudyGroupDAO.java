@@ -156,4 +156,8 @@ public class StudyGroupDAO {
 		return resultMap;
 	}
 
+	public ArrayList<StudyGroup> getIngStudyGroupList(SqlSessionTemplate sqlSession, String id) {
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getIngStudyGroup", id);
+	}
+
 }

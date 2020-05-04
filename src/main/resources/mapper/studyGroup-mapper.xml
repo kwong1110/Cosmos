@@ -44,6 +44,12 @@
 		where id=#{id} and sg_status='Y'
 	</select>
 	
+	<select id="getIngStudyGroup" parameterType="string" resultMap="studyGroupResultSet">
+		select sg_no, sg_name
+		from sgroup
+		where id=#{id} and (sg_status='Y' or sg_status='N')
+	</select>
+	
 	<select id="getSgStatus" parameterType="_int" resultType="string">
 		select sg_status
 		from sgroup
@@ -126,11 +132,11 @@
 	</select>
 	
 	<select id="getAppList" parameterType="_int" resultMap="ApproachResultSet">
-		select id, nick, asg_date, asg_dl_date, asg_status
+		select id, nick, to_date(substr(asg_date,0,10),'YYYY.MM.DD') as asg_date, asg_dl_date, asg_status
 		from ap_sgroup
 		join member using(id)
 		where rsg_no = #{recno}
-		order by asg_date desc
+		order by to_date(substr(asg_date,0,10),'YYYY.MM.DD') desc
 	</select>
 	
 	<resultMap id="ApproachResultSet" type="ApproachGroup">
@@ -395,7 +401,7 @@
 	
 	<update id="updateStudyGroup" parameterType="StudyGroup">
 		update sgroup
-		set sg_goal=#{sgGoal}, sg_content=#{sgContent}, branch_no=#{branchNo}
+		set sg_goal=#{sgGoal}, sg_content=#{sgContent}, branch_no=#{branchNo}, sg_status='Y'
 		where sg_no=#{sgNo}
 	</update>
 	

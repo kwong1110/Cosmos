@@ -60,7 +60,7 @@ public class SeatController {
 		HttpSession session = request.getSession();
 		String id = ((Member)session.getAttribute("loginUser")).getId();
 		
-		ArrayList<StudyGroup> sgList = sgService.getStudyGroupList(id);
+		ArrayList<StudyGroup> sgList = sgService.getIngStudyGroupList(id);
 		
 		if(branchList != null) {
 			mv.addObject("branchList", branchList);

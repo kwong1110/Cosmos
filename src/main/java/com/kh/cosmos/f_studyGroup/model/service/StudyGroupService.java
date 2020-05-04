@@ -58,5 +58,7 @@ public interface StudyGroupService {
 	ArrayList<Preview> getAppUserInfo(String id);
 
 	HashMap<String, Integer> confirmApproach(HashMap<String, String> map);
+
+	ArrayList<StudyGroup> getIngStudyGroupList(String id);
 	
 }
