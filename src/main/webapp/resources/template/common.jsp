@@ -61,8 +61,40 @@
 	    </li>
 	  </ul>
   	</nav>
-  	
-  	<!-- 검색창 -->
+
+	<!-- 페이징 수정 -->
+	<nav>
+		<ul class="pagination">
+			<li>
+				<a>
+					<span class="icon-fast-backward"></span>
+				</a>
+			</li>
+			<li>
+				<a>
+					<span class="icon-to-start"></span>
+				</a>
+			</li>
+			
+			<li><a href="#" class="pageBtn selectPageBtn">1</a></li>
+			<li><a href="#" class="pageBtn">2</a></li>
+			<li><a href="#" class="pageBtn">3</a></li>
+			<li><a href="#" class="pageBtn">4</a></li>
+			
+			<li>
+				<a>
+					<span class="icon-to-end"></span>
+				</a>
+			</li>
+			<li>
+				<a>
+					<span class="icon-fast-forward"></span>
+				</a>
+			</li>
+		</ul>
+	</nav>
+	
+	<!-- 검색창 -->
   	<!-- 드롭다운 + 검색 -->
 	<form method="get" action="">
 		<div class="row">

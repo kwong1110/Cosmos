@@ -26,7 +26,7 @@
 	}
 	
 	/* 로그인 창 색상 ------------------ */
-	div.modal-content {
+	#loginModal .modal-content {
 		background-color: rgb(23, 149, 95);
 	}
 	.loginMid {

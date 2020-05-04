@@ -108,9 +108,12 @@ public class StudyGroupDAO {
 			if(result != null) {
 				int rsgno = result.getRecNo();
 				int partnum = sqlSession.selectOne("studyGroupMapper.getRecPartNum", rsgno);
-				int partmemnum = sqlSession.selectOne("studyGroupMapper.getPartMemberNum", sgno);
 				result.setPartNum(partnum);
-				result.setPartMemNum(partmemnum+1);
+				
+				if(sgStatus.equals("Y")) { // Y 다회
+					int partmemnum = sqlSession.selectOne("studyGroupMapper.getPartMemberNum", sgno);
+					result.setPartMemNum(partmemnum+1);
+				}
 			}
 		} else { // 모집 X
 			if(sgStatus.equals("Y") || sgStatus.equals("D")) { // Y,D 다회
@@ -120,6 +123,13 @@ public class StudyGroupDAO {
 				result = sqlSession.selectOne("studyGroupMapper.getRecOnceDetail", sgno);
 				//result = sqlSession.selectOne("studyGroupMapper.getOnceDetail", sgno);
 				result.setGroupType("Once");
+			}
+			
+			if(result != null) {
+				if(sgStatus.equals("Y")) { // Y 다회
+					int partmemnum = sqlSession.selectOne("studyGroupMapper.getPartMemberNum", sgno);
+					result.setPartMemNum(partmemnum+1);
+				}
 			}
 		}
 		

@@ -398,3 +398,10 @@ a:active, a:focus {
 	  left: 10%;
 	}
 	/* ON, OFF 스위치 */
+	
+
+
+/* 페이징 */
+	.pagination a{border:none !important; background:transparent !important; color:black !important; width:43px !important; cursor:pointer !important;}
+	.pagination .pageBtn{width:35px !important; height:35px !important;}
+	.pagination .selectPageBtn{border-radius:50% !important; background:rgb(255,0,0,0.1) !important;}
