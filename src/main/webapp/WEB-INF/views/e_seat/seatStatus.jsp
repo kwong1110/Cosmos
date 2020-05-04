@@ -128,26 +128,27 @@
 											</c:if>
 										</li>
 									</ul>
-									<div id="searchArea" align="center">
+					        </div>
+					       		  <div id="searchArea" align="center">
 										<label>검색 조건</label> 
 										<select id="searchCondition" name="searchCondition">
 											<option>-------</option>
-											<option value="id">예약자</option>
 											<option value="branchName">예약지점</option>
+											<option value="id">아이디</option>
 										</select>
 										
 										<input id="searchValue" type="search">
 										<button onclick="searchKeyword();">검색하기</button>
 									</div>
-									<script type="text/javascript">
+									
+									<!-- <script type="text/javascript">
 										function searchKeyword(){
 											var searchCondition = $("#searchCondition").val();
 											var searchValue = $("#searchValue").val();
 											
 											location.href="seatStatus.se?searchCondition="+searchCondition+"&searchValue="+searchValue;
 										}
-									</script>
-					        </div>
+									</script>  -->
 				</div>
 			</div>
 		</div>
