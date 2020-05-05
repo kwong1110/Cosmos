@@ -35,7 +35,7 @@
 	<insert id="insertPlan">
 		insert into plan
 		values(seq_planid.nextval, #{planTitle}, #{planContent}, #{planMenu}, default, default, 
-		default, #{planStart}, sysdate, default, #{openStatus}, #{id}, #{studyNo}, #{planEnd})
+		default, #{planStart}, sysdate, 'Y', #{openStatus}, #{id}, #{studyNo}, #{planEnd})
 	</insert>
 	
 	<select id="selectPlan" parameterType="_int" resultMap="planResultSet">
@@ -131,4 +131,40 @@
 		set re_grp_order=re_grp_order+1 
 		where re_grp_no=#{ reGrpNo } and re_grp_order > #{ reGrpNo }
 	</update>
+	
+	<select id="selectSearchResultCount" resultType="_int">
+		select count(*)
+		from plan
+			join study_category using(study_no)
+			join member using(id)
+		where plan_status='Y' and open_status='Y'
+		<if test="writer != null">
+			and nick = #{writer}
+		</if>
+		<if test="title != null">
+			and plan_title like '%'|| #{title} ||'%'
+		</if>
+		<if	test="content != null">
+			and plan_content like '%'|| #{content} ||'%'
+		</if>
+		order by plan_no desc
+	</select>
+	
+	<select id="selectSearchResultList" resultMap="planResultSet">
+		select *
+		from plan
+			join study_category using(study_no)
+			join member using(id)
+		where plan_status='Y' and open_status='Y'
+		<if test="writer != null">
+			and nick = #{writer}
+		</if>
+		<if test="title != null">
+			and plan_title like '%'|| #{title} ||'%'
+		</if>
+		<if	test="content != null">
+			and plan_content like '%'|| #{content} ||'%'
+		</if>
+		order by plan_no desc
+	</select>
 </mapper>

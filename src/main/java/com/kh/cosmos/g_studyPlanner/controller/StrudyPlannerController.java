@@ -23,6 +23,7 @@ import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.a_common.Reply;
+import com.kh.cosmos.a_common.SearchCondition;
 import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.b_member.model.vo.Preview;
@@ -205,7 +206,6 @@ public class StrudyPlannerController {
 		
 		ArrayList<StudyPlanner> pList = spService.selectAllList(pi);
 		
-		
 		if(pList != null) {
 			model.addAttribute("pList", pList);
 			model.addAttribute("sList", sList);
@@ -298,6 +298,49 @@ public class StrudyPlannerController {
 			return "successReReplyInsert";
 		} else {
 			throw new StudyPlannerException("댓글 등록에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("searchPlanner.sp")
+	public String searchPlanner(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText,
+								SearchCondition sc, @RequestParam(value="page", required=false) Integer page,  @ModelAttribute StudyCategory studyC,
+								Model model) {
+		// 전체 스터디카테고리 불러오기
+		ArrayList<StudyCategory> sList = mService.selectStudyCategoryList(studyC);
+		
+		
+		if(searchType.equals("writer")) {
+			sc.setWriter(searchText);
+		} else if(searchType.equals("title")) {
+			sc.setTitle(searchText);
+		} else if(searchType.equals("content")) {
+			sc.setContent(searchText);
+		}
+		
+		int currentPage = 1;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = spService.getSearchResultListCount(sc);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<StudyPlanner> pList = spService.selectSearchResultList(pi, sc);
+		
+		System.out.println("검색 후 pList" + pList);
+		if(pList != null) {
+			model.addAttribute("pList", pList);
+			model.addAttribute("sList", sList);
+			model.addAttribute("pi", pi);
+
+			model.addAttribute("searchType", searchType);
+			model.addAttribute("searchText", searchText);
+			
+			return "/allPlanner/allPlannerList";
+		} else {
+			throw new StudyPlannerException("모두의 플래너 검색 조회에 실패하였습니다.");
 		}
 	}
 }
