@@ -5,12 +5,14 @@
 	<select id="getListCount" resultType="_int">
 		select count(*)
 		from note
+		join member on(id = note_fromid)
 		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'N'
 	</select>
 	
 	<select id="selectList" resultMap="noteResultSet" >
 		select *
 		from note
+		join member on(id = note_fromid)
 		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'N'
 		order by note_no desc 
 	</select>
@@ -24,6 +26,7 @@
 		<result property="noteAlarm" column="NOTE_ALARM"/>
 		<result property="noteStorage" column="NOTE_STORAGE"/>
 		<result property="noteToStatus" column="NOTE_TOSTATUS"/>
+		<result property="nick" column="NICK"/>
 	</resultMap>
 	
 	<!-- 쪽지 보내기 -->
@@ -36,6 +39,7 @@
 	<select id="selectNote" parameterType="_int" resultMap="noteResultSet">
 		select *
 		from note
+		join member on(id = note_fromid)
 		where note_no = #{noteNo} and note_fromstatus = 'Y' and note_tostatus = 'Y'
 	</select>
 	
@@ -57,6 +61,7 @@
 	<select id="getStoreListCount" resultType="_int">
 		select count(*)
 		from note
+		join member on(id = note_fromid)
 		where (note_fromstatus = 'Y' or note_tostatus = 'Y') and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'Y'
 	</select>
 	
@@ -64,6 +69,7 @@
 	<select id="selectStoreList" resultMap = "noteResultSet">
 		select *
 		from note
+		join member on(id = note_fromid)
 		where (note_fromstatus = 'Y' or note_tostatus = 'Y') and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'Y'
 		order by note_no desc
 		

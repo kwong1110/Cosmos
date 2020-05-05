@@ -20,7 +20,7 @@
 	
 	/* 전체 박스  */
 	.main{
-		background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
+		background : url(${contextPath}/resources/image/main7.jpg) no-repeat center center;
 		background-size:cover;
 		height:100%;
 	}

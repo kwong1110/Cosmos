@@ -505,7 +505,7 @@
 		// 서브메뉴 가지고 있는 메뉴 : 플래너
 		var plannerSub = new Array;
 		plannerSub[0] = "myPlannerList";
-		plannerSub[1] = "ourPlannerList"; // 미정
+		plannerSub[1] = "allPlannerList"; // 미정
 		var getPlannerSub0 = url.indexOf(plannerSub[0]);
 		var getPlannerSub1 = url.indexOf(plannerSub[1]);
 		
@@ -533,7 +533,7 @@
 			$(".menuTitle:eq(2) > div.s-menu").css("display", "block");
 		} 
 		if (getPlannerSub1 != -1){
-			$(".menuTitle:eq(2) > div > a").addClass("on");
+			$(".menuTitle:eq(2)").addClass("on");
 			$(".menuTitle:eq(2) > div.s-menu > div:last-child").addClass("on");
 			$(".menuTitle:eq(2) > div.s-menu").css("display", "block");
 		} 
@@ -600,10 +600,10 @@
 			}
 	    }
 		
-		$(window).resize(function(){
+		/* $(window).resize(function(){
 			maskInit();
 			popup();
-		});
+		}); */
 		
 		$(".noteBtn").click(function(){
 			$(".note-modalMask").fadeIn();
