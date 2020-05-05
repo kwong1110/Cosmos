@@ -2,6 +2,7 @@ package com.kh.cosmos.d_adminPage.model.dao;
 
 import java.util.ArrayList;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -23,8 +24,10 @@ public class ReportDAO {
 	}
 
 	public ArrayList<Report> selectList(SqlSessionTemplate sqlSession, PageInfo pi) {
-	
-		return (ArrayList)sqlSession.selectList("reportMapper.selectList");
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+	      RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+	      
+		return (ArrayList)sqlSession.selectList("reportMapper.selectList",null, rowBounds);
 	}
 
 }

@@ -216,6 +216,7 @@ public class MemberController {
 					e.printStackTrace();
 				}
 				
+				
 				String maskEmail = member.getEmail().toString();
 				System.out.println("email가져와보기 :" + maskEmail);
 				

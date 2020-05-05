@@ -60,7 +60,7 @@ public class EnrollBranchServiceImpl implements EnrollBranchService{
 	@Override
 	public ArrayList<ViewBranch> branchList(PageInfo pi) {
 		// TODO Auto-generated method stub
-		System.out.println(pi);
+		System.out.println("지점등록 서비스임플에서 찍어봄 :" + pi);
 		return ebDAO.selectList(sqlSession, pi);
 	}
 

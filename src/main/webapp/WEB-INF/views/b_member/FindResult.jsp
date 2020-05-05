@@ -39,7 +39,7 @@
 					</div>
 			                                 
 					<div class="btnBox inner" align=center >
-						<button type="submit" class="defaultBtn" id="login">로그인</button>
+						<button type="submit" class="defaultBtn" onclick="showLogin();">로그인</button>
 						<button name="취소" onclick="history.back()" class="defaultBtn">취소</button>
 					</div>
 				</div>
@@ -47,71 +47,10 @@
 		</div>
 		<c:import url="../a_common/footer.jsp"/>
 	</div>	
-	<!-- 로그인 모달 창 -->
-		<div class="modal fade" id="loginModal">
-	  		<div class="modal-dialog">
-		    	<div class="modal-content">
-		        	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        			<div class="loginTop">
-	        				<div class="logo imageBox"></div>
-	        			</div>
-			        <div class="loginMid">
-			        	<div class="loginBox">
-				        	<form action="login.me" method="post" onsubmit="return loginUser();">
-				        		<div>
-						        	<div>
-					       				<input type="text" name="id" id="id" placeholder="아이디">
-					       			</div>
-					       			<div>
-					       				<input type="password" name="pwd" id="pwd" placeholder="비밀번호">
-					       			</div> 
-				       				<div>
-				       					<input type="submit" class="btn loginBtn" value="로그인">
-				       				</div>
-				       			</div>
-							</form>
-						</div>		        	
-		        	</div>
-	    		</div><!-- /.modal-content -->
-		  	</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
-		<script>
-			$('#login').click(function(e){
-				e.preventDefault();
-				$('#loginModal').modal("show");
-			});
-			
-			function loginUser(){
-				
-				var $errorDiv = $("<div class='error'>");
-				if($('#id').val().trim().length != 0){
-					$('.error').detach();
-				}
-				
-				if($('#id').val().trim().length == 0){
-					if(!$('#id').next().is($('.error'))){
-						$('#id').parent().append($errorDiv);
-						$('.error').text('아이디를 입력해주세요!');
-						$('#id').focus();
-					}
-					return false;
-				}
-				
-				if($('#pwd').val().trim().length == 0){
-					if(!$('#pwd').next().is($('.error'))){
-						$('#pwd').parent().append($errorDiv);
-						$('.error').text('비밀번호를 입력해주세요!');
-						$('#pwd').focus();
-					}
-					return false;
-				}
-				
-				return true;
-			}
-			
-			<% if(request.getParameter("msg") != null){ %>
-				alert('<%=request.getParameter("msg")%>');
-			<% } %>
-		</script>
+	<script>
+		function showLogin() {
+			$('#login').click();
+		}
+	</script>
 </body>
 </html>
