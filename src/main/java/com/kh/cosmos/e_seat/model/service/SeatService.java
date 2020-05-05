@@ -3,6 +3,7 @@ package com.kh.cosmos.e_seat.model.service;
 import java.util.ArrayList;
 
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.a_common.SearchConditionSeat;
 import com.kh.cosmos.e_seat.model.vo.Seat;
 import com.kh.cosmos.e_seat.model.vo.SortTable;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
@@ -18,12 +19,18 @@ public interface SeatService {
 	ArrayList<SortTable> selectSortList();
 
 	int seatBuy(Seat s);
+	
+	int getAllListCount();
 
-	ArrayList<Seat> seatStatusList(Seat s, PageInfo pi);
+	ArrayList<Seat> selectAllList(PageInfo pi);
 
-	int getSeatStatusListCount();
+	ArrayList<Seat> seatStatusList(PageInfo pi, SearchConditionSeat scs);
 
-	int getSearchListCount(Seat s);
+	int getSeatStatusListCount(SearchConditionSeat scs);
+
+	
+
+	
 	
 
 }
