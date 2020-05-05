@@ -123,7 +123,7 @@
 					<div id="bottomArea">
 						<!-- 페이징  -->
 						<nav>
-							<ul class="pagination" id="pageUl">
+							<ul class="pagination" id="pageListUl">
 							</ul>
 						</nav>
 
@@ -416,9 +416,8 @@
 				data: sendData,
 				dataType: 'json',
 				success: function(data) {
-					
-					$pageUl = $('#pageUl');
-					$pageUl.html('');
+					var $pageListUl = $('#pageListUl');
+					$pageListUl.html('');
 					
 					var $li;
 					var $a;
@@ -434,14 +433,14 @@
 						
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 						
 						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
 						$span = $('<span aria-hidden="true">').text('＜');
 
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 					}
 					else if(data.currentPage > 1) {
 						$a = $('<a href="groupList.mp" aria-label="Previous">');
@@ -449,14 +448,14 @@
 
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 						
 						$a = $('<a href="groupList.mp?page=' + data.currentPage - 1 + '" aria-label="Previous">');
 						$span = $('<span aria-hidden="true">').text('≫');
 						
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 					}
 					
 					//페이지
@@ -469,7 +468,7 @@
 							$a = $('<a href="groupList.mp?page=' + i + '">').text(i);
 
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 					}
 
 					//맨 마지막으로, 다음
@@ -479,14 +478,14 @@
 						
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 						
 						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
 						$span = $('<span aria-hidden="true">').text('≫');
 
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 					}
 					else if(data.currentPage < data.maxPage) {
 						$a = $('<a href="groupList.mp?page=' + data.currentPage + 1 + '" aria-label="Next">');
@@ -494,14 +493,14 @@
 
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 						
 						$a = $('<a href="groupList.mp?page=' + data.maxPage + '"  aria-label="Next">');
 						$span = $('<span aria-hidden="true">').text('≫');
 						
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 					}
 				}
 			})

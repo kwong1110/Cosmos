@@ -69,6 +69,11 @@
 	#bottomArea{width:100%; text-align:center; margin-top:0%;}
 	#insertBtnArea{width:20%; display:inline; float:right;}
 	
+	
+	/*페이징*/
+	.pagination a{border:none !important; background:transparent !important; color:black !important; width:43px !important; cursor:pointer !important;}
+	.pagination .pageBtn{width:35px !important; height:35px !important;}
+	.pagination .selectPageBtn{border-radius:50% !important; background:rgb(255,0,0,0.1) !important;}
 </style>
 
 </head>
@@ -166,89 +171,12 @@
 					</div>
 						
 						<div id="listArea" class="inner">
-							<div class="recGroup">
-								<div class="firstInfo">
-									<span class="typeBadge once">once</span>
-									<label class="infoTitle">공부 종류</label>
-									<label class="infoTitle">스터디 그룹명</label>
-								</div>
-								<div class="secondInfo">
-									<label class="infoLabel">모집 기간</label>
-									<label class="infoContent">2020.00.00 ~ 2020.00.00</label>
-									<label class="infoLabel">모집 현황</label>
-									<label class="infoContent">2/6</label>
-									<label class="infoLabel">그룹장</label>
-									<label class="infoContent">그룹장 닉네임</label>
-									<label class="infoLabel">모임 장소</label>
-									<label class="infoContent">한남점</label>
-								</div>
-								<div class="thirdInfo">
-									<label class="infoLabel">그룹 목표</label>
-									<label class="goalStyle">fnewifnewlnfkenkvnldfkenkvnldnsvklndsklnkldnkcnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm</label>
-								</div>
-								<div class="fourthInfo">
-									<p class="groupContentStyle">
-									fnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
-									sfsf
-									sdsffefegegegfnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
-									sfsf
-									sdsffefegegeg
-									</p>
-								</div>
-							</div>
-							<div class="recGroup">
-								<div class="firstInfo">
-									<span class="typeBadge long">long</span>
-									<label class="infoTitle">공부 종류</label>
-									<label class="infoTitle">스터디 그룹명</label>
-								</div>
-								<div class="secondInfo">
-									<label class="infoLabel">모집 기간</label>
-									<label class="infoContent">2020.00.00 ~ 2020.00.00</label>
-									<label class="infoLabel">모집 현황</label>
-									<label class="infoContent">2/6</label>
-									<label class="infoLabel">그룹장</label>
-									<label class="infoContent">그룹장 닉네임</label>
-									<label class="infoLabel">모임 장소</label>
-									<label class="infoContent">한남점</label>
-								</div>
-								<div class="thirdInfo">
-									<label class="infoLabel">그룹 목표</label>
-									<label class="goalStyle">fnewifnewlnfkenkvnldfkenkvnldnsvklndsklnkldnkcnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm</label>
-								</div>
-								<div class="fourthInfo">
-									<p class="groupContentStyle">
-									fnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
-									sfsf
-									sdsffefegegegfnewifnewlnfkenkvnldnsvklndsklnkldnkcdsnklndslknlkdnfldanklnfadlknskalnlasndksa;d;lsa;dasmdm
-									sfsf
-									sdsffefegegeg
-									</p>
-								</div>
-							</div>
 						</div>
 						
 						<div id="bottomArea" class="inner">
 							<!-- 페이징  -->
 							<nav>
-								<ul class="pagination" id="pageUl">
-									<li><a href="#" aria-label="Previous"> <span
-											aria-hidden="true">&laquo;</span>
-									</a></li>
-									<li><a href="#" aria-label="Previous"> <span
-											aria-hidden="true">&lt;</span>
-									</a></li>
-									<li><a href="#">1</a></li>
-									<li><a href="#">2</a></li>
-									<li><a href="#">3</a></li>
-									<li><a href="#">4</a></li>
-									<li><a href="#">5</a></li>
-									<li><a href="#" aria-label="Next"> <span
-											aria-hidden="true">&gt;</span>
-									</a></li>
-									<li><a href="#" aria-label="Next"> <span
-											aria-hidden="true">&raquo;</span>
-									</a></li>
+								<ul class="pagination" id="pageListUl">
 								</ul>
 							</nav>
 						
@@ -276,7 +204,7 @@
 			getPaging();
 		})
 		
-		function getRecList() {
+		function getRecList(page) {
 			var branchOp = "";
 			var studyOp = "";
 			var typeOp = "";
@@ -324,7 +252,12 @@
 				$('#typeOpArea').css('width','100%');
 				$('#reSerchArea').css('display','inline-block');
 			}
-
+			
+			if(page) {
+				var pageData = {"page":page};
+				$.extend(true, sendData, pageData);
+			}
+			
 			console.log("searchPoint : " + searchPoint);
 			console.log("branchOp : " + branchOp);
 			console.log("studyOp : " + studyOp);
@@ -421,9 +354,13 @@
 					}
 				}
 			});
+
+			if(page) {
+				getPaging(page);
+			}
 		}
 		
-		function getPaging() {
+		function getPaging(page) {
 			var branchOp = "";
 			var studyOp = "";
 			var typeOp = "";
@@ -468,13 +405,19 @@
 				sendData = {"branchOp":branchOp, "studyOp":studyOp, "typeOp":typeOp, "sortOp":sortOp, "searchType":searchType, "searchText":searchText, "reSearchText":reSearchText};
 			}
 			
+			if(page) {
+				var pageData = {"page":page};
+				$.extend(true, sendData, pageData);
+			}
+			
 			$.ajax({
 				url: "getPaging.sg",
 				data: sendData,
 				dataType: 'json',
 				success: function(data) {
-					$pageUl = $('#pageUl');
-					$pageUl.html('');
+					console.log(data);
+					var $pageListUl = $('#pageListUl');
+					$pageListUl.html('');
 					
 					var $li;
 					var $a;
@@ -485,34 +428,38 @@
 					
 					//맨 처음으로, 이전
 					if(data.currentPage <= 1) {
-						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('≪');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('≪');
+						$span = $('<span class="icon-fast-backward">');
 						
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 						
-						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('＜');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('＜');
+						$span = $('<span class="icon-to-start">');
 
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
-					}
-					else if(data.currentPage > 1) {
-						$a = $('<a href="groupList.mp" aria-label="Previous">');
-						$span = $('<span aria-hidden="true">').text('≪');
+						$pageListUl.append($li);
+					} else if(data.currentPage > 1) {
+						$a = $('<a onclick="getRecList(1);">');
+						//$span = $('<span aria-hidden="true">').text('≪');
+						$span = $('<span class="icon-fast-backward">');
 
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 						
-						$a = $('<a href="groupList.mp?page=' + data.currentPage - 1 + '" aria-label="Previous">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						var go = data.currentPage - 1;
+						$a = $('<a onclick="getRecList(' + go + ');">');
+						//$span = $('<span aria-hidden="true">').text('＜');
+						$span = $('<span class="icon-to-start">');
 						
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 					}
 					
 					//페이지
@@ -520,45 +467,49 @@
 						console.log(i);
 						
 						if(i == data.currentPage)
-							$a = $('<a href="#" onclick="return false;">').text(i);
+							$a = $('<a href="#" class="pageBtn selectPageBtn" onclick="return false;">').text(i);
 						else
-							$a = $('<a href="groupList.mp?page=' + i + '">').text(i);
-
+							$a = $('<a class="pageBtn" onclick="getRecList(' + i + ');">').text(i);
+						
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 					}
 
 					//맨 마지막으로, 다음
 					if(data.currentPage >= data.maxPage) {
-						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('>');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('>');
+						$span = $('<span class="icon-to-end">');
 						
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
 						
-						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('≫');
+						$span = $('<span class="icon-fast-forward">');
 
 						$a.append($span);
 						$li.append($a);
-						$pageUl.append($li);
+						$pageListUl.append($li);
+					} else if(data.currentPage < data.maxPage) {
+						var go = data.currentPage + 1;
+						$a = $('<a onclick="getRecList(' + go + ');">');
+						//$span = $('<span aria-hidden="true">').text('>');
+						$span = $('<span class="icon-to-end">');
+
+						$a.append($span);
+						$li.append($a);
+						$pageListUl.append($li);
+						
+						$a = $('<a onclick="getRecList(' + data.maxPage + ');">');
+						//$span = $('<span aria-hidden="true">').text('≫');
+						$span = $('<span class="icon-fast-forward">');
+						
+						$a.append($span);
+						$li.append($a);
+						$pageListUl.append($li);
 					}
-					else if(data.currentPage < data.maxPage) {
-						$a = $('<a href="groupList.mp?page=' + data.currentPage + 1 + '" aria-label="Next">');
-						$span = $('<span aria-hidden="true">').text('>');
-
-						$a.append($span);
-						$li.append($a);
-						$pageUl.append($li);
-						
-						$a = $('<a href="groupList.mp?page=' + data.maxPage + '"  aria-label="Next">');
-						$span = $('<span aria-hidden="true">').text('≫');
-						
-						$a.append($span);
-						$li.append($a);
-						$pageUl.append($li);
-					}		
 				}
 			})
 			

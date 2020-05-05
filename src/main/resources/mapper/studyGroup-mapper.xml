@@ -132,11 +132,11 @@
 	</select>
 	
 	<select id="getAppList" parameterType="_int" resultMap="ApproachResultSet">
-		select id, nick, to_date(substr(asg_date,0,10),'YYYY.MM.DD') as asg_date, asg_dl_date, asg_status
+		select id, nick, asg_date, asg_dl_date, asg_status
 		from ap_sgroup
 		join member using(id)
 		where rsg_no = #{recno}
-		order by to_date(substr(asg_date,0,10),'YYYY.MM.DD') desc
+		order by asg_date desc
 	</select>
 	
 	<resultMap id="ApproachResultSet" type="ApproachGroup">
@@ -246,10 +246,10 @@
 					order by sg_no desc
 				</when>
 				<when test="sortOp == 'numAscSort'">
-					order by msg_num asc
+					order by nvl(msg_num,rsg_num) asc
 				</when>
 				<when test="sortOp == 'numDescSort'">
-					order by msg_num desc
+					order by nvl(msg_num,rsg_num) desc
 				</when>
 				<when test="sortOp == 'recCloseSort'">
 					order by D_CLOSE_DATE asc
@@ -318,10 +318,10 @@
 					order by sg_no desc
 				</when>
 				<when test="sortOp == 'numAscSort'">
-					order by msg_num asc
+					order by nvl(msg_num,rsg_num) asc
 				</when>
 				<when test="sortOp == 'numDescSort'">
-					order by msg_num desc
+					order by nvl(msg_num,rsg_num) desc
 				</when>
 				<when test="sortOp == 'recCloseSort'">
 					order by (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) asc

@@ -190,7 +190,7 @@
 									<label class="infoStyle">${ info.msgMetRule }</label>
 								</td>
 								<td>
-									<label class="infoStyle">${ info.partmemnum }명</label>
+									<label class="infoStyle">${ info.partMemNum }명</label>
 								</td>
 								<td>
 									<label class="infoStyle">${ info.msgMet }회</label>
@@ -363,21 +363,27 @@
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog" style="width:30%;">
 			<div class="modal-content">
-				<div class="modal-header">
+				<div class="modal-header" style="background:#17955F;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h4 class="modal-title">참가 신청 내용</h4>
+					<h4 class="modal-title" style="color:white;">참가 신청 내용</h4>
+					
+					<h3 style="width:100%; text-align:center; color:white; font-weight:bold; margin-top:5%; margin-bottom:5%;" id="infoNick">닉네임</h3>
 				</div>
 				
-				<div class="modal-body" id="myModalBody">
-					<h3 style="width:100%; text-align:center; font-weight:bold;" id="infoNick">닉네임</h3>
-					<hr>
+				<div class="modal-body" id="myModalBody" style="background:#FFFFE0;">
 					
-					<label style="font-size:20px; background:lightgray; font-weight:bold;">공부 기록 리스트</label>
+					
+					<label style="font-size:20px;/*  background:lightgray;  */font-weight:bold;">공부 기록 리스트</label>
+					<label id="infoDate" style="float:right;">2020.00.00 00:00</label>
 					<table style="font-size:18px; margin-top:4%; margin-left:7%;" id="infoList"></table>
+
+				</div>
+				
+				<div class="modal-footer" style="background:#FFFFE0;">
 					
 					<c:if test="${ info.groupType eq 'recMulti' or info.groupType eq 'recOnce' }">
 					<%-- <input type="hidden" id="infoRecNo" value="${ info.recNo }"> --%>
-					<div style="width:100%; text-align:center; margin-top:5%;" id="confirmArea">
+					<div style="width:100%; margin-top:5%;" id="confirmArea">
 						<div id="hiddenConfirm">
 							<input type="button" class="btn btn-info" onclick="confirmApproach('acc');" value="수락" />
 							&nbsp;
@@ -386,11 +392,6 @@
 						<label id="hiddenLabel" style="font-size:20px;"></label>
 					</div>
 					</c:if>
-
-				</div>
-				
-				<div class="modal-footer">
-					<label id="infoDate">2020.00.00 00:00</label>
 				</div>
 			</div>
 		</div>
@@ -454,6 +455,9 @@
 				data:{recno:"${ info.recNo }"},
 				dataType: 'json',
 				success: function(data) {
+					
+					console.log(data);
+					
 					var $tbody = $('#approachListTable tbody');
 					$tbody.html('');
 					

@@ -172,7 +172,7 @@ public class StudyGroupController {
 		}
 		
 		if(result > 0 && result2 > 0) {
-			return "studyGroupList";
+			return "redirect:listView.sg";
 		} else {
 			throw new StudyGroupException("그룹 생성에 실패하였습니다.");
 		}
