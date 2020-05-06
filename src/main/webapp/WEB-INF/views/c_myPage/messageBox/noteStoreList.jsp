@@ -18,12 +18,13 @@
 	    	<div class="note-header">
 	    	<div>
 					<h2 class="title">
-					<span class="cosmos"><c:out value="${ loginUser.id }"/>님</span>
+					<span class="cosmos"><c:out value="${ loginUser.nick }"/>님</span>
 					| 쪽지 보관함 <span class="note-total">(총 쪽지 갯수 : ${ pi.listCount })</span> 
 					</h2>
 				</div>      		
         	</div>	
         	<div class="note-body">
+        	
         		<div class="form-area clear-fix">
 	        		<!-- 드롭다운 + 검색 -->
 					<form method="get" action="" class="category">
@@ -39,16 +40,16 @@
 				  	<!-- 드롭다운 + 검색 -->
 					<form method="get" action="">
 						<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
-						<select class="form-control"><!--  search-select -->
+						<select class="form-control" id="searchCondition" name="searchCondition"><!--  search-select -->
 							<option>검색</option>
-							<option>아이디</option>
-							<option>별명</option>
-							<option>내용</option>
+							<option value="id">아이디</option>
+							<option value="nick">닉네임</option>
+							<option value="content">내용</option>
 						</select>
 						<div class="input-group"><!-- search-text -->
-							<input type="text" class="form-control" placeholder="검색어를 입력하세요.">
+							<input type="text" class="form-control" placeholder="검색어를 입력하세요." id="searchValue" name="searchValue">
 							<span class="input-group-btn">
-								<button class="btn search-submit" style="border:1px solid #ccc" type="button">검색</button>
+								<button class="btn search-submit" style="border:1px solid #ccc" type="button" onclick="searchNote();">검색</button>
 							</span>
 						</div><!-- /input-group -->
 					</form>
@@ -56,28 +57,34 @@
 				<table class="table table-hover">
 					<thead class="thead">
 						<tr>
-							<th>번호</th>
-							<th>보낸사람</th>
-							<th width="300">제목</th>
+							<th style="width:50px;">번호</th>
+							<th style="width:130px;">보낸사람</th>
+							<th style="width:330px;">제목</th>
 							<th>날짜</th>
 						</tr>
 					</thead>
 					<tbody class="tbody">
 						<c:forEach var="n" items="${ nList }">
-						<tr class="contentTR">
+						<tr>
 							<td>${ n.noteNo }</td>
+							<c:if test="${n.noteFromId eq loginUser.id }"> <!-- 보낸 편지 -->
+								<td style="color:red;">
+									${ n.nick }(${n.noteFromId})
+								</td>
+							</c:if>
+							<c:if test="${n.noteFromId ne loginUser.id }"> <!-- 받은 편지 -->
+								<td style="color:green;">
+									${ n.nick }(${n.noteFromId})
+								</td>
+							</c:if>
 							<td>
-								<c:url var="nInsert" value="noteInsertView.mp">
-									<c:param name="noteToId" value="${n.noteFromId}"/>
-								</c:url>
-								<a href="${nInsert}">${ n.noteFromId }</a>
-							</td>
-							<td class="contentTD">
+								<div class="contentTD">
 								<c:url var="ndetail" value="noteDetail.mp">
 									<c:param name="noteNo" value="${ n.noteNo }"/>
 									<c:param name="page" value="${ pi.currentPage }"/>
 								</c:url>
 								<a href="${ ndetail }">${ n.noteContent }</a>
+								</div>
 							</td>
 							<td>${ n.noteTime }</td>
 						</tr>
@@ -96,13 +103,17 @@
         		<button class="btn btnNote" onclick="location.href='noteDelete.mp'">삭제</button>
         		<button type="button" class="btn btnNote" onclick="location.href='${noteList}'">목록으로</button>
         	</div>
-        	<c:url var="noteList" value="noteList.mp">
-				<c:param name="userId" value="${loginUser.id}"/>
-			</c:url>
         	<div class="note-footer">
         		<!-- 페이징  -->
 				<nav>
 					  <ul class="pagination">
+					  <c:if test="${searchValue eq null}"><!-- 검색 안 한것 전체 값 가지고 오기 -->
+					  	<c:set var="loc" value="noteList.mp" scope="page"/>
+					  </c:if>
+					  <c:if test="${searchValue ne null}"><!-- 검색을 했다면 search.mp로 검색해서 가지고 오기 -->
+					  	<c:set var="loc" value="search.mp" scope="page"/>
+					  </c:if>
+					  
 					  <!-- 맨 처음으로 -->
 						<li>
 							<c:if test="${ pi.currentPage eq pi.startPage }">
@@ -111,8 +122,12 @@
 								</a>
 							</c:if>
 							<c:if test="${ pi.currentPage ne pi.startPage }">
-								<c:url var="start" value="noteList.mp">
-									<c:param name="userId" value="${loginUserId}"/>
+								<c:url var="start" value="${loc}">
+									<c:if test="${searchValue ne null }">
+										<c:param name="searchCondition" value="${ searchCondition }"/>
+										<c:param name="searchValue" value="${ searchValue }"/>
+									</c:if>
+									<c:param name="userId" value="${loginUser.id}"/>
 									<c:param name="page" value="${ pi.startPage }"/>
 								</c:url>
 								<a href="${ start }" aria-label="Previous">
@@ -129,8 +144,13 @@
 								</a>
 							</c:if>
 							<c:if test="${ pi.currentPage > 1 }">
-								<c:url var="before" value="noteList.mp">
-									<c:param name="userId" value="${loginUserId}"/>
+								<%-- <c:url var="before" value="noteList.mp"> --%>
+								<c:url var="before" value="${loc}">
+									<c:if test="${searchValue ne null }">
+										<c:param name="searchCondition" value="${ searchCondition }"/>
+										<c:param name="searchValue" value="${ searchValue }"/>
+									</c:if>
+									<c:param name="userId" value="${loginUser.id}"/>
 									<c:param name="page" value="${ pi.currentPage - 1 }"/>
 								</c:url>
 								<a href="${ before }" aria-label="Previous">
@@ -145,8 +165,12 @@
 								<li><a>${ p }</a></li>
 							</c:if>
 							<c:if test="${ p ne pi.currentPage }">
-								<c:url var="pagination" value="noteList.mp">
-									<c:param name="userId" value="${loginUserId}"/>
+								<c:url var="pagination" value="${loc}">
+									<c:if test="${searchValue ne null }">
+										<c:param name="searchCondition" value="${ searchCondition }"/>
+										<c:param name="searchValue" value="${ searchValue }"/>
+									</c:if>
+									<c:param name="userId" value="${loginUser.id}"/>
 									<c:param name="page" value="${ p }"/>
 								</c:url>
 								<li><a href="${ pagination }">${ p }</a></li>
@@ -161,7 +185,11 @@
 								</a>
 							</c:if>
 							<c:if test="${ pi.currentPage < pi.maxPage }">
-								<c:url var="after" value="noteList.mp">
+								<c:url var="after" value="${loc}">
+									<c:if test="${searchValue ne null }">
+										<c:param name="searchCondition" value="${ searchCondition }"/>
+										<c:param name="searchValue" value="${ searchValue }"/>
+									</c:if>
 									<c:param name="userId" value="${loginUser.id}" />
 									<c:param name="page" value="${ pi.currentPage + 1 }"/>
 								</c:url>
@@ -179,7 +207,11 @@
 								</a>
 							</c:if>
 							<c:if test="${ pi.currentPage ne maxPage }">
-								<c:url var="max" value="noteList.mp">
+								<c:url var="max" value="${loc}">
+									<c:if test="${searchValue ne null }">
+										<c:param name="searchCondition" value="${ searchCondition }"/>
+										<c:param name="searchValue" value="${ searchValue }"/>
+									</c:if>
 									<c:param name="userId" value="${ loginUser.id }"/>
 									<c:param name="page" value="${ pi.maxPage }"/>
 								</c:url>
