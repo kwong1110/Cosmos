@@ -270,7 +270,7 @@ public class SeatController {
 		ArrayList<Seat> seatStatusList = sService.seatStatusList(pi, scs);
 		
 		if(seatStatusList != null) {
-			model.addAttribute("seatStatusList", seatStatusList);
+			model.addAttribute("allList", seatStatusList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("searchType", searchType);
 			model.addAttribute("searchText", searchText);

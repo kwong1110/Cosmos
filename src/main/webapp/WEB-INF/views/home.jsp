@@ -226,9 +226,9 @@
 							<div class="data_output_list_bg"></div>
 							<div class="data_output_list">
 								<div class="data_output_item item0  clear-fix">
-									<p class="data_output_tit"><span>전체<br>지점 수</span></p>
+									<p class="data_output_tit"><span>전체<br>지점수</span></p>
 									<div class="data_output_desc data_desc">
-										<p class="data_desc_m"><span>전국 <b>100</b>개의 지점 수</span></p>
+										<p class="data_desc_m"><span>전국 <b>${ allBranch }</b>개의 지점 수</span></p>
 										<p class="data_desc_s">코스모스 센터는 <br>최대, 최다 규모의 경쟁력을 갖춘 공간 서비스 브랜드입니다.</p>
 									</div>
 									<ul class="data_desc_list clear-fix">
@@ -256,7 +256,7 @@
 								<div class="data_output_item item1 clear-fix">
 									<p class="data_output_tit"><span>전 지점<br>좌석 수</span></p>
 									<div class="data_output_desc data_desc">
-										<p class="data_desc_m"><span>코스모스 공간의 좌석은<br><b>100</b>개 입니다.</span></p>
+										<p class="data_desc_m"><span>코스모스 공간의 좌석은<br><b>${ allSeat }</b>개 입니다.</span></p>
 										<p class="data_desc_s">결과와 성과를 만들어가는 여러분을 위한 자리가<br>준비되어 있습니다.</p>
 									</div>
 									<ul class="data_desc_list clear-fix">
@@ -312,7 +312,7 @@
 								<div class="data_output_item item3 clear-fix">
 									<p class="data_output_tit"><span>강연 목록</span></p>
 									<div class="data_output_desc data_desc">
-										<p class="data_desc_m"><span>현재 진행하는 강연 수<b>100</b>개</span></p>
+										<p class="data_desc_m"><span>현재 진행하는 강연 수<b>${ allLecture }</b>개</span></p>
 										<p class="data_desc_s">온/오프라인 연계를 통해 차별화된 서비스를 경험하실 수 있습니다.<br>코스모스 센터에서 시행되는 강연 목록을 확인하세요.</p>
 									</div>
 									<ul class="data_desc_list clear-fix">
@@ -342,13 +342,13 @@
 							<ul class="data_input_list clear-fix">
 								<li class="data_input_item">
 									<div>
-										<span><b>100</b> 센터</span>
+										<span><b>${ allBranch }</b> 센터</span>
 										<em>전체 지점 수</em>
 									</div>
 								</li>
 								<li class="data_input_item">
 									<div>
-										<span><b>100</b> 개</span>
+										<span><b>${ allSeat }</b> 개</span>
 										<em>전 지점 좌석 수</em>
 									</div>
 								</li>
@@ -360,7 +360,7 @@
 								</li>
 								<li class="data_input_item">
 									<div>
-										<span><b>100</b> 강연</span>
+										<span><b>${ allLecture }</b> 강연</span>
 										<em>강연 목록</em>
 									</div>
 								</li>
