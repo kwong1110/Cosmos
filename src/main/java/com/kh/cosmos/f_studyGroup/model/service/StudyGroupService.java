@@ -60,5 +60,17 @@ public interface StudyGroupService {
 	HashMap<String, Integer> confirmApproach(HashMap<String, String> map);
 
 	ArrayList<StudyGroup> getIngStudyGroupList(String id);
+
+	ArrayList<String> getMemList(int group);
+
+	int updateOnceGroup(StudyGroup sg);
+
+	String getUserId(String nick);
+
+	int deleteGroup(int sgno);
+
+	int getRecNo(int sgno);
+
+	int updateMsgCount(int group);
 	
 }

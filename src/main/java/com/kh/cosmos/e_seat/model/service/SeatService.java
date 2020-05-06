@@ -1,6 +1,7 @@
 package com.kh.cosmos.e_seat.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.SearchConditionSeat;
@@ -28,9 +29,14 @@ public interface SeatService {
 
 	int getSeatStatusListCount(SearchConditionSeat scs);
 
-	
+	int getSearchListCount(Seat s);
 
-	
-	
+	String getBranchName(int branchNo);
+
+	int getTotalStamp(String id);
+
+	int insertOneStamp(HashMap<String, String> map);
+
+	int insertCoupon(HashMap<String, String> map);
 
 }

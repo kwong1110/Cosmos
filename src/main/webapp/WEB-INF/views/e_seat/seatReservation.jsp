@@ -355,7 +355,8 @@
 					            		<div class="right-group">
 					            			<div class="cl">● 그룹선택</div>
 					            			<div class="cr">
-					            				<select name="group" style="width:150px;">
+					            				<select id="groupSelect" style="width:150px;">
+					            						<option value="none">그룹 선택</option>
 						            				<c:forEach var="se" items="${ sgList }"> 
 												    	<option value="${ se.sgNo }">${ se.sgName }</option>
 												    </c:forEach>
@@ -580,6 +581,14 @@
 				
 				var reserInfo={branchNo:branchNo, reserType:reserType, reserDate:reserDate, id:'${ loginUser.id }', reserPeople:reserPeople, chooseSeat:chooseSeat, totalFeeStr:strMoney[0]};
 				
+				//쿠폰 시작
+				if($('#groupSelect').val() != 'none') {
+					var groupInfo = {"group":$('#groupSelect').val(), "groupname":$('#groupSelect').text()};
+					$.extend(true, reserInfo, groupInfo);
+				}
+				//쿠폰 끝
+				
+				
 				swal({
 	                title:"정말로 결제하시겠습니까?",
 	                type:"warning",
@@ -643,7 +652,7 @@
 					   
 					});				
 				} 
-			}	
+			}
 		</script>
 	
 </body>

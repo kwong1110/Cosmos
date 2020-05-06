@@ -205,6 +205,7 @@
 		select *
 		from coupon
 		where id=#{id}
+		order by c_no desc
 	</select>
 	
 	<resultMap id="CouponResultSet" type="Coupon">

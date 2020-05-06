@@ -16,6 +16,7 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -25,10 +26,14 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
+import com.kh.cosmos.a_common.Pagination_five;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.c_myPage.model.exception.MyPageException;
 import com.kh.cosmos.c_myPage.model.service.MyGroupService;
+import com.kh.cosmos.c_myPage.model.vo.Note;
+import com.kh.cosmos.f_studyGroup.model.service.StudyGroupService;
 import com.kh.cosmos.f_studyGroup.model.vo.MyStudyGroup;
+import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 
 @Controller
 public class MyGroupController {
@@ -38,36 +43,6 @@ public class MyGroupController {
 	
 	@RequestMapping("myGroup.mp")
 	public String myGroupView(HttpServletRequest request, @RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
-//		HttpSession session = request.getSession();
-//		String id = ((Member)session.getAttribute("loginUser")).getId();
-//		
-//		int currentPage = 1;
-//		if(page != null) {
-//			currentPage = page;
-//		}
-//		int listCount = mgService.getMemberListCount(id) + mgService.getBossListCount(id);
-//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-//		
-//		ArrayList<StudyGroup> groupList = mgService.getMyGroup(id);
-//		
-//		if(groupList != null) {
-//			LinkedHashMap<StudyGroup, String> groupMap = null;
-//			for(int i = 0; i < groupList.size(); i++) {
-//				int 
-//				groupMap.keySet(groupList.get(i));                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    
-//			}
-//		}
-		
-		//참가신청한 그룹 먼저 가져오고 맞춰서 그룹 정보를 가져와야될 듯
-
-//		ArrayList<String> approachGroupList = mgService.getApproachGroupList();
-//		ArrayList<StudyGroup/*그룹,그룹참가 섞인 vo*/> GroupList = mgService.getGroupList();
-		//-> 조인한 vo를 가져오니까 모든정보가 있을거니까 순서는 그룹참가테이블의 기본키를 기준으로하면 모두 순서대로 나오겠찌
-		//   그리고 옵션을 선택하면 그룹참가의 상태가 수락인 걸 기준으로 보여주기.
-		//   -> 그럼 페이지 리스트도 에이작스로 짤지 파라미터로 짤지..
-		//      에이작스로 짜면 페이징도 에이작스로 해야돼 에이작스 데이터속성으로 요청페이지같은 받아야될 데이터 보내면 되긴할텐데
-		
-		
 		return "/myPage/myGroup";
 	}
 	
@@ -96,7 +71,7 @@ public class MyGroupController {
 		map.put("text", text);
 		
 		int listCount = mgService.getMemberListCount(map) + mgService.getBossListCount(map);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_five.getPageInfo(currentPage, listCount);
 		
 		ArrayList<MyStudyGroup/*그룹,그룹참가 섞인 vo*/> groupList = mgService.getGroupList(map, pi);
 		
@@ -142,7 +117,7 @@ public class MyGroupController {
 		map.put("text", text);
 		
 		int listCount = mgService.getMemberListCount(map) + mgService.getBossListCount(map);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_five.getPageInfo(currentPage, listCount);
 		
 		if(pi != null) {
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
