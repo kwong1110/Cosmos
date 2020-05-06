@@ -210,17 +210,8 @@
 	
 	#stampListArea{width:100%; text-align:center;}
 	#stampListArea>div{width:80%; display:inline-block;}
-	#stampListArea>div>table{width:100%; font-size:20px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
+	#stampListArea>div table{width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
 	/* 쿠폰 모달 스타일 끝 */
-	
-	/* 신고 모달 */
-	div.modal-reportContent {
-		background-color: #FFFFED;
-	}
-
-
-	
-	
 </style>
 <body>
 	<!-- contextPath를 변수로 만들어 활용하기 -->
@@ -273,18 +264,17 @@
 						<div class="user-menu clear-fix">
 							<div data-toggle="modal" data-target="#note"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
 							<div onclick="openCoupon();"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
-							
-							<div><a href="adminPage.ap"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
+							<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
 						</div>
 					</div>
 				</c:if>
 			</c:if>
 		</div>
 		<%-- 관리자 페이지 메뉴  --%>
-	
-	<%-- 	<div class="master-area">
+		<%-- 
+		<div class="master-area">
 			<c:if test="${ sessionScope.loginUser.grade == 0}">
-				<div class="menuTitle" id="adminPage">
+				<div class="menuTitle" id="myPage">
 					<div><a href="">관리자페이지</a></div>
 					<div class="s-menu">	
 						<div><a href="">신고목록</a></div>
@@ -297,7 +287,7 @@
 				</div>
 			</c:if>
 		</div> 
-		 --%>
+		--%>
 		
 		<hr class="bar">
 		
@@ -402,13 +392,13 @@
 	<!-- 신고 모달 -->
 	<div id="report" class="modal fade" role="dialog">
 		<div class="modal-dialog">
-			<div class="modal-reportContent" >
+			<div class="modal-content ">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title reportTitle" style="text-align:center; 	font-family: 'Binggrae';">신고사유</h2>
+					<h2 class="modal-title reportTitle" style="text-align:center">신고사유</h2>
 				</div>
 				<div id="reportReason">
-					<div class="modal-body" align="center">
+					<div class="modal-body">
 						<form>
 							<table>
 								<tr>
@@ -623,7 +613,7 @@
 		
 		$(".note-modalMask").click(function(){
 			 child.close(); 
-			$(".note-modalMask").fadeOut();
+			$(".note-modalMask").fadeOut("fast");
 		}); 
 	});
 	
@@ -668,7 +658,7 @@
 					for(var i in data) {
 						var $tr = $('<tr>');
 						
-						$tr.append('<td style="width:20%;">' + data[i].cInsertDate + '</td>');
+						$tr.append('<td style="width:30%;">' + data[i].cInsertDate + '</td>');
 						$tr.append('<td>' + decodeURIComponent(data[i].cContent.replace(/\+/g, ' ')) + '</td>');
 						$tr.append('<td style="width:15%;">' + data[i].cStamp + '</td>');
 						$stampTable.append($tr);
@@ -796,18 +786,13 @@
         }
     });
    
-	});
-	
+});
 	// 신고 알럿
 	function success(){
-		/* 	 alert("신고되었습니다.");  */
-	swal({
-         title:" 신고하였습니다!", 
-         type: "warning",
-         html: !0
-      })
-		// ajax
+		alert("신고되었습니다.");
 		
+		// ajax
+		// callback
 		var userId = "${ loginUser.id }";
 		var reason = $("input[name='reason']:checked").val();
 		var reasonText = $("input[name='text']").val();
