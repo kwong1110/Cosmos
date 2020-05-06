@@ -2,18 +2,20 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="noteMapper">
 
+	<!-- 쪽지 목록 수 -->
 	<select id="getListCount" resultType="_int">
 		select count(*)
 		from note
 		join member on(id = note_fromid)
-		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'N'
+		where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
 	</select>
 	
-	<select id="selectList" resultMap="noteResultSet" >
+	<!-- 쪽지 목록 -->
+	<select id="selectList" resultMap="noteResultSet">
 		select *
 		from note
 		join member on(id = note_fromid)
-		where note_fromstatus = 'Y' and note_tostatus = 'Y' and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'N'
+		where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
 		order by note_no desc 
 	</select>
 	<resultMap id="noteResultSet" type="Note">
@@ -30,9 +32,29 @@
 	</resultMap>
 	
 	<!-- 쪽지 보내기 -->
+	<select id="selectMatchId" resultMap="memberResultSet">
+		select id 
+		from member where nick=#{toNick}
+	</select>
+	<resultMap type="Member" id="memberResultSet">
+		<id property="id" column="ID"/>
+		<result property="pwd" column="PWD"/>	
+		<result property="name" column="NAME"/>	
+		<result property="nick" column="NICK"/>	
+		<result property="birth" column="BIRTH"/>	
+		<result property="email" column="EMAIL"/>	
+		<result property="phone" column="PHONE"/>	
+		<result property="enroll" column="ENROLL"/>	
+		<result property="certifyNum" column="CERTIFY_NUM"/>	
+		<result property="certifyStatus" column="CERTIFY_STATUS"/>	
+		<result property="mstatus" column="MSTATUS"/>
+		<result property="grade" column="GRADE"/>
+		<result property="gender" column="GENDER"/>	
+	</resultMap>
+	
 	<insert id="insertNote" parameterType="Note">
 		insert into note
-		values(seq_noteNo.nextval, #{noteFromId}, #{noteToId}, #{noteContent}, to_date(sysdate,'yyyy.mm.dd hh24:mi'), default, default, default, default)
+		values(seq_noteNo.nextval, #{noteFromId}, #{noteToId}, #{noteContent}, sysdate, default, default, default, default)
 	</insert>
 	
 	<!-- 쪽지 보기 -->
@@ -40,7 +62,7 @@
 		select *
 		from note
 		join member on(id = note_fromid)
-		where note_no = #{noteNo} and note_fromstatus = 'Y' and note_tostatus = 'Y'
+		where note_no = #{noteNo}
 	</select>
 	
 	<!-- 쪽지 삭제 -->
@@ -62,7 +84,8 @@
 		select count(*)
 		from note
 		join member on(id = note_fromid)
-		where (note_fromstatus = 'Y' or note_tostatus = 'Y') and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'Y'
+		where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+		order by note_no desc
 	</select>
 	
 	<!-- 쪽지 보관함 목록 -->
@@ -70,8 +93,91 @@
 		select *
 		from note
 		join member on(id = note_fromid)
-		where (note_fromstatus = 'Y' or note_tostatus = 'Y') and (note_fromid = #{userId} or note_toid = #{userId}) and note_storage = 'Y'
+		where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
 		order by note_no desc
+	</select>
+	
+	<!-- 검색 결과 목록 수 -->	
+	<select id="getSearchResultCount" resultType="_int">
+		select count(*)
+		from note
 		
+		<if test="id != null">
+			join member on(id = note_fromid)
+			where note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+			and (note_fromid = #{id} and note_toid = 'user02') or (note_fromid = 'user02' and note_toid = #{id})
+		</if>
+		<if test="nick != null">
+			join member on(id = note_fromid or id = note_toid)
+			where (note_fromid = 'user02' or note_toid = 'user02') and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+			and nick = #{nick}
+		</if>
+		<if test="content != null">
+			join member on(id = note_fromid)
+			where (note_fromid = 'user02' or note_toid = 'user02') and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+			and note_content like '%' || #{content} || '%'
+		</if>
+	</select>
+	
+	<!-- 검색 결과 목록 -->
+	<select id="selectSearchResultList" resultMap="noteResultSet">
+		select *
+		from note
+		<choose>
+			<when test="id != null">
+				join member on(id = note_fromid)
+				where note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+				and (note_fromid = #{id} and note_toid = 'user02') or (note_fromid = 'user02' and note_toid = #{id})
+			</when>
+			<when test="nick != null">
+				join member on(id = note_fromid or id = note_toid)
+				where (note_fromid = 'user02' or note_toid = 'user02') and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+				and nick = #{nick}
+			</when>
+			<otherwise>
+				join member on(id = note_fromid)
+				where (note_fromid = 'user02' or note_toid = 'user02') and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+				and note_content like '%' || #{content} || '%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="getMenuToListCount" resultType="_int">
+		select count(*)
+		from note
+		join member on(id = note_fromid)
+		where note_toid = #{userId} and note_tostatus = 'Y' and note_storage = 'N'
+	</select>
+	<select id="selectMenuToList" resultMap="noteResultSet">
+		select *
+		from note
+		join member on(id = note_fromid)
+		where note_toid = #{userId} and note_tostatus = 'Y' and note_storage = 'N'
+	</select>
+	
+	<select id="getMenuFromListCount" resultType="_int">
+		select count(*)
+		from note
+		join member on(id = note_fromid)
+		where note_fromid = #{userId} and note_fromstatus = 'Y' and note_storage = 'N'
+	</select>
+	<select id="selectMenuFromList" resultMap="noteResultSet">
+		select *
+		from note
+		join member on(id = note_fromid)
+		where note_fromid = #{userId} and note_fromstatus = 'Y' and note_storage = 'N'
+	</select>
+	
+	<select id="getMenuToMeListCount" resultType="_int">
+		select count(*)
+		from note
+		join member on(id = note_fromid)
+		where note_fromid = #{userId} and note_toid = #{userId} and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+	</select>
+	<select id="selectMenuToMeList" resultMap="noteResultSet">
+		select *
+		from note
+		join member on(id = note_fromid)
+		where note_fromid = #{userId} and note_toid = #{userId} and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
 	</select>
 </mapper>

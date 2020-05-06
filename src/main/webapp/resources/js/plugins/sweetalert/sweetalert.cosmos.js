@@ -22,6 +22,22 @@ function sweetConfirm(status){
 	)
 };
 
+function sweetCheck(title, text, btnText, status){
+	swal({
+		title:title,
+		text:text,
+		type:"warning",
+		showCancelButton: !0,
+		confirmButtonColor:"#DD6B55",
+		confirmButtonText:btnText,
+		closeOnConfirm: !1
+		},
+		function(){
+			statusUpdate(status);
+		}
+	)
+};
+
 
 	// sweet success
 	// 성공 창 전부 (회원가입, 예약완료, 수정, 삭제, 신고, 예약, 수락 등등)
@@ -38,7 +54,8 @@ function sweetSuccess(successMsg){
 function sweetWrong(wrongMsg){
 	sweetAlert({
 		title: wrongMsg, 
-		type: "error"
+		type: "error",
+		html: !0
 	});
 };
 
@@ -46,6 +63,7 @@ function sweetWrong(wrongMsg){
 function sweetUpdate(updateMsg){
 	swal({
 		title: updateMsg + "하였습니다!", 
-		type: "success"
+		type: "success",
+		html: !0
 	})
 };

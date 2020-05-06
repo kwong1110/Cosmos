@@ -130,4 +130,32 @@
 		</if>
 		order by reser_no desc	
 	</select>
+	
+	
+	<!-- 쿠폰 시작 -->
+	<select id="getBranchName" parameterType="_int" resultType="string">
+		select branch_name
+		from branch
+		where branch_no = #{branchNo}
+	</select>
+	
+	<select id="getTotalStamp" parameterType="string" resultType="_int">
+		select nvl(max(c_total_stamp), 0)
+        from (select c_total_stamp
+	        from coupon
+	        where id = #{id}
+	        order by c_no desc)
+        where rownum = 1
+	</select>
+	
+	<insert id="insertOneStamp" parameterType="hashMap">
+		insert into coupon
+		values(seq_couponno.nextval, sysdate, 1, to_number(#{totalStamp}), #{stampContent}, #{id}, seq_reserno.currval)
+	</insert>
+	
+	<insert id="insertCoupon">
+		insert into coupon
+		values(seq_couponno.nextval, sysdate, -10, 0, #{stampContent}, #{id}, seq_reserno.currval)
+	</insert>
+	<!-- 쿠폰 끝 -->
 </mapper>

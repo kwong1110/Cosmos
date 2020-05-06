@@ -63,6 +63,16 @@ public interface StudyGroupService {
 
 	int getHomeListCount();
 
-	
+	ArrayList<String> getMemList(int group);
+
+	int updateOnceGroup(StudyGroup sg);
+
+	String getUserId(String nick);
+
+	int deleteGroup(int sgno);
+
+	int getRecNo(int sgno);
+
+	int updateMsgCount(int group);
 	
 }

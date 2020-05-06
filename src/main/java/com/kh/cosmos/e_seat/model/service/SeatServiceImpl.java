@@ -1,6 +1,7 @@
 package com.kh.cosmos.e_seat.model.service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +66,26 @@ public class SeatServiceImpl implements SeatService{
 	@Override
 	public int getSeatStatusListCount(SearchConditionSeat scs) {
 		return sDAO.getSeatStatusListCount(sqlSession, scs);
+	}
+
+	@Override
+	public String getBranchName(int branchNo) {
+		return sDAO.getBranchName(sqlSession, branchNo);
+	}
+
+	@Override
+	public int getTotalStamp(String id) {
+		return sDAO.getTotalStamp(sqlSession, id);
+	}
+
+	@Override
+	public int insertOneStamp(HashMap<String, String> map) {
+		return sDAO.insertOneStamp(sqlSession, map);
+	}
+
+	@Override
+	public int insertCoupon(HashMap<String, String> map) {
+		return sDAO.insertCoupon(sqlSession, map);
 	}
 
 	

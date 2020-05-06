@@ -39,11 +39,11 @@ table.inner td {
 	margin-top: 50px;
 }
 
-.countlist{
+/* .countlist{
 	border-bottom: 3px solid #f00;
 
 
-}
+} */
 
 
 </style>
@@ -60,7 +60,7 @@ table.inner td {
 					</div>
 					
 					<div class="content" align="center">
-						<table class="table-hover inner">
+						<table class="inner" >
 								<tr >
 									<th>No.</th>
 									<th>지점 명</th>

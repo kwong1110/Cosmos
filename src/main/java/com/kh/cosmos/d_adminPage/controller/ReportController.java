@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,16 +16,19 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
+import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.d_adminPage.model.exception.AdminPageException;
 import com.kh.cosmos.d_adminPage.model.service.ReportService;
 import com.kh.cosmos.d_adminPage.model.vo.Report;
-import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Controller
 public class ReportController {
 
 	@Autowired
 	private ReportService rService;
+	
+	@Autowired
+	private MemberService mService;
 	
 	@RequestMapping("reportApply.ap")
 	public String Report() {
@@ -47,7 +49,7 @@ public class ReportController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		ArrayList<Report> list = rService.reportList(pi);
 		
-		if(list != null) {
+		if(list != null) {	
 			mv.addObject("list", list);
 			mv.addObject("pi", pi);
 			mv.addObject("listCount", listCount);
@@ -73,4 +75,27 @@ public class ReportController {
 		return result;
 	}
 	
+	@RequestMapping("reportDelete.rp")
+	public String reportDelete(@RequestParam ("no") int no) {
+		
+		System.out.println("no임" + no);
+		
+		int result = rService.delete(no);
+				
+		
+		
+		return "redirect:reportList.ap";
+	}
+	
+	
+	@RequestMapping("ban.rp")
+	public String ban(@RequestParam ("no") int no, @RequestParam("memberId") String reportMid){
+		
+		
+		int result = rService.ban(no);
+
+		int res = mService.ban(reportMid);
+		
+		return "redirect:reportList.ap";
+	}
 }

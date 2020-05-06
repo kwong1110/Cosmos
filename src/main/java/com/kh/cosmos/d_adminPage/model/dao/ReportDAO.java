@@ -30,4 +30,14 @@ public class ReportDAO {
 		return (ArrayList)sqlSession.selectList("reportMapper.selectList",null, rowBounds);
 	}
 
+	public int delete(SqlSessionTemplate sqlSession, int no) {
+		
+		return sqlSession.delete("reportMapper.delete",no);
+	}
+
+	public int update(SqlSessionTemplate sqlSession, int no) {
+		
+		return sqlSession.update("reportMapper.updateStatus", no);
+	}
+
 }

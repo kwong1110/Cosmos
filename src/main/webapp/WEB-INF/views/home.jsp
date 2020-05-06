@@ -20,14 +20,37 @@
 	
 	/* 전체 박스  */
 	.main{
-		background : url(${contextPath}/resources/image/main7.jpg) no-repeat center center;
+		/* background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
+		background-size:cover;
+		height:100%; */
+	}
+	div.wrapper {
+		background : none;
+	}
+	.imgBack1 {
+		background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
 		background-size:cover;
 		height:100%;
+		width:100%;
+		position: absolute;
+		z-index: -1;
+	}
+	.imgBack1 {
+		background : url(${contextPath}/resources/image/main2.jpg) no-repeat center center;
+		background-size:cover;
+		height:100%;
+		width:100%;
+		position: absolute;
+		z-index: -1;
 	}
 	
+	.content {
+		position:relative;
+	}
 	/* 안에 내용 박스 */
 	.inner {
-		
+		position: absolute;
+		z-index: 100;
 	}
 	
 	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=*/
@@ -205,7 +228,7 @@
 								<div class="data_output_item item0  clear-fix">
 									<p class="data_output_tit"><span>전체<br>지점 수</span></p>
 									<div class="data_output_desc data_desc">
-										<p class="data_desc_m"><span>전국 <b>${ allBranch }</b>개의 지점 수</span></p>
+										<p class="data_desc_m"><span>전국 <b>100</b>개의 지점 수</span></p>
 										<p class="data_desc_s">코스모스 센터는 <br>최대, 최다 규모의 경쟁력을 갖춘 공간 서비스 브랜드입니다.</p>
 									</div>
 									<ul class="data_desc_list clear-fix">
@@ -233,7 +256,7 @@
 								<div class="data_output_item item1 clear-fix">
 									<p class="data_output_tit"><span>전 지점<br>좌석 수</span></p>
 									<div class="data_output_desc data_desc">
-										<p class="data_desc_m"><span>코스모스 공간의 좌석은<br><b>${ allSeat }</b>개 입니다.</span></p>
+										<p class="data_desc_m"><span>코스모스 공간의 좌석은<br><b>100</b>개 입니다.</span></p>
 										<p class="data_desc_s">결과와 성과를 만들어가는 여러분을 위한 자리가<br>준비되어 있습니다.</p>
 									</div>
 									<ul class="data_desc_list clear-fix">
@@ -289,7 +312,7 @@
 								<div class="data_output_item item3 clear-fix">
 									<p class="data_output_tit"><span>강연 목록</span></p>
 									<div class="data_output_desc data_desc">
-										<p class="data_desc_m"><span>현재 진행하는 강연 수<b>${ allLecture }</b>개</span></p>
+										<p class="data_desc_m"><span>현재 진행하는 강연 수<b>100</b>개</span></p>
 										<p class="data_desc_s">온/오프라인 연계를 통해 차별화된 서비스를 경험하실 수 있습니다.<br>코스모스 센터에서 시행되는 강연 목록을 확인하세요.</p>
 									</div>
 									<ul class="data_desc_list clear-fix">
@@ -319,13 +342,13 @@
 							<ul class="data_input_list clear-fix">
 								<li class="data_input_item">
 									<div>
-										<span><b>${ allBranch }</b> 센터</span>
+										<span><b>100</b> 센터</span>
 										<em>전체 지점 수</em>
 									</div>
 								</li>
 								<li class="data_input_item">
 									<div>
-										<span><b>${ allSeat }</b> 개</span>
+										<span><b>100</b> 개</span>
 										<em>전 지점 좌석 수</em>
 									</div>
 								</li>
@@ -337,7 +360,7 @@
 								</li>
 								<li class="data_input_item">
 									<div>
-										<span><b>${ allLecture }</b> 강연</span>
+										<span><b>100</b> 강연</span>
 										<em>강연 목록</em>
 									</div>
 								</li>
@@ -355,6 +378,36 @@
 
 <script>
 	$(function(){
+		
+		// 이미지 효과
+		$(".wrapper").append("<div class='imgBack1'></div>");
+		$(".wrapper").append("<div class='imgBack2'></div>");
+		
+			/* var i = 1;
+			setInterval(function(){
+			$(".main").css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"})
+				i++;
+				/* if(i == 7){
+					i = 1;
+				}
+				
+				$(".main").fadeOut("slow", function(){
+					$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+					$(this).fadeIn("slow");
+				}); */
+				
+				/* if(i == 7){
+					i = 1;
+				}
+				$(".main").fadeOut("slow", function(){
+					$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+					$(this).fadeIn("slow");
+				});
+
+			}, 3000); */
+		
+		
+		
 		var $tab = $(".data_input_item div");
 		// $(".tab-box .ctn1").addClass("ctnOn");
 

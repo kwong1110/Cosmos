@@ -90,7 +90,7 @@
 						<div class="inner" align="center" >
 							<div class="btnBox">
 								<button type="submit" class="defaultBtn" id="enrollBtn" onclick="validate();" >등록</button>
-								<button name="취소"  class="defaultBtn"" onclick="location.href='${ contextPath }'">취소</button>	
+								<button name="취소"  class="defaultBtn""  onClick="history.go(-1)">취소</button>	
 							</div> 
 						</div>
                				</form>	

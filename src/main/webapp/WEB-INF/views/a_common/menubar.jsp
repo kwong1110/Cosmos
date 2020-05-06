@@ -210,17 +210,8 @@
 	
 	#stampListArea{width:100%; text-align:center;}
 	#stampListArea>div{width:80%; display:inline-block;}
-	#stampListArea>div>table{width:100%; font-size:20px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
+	#stampListArea>div table{width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
 	/* 쿠폰 모달 스타일 끝 */
-	
-	/* 신고 모달 */
-	div.modal-reportContent {
-		background-color: #FFFFED;
-	}
-
-
-	
-	
 </style>
 <body>
 	<!-- contextPath를 변수로 만들어 활용하기 -->
@@ -280,7 +271,7 @@
 			</c:if>
 		</div>
 		<%-- 관리자 페이지 메뉴  --%>
-	
+		<%-- 
 		<div class="master-area">
 			<c:if test="${ sessionScope.loginUser.grade == 0}">
 				<div class="menuTitle" id="myPage">
@@ -296,7 +287,7 @@
 				</div>
 			</c:if>
 		</div> 
-		
+		--%>
 		
 		<hr class="bar">
 		
@@ -401,13 +392,13 @@
 	<!-- 신고 모달 -->
 	<div id="report" class="modal fade" role="dialog">
 		<div class="modal-dialog">
-			<div class="modal-reportContent" >
+			<div class="modal-content ">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title reportTitle" style="text-align:center; 	font-family: 'Binggrae';">신고사유</h2>
+					<h2 class="modal-title reportTitle" style="text-align:center">신고사유</h2>
 				</div>
 				<div id="reportReason">
-					<div class="modal-body" align="center">
+					<div class="modal-body">
 						<form>
 							<table>
 								<tr>
@@ -469,10 +460,6 @@
 		
 		return true;
 	}
-	
-	<% if(request.getParameter("msg") != null){ %>
-		alert('<%=request.getParameter("msg")%>');
-	<% } %>
 	
 	/* 메뉴 */
 	$(function(){
@@ -573,8 +560,9 @@
 		}
 	};
 
-	// sweetalert
+	
 	$(function(){
+		// sweetalert
 		if("${ successMsg }" != ""){
 			sweetSuccess("${ successMsg }");
 		}
@@ -583,6 +571,16 @@
 			sweetUpdate("${ updateMsg }");
 		}
 		
+		// 비밀번호,아이디 로그인 실패시
+		if("${ wrongMsg }" != ""){
+			sweetWrong("${ wrongMsg }");
+			$("#login").trigger("click");
+		}
+		
+		// 페이지 타이틀 클릭 시
+		$('.pageTitle').click(function() {
+	         location.reload();
+	    });
 	});
 	
 	// 쪽지 팝업 
@@ -622,7 +620,7 @@
 		
 		$(".note-modalMask").click(function(){
 			 child.close(); 
-			$(".note-modalMask").fadeOut();
+			$(".note-modalMask").fadeOut("fast");
 		}); 
 	});
 	
@@ -635,29 +633,42 @@
 		$('#myCupon').modal();
 	}
 	
-	function couponInfo() {
+	function couponInfo(page) {
+		
+		var sendData = {"id":"${ loginUser.id }"};
+		
+		if(page) {
+			var pageData = {"page":page};
+			$.extend(true, sendData, pageData);
+		}
+		
 		$.ajax({
 			url:"getCouponInfo.mp",
-			data:{id:"${ loginUser.id }"},
+			data:sendData,
 			dataType: 'json',
 			success: function(data) {
-				$('#stampCount').text(data.length);
-				
-				var $couponTable = $('#couponTable');
-				$couponTable.html('');
-				for(var j = 0; j < 10; j++) {
-					var $tr;
-					if(j < 5) {
-						if(j == 0) $tr = $('<tr>');
-						if(data[j] != undefined) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
-						else $tr.append('<td><div class="emptyStamp"></div></td>');
-						if(j == 4) $couponTable.append($tr);
-						
-					} else {
-						if(j == 5) $tr = $('<tr>');
-						if(data[j] != undefined) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
-						else $tr.append('<td><div class="emptyStamp"></div></td>');
-						if(j == 9) $couponTable.append($tr);
+
+				if(!page || page == 1) {
+					var totalStamp = data[0].cTotalStamp;
+					
+					$('#stampCount').text(totalStamp);
+					
+					var $couponTable = $('#couponTable');
+					$couponTable.html('');
+					for(var j = 0; j < 10; j++) {
+						var $tr;
+						if(j < 5) {
+							if(j == 0) $tr = $('<tr>');
+							if(data[j] != undefined && totalStamp-1 >= j) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
+							else $tr.append('<td><div class="emptyStamp"></div></td>');
+							if(j == 4) $couponTable.append($tr);
+							
+						} else {
+							if(j == 5) $tr = $('<tr>');
+							if(data[j] != undefined && totalStamp-1 >= j) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
+							else $tr.append('<td><div class="emptyStamp"></div></td>');
+							if(j == 9) $couponTable.append($tr);
+						}
 					}
 				}
 
@@ -667,7 +678,7 @@
 					for(var i in data) {
 						var $tr = $('<tr>');
 						
-						$tr.append('<td style="width:20%;">' + data[i].cInsertDate + '</td>');
+						$tr.append('<td style="width:30%;">' + data[i].cInsertDate + '</td>');
 						$tr.append('<td>' + decodeURIComponent(data[i].cContent.replace(/\+/g, ' ')) + '</td>');
 						$tr.append('<td style="width:15%;">' + data[i].cStamp + '</td>');
 						$stampTable.append($tr);
@@ -677,12 +688,24 @@
 				}
 			}
 		})
+		
+		if(page) {
+			couponPaging(page);
+		}
 	}
 	
-	function couponPaging() {
+	function couponPaging(page) {
+		
+		var sendData = {"id":"${ loginUser.id }"};
+		
+		if(page) {
+			var pageData = {"page":page};
+			$.extend(true, sendData, pageData);
+		}
+		
 		$.ajax({
 			url:"getCouponPage.mp",
-			data:{id:"${ loginUser.id }"},
+			data:sendData,
 			dataType: 'json',
 			success: function(data) {
 				$pageUl = $('#pageUl');
@@ -695,32 +718,37 @@
 					var $b;
 					
 					$li = $('<li>');
+
 					//맨 처음으로, 이전
 					if(data.currentPage <= 1) {
-						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('≪');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('≪');
+						$span = $('<span class="icon-fast-backward">');
 						
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
 						
-						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('＜');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('＜');
+						$span = $('<span class="icon-to-start">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
-					}
-					else if(data.currentPage > 1) {
-						$a = $('<a href="groupList.mp" aria-label="Previous">');
-						$span = $('<span aria-hidden="true">').text('≪');
+					} else if(data.currentPage > 1) {
+						$a = $('<a onclick="couponInfo(1);">');
+						//$span = $('<span aria-hidden="true">').text('≪');
+						$span = $('<span class="icon-fast-backward">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
 						
-						$a = $('<a href="groupList.mp?page=' + data.currentPage - 1 + '" aria-label="Previous">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						var go = data.currentPage - 1;
+						$a = $('<a onclick="couponInfo(' + go + ');">');
+						//$span = $('<span aria-hidden="true">').text('＜');
+						$span = $('<span class="icon-to-start">');
 						
 						$a.append($span);
 						$li.append($a);
@@ -732,40 +760,44 @@
 						console.log(i);
 						
 						if(i == data.currentPage)
-							$a = $('<a href="#" onclick="return false;">').text(i);
+							$a = $('<a href="#" class="pageBtn selectPageBtn" onclick="return false;">').text(i);
 						else
-							$a = $('<a href="groupList.mp?page=' + i + '">').text(i);
-
+							$a = $('<a class="pageBtn" onclick="couponInfo(' + i + ');">').text(i);
+						
 						$li.append($a);
 						$pageUl.append($li);
 					}
 
 					//맨 마지막으로, 다음
 					if(data.currentPage >= data.maxPage) {
-						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('>');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('>');
+						$span = $('<span class="icon-to-end">');
 						
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
 						
-						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('≫');
+						$span = $('<span class="icon-fast-forward">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
-					}
-					else if(data.currentPage < data.maxPage) {
-						$a = $('<a href="groupList.mp?page=' + data.currentPage + 1 + '" aria-label="Next">');
-						$span = $('<span aria-hidden="true">').text('>');
+					} else if(data.currentPage < data.maxPage) {
+						var go = data.currentPage + 1;
+						$a = $('<a onclick="couponInfo(' + go + ');">');
+						//$span = $('<span aria-hidden="true">').text('>');
+						$span = $('<span class="icon-to-end">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
 						
-						$a = $('<a href="groupList.mp?page=' + data.maxPage + '"  aria-label="Next">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						$a = $('<a onclick="couponInfo(' + data.maxPage + ');">');
+						//$span = $('<span aria-hidden="true">').text('≫');
+						$span = $('<span class="icon-fast-forward">');
 						
 						$a.append($span);
 						$li.append($a);
@@ -795,18 +827,13 @@
         }
     });
    
-	});
-	
+});
 	// 신고 알럿
 	function success(){
-		/* 	 alert("신고되었습니다.");  */
-	swal({
-         title:" 신고하였습니다!", 
-         type: "warning",
-         html: !0
-      })
-		// ajax
+		alert("신고되었습니다.");
 		
+		// ajax
+		// callback
 		var userId = "${ loginUser.id }";
 		var reason = $("input[name='reason']:checked").val();
 		var reasonText = $("input[name='text']").val();

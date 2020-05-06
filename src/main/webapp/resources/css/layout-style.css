@@ -58,7 +58,7 @@ html, body {
 
 .footer .copy {
 	display: inline-block;
-	background:url("../image/copy_w.png") no-repeat center center;
+	background:url("../image/copy.png") no-repeat center center;
 	width: 25px;
 	height: 25px;
 	background-size: contain;

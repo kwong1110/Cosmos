@@ -172,6 +172,46 @@ public class StudyGroupDAO {
 
 	public int getHomeListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("studyGroupMapper.getHomeListCount");
+   
+  public ArrayList<String> getMemList(SqlSessionTemplate sqlSession, int group) {
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getMemList", group);
+	}
+
+	public int updateOnceGroup(SqlSessionTemplate sqlSession, StudyGroup sg) {
+		return sqlSession.update("studyGroupMapper.updateOnceGroup", sg);
+	}
+
+	public String getUserId(SqlSessionTemplate sqlSession, String nick) {
+		return sqlSession.selectOne("studyGroupMapper.getUserId", nick);
+	}
+
+	public int deleteGroup(SqlSessionTemplate sqlSession, int sgno) {
+		return sqlSession.update("studyGroupMapper.deleteGroup", sgno);
+	}
+
+	public int getRecNo(SqlSessionTemplate sqlSession, int sgno) {
+		int result;
+		
+		int countRec = sqlSession.selectOne("studyGroupMapper.getIngRecCount", sgno);
+		if(countRec > 0) {
+			result = sqlSession.selectOne("studyGroupMapper.getRecNo", sgno);
+		} else {
+			result = 0;
+		}
+		
+		return result;
+	}
+
+	public int updateMsgCount(SqlSessionTemplate sqlSession, int group) {
+		//String status = sqlSession.selectOne("studyGroupMapper.getSgStatus", group);
+		String status = "";
+		int result;
+		if(status.equals("Y")) {
+			result = sqlSession.update("studyGroupMapper.updateMsgCount", group);
+		} else {
+			result = 0;
+		}
+		return result;
 	}
 
 }
