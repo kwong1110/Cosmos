@@ -52,6 +52,14 @@ public class MemberController {
 		if(loginUser == null) {
 			model.addAttribute("msg", "아이디가 존재하지않습니다! 다시 로그인해주세요!");
 		} else {
+			
+			System.out.println(loginUser.getMstatus());
+			if (loginUser.getMstatus().equals("N")) {
+		
+				model.addAttribute("msg","금지된 회원입니다. 관리자에게 문의하세요!");
+				return "redirect:/";
+			}
+			
 			if(bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())) {
 				model.addAttribute("loginUser", loginUser);
 			} else if(!bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())) {

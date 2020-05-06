@@ -26,6 +26,16 @@
 		SELECT COUNT(*)
 		FROM REPORT
 	</select>
-
+	
+	<delete id="delete" parameterType="_int">
+		DELETE FROM REPORT
+		WHERE REPORT_NO = #{NO}
+	</delete>
+	
+	<update id="updateStatus" parameterType="_int">
+		update report 
+		set report_status = 'Y'
+		WHERE REPORT_NO = #{NO}
+	</update>
 
 </mapper>

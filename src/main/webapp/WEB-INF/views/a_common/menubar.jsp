@@ -273,7 +273,8 @@
 						<div class="user-menu clear-fix">
 							<div data-toggle="modal" data-target="#note"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
 							<div onclick="openCoupon();"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
-							<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
+							
+							<div><a href="adminPage.ap"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
 						</div>
 					</div>
 				</c:if>
@@ -281,9 +282,9 @@
 		</div>
 		<%-- 관리자 페이지 메뉴  --%>
 	
-		<div class="master-area">
+	<%-- 	<div class="master-area">
 			<c:if test="${ sessionScope.loginUser.grade == 0}">
-				<div class="menuTitle" id="myPage">
+				<div class="menuTitle" id="adminPage">
 					<div><a href="">관리자페이지</a></div>
 					<div class="s-menu">	
 						<div><a href="">신고목록</a></div>
@@ -296,7 +297,7 @@
 				</div>
 			</c:if>
 		</div> 
-		
+		 --%>
 		
 		<hr class="bar">
 		
