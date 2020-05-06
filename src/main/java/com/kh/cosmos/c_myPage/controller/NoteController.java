@@ -273,6 +273,7 @@ public class NoteController {
 			throw new MyPageException("검색에 실패하였습니다.");
 		}
 		
+		
 		return mv;
 	}
 	
