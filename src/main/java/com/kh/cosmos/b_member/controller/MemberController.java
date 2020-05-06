@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.cosmos.b_member.model.exception.MemberException;
 import com.kh.cosmos.b_member.model.service.MemberService;
@@ -45,12 +46,12 @@ public class MemberController {
 	
 	// 암호화 후 로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
-	public String memberLogin(Member m, Model model) {
+	public String memberLogin(Member m, Model model, RedirectAttributes ra) {
 		
 		Member loginUser = mService.memberLogin(m);
 		// 비밀번호에 암호화가 된 상태의 loginUser 반환
 		if(loginUser == null) {
-			model.addAttribute("msg", "아이디가 존재하지않습니다! 다시 로그인해주세요!");
+			ra.addFlashAttribute("wrongMsg", "아이디가 존재하지않습니다!");
 		} else {
 			
 			System.out.println(loginUser.getMstatus());
@@ -63,7 +64,7 @@ public class MemberController {
 			if(bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())) {
 				model.addAttribute("loginUser", loginUser);
 			} else if(!bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())) {
-				model.addAttribute("msg", "비밀번호가 일치하지 않습니다! 다시 로그인해주세요!");
+				ra.addFlashAttribute("wrongMsg", "비밀번호가 일치하지 않습니다!");
 			} else {
 				throw new MemberException("로그인에 실패하였습니다.");
 			}

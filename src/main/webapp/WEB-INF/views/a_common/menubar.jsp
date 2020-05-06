@@ -461,10 +461,6 @@
 		return true;
 	}
 	
-	<% if(request.getParameter("msg") != null){ %>
-		alert('<%=request.getParameter("msg")%>');
-	<% } %>
-	
 	/* 메뉴 */
 	$(function(){
 		
@@ -564,8 +560,9 @@
 		}
 	};
 
-	// sweetalert
+	
 	$(function(){
+		// sweetalert
 		if("${ successMsg }" != ""){
 			sweetSuccess("${ successMsg }");
 		}
@@ -574,6 +571,16 @@
 			sweetUpdate("${ updateMsg }");
 		}
 		
+		// 비밀번호,아이디 로그인 실패시
+		if("${ wrongMsg }" != ""){
+			sweetWrong("${ wrongMsg }");
+			$("#login").trigger("click");
+		}
+		
+		// 페이지 타이틀 클릭 시
+		$('.pageTitle').click(function() {
+	         location.reload();
+	    });
 	});
 	
 	// 쪽지 팝업 
