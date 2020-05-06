@@ -38,7 +38,8 @@ function sweetSuccess(successMsg){
 function sweetWrong(wrongMsg){
 	sweetAlert({
 		title: wrongMsg, 
-		type: "error"
+		type: "error",
+		html: !0
 	});
 };
 
@@ -46,6 +47,7 @@ function sweetWrong(wrongMsg){
 function sweetUpdate(updateMsg){
 	swal({
 		title: updateMsg + "하였습니다!", 
-		type: "success"
+		type: "success",
+		html: !0
 	})
 };
