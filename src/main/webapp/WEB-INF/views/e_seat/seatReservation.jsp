@@ -105,7 +105,7 @@
 										<li>
 											<c:if test="${ pi.currentPage eq pi.startPage }">
 												<a aria-label="Previous">
-													<span aria-hidden="true">&laquo;</span>
+													<span aria-hidden="true" class="icon-fast-backward"></span>
 												</a>
 											</c:if>
 											<c:if test="${ pi.currentPage ne pi.startPage }">
@@ -113,14 +113,14 @@
 													<c:param name="page" value="${ pi.startPage }"/>
 												</c:url>
 												<a href="${ start }" aria-label="Previous">
-													<span aria-hidden="true">&laquo;</span>
+													<span aria-hidden="true" class="icon-fast-backward"></span>
 												</a>
 											</c:if>
 										</li>
 										<li>
 											<c:if test="${ pi.currentPage <= 1 }">
 												<a aria-label="Previous">
-													<span aria-hidden="true">&lt;</span>
+													<span aria-hidden="true" class="icon-to-start"></span>
 												</a>
 											</c:if>
 											<c:if test="${ pi.currentPage > 1 }">
@@ -128,25 +128,25 @@
 													<c:param name="page" value="${ pi.currentPage - 1 }"/>
 												</c:url>
 												<a href="${ before }" aria-label="Previous">
-													<span aria-hidden="true">&lt;</span>
+													<span aria-hidden="true" class="icon-to-start"></span>
 												</a>
 											</c:if>
 										</li>
 										<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 											<c:if test="${ p eq pi.currentPage }">
-												<li><a>${ p }</a></li>
+												<li><a  class="pageBtn selectPageBtn">${ p }</a></li>
 											</c:if>
 											<c:if test="${ p ne pi.currentPage }">
 												<c:url var="pagination" value="reservation.se">
 													<c:param name="page" value="${ p }"/>
 												</c:url>
-												<li><a href="${ pagination }">${ p }</a></li>
+												<li><a  class="pageBtn" href="${ pagination }">${ p }</a></li>
 											</c:if>
 										</c:forEach>
 										<li>
 											<c:if test="${ pi.currentPage >= pi.maxPage }">
 												<a aria-label="Next">
-													<span aria-hidden="true">&gt;</span>
+													<span aria-hidden="true" class="icon-to-end"></span>
 												</a>
 											</c:if>
 											<c:if test="${ pi.currentPage < pi.maxPage }">
@@ -154,14 +154,14 @@
 													<c:param name="page" value="${ pi.currentPage + 1 }"/>
 												</c:url>
 												<a href="${ after }" aria-label="Next">
-													<span aria-hidden="true">&gt;</span>
+													<span aria-hidden="true" class="icon-to-end"></span>
 												</a>
 											</c:if>
 										</li>
 										<li>
 											<c:if test="${ pi.currentPage eq maxPage }">
 												<a href="#" aria-label="Next">
-													<span aria-hidden="true">&raquo;</span>
+													<span aria-hidden="true" class="icon-fast-forward"></span>
 												</a>
 											</c:if>
 											<c:if test="${ pi.currentPage ne maxPage }">
@@ -169,7 +169,7 @@
 													<c:param name="page" value="${ pi.maxPage }"/>
 												</c:url>
 												<a href="${ max }" aria-label="Next">
-													<span aria-hidden="true">&raquo;</span>
+													<span aria-hidden="true" class="icon-fast-forward"></span>
 												</a>
 											</c:if>
 										</li>
@@ -278,7 +278,7 @@
 					            <div class="right-content">
 					            	<div class="right-content-left">
 					            		<div class="left-spot">
-					            			<div class="cl">● 예약지점</div>
+					            			<div class="cl">● <b>예약지점</b></div>
 					            			<div class="cr" id="reserStore">
 					            				<script>
 					            				$('input[type=radio][name=branchAddress]').on('click',function(){
@@ -289,7 +289,7 @@
 					            			</div>
 					            		</div>
 					            		<div class="left-period">
-					            			<div class="cl">● 예약유형</div>
+					            			<div class="cl">● <b>예약유형</b></div>
 					            			<div class="cr">
 					            				<input type="radio" class="rad" id="onePeriod" name="period"  value="시간권" > 시간권 &nbsp;&nbsp;
 					            				<input type="radio" class="rad" id="sevenPeriod" name="period" value="7일권"> 7일권 &nbsp;&nbsp;
@@ -329,7 +329,7 @@
 				            					});
 					            				</script>
 					            		<div class="left-date">
-					            			<div class="cl">● 예약일자</div>
+					            			<div class="cl">● <b>예약일자</b></div>
 					            			<div class="cr" id="cr1">
 					            				<div class="box-title m-t-30"></div>
 												<input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange" style="width:265px; display:none;">
@@ -338,14 +338,14 @@
 					            		</div>
 					            		<div class="left-name">
 					            			
-					            			<div class="cl">● 이름</div>
+					            			<div class="cl">● <b>이름</b></div>
 					            			<div class="cr">
 					            				<input type="hidden" value="${ loginUser.id }" name="id">
 					            				<input type="text" name="name" class="form-control" value="${ loginUser.name }" readonly style="width:265px; text-align:center;">
 					            			</div>
 					            		</div>
 					            		<div class="left-phone">
-					            			<div class="cl">● 휴대폰번호</div>
+					            			<div class="cl">● <b>휴대폰번호</b></div>
 					            			<div class="cr">
 					            				<input type="text" name="phone" class="form-control" value="${ loginUser.phone }" readonly style="width:265px; text-align:center;">
 					            			</div>
@@ -353,7 +353,7 @@
 					            	</div>
 					            	<div class="right-content-right">
 					            		<div class="right-group">
-					            			<div class="cl">● 그룹선택</div>
+					            			<div class="cl">● <b>그룹선택</b></div>
 					            			<div class="cr">
 					            				<select name="group" style="width:150px;">
 						            				<c:forEach var="se" items="${ sgList }"> 
@@ -363,23 +363,24 @@
 					            			</div>
 					            		</div>
 					            		<div class="right-choose">
-					            			<div class="cl">● 인원선택</div>
+					            			<div class="cl">● <b>인원선택</b></div>
 					            			<div class="cr">
 					            				<input type="radio" class="rad" id="onep" name="reserPeople" value="1"> 1인 &nbsp;
 					            				<input type="radio" class="rad" id="fourp" name="reserPeople" value="4"> 4인 &nbsp;
 					            				<input type="radio" class="rad" id="sixp" name="reserPeople" value="6"> 6인 &nbsp;
 					            				<input type="radio" class="rad" id="eightp" name="reserPeople" value="8 "> 8인
 					            			</div>
+					            			
 					            		</div>
 					            		<div class="right-seat">
-					            			<div class="cl">● 좌석선택</div>
+					            			<div class="cl">● <b>좌석선택</b></div>
 					            			<div class="cr">
-					            				<div id="seatChoose" class="btn defaultBtn" style="width:150px;">선택</div>
+					            				<div id="seatChoose" class="btn defaultBtn" style="width:150px;">선&nbsp;택</div>
 					            			</div>
+					            			
 					            			<script>
-					            			
-					            			
 						            			$('#seatChoose').click(function(e){
+
 						            				$(".chair").parent().removeClass("seatOn");
 						            				
 						            				var money=$('#userPrice').text();
@@ -424,14 +425,14 @@
 					            			</script>
 					            		</div>
 					            		<div class="right-chooseSeat">
-					            			<div class="cl">● 선택좌석</div>
-					            			<div class="cr" id="chooseSeat">
+					            			<div class="cl">● <b>선택좌석</b></div>
+					            			<div class="cr" id="chooseSeat" style="padding-left:60px;">
 					            				
 					            			</div>
 					            		</div>
 					            		<div class="right-price">
-					            			<div class="cl">● 이용요금</div>
-					            			<div class="cr" id="userPrice">
+					            			<div class="cl">● <b>이용요금</b></div>
+					            			<div class="cr" id="userPrice" style="padding-left:50px;">
 					            			
 					            			</div>
 					            		</div>
@@ -457,7 +458,7 @@
 					    </div>
 					<div class="btnBox inner">
 						<!-- <input type="button" class="defaultBtn"> -->
-						 <button class="defaultBtn" onclick="buy()" value="결제">결제</button> 
+						 <button class="defaultBtn" onclick="buy()" value="결제" style="width:100px;">결&nbsp;제</button> 
 					</div>
 					
 				</div>
@@ -476,18 +477,19 @@
 		        	<form action="/reservation.se" method="post">
 		        		<jsp:include page = "seatForm.jsp"/>
 		        		<script>
-		        		$('#seatChoose').click(function(){
-		        			 if($("input:radio[name='period']:checked").val() == '시간권'){
-					    			if($("input:hidden[name='z']").val().split('-')[0] == 'Z'){
-					    				console.log($("input:hidden[name='z']").val().split('-')[0]);
-					    				$(".zSeat").attr("disabled",true);
-	     						}
-	     					}	
-		        		});	
-		        		
+			        		$('#seatChoose').click(function(){
+			        			 if($("input:radio[name='period']:checked").val() == '시간권'){
+						    			if($("input:hidden[name='z']").val().split('-')[0] == 'Z'){
+ 						    				$(".zSeat").attr("disabled",true);
+		     						}
+		     					}	
+			        		});
+			        		
+			        		
+			        		
 		        		$('.left-top1-table-cell, .big, .six1, .six2, .four1, .four2, .four3, .four4').on('click',function(){
 					    		 
-					    		 var chooseSeat = $(this).children().val();
+		        				var chooseSeat = $(this).children().val();
 					    		$("#chooseSeat").text(chooseSeat);
 					    		
 					    		swal({
@@ -534,7 +536,12 @@
 						    				$('#userPrice').text(result+'원');
 			    			
 		    					};
+		    					
+		    					if($("input:radio[name='reserPeople']:checked").val() == 1){
+					    			$('.big, .six1, .six2, .four1, .four2, .four3, .four4, .zchair').attr('disabled',true);
+					    		}
 					    </script>
+					    
 		        	</form>
 	    </div><!-- /.modal-content -->
 	  </div><!-- /.modal-dialog -->
@@ -645,7 +652,6 @@
 				} 
 			}	
 		</script>
-	
 </body>
 	<!-- 싱글타임피커 -->
 	<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>

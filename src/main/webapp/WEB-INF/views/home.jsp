@@ -261,7 +261,7 @@
 								<div class="data_output_item item2 clear-fix">
 									<p class="data_output_tit"><span>모집 중인<br>그룹</span></p>
 									<div class="data_output_desc data_desc">
-										<p class="data_desc_m"><span>코스모스에서<br> 현재 모집 중인 그룹 수<b>100</b>개</span></p>
+										<p class="data_desc_m"><span>코스모스에서<br> 현재 모집 중인 그룹 수<b>${ allGroup }</b>개</span></p>
 										<p class="data_desc_s">코스모스 센터는 여러 명이 같이 공부를 하거나 과제를 할 수 있도록 <br>스터디 그룹 매칭 과정을 진행하고 있습니다.</p>
 									</div>
 									<ul class="data_desc_list clr">
@@ -331,7 +331,7 @@
 								</li>
 								<li class="data_input_item">
 									<div>
-										<span><b>100</b> 그룹</span>
+										<span><b>${ allGroup }</b> 그룹</span>
 										<em>모집 중 그룹</em>
 									</div>
 								</li>

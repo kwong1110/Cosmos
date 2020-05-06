@@ -65,7 +65,7 @@
 										<li>
 											<c:if test="${ pi.currentPage eq pi.startPage }">
 												<a aria-label="Previous">
-													<span aria-hidden="true">&laquo;</span>
+													<span aria-hidden="true" class="icon-fast-backward"></span>
 												</a>
 											</c:if>
 											<c:if test="${ pi.currentPage ne pi.startPage }">
@@ -77,14 +77,14 @@
 													<c:param name="page" value="${ pi.startPage }"/>
 												</c:url>
 												<a href="${ start }" aria-label="Previous">
-													<span aria-hidden="true">&laquo;</span>
+													<span aria-hidden="true" class="icon-fast-backward"></span>
 												</a>
 											</c:if>
 										</li>
 										<li>
 											<c:if test="${ pi.currentPage <= 1 }">
 												<a aria-label="Previous">
-													<span aria-hidden="true">&lt;</span>
+													<span aria-hidden="true" class="icon-to-start"></span>
 												</a>
 											</c:if>
 											<c:if test="${ pi.currentPage > 1 }">
@@ -96,13 +96,13 @@
 													<c:param name="page" value="${ pi.currentPage - 1 }"/>
 												</c:url>
 												<a href="${ before }" aria-label="Previous">
-													<span aria-hidden="true">&lt;</span>
+													<span aria-hidden="true" class="icon-to-start"></span>
 												</a>
 											</c:if>
 										</li>
 										<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 											<c:if test="${ p eq pi.currentPage }">
-												<li><a>${ p }</a></li>
+												<li><a class="pageBtn selectPageBtn">${ p }</a></li>
 											</c:if>
 											<c:if test="${ p ne pi.currentPage }">
 												<c:url var="pagination" value="${ loc }">
@@ -112,13 +112,13 @@
 													</c:if>									
 													<c:param name="page" value="${ p }"/>
 												</c:url>
-												<li><a href="${ pagination }">${ p }</a></li>
+												<li><a href="${ pagination }" class="pageBtn">${ p }</a></li>
 											</c:if>
 										</c:forEach>
 										<li>
 											<c:if test="${ pi.currentPage >= pi.maxPage }">
 												<a aria-label="Next">
-													<span aria-hidden="true">&gt;</span>
+													<span aria-hidden="true" class="icon-to-end"></span>
 												</a>
 											</c:if>
 											<c:if test="${ pi.currentPage < pi.maxPage }">
@@ -130,14 +130,14 @@
 													<c:param name="page" value="${ pi.currentPage + 1 }"/>
 												</c:url>
 												<a href="${ after }" aria-label="Next">
-													<span aria-hidden="true">&gt;</span>
+													<span aria-hidden="true" class="icon-to-end"></span>
 												</a>
 											</c:if>
 										</li>
 										<li>
 											<c:if test="${ pi.currentPage eq maxPage }">
 												<a href="#" aria-label="Next">
-													<span aria-hidden="true">&raquo;</span>
+													<span aria-hidden="true" class="icon-fast-forward"></span>
 												</a>
 											</c:if>
 											<c:if test="${ pi.currentPage ne maxPage }">
@@ -149,7 +149,7 @@
 													<c:param name="page" value="${ pi.maxPage }"/>
 												</c:url>
 												<a href="${ max }" aria-label="Next">
-													<span aria-hidden="true">&raquo;</span>
+													<span aria-hidden="true" class="icon-fast-forward"></span>
 												</a>
 											</c:if>
 										</li>

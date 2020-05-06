@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.kh.cosmos.d_adminPage.model.service.LectureManageService;
+import com.kh.cosmos.f_studyGroup.model.service.StudyGroupService;
 import com.kh.cosmos.h_viewBranch.model.service.ViewBranchService;
 import com.kh.cosmos.i_lecture.model.service.LectureService;
 
@@ -29,18 +30,21 @@ public class HomeController {
 	@Autowired
 	private LectureManageService lmService;
 	
+	@Autowired
+	private StudyGroupService sgService;
+	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
-		// logger.info("Welcome home! The client locale is {}.", locale);
 		int allBranch = vbService.getListCount();
 		int allSeat = allBranch * 40;
-		/*int allGroup = */
+		int allGroup = sgService.getHomeListCount();
 		int allLecture = lmService.getListCount();
 		
 		model.addAttribute("allBranch", allBranch);
 		model.addAttribute("allSeat", allSeat);
+		model.addAttribute("allGroup", allGroup);
 		model.addAttribute("allLecture", allLecture);
 		
 		return "home";

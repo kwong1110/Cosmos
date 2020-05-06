@@ -145,4 +145,11 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 		return sgDAO.getIngStudyGroupList(sqlSession, id);
 	}
 
+	@Override
+	public int getHomeListCount() {
+		return sgDAO.getHomeListCount(sqlSession);
+	}
+
+	
+
 }

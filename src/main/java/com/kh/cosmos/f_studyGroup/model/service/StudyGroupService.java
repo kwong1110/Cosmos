@@ -60,5 +60,9 @@ public interface StudyGroupService {
 	HashMap<String, Integer> confirmApproach(HashMap<String, String> map);
 
 	ArrayList<StudyGroup> getIngStudyGroupList(String id);
+
+	int getHomeListCount();
+
+	
 	
 }

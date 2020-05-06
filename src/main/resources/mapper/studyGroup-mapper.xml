@@ -420,4 +420,14 @@
 		</choose>
 		where id = (select id from member where nick=#{nick}) and rsg_no = to_number(#{recno})
 	</update>
+	
+	<select id="getHomeListCount" resultType="_int">
+		<![CDATA[
+		select count(*)
+        from rec_sgroup
+        join sgroup using(sg_no)
+        where (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD')) and (sg_status='Y' or sg_status='N')
+        ]]>
+	</select>
+	
 </mapper>
