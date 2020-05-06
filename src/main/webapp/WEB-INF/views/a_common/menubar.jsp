@@ -626,29 +626,42 @@
 		$('#myCupon').modal();
 	}
 	
-	function couponInfo() {
+	function couponInfo(page) {
+		
+		var sendData = {"id":"${ loginUser.id }"};
+		
+		if(page) {
+			var pageData = {"page":page};
+			$.extend(true, sendData, pageData);
+		}
+		
 		$.ajax({
 			url:"getCouponInfo.mp",
-			data:{id:"${ loginUser.id }"},
+			data:sendData,
 			dataType: 'json',
 			success: function(data) {
-				$('#stampCount').text(data.length);
-				
-				var $couponTable = $('#couponTable');
-				$couponTable.html('');
-				for(var j = 0; j < 10; j++) {
-					var $tr;
-					if(j < 5) {
-						if(j == 0) $tr = $('<tr>');
-						if(data[j] != undefined) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
-						else $tr.append('<td><div class="emptyStamp"></div></td>');
-						if(j == 4) $couponTable.append($tr);
-						
-					} else {
-						if(j == 5) $tr = $('<tr>');
-						if(data[j] != undefined) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
-						else $tr.append('<td><div class="emptyStamp"></div></td>');
-						if(j == 9) $couponTable.append($tr);
+
+				if(!page || page == 1) {
+					var totalStamp = data[0].cTotalStamp;
+					
+					$('#stampCount').text(totalStamp);
+					
+					var $couponTable = $('#couponTable');
+					$couponTable.html('');
+					for(var j = 0; j < 10; j++) {
+						var $tr;
+						if(j < 5) {
+							if(j == 0) $tr = $('<tr>');
+							if(data[j] != undefined && totalStamp-1 >= j) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
+							else $tr.append('<td><div class="emptyStamp"></div></td>');
+							if(j == 4) $couponTable.append($tr);
+							
+						} else {
+							if(j == 5) $tr = $('<tr>');
+							if(data[j] != undefined && totalStamp-1 >= j) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
+							else $tr.append('<td><div class="emptyStamp"></div></td>');
+							if(j == 9) $couponTable.append($tr);
+						}
 					}
 				}
 
@@ -668,12 +681,24 @@
 				}
 			}
 		})
+		
+		if(page) {
+			couponPaging(page);
+		}
 	}
 	
-	function couponPaging() {
+	function couponPaging(page) {
+		
+		var sendData = {"id":"${ loginUser.id }"};
+		
+		if(page) {
+			var pageData = {"page":page};
+			$.extend(true, sendData, pageData);
+		}
+		
 		$.ajax({
 			url:"getCouponPage.mp",
-			data:{id:"${ loginUser.id }"},
+			data:sendData,
 			dataType: 'json',
 			success: function(data) {
 				$pageUl = $('#pageUl');
@@ -686,32 +711,37 @@
 					var $b;
 					
 					$li = $('<li>');
+
 					//맨 처음으로, 이전
 					if(data.currentPage <= 1) {
-						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('≪');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('≪');
+						$span = $('<span class="icon-fast-backward">');
 						
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
 						
-						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('＜');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('＜');
+						$span = $('<span class="icon-to-start">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
-					}
-					else if(data.currentPage > 1) {
-						$a = $('<a href="groupList.mp" aria-label="Previous">');
-						$span = $('<span aria-hidden="true">').text('≪');
+					} else if(data.currentPage > 1) {
+						$a = $('<a onclick="couponInfo(1);">');
+						//$span = $('<span aria-hidden="true">').text('≪');
+						$span = $('<span class="icon-fast-backward">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
 						
-						$a = $('<a href="groupList.mp?page=' + data.currentPage - 1 + '" aria-label="Previous">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						var go = data.currentPage - 1;
+						$a = $('<a onclick="couponInfo(' + go + ');">');
+						//$span = $('<span aria-hidden="true">').text('＜');
+						$span = $('<span class="icon-to-start">');
 						
 						$a.append($span);
 						$li.append($a);
@@ -723,40 +753,44 @@
 						console.log(i);
 						
 						if(i == data.currentPage)
-							$a = $('<a href="#" onclick="return false;">').text(i);
+							$a = $('<a href="#" class="pageBtn selectPageBtn" onclick="return false;">').text(i);
 						else
-							$a = $('<a href="groupList.mp?page=' + i + '">').text(i);
-
+							$a = $('<a class="pageBtn" onclick="couponInfo(' + i + ');">').text(i);
+						
 						$li.append($a);
 						$pageUl.append($li);
 					}
 
 					//맨 마지막으로, 다음
 					if(data.currentPage >= data.maxPage) {
-						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('>');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('>');
+						$span = $('<span class="icon-to-end">');
 						
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
 						
-						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('≫');
+						$span = $('<span class="icon-fast-forward">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
-					}
-					else if(data.currentPage < data.maxPage) {
-						$a = $('<a href="groupList.mp?page=' + data.currentPage + 1 + '" aria-label="Next">');
-						$span = $('<span aria-hidden="true">').text('>');
+					} else if(data.currentPage < data.maxPage) {
+						var go = data.currentPage + 1;
+						$a = $('<a onclick="couponInfo(' + go + ');">');
+						//$span = $('<span aria-hidden="true">').text('>');
+						$span = $('<span class="icon-to-end">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageUl.append($li);
 						
-						$a = $('<a href="groupList.mp?page=' + data.maxPage + '"  aria-label="Next">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						$a = $('<a onclick="couponInfo(' + data.maxPage + ');">');
+						//$span = $('<span aria-hidden="true">').text('≫');
+						$span = $('<span class="icon-fast-forward">');
 						
 						$a.append($span);
 						$li.append($a);

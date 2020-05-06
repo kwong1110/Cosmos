@@ -63,6 +63,7 @@
 						<tr>
 							<td class="tableLabel">그룹 명</td>
 							<td>
+								<input type="hidden" name="sgName" value="${ group.sgName }">
 								<label id="sgName" name="sgName">${ group.sgName }</label>
 								<input type="hidden" name="sgNo" value="${ group.sgNo }">
 								<input type="hidden" name="sgStatus" value="${ group.sgStatus }">
@@ -449,7 +450,6 @@
 				str = "기타";
 			}
 			
-			console.log(str);
 			$('#msgMetRule').val(str);
 			
 			for(var i = 0; i < $('#RuleUl').children().length; i++) {

@@ -58,7 +58,7 @@
 	
 	<select id="getRecMultiDetail" parameterType="_int" resultMap="groupRecruitResultSet">
 		select *
-        from (select sg_no, rsg_no, sg_name, nick, sg_status, study_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE,
+        from (select sg_no, rsg_no, sg_name, id, nick, sg_status, study_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE,
 				rsg_num, branch_name, sg_goal, sg_content, msg_met_rule, msg_num, msg_met, msg_rule1, nvl(msg_rule2, '') as msg_rule2, nvl(msg_rule3, '') as msg_rule3
             from sgroup
                 join m_sgroup using(sg_no)
@@ -73,7 +73,7 @@
 	
 	<select id="getRecOnceDetail" parameterType="_int" resultMap="groupRecruitResultSet">
 		select *
-        from (select sg_no, rsg_no, sg_name, nick, sg_status, study_name, SUBSTR(RSG_TERM, 14) as rsg_term, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE,
+        from (select sg_no, rsg_no, sg_name, id, nick, sg_status, study_name, SUBSTR(RSG_TERM, 14) as rsg_term, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE,
 				rsg_num, branch_name, sg_goal, sg_content, rsg_metting_date
             from sgroup
                 join rec_sgroup using(sg_no)
@@ -87,7 +87,7 @@
 	
 	<select id="getMultiDetail" parameterType="_int" resultMap="groupRecruitResultSet">
 		select *
-        from (select sg_no, sg_name, nick, sg_status, study_name,
+        from (select sg_no, sg_name, id, nick, sg_status, study_name,
 				branch_name, sg_goal, sg_content, msg_met_rule, msg_num, msg_met, msg_rule1, nvl(msg_rule2, '') as msg_rule2, nvl(msg_rule3, '') as msg_rule3
             from sgroup
                 join m_sgroup using(sg_no)
@@ -336,6 +336,7 @@
 		<id property="recTerm" column="RSG_TERM"/>
 		<id property="dCloseDate" column="D_CLOSE_DATE"/>
 		<id property="recNum" column="RSG_NUM"/>
+		<id property="id" column="ID"/>
 		<id property="nick" column="NICK"/>
 		<id property="sgStatus" column="SG_STATUS"/>
 		<id property="studyName" column="STUDY_NAME"/>
@@ -399,6 +400,12 @@
 		values(#{sgNo}, #{msgNum}, #{msgRule1}, #{msgRule2}, #{msgRule3}, 1, #{msgMetRule})
 	</insert>
 	
+	<update id="updateOnceGroup" parameterType="StudyGroup">
+		update sgroup
+		set sg_goal=#{sgGoal}, sg_content=#{sgContent}, branch_no=#{branchNo}
+		where sg_no=#{sgNo}
+	</update>
+	
 	<update id="updateStudyGroup" parameterType="StudyGroup">
 		update sgroup
 		set sg_goal=#{sgGoal}, sg_content=#{sgContent}, branch_no=#{branchNo}, sg_status='Y'
@@ -419,5 +426,44 @@
 			<when test="type == 'rej'">'N'</when>
 		</choose>
 		where id = (select id from member where nick=#{nick}) and rsg_no = to_number(#{recno})
+	</update>
+	
+	<select id="getMemList" parameterType="_int" resultType="string">
+		select id
+		from ap_sgroup
+		where sg_no=#{group} and asg_status='Y'
+	</select>
+	
+	<select id="getUserId" parameterType="string" resultType="string">
+		select id
+		from member
+		where nick=#{nick}
+	</select>
+	
+	<update id="deleteGroup" parameterType="_int">
+		update sgroup
+		set sg_status='D'
+		where sg_no=#{sgno}
+	</update>
+	
+	<select id="getRecNo" parameterType="_int" resultType="_int">
+		select rsg_no
+		from (select rsg_no
+			from rec_sgroup
+			where sg_no = #{sgno}
+			order by rsg_no desc)
+		where rownum = 1
+	</select>
+	
+	<!-- <select id="getSgStatus" parameterType="_int" resultType="string">
+		select sg_status
+		from sgroup
+		where sg_no = #{group}
+	</select> -->
+	
+	<update id="updateMsgCount" parameterType="_int">
+		update m_sgroup
+		set msg_met = (select msg_met from m_sgroup where sg_no=#{group})
+		where sg_no = #{group}
 	</update>
 </mapper>
