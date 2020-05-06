@@ -170,7 +170,10 @@ public class StudyGroupDAO {
 		return (ArrayList)sqlSession.selectList("studyGroupMapper.getIngStudyGroup", id);
 	}
 
-	public ArrayList<String> getMemList(SqlSessionTemplate sqlSession, int group) {
+	public int getHomeListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("studyGroupMapper.getHomeListCount");
+   
+  public ArrayList<String> getMemList(SqlSessionTemplate sqlSession, int group) {
 		return (ArrayList)sqlSession.selectList("studyGroupMapper.getMemList", group);
 	}
 

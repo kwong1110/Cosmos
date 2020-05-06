@@ -61,6 +61,8 @@ public interface StudyGroupService {
 
 	ArrayList<StudyGroup> getIngStudyGroupList(String id);
 
+	int getHomeListCount();
+
 	ArrayList<String> getMemList(int group);
 
 	int updateOnceGroup(StudyGroup sg);

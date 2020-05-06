@@ -146,6 +146,11 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
+	public int getHomeListCount() {
+		return sgDAO.getHomeListCount(sqlSession);
+	}
+	
+  @Override
 	public ArrayList<String> getMemList(int group) {
 		return sgDAO.getMemList(sqlSession, group);
 	}
