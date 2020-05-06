@@ -613,7 +613,7 @@
 		
 		$(".note-modalMask").click(function(){
 			 child.close(); 
-			$(".note-modalMask").fadeOut();
+			$(".note-modalMask").fadeOut("fast");
 		}); 
 	});
 	

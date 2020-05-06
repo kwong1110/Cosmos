@@ -300,6 +300,7 @@
 				$select.append($value4);
 				$div.append($iconWrap);
 				$iconWrap.append($icon);
+				$iconWrap.append($icon1);
 				// alert(document.getElementsByName(studyEtc).value());
 								
 				$(this).attr('disabled', false);
