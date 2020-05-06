@@ -13,6 +13,12 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/sweetalert/sweetalert.css">
+<style>
+/* 신고 모달 */
+	div.modal-reportContent {
+		background-color: #FFFFED;
+	}
+</style>
 </head>
 <body class="body">
 <div class="content">
@@ -20,7 +26,7 @@
 		<h2 class="title">
 			<span class="cosmos">보낸 사람</span>
 			| <c:out value="${note.noteFromId}"/>님
-			<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline";> [ <span class="glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
+			<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline";> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
 		</h2>
 	</div>
 	<form>
@@ -114,12 +120,17 @@
             // radio 버튼의 value 값이 0이라면 비활성화
         }
     });
+    
+    
+    $('span.report').click(function(e){
+		e.preventDefault();
+		$('#report').modal("show");
+	});
    
 	});
 	
 	// 신고 알럿
 	function success(){
-		alert("신고되었습니다.");
 		
 		// ajax
 		
@@ -142,9 +153,16 @@
 				$("#report").modal('hide');
 			}
 		});
+		swal({
+	         title:" 신고하였습니다!", 
+	         type: "warning",
+	         html: !0
+	      })
 	}
 	
 </script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/js/common.js"></script>
 	<!-- sweet alert -->
 <script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.cosmos.js"></script>

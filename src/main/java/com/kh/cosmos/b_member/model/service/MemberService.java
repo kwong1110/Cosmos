@@ -26,4 +26,6 @@ public interface MemberService {
 
 	int checkNickDup(String nick);
 
+	int ban(String id);
+
 }

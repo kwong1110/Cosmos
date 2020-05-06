@@ -78,8 +78,8 @@ table.inner td {
 										<td align ="center">${ rp.reportDate}</td>
 										<td align ="center">${ rp.reportStatus}</td>		
 										<td>
-											<input type="button" value="수락" class="stbtn" style="background:green; color:white" >
-											<input type="button" value="거절" class="stbtn" style="background:red; color:white">
+											<input type="button" value="수락" class="stbtn" style="background:green; color:white" onclick="ban(${rp.reportNo},'${rp.reportMid}')">
+											<input type="button" value="거절" class="stbtn" style="background:red; color:white" onclick="reportDelete(${rp.reportNo})">
 										</td>
 									</tr>
 								</c:forEach> 
@@ -87,7 +87,7 @@ table.inner td {
 						<div id="bottomArea" class="inner" align="center">
 						<!-- 페이징  -->
 						<nav>
-<!-- 페이징  -->
+						<!-- 페이징  -->
  						<ul class="pagination">
                               <li>
                                  <c:if test="${ pi.currentPage eq pi.startPage }">
@@ -168,5 +168,15 @@ table.inner td {
 		</div>
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
+	<script>
+	function reportDelete(no){
+		window.location.href="reportDelete.rp?no=" + no;
+	}
+	
+	function ban(no, memberId){
+		window.location.href="ban.rp?no=" + no + "&memberId="+memberId;
+	}
+
+	</script>
 </body>
 </html>

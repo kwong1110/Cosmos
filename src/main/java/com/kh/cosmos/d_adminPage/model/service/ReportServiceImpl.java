@@ -38,5 +38,15 @@ public class ReportServiceImpl implements ReportService{
 		return rDAO.selectList(sqlSession, pi);
 	}
 
+	@Override
+	public int delete(int no) {
+		// TODO Auto-generated method stub
+		return rDAO.delete(sqlSession, no);
+	}
 
+	@Override
+	public int ban(int no) {
+		
+		return rDAO.update(sqlSession, no);
+	}
 }

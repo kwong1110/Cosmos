@@ -61,4 +61,9 @@ public class MemberDAO {
 		return sqlSession.update("memberMapper.updatePwd", m);
 	}
 
+	public int updateMstatus(SqlSessionTemplate sqlSession, String reportMid) {
+		System.out.println(reportMid);
+		return sqlSession.update("memberMapper.updateMstatus", reportMid);
+	}
+
 }
