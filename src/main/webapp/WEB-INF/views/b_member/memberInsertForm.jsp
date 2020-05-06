@@ -258,7 +258,6 @@
 				$select.append($value2);
 				$select.append($value3);
 				$select.append($value4);
-				$select.append($value4);
 				$div.append($iconWrap);
 				$iconWrap.append($icon);
 				
@@ -301,7 +300,8 @@
 				$select.append($value4);
 				$div.append($iconWrap);
 				$iconWrap.append($icon);
-				alert(document.getElementsByName(studyEtc).value());
+				$iconWrap.append($icon1);
+				// alert(document.getElementsByName(studyEtc).value());
 								
 				$(this).attr('disabled', false);
 				$("#studyEtc").attr('disabled', false);
@@ -310,6 +310,8 @@
 					$(".studyEtc").attr('disabled', true);
 				}
 			} 
+			
+			console.log($('input[name="studyEtcName"]').val());
 						
 		});
 		

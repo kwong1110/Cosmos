@@ -25,14 +25,11 @@
 	
 			<div class="insert-area">
 				<span>받는 사람 :</span> 
-				<c:if test="${ !empty noteToId }">
-				<input type="hidden" name="noteToId" value="${ noteToId }">
-				<input type="text" class="form-control" value="${ noteToId }" readonly>
-				<!-- 위의 input hidden 이랑 text 둘의 name이 noteToId로 되어있어서 파라미터에서 받을때 아이디 두 개가 들어가서 text부분을 지웠어요. (ex. admin00,admin00 이런식으로 name이 두개라 두 개를 이어서 받아오더라구요)
-				어차피 수정 불가능한 input이라서 submit할 때 hidden에 값 업데이트하는 부분은 추가 안했습니다! -->
+				<c:if test="${ !empty toNick }">
+					<input type="text" name="toNick" class="form-control" value="${ toNick }" readonly>
 				</c:if>
-				<c:if test="${ empty noteToId }">
-				<input type="text" name="noteToId" class="form-control">
+				<c:if test="${ empty toNick }">
+				<input type="text" name="toNick" class="form-control">
 				</c:if>
 			</div>
 			<div>

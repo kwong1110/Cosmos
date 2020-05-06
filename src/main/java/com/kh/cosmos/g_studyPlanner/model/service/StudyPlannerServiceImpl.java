@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Reply;
+import com.kh.cosmos.a_common.SearchCondition;
 import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.g_studyPlanner.model.dao.StudyPlannerDAO;
 import com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner;
@@ -94,6 +95,16 @@ public class StudyPlannerServiceImpl implements StudyPlannerService {
 	@Override
 	public int updateReReplyOrder(Reply r) {
 		return spDAO.updateReReplyOrder(sqlSession, r);
+	}
+
+	@Override
+	public int getSearchResultListCount(SearchCondition sc) {
+		return spDAO.getSearchResultListCount(sqlSession, sc);
+	}
+
+	@Override
+	public ArrayList<StudyPlanner> selectSearchResultList(PageInfo pi, SearchCondition sc) {
+		return spDAO.selectSearchResultList(sqlSession, pi, sc);
 	}
 
 }

@@ -13,11 +13,12 @@ public class Note {
 	private String noteAlarm;
 	private String noteStorage;
 	private String noteToStatus;
+	private String nick;
 	
 	public Note() {}
 
 	public Note(int noteNo, String noteFromId, String noteToId, String noteContent, Date noteTime,
-			String noteFromStatus, String noteAlarm, String noteStorage, String noteToStatus) {
+			String noteFromStatus, String noteAlarm, String noteStorage, String noteToStatus, String nick) {
 		super();
 		this.noteNo = noteNo;
 		this.noteFromId = noteFromId;
@@ -28,6 +29,7 @@ public class Note {
 		this.noteAlarm = noteAlarm;
 		this.noteStorage = noteStorage;
 		this.noteToStatus = noteToStatus;
+		this.nick = nick;
 	}
 
 	public int getNoteNo() {
@@ -102,11 +104,20 @@ public class Note {
 		this.noteToStatus = noteToStatus;
 	}
 
+	public String getNick() {
+		return nick;
+	}
+
+	public void setNick(String nick) {
+		this.nick = nick;
+	}
+
 	@Override
 	public String toString() {
 		return "Note [noteNo=" + noteNo + ", noteFromId=" + noteFromId + ", noteToId=" + noteToId + ", noteContent="
 				+ noteContent + ", noteTime=" + noteTime + ", noteFromStatus=" + noteFromStatus + ", noteAlarm="
-				+ noteAlarm + ", noteStorage=" + noteStorage + ", noteToStatus=" + noteToStatus + "]";
+				+ noteAlarm + ", noteStorage=" + noteStorage + ", noteToStatus=" + noteToStatus + ", nick=" + nick
+				+ "]";
 	}
 
 }

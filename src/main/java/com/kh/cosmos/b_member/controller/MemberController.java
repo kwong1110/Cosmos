@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.cosmos.b_member.model.exception.MemberException;
 import com.kh.cosmos.b_member.model.service.MemberService;
@@ -45,17 +46,25 @@ public class MemberController {
 	
 	// 암호화 후 로그인
 	@RequestMapping(value="login.me", method=RequestMethod.POST)
-	public String memberLogin(Member m, Model model) {
+	public String memberLogin(Member m, Model model, RedirectAttributes ra) {
 		
 		Member loginUser = mService.memberLogin(m);
 		// 비밀번호에 암호화가 된 상태의 loginUser 반환
 		if(loginUser == null) {
-			model.addAttribute("msg", "아이디가 존재하지않습니다! 다시 로그인해주세요!");
+			ra.addFlashAttribute("wrongMsg", "아이디가 존재하지않습니다!");
 		} else {
+			
+			System.out.println(loginUser.getMstatus());
+			if (loginUser.getMstatus().equals("N")) {
+		
+				model.addAttribute("msg","금지된 회원입니다. 관리자에게 문의하세요!");
+				return "redirect:/";
+			}
+			
 			if(bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())) {
 				model.addAttribute("loginUser", loginUser);
 			} else if(!bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())) {
-				model.addAttribute("msg", "비밀번호가 일치하지 않습니다! 다시 로그인해주세요!");
+				ra.addFlashAttribute("wrongMsg", "비밀번호가 일치하지 않습니다!");
 			} else {
 				throw new MemberException("로그인에 실패하였습니다.");
 			}
@@ -216,6 +225,7 @@ public class MemberController {
 					e.printStackTrace();
 				}
 				
+				
 				String maskEmail = member.getEmail().toString();
 				System.out.println("email가져와보기 :" + maskEmail);
 				
@@ -238,12 +248,17 @@ public class MemberController {
 	// 회원가입(int[] chkSname 공부 과목, int[] etcSno 기타 과목 번호, String[] t 공부 했던 기간, String[] etcSname 기타 과목 중 사용자가 직접 입력한 항목)
 	@RequestMapping("minsert.me")
 	public String memberInsert(@ModelAttribute Member m, 
-							   @RequestParam("studyGroupChk") int[] chkSname, @RequestParam("studyEtcNo") int[] etcSno, 
-							   @RequestParam("term") String[] t, @RequestParam("studyEtcName") String[] etcSname, Model model) {
+							   @RequestParam("studyGroupChk") int[] chkSname, @RequestParam(value="studyEtcNo", required=false) int[] etcSno, 
+							   @RequestParam("term") String[] t, @RequestParam(value="studyEtcName", required=false) String[] etcSname, Model model) {
 		
 //		certifyNum
 //		certifyStatus : 인증상태
-
+		
+		// 체크 3개.(기본2개, 기타1개)
+		// t=3개, chkSname=2개, etcNo=1개, etcName=1개
+		// 체크 4개.(기본2개, 기타2개)
+		// t=4개, chkSname=2개, etcNo=2개, etcName=2개
+		
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		m.setPwd(encPwd);
 		
@@ -252,28 +267,53 @@ public class MemberController {
 		for(int i = 0; i < chkSname.length; i++) {
 			Preview p = new Preview();
 			
-			p.setId(m.getId());
-			p.setStudyNo(chkSname[i]);
+			if(Integer.toString(chkSname[i]).substring(0,1).equals("9")) {
+				p.setId(m.getId());
+				p.setStudyNo(etcSno[i]);
+				p.setStudyEtc(etcSname[i]);
+			} else {
+				p.setId(m.getId());
+				p.setStudyNo(chkSname[i]);
+			}
 			
 			for(int j = 0; j <= i; j++) {
 				p.setSpTerm(t[j]);
 			}
+			
+			// 기타에 추가된 과목과 기간을 Preview pList에 담기
+			/*if(etcSno != null && etcSname != null) {
+				for(int i = 0; i < etcSname.length; i++) {
+					Preview p = new Preview();
+					
+					p.setId(m.getId());
+					p.setStudyNo(etcSno[i]);
+					p.setStudyEtc(etcSname[i]);
+					
+					for(int j = 0; j <= i; j++) {
+						p.setSpTerm(t[j]);
+					}
+					pList.add(p);
+				}
+			}*/
+			
 			pList.add(p);
 		}
 		
-		// 기타에 추가된 과목과 기간을 Preview pList에 담기
-		for(int i = 0; i < etcSname.length; i++) {
-			Preview p = new Preview();
-			
-			p.setId(m.getId());
-			p.setStudyNo(etcSno[i]);
-			p.setStudyEtc(etcSname[i]);
-			
-			for(int j = 0; j <= i; j++) {
-				p.setSpTerm(t[j]);
+		
+		// 확인
+		if(etcSno != null && etcSname != null) {
+			for(int i = 0; i < etcSname.length; i++) {
+				System.out.println("기타만 : " + etcSno[i] + etcSname[i]);
 			}
-			pList.add(p);
+			for(int i = 0; i < t.length; i++) {
+				System.out.println("그룹이름 확인 : " + chkSname[i]);
+				System.out.println("기간 확인 : " + t[i]);
+			}
 		}
+		
+		
+		
+		// System.out.println("마지막 전송 전 확인 : " + pList);
 		
 		int result = mService.insertMember(m, pList);
 		/*Member loginUser = mService.memberLogin(m);*/

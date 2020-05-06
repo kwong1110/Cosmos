@@ -26,6 +26,9 @@
 		<result property="studyName" column="STUDY_NAME"/>
 		<result property="planEnd" column="PLAN_END"/>
 		<result property="nickName" column="NICK"/>
+		<result property="planMemo" column="PLAN_MEMO"/>
+		<result property="planAllday" column="PLAN_ALLDAY"/>
+		<result property="planColor" column="PLAN_COLOR"/>
 	</resultMap>
 	
 	<update id="todayCheck">
@@ -35,7 +38,7 @@
 	<insert id="insertPlan">
 		insert into plan
 		values(seq_planid.nextval, #{planTitle}, #{planContent}, #{planMenu}, default, default, 
-		default, #{planStart}, sysdate, default, #{openStatus}, #{id}, #{studyNo}, #{planEnd})
+		default, #{planStart}, sysdate, 'Y', #{openStatus}, #{id}, #{studyNo}, #{planEnd}, #{planMemo}, #{planAllday}, #{planColor})
 	</insert>
 	
 	<select id="selectPlan" parameterType="_int" resultMap="planResultSet">
@@ -54,7 +57,8 @@
 	<update id="updatePlan">
 		update plan
 		set plan_title=#{planTitle}, plan_content=#{planContent}, plan_menu=#{planMenu}, plan_start=#{planStart}, 
-			create_date=sysdate, open_status=#{openStatus}, study_no=#{studyNo}, plan_end=#{planEnd}
+			create_date=sysdate, open_status=#{openStatus}, study_no=#{studyNo}, plan_end=#{planEnd},
+			plan_memo=#{planMemo}, plan_allday=#{planAllday}, plan_color=#{planColor}
 		where plan_no=#{planNo}
 	</update>
 	
@@ -128,7 +132,43 @@
 	
 	<update id="updateReReplyOrder">
 		update reply
-		set re_grp_order=re_grp_order+1 
+		set re_grp_order=re_grp_order+1
 		where re_grp_no=#{ reGrpNo } and re_grp_order > #{ reGrpNo }
 	</update>
+	
+	<select id="selectSearchResultCount" resultType="_int">
+		select count(*)
+		from plan
+			join study_category using(study_no)
+			join member using(id)
+		where plan_status='Y' and open_status='Y'
+		<if test="writer != null">
+			and nick = #{writer}
+		</if>
+		<if test="title != null">
+			and plan_title like '%'|| #{title} ||'%'
+		</if>
+		<if	test="content != null">
+			and plan_content like '%'|| #{content} ||'%'
+		</if>
+		order by plan_no desc
+	</select>
+	
+	<select id="selectSearchResultList" resultMap="planResultSet">
+		select *
+		from plan
+			join study_category using(study_no)
+			join member using(id)
+		where plan_status='Y' and open_status='Y'
+		<if test="writer != null">
+			and nick = #{writer}
+		</if>
+		<if test="title != null">
+			and plan_title like '%'|| #{title} ||'%'
+		</if>
+		<if	test="content != null">
+			and plan_content like '%'|| #{content} ||'%'
+		</if>
+		order by plan_no desc
+	</select>
 </mapper>

@@ -23,6 +23,7 @@ import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.a_common.Reply;
+import com.kh.cosmos.a_common.SearchCondition;
 import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.b_member.model.vo.Preview;
@@ -86,20 +87,20 @@ public class StrudyPlannerController {
 		
 		String[] fullDate = daterange.split(" - ");
 
-		String startDate = fullDate[0].split(" ")[0];
-		String startTime = fullDate[0].split(" ")[1];
-		String endDate = fullDate[1].split(" ")[0];
-		String endTime = fullDate[1].split(" ")[1];
+		String startDate = fullDate[0];
+		String endDate = fullDate[1];
+
+		// 끝날짜와 시작날짜를 Date->String으로 바꾼 후 시간 까지 같이 저장.
+		//String startTime = fullDate[0].split(" ")[1];
+		//String endTime = fullDate[1].split(" ")[1];
 		
-		Date startDateSql = Date.valueOf(startDate);
-		Date endDateSql = Date.valueOf(endDate);
-		// System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
+//		Date startDateSql = Date.valueOf(startDate);
+//		Date endDateSql = Date.valueOf(endDate);
+//		System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
 		
-		sp.setPlanStart(startDateSql);
-		sp.setPlanEnd(endDateSql);
-		//sp.setTime(startTime + "~" + endTime);
+		sp.setPlanStart(startDate);
+		sp.setPlanEnd(endDate);
 		
-		// System.out.println("날짜 담긴 후 sp 확인 : " + sp);
 		int result = spService.insertPlan(sp);
 		
 		ra.addFlashAttribute("successMsg", "플래너 등록 성공");
@@ -120,6 +121,7 @@ public class StrudyPlannerController {
 			
 			sp.setPlanTitle(URLEncoder.encode(sp.getPlanTitle(), "UTF-8"));
 			sp.setPlanContent(URLEncoder.encode(sp.getPlanContent(), "UTF-8"));
+			sp.setPlanMemo(URLEncoder.encode(sp.getPlanMemo(), "UTF-8"));
 			
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson(sp, response.getWriter());
@@ -145,22 +147,24 @@ public class StrudyPlannerController {
 	public String updatePlan(@ModelAttribute StudyPlanner sp, Model model, 
 							 RedirectAttributes ra, @RequestParam("daterange") String daterange) {
 		
-		System.out.println(sp);
+		// System.out.println(sp);
 		System.out.println(daterange);
 		
 		String[] fullDate = daterange.split(" - ");
 
-		String startDate = fullDate[0].split(" ")[0];
-		String startTime = fullDate[0].split(" ")[1];
-		String endDate = fullDate[1].split(" ")[0];
-		String endTime = fullDate[1].split(" ")[1];
+		String startDate = fullDate[0];
+		String endDate = fullDate[1];
+
+		// 끝날짜와 시작날짜를 Date->String으로 바꾼 후 시간 까지 같이 저장.
+		//String startTime = fullDate[0].split(" ")[1];
+		//String endTime = fullDate[1].split(" ")[1];
 		
-		Date startDateSql = Date.valueOf(startDate);
-		Date endDateSql = Date.valueOf(endDate);
-		System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
+//		Date startDateSql = Date.valueOf(startDate);
+//		Date endDateSql = Date.valueOf(endDate);
+//		System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
 		
-		sp.setPlanStart(startDateSql);
-		sp.setPlanEnd(endDateSql);
+		sp.setPlanStart(startDate);
+		sp.setPlanEnd(endDate);
 		
 		System.out.println("담긴 후 sp : " + sp);
 		
@@ -204,7 +208,6 @@ public class StrudyPlannerController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		ArrayList<StudyPlanner> pList = spService.selectAllList(pi);
-		
 		
 		if(pList != null) {
 			model.addAttribute("pList", pList);
@@ -282,14 +285,16 @@ public class StrudyPlannerController {
 		r.setId(Writer);
 		
 		
-		// 만약 답글에 1개의 답글이 더 있을 경웅 order(순서)를 바꿔주어야 한다.
+		// 만약 답글에 1개의 답글이 더 있을 경우 order(순서)를 바꿔주어야 한다.
 		if(r.getReGrpOrder() == 0 && !reReplyOn.equals("reReplyOn")) {
 			int orderResult = spService.updateReplyOrder(r);
 		}
 		
 		// 답글에 답글일 경우
 		if(reReplyOn.equals("reReplyOn")) {
+			// insert시 order를 +1를 해주니까 대댓글에서는 -1을해주어야함
 			int reReplyResult = spService.updateReReplyOrder(r);
+			r.setReGrpOrder(r.getReGrpOrder()-1);
 		}
 
 		int result = spService.insertReReply(r);
@@ -298,6 +303,49 @@ public class StrudyPlannerController {
 			return "successReReplyInsert";
 		} else {
 			throw new StudyPlannerException("댓글 등록에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("searchPlanner.sp")
+	public String searchPlanner(@RequestParam("searchType") String searchType, @RequestParam("searchText") String searchText,
+								SearchCondition sc, @RequestParam(value="page", required=false) Integer page,  @ModelAttribute StudyCategory studyC,
+								Model model) {
+		// 전체 스터디카테고리 불러오기
+		ArrayList<StudyCategory> sList = mService.selectStudyCategoryList(studyC);
+		
+		
+		if(searchType.equals("writer")) {
+			sc.setWriter(searchText);
+		} else if(searchType.equals("title")) {
+			sc.setTitle(searchText);
+		} else if(searchType.equals("content")) {
+			sc.setContent(searchText);
+		}
+		
+		int currentPage = 1;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = spService.getSearchResultListCount(sc);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<StudyPlanner> pList = spService.selectSearchResultList(pi, sc);
+		
+		System.out.println("검색 후 pList" + pList);
+		if(pList != null) {
+			model.addAttribute("pList", pList);
+			model.addAttribute("sList", sList);
+			model.addAttribute("pi", pi);
+
+			model.addAttribute("searchType", searchType);
+			model.addAttribute("searchText", searchText);
+			
+			return "/allPlanner/allPlannerList";
+		} else {
+			throw new StudyPlannerException("모두의 플래너 검색 조회에 실패하였습니다.");
 		}
 	}
 }

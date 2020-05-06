@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.a_common.SearchConditionSeat;
 import com.kh.cosmos.e_seat.model.dao.SeatDAO;
 import com.kh.cosmos.e_seat.model.vo.Seat;
 import com.kh.cosmos.e_seat.model.vo.SortTable;
@@ -46,20 +47,25 @@ public class SeatServiceImpl implements SeatService{
 	public int seatBuy(Seat s) {
 		return sDAO.seatBuy(sqlSession, s);
 	}
+	
+	@Override
+	public int getAllListCount() {
+		return sDAO.getAllListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<Seat> selectAllList(PageInfo pi) {
+		return sDAO.selectAllList(sqlSession, pi);
+	}
 
 	@Override 
-	public ArrayList<Seat> seatStatusList(Seat s, PageInfo pi) {
-		return sDAO.seatStatusList(sqlSession, s, pi);
+	public ArrayList<Seat> seatStatusList(PageInfo pi, SearchConditionSeat scs ) {
+		return sDAO.seatStatusList(sqlSession, pi, scs);
 	}
 
 	@Override
-	public int getSeatStatusListCount() {
-		return sDAO.getSeatStatusListCount(sqlSession);
-	}
-
-	@Override
-	public int getSearchListCount(Seat s) {
-		return sDAO.getSearchListCount(sqlSession, s);
+	public int getSeatStatusListCount(SearchConditionSeat scs) {
+		return sDAO.getSeatStatusListCount(sqlSession, scs);
 	}
 
 	@Override
@@ -81,6 +87,10 @@ public class SeatServiceImpl implements SeatService{
 	public int insertCoupon(HashMap<String, String> map) {
 		return sDAO.insertCoupon(sqlSession, map);
 	}
+
+	
+
+	
 
 	
 	

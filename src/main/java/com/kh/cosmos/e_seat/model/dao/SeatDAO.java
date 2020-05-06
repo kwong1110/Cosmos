@@ -9,6 +9,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.a_common.SearchConditionSeat;
 import com.kh.cosmos.e_seat.model.vo.Seat;
 import com.kh.cosmos.e_seat.model.vo.SortTable;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
@@ -39,19 +40,22 @@ public class SeatDAO {
 		return sqlSession.insert("seatMapper.seatBuy", s);
 	}
 
-	public ArrayList<Seat> seatStatusList(SqlSessionTemplate sqlSession, Seat s, PageInfo pi) {
+	public int getAllListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("seatMapper.getAllListCount");
+	}
+
+	public ArrayList<Seat> selectAllList(SqlSessionTemplate sqlSession, PageInfo pi) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		
+		return (ArrayList)sqlSession.selectList("seatMapper.selectAllList", null, rowBounds);
+	}
+	
+	public ArrayList<Seat> seatStatusList(SqlSessionTemplate sqlSession, PageInfo pi , SearchConditionSeat scs) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 	    RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-	    
-		return (ArrayList)sqlSession.selectList("seatMapper.seatStatusList",null, rowBounds); 
-	}
-
-	public int getSeatStatusListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("seatMapper.getSeatStatusListCount");
-	}
-
-	public int getSearchListCount(SqlSessionTemplate sqlSession, Seat s) {
-		return sqlSession.selectOne("seatMapper.getSearchListCount", s);
+	     
+		return (ArrayList)sqlSession.selectList("seatMapper.seatStatusList", scs, rowBounds); 
 	}
 
 	public String getBranchName(SqlSessionTemplate sqlSession, int branchNo) {
@@ -73,7 +77,9 @@ public class SeatDAO {
 	/*public int seatBuy(SqlSessionTemplate sqlSession) {
 		return sqlSession.insert("seatMapper.seatBuy");
 	}*/
-
-	
+  
+	public int getSeatStatusListCount(SqlSessionTemplate sqlSession, SearchConditionSeat scs) {
+		return sqlSession.selectOne("seatMapper.getSeatStatusListCount",scs);
+	}
 
 }

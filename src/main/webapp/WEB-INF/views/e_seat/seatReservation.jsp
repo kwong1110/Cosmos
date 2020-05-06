@@ -469,7 +469,7 @@
 	
 	<div class="modal fade" id="seatModal" role="dialog"> <!-- 좌석 모달창 부분 -->
 	  <div class="modal-dialog modal-80size" >
-	    <div class="modal-content modal-80size ">
+	    <div class="modal-content modal-80size " style="background:white;">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         		<div >
         			<div>&nbsp;</div>

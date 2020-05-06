@@ -20,14 +20,37 @@
 	
 	/* 전체 박스  */
 	.main{
+		/* background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
+		background-size:cover;
+		height:100%; */
+	}
+	div.wrapper {
+		background : none;
+	}
+	.imgBack1 {
 		background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
 		background-size:cover;
 		height:100%;
+		width:100%;
+		position: absolute;
+		z-index: -1;
+	}
+	.imgBack1 {
+		background : url(${contextPath}/resources/image/main2.jpg) no-repeat center center;
+		background-size:cover;
+		height:100%;
+		width:100%;
+		position: absolute;
+		z-index: -1;
 	}
 	
+	.content {
+		position:relative;
+	}
 	/* 안에 내용 박스 */
 	.inner {
-		
+		position: absolute;
+		z-index: 100;
 	}
 	
 	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=*/
@@ -355,6 +378,36 @@
 
 <script>
 	$(function(){
+		
+		// 이미지 효과
+		$(".wrapper").append("<div class='imgBack1'></div>");
+		$(".wrapper").append("<div class='imgBack2'></div>");
+		
+			/* var i = 1;
+			setInterval(function(){
+			$(".main").css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"})
+				i++;
+				/* if(i == 7){
+					i = 1;
+				}
+				
+				$(".main").fadeOut("slow", function(){
+					$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+					$(this).fadeIn("slow");
+				}); */
+				
+				/* if(i == 7){
+					i = 1;
+				}
+				$(".main").fadeOut("slow", function(){
+					$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+					$(this).fadeIn("slow");
+				});
+
+			}, 3000); */
+		
+		
+		
 		var $tab = $(".data_input_item div");
 		// $(".tab-box .ctn1").addClass("ctnOn");
 

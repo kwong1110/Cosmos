@@ -19,7 +19,7 @@
 	<div class="note-header">
 		<h2 class="title">
 			<span class="cosmos">보낸 사람</span>
-			| <c:out value="${note.noteFromId}"/>님
+			| ${note.nick}(${note.noteFromId})님
 		</h2>
 	</div>
 	<form>
@@ -34,10 +34,10 @@
 			${ fn:replace(note.noteContent, newLineChar, "<br>") }
 		</div>
 	</div>
-
+	
 	<!--푸터-->
-	<c:url var="noteReply" value="noteInsertView.mp">
-		<c:param name="noteToId" value="${note.noteFromId}"/>
+	<c:url var="noteReply" value="noteInsertView1.mp">
+		<c:param name="toNick" value="${note.nick}"/>
 	</c:url>
 	<c:url var="noteDelete" value="noteDelete.mp">
 		<c:param name="noteNo" value="${note.noteNo}"/>

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Reply;
+import com.kh.cosmos.a_common.SearchCondition;
 import com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner;
 
 public interface StudyPlannerService {
@@ -37,5 +38,9 @@ public interface StudyPlannerService {
 	int updateReplyOrder(Reply r);
 
 	int updateReReplyOrder(Reply r);
+
+	int getSearchResultListCount(SearchCondition sc);
+
+	ArrayList<StudyPlanner> selectSearchResultList(PageInfo pi, SearchCondition sc);
 
 }

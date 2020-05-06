@@ -13,4 +13,9 @@ public interface ReportService {
 	int getListCount();
 
 	ArrayList<Report> reportList(PageInfo pi);
+	
+	int delete(int no);
+	
+	int ban(int no);
+
 }

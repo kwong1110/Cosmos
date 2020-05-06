@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +24,7 @@ import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.a_common.Pagination_seat;
+import com.kh.cosmos.a_common.SearchConditionSeat;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.c_myPage.model.vo.Note;
 import com.kh.cosmos.e_seat.model.exception.SeatException;
@@ -31,6 +33,7 @@ import com.kh.cosmos.e_seat.model.vo.Seat;
 import com.kh.cosmos.e_seat.model.vo.SortTable;
 import com.kh.cosmos.f_studyGroup.model.service.StudyGroupService;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
+import com.kh.cosmos.g_studyPlanner.model.exception.StudyPlannerException;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Controller
@@ -217,10 +220,42 @@ public class SeatController {
 		
 	}
 	
+	@RequestMapping("allSeat.se")
+	public String allSeat(Model model, @ModelAttribute Seat s,  @RequestParam(value="page", required=false) Integer page) {
+		int currentPage = 1;
+		
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = sService.getAllListCount();
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		
+		ArrayList<Seat> allList = sService.selectAllList(pi);
+		
+		if(allList != null) {
+			model.addAttribute("allList", allList);
+			model.addAttribute("pi", pi);
+			return "/seatStatus";
+		}else {
+			throw new SeatException("예약현황 전체 조회에 실패하였습니다.");
+		}
+		
+	}
+	
+	
+	
 	@RequestMapping("seatStatus.se")
-	public ModelAndView seatStatusView(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, @ModelAttribute Seat s, HttpServletRequest request
-									/*@RequestParam("searchCondition") String searchCondition, @RequestParam("searchValue") String searchValue,
-									@RequestParam("id") String id, @RequestParam("branchName") String branchName*/) {
+	public String seatStatusView(@RequestParam(value="page", required=false) Integer page, @ModelAttribute Seat s,
+							     @RequestParam("searchType") String searchType,@RequestParam("searchText") String searchText, Model model,
+								 SearchConditionSeat scs) {
+		
+		if(searchType.equals("id")) {
+			scs.setId(searchText);
+		} else if(searchType.equals("branchName")) {
+			scs.setBranchName(searchText);
+		}
 		
 		int currentPage = 1;
 		
@@ -228,33 +263,21 @@ public class SeatController {
 			currentPage = page;
 		}
 		
-		/*if(searchCondition.equals("id")) {
-			s.setId(searchValue);
-		} else if(searchCondition.equals("branchName")) {
-			s.setBranchName(searchValue);
-		}*/
+		int listCount = sService.getSeatStatusListCount(scs);
 		
-		int listCount = sService.getSeatStatusListCount();
-		
-		/*int searchListCount = sService.getSearchListCount(s);*/
-		
-		/*PageInfo pi = Pagination.getPageInfo(currentPage, searchListCount);*/
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
-		ArrayList<Seat> seatStatusList = sService.seatStatusList(s, pi);
+		ArrayList<Seat> seatStatusList = sService.seatStatusList(pi, scs);
 		
 		if(seatStatusList != null) {
-			mv.addObject("seatStatusList", seatStatusList);
-			mv.addObject("listCount", listCount);
-			/*mv.addObject("searchListCount", searchListCount);*/
-			mv.addObject("pi", pi);
-		/*	mv.addObject("searchCondition",searchCondition);
-			mv.addObject("searchValue",searchValue);*/
-			mv.setViewName("seatStatus");
+			model.addAttribute("seatStatusList", seatStatusList);
+			model.addAttribute("pi", pi);
+			model.addAttribute("searchType", searchType);
+			model.addAttribute("searchText", searchText);
+			
+			return "/seatStatus";
 		} else {
 			throw new SeatException("예약현황 전체 조회에 실패하였습니다.");
 		}
-		
-		return mv;
 	} 
 }

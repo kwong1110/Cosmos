@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Reply;
+import com.kh.cosmos.a_common.SearchCondition;
 import com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner;
 
 @Repository("spDAO")
@@ -74,6 +75,17 @@ public class StudyPlannerDAO {
 
 	public int updateReReplyOrder(SqlSessionTemplate sqlSession, Reply r) {
 		return sqlSession.update("studyPlannerMapper.updateReReplyOrder", r);
+	}
+
+	public int getSearchResultListCount(SqlSessionTemplate sqlSession, SearchCondition sc) {
+		return sqlSession.selectOne("studyPlannerMapper.selectSearchResultCount", sc);
+	}
+
+	public ArrayList<StudyPlanner> selectSearchResultList(SqlSessionTemplate sqlSession, PageInfo pi,
+			SearchCondition sc) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("studyPlannerMapper.selectSearchResultList", sc, rowBounds);
 	}
 
 }

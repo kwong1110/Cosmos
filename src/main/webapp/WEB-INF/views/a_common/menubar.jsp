@@ -210,7 +210,7 @@
 	
 	#stampListArea{width:100%; text-align:center;}
 	#stampListArea>div{width:80%; display:inline-block;}
-	#stampListArea>div>table{width:100%; font-size:20px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
+	#stampListArea>div table{width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
 	/* 쿠폰 모달 스타일 끝 */
 </style>
 <body>
@@ -461,10 +461,6 @@
 		return true;
 	}
 	
-	<% if(request.getParameter("msg") != null){ %>
-		alert('<%=request.getParameter("msg")%>');
-	<% } %>
-	
 	/* 메뉴 */
 	$(function(){
 		
@@ -505,7 +501,7 @@
 		// 서브메뉴 가지고 있는 메뉴 : 플래너
 		var plannerSub = new Array;
 		plannerSub[0] = "myPlannerList";
-		plannerSub[1] = "ourPlannerList"; // 미정
+		plannerSub[1] = "allPlannerList"; // 미정
 		var getPlannerSub0 = url.indexOf(plannerSub[0]);
 		var getPlannerSub1 = url.indexOf(plannerSub[1]);
 		
@@ -533,7 +529,7 @@
 			$(".menuTitle:eq(2) > div.s-menu").css("display", "block");
 		} 
 		if (getPlannerSub1 != -1){
-			$(".menuTitle:eq(2) > div > a").addClass("on");
+			$(".menuTitle:eq(2)").addClass("on");
 			$(".menuTitle:eq(2) > div.s-menu > div:last-child").addClass("on");
 			$(".menuTitle:eq(2) > div.s-menu").css("display", "block");
 		} 
@@ -564,8 +560,9 @@
 		}
 	};
 
-	// sweetalert
+	
 	$(function(){
+		// sweetalert
 		if("${ successMsg }" != ""){
 			sweetSuccess("${ successMsg }");
 		}
@@ -574,6 +571,16 @@
 			sweetUpdate("${ updateMsg }");
 		}
 		
+		// 비밀번호,아이디 로그인 실패시
+		if("${ wrongMsg }" != ""){
+			sweetWrong("${ wrongMsg }");
+			$("#login").trigger("click");
+		}
+		
+		// 페이지 타이틀 클릭 시
+		$('.pageTitle').click(function() {
+	         location.reload();
+	    });
 	});
 	
 	// 쪽지 팝업 
@@ -600,10 +607,10 @@
 			}
 	    }
 		
-		$(window).resize(function(){
+		/* $(window).resize(function(){
 			maskInit();
 			popup();
-		});
+		}); */
 		
 		$(".noteBtn").click(function(){
 			$(".note-modalMask").fadeIn();
@@ -613,7 +620,7 @@
 		
 		$(".note-modalMask").click(function(){
 			 child.close(); 
-			$(".note-modalMask").fadeOut();
+			$(".note-modalMask").fadeOut("fast");
 		}); 
 	});
 	
@@ -671,7 +678,7 @@
 					for(var i in data) {
 						var $tr = $('<tr>');
 						
-						$tr.append('<td style="width:20%;">' + data[i].cInsertDate + '</td>');
+						$tr.append('<td style="width:30%;">' + data[i].cInsertDate + '</td>');
 						$tr.append('<td>' + decodeURIComponent(data[i].cContent.replace(/\+/g, ' ')) + '</td>');
 						$tr.append('<td style="width:15%;">' + data[i].cStamp + '</td>');
 						$stampTable.append($tr);

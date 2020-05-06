@@ -71,13 +71,33 @@
 				#{reserSort}, <if test="reserType.equals('시간권')"> #{finishDay},</if> <if test="reserType.equals('7일권')"> #{finishDay} + 7,</if>
 				<if test="reserType.equals('30일권')"> #{finishDay} + 30,</if> #{reserType}, #{totalFee})
 	</insert>
+	
+	<select id="getAllListCount" resultType="_int">
+		select count(*)
+		from reser
+		where reser_yn='Y'
+	</select>
 
+	<select id="selectAllList" resultMap="seatStatus">
+		select *
+		from reser
+			join branch using(branch_no)
+		where reser_yn='Y'	
+		order by reser_no desc	
+	
+	</select>
+	
 	<select id="seatStatusList" resultMap="seatStatus">
 		select *
 		from reser
 			 join branch using(branch_no)
-			 
-		order by reser_no desc
+		where reser_yn='Y'
+		<if test ="id != null">
+			and id =  #{id}
+		</if>
+		<if test ="branchName != null">
+			and branch_name like '%'||#{branchName}||'%' 
+		</if>	
 	</select>
 	
 	<resultMap id="seatStatus" type="Seat">
@@ -100,19 +120,15 @@
 	<select id="getSeatStatusListCount" resultType="_int">
 		select count(*)
 		from reser
-		where reser_yn='Y'
-	</select>
-	
-	<select id="getSearchListCount" resultType="_int" parameterType="Seat">
-		select count(*)
-		from reser
 			 join branch using(branch_no)
+		where reser_yn='Y'
 		<if test ="id != null">
-			and id like '%'||#{id}||'%'
+			and id =  #{id}
 		</if>
 		<if test ="branchName != null">
 			and branch_name like '%'||#{branchName}||'%' 
-		</if>	 
+		</if>
+		order by reser_no desc	
 	</select>
 	
 	

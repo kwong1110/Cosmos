@@ -74,5 +74,11 @@ public class MemberServiceImpl implements MemberService {
 		// TODO Auto-generated method stub
 		return mDAO.updatePwd(sqlSession, m );
 	}
+
+	@Override
+	public int ban(String id) {
+		System.out.println("memberservice"+id);
+		return mDAO.updateMstatus(sqlSession, id);
+	}
 	
 }

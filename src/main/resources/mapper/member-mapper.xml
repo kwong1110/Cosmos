@@ -7,7 +7,7 @@
 		select * 
 		from member
 		where id = #{id}
-			  and mstatus = 'Y'
+			  
 	</select>
 	
 	<resultMap type="Member" id="memberResultSet">
@@ -106,7 +106,7 @@
 	<select resultMap="memberResultSet" parameterType="Member" id="userFindPwd">
 		select *
 		from member
-		where id = #{id} and email = #{email} and mstatus = 'Y'
+		where id = #{id} and email = #{email} <!-- and mstatus = 'Y' -->
 	</select>
 	
 	<!-- 비밀번호 변경 -->
@@ -123,4 +123,11 @@
 		<result property="studyEtc" column="STUDY_ETC"/>
 		<result property="studyName" column="STUDY_NAME"/>
 	</resultMap>
+	
+	<!-- 신고회원 회원상태 변경 -->
+	<update id="updateMstatus" parameterType="string">
+		update member
+		set MSTATUS = 'N'
+		WHERE ID = #{reportMid}
+	</update>
 </mapper>

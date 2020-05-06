@@ -7,6 +7,12 @@
 		VALUES(SEQ_REPORTNO.NEXTVAL, 'N', #{reportReason}, SYSDATE,#{mid}, #{reportMid})
 	</insert>
 	
+	<select id="selectList" resultMap="reportResultSet">
+		SELECT *
+		FROM REPORT
+		ORDER BY REPORT_NO DESC
+	</select>
+	
 	<resultMap id="reportResultSet" type="Report">
 		<id property="reportNo" column="REPORT_NO"/>
 		<result property="reportStatus" column="REPORT_STATUS"/>
@@ -15,17 +21,21 @@
 		<result property="mid" column="MID"/>
 		<result property="reportMid" column="REPORT_MID"/>
 	</resultMap>
-	
-	<select id="selectList" resultMap="reportResultSet">
-		SELECT *
-		FROM REPORT
-		ORDER BY REPORT_NO
-	</select>
 
 	<select id="getListCount" resultType="_int">
 		SELECT COUNT(*)
 		FROM REPORT
 	</select>
-
+	
+	<delete id="delete" parameterType="_int">
+		DELETE FROM REPORT
+		WHERE REPORT_NO = #{NO}
+	</delete>
+	
+	<update id="updateStatus" parameterType="_int">
+		update report 
+		set report_status = 'Y'
+		WHERE REPORT_NO = #{NO}
+	</update>
 
 </mapper>
