@@ -181,7 +181,7 @@
 					</div>
 
 					<div class="btnBox">
-						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" value="그룹 나가기" />
+						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" id="exitGroup" value="그룹 나가기" />
 					</div>
 				</div>
 			</div>
@@ -610,7 +610,7 @@
 							no--;
 							$tr.append('<td>' + data[i].nick + '</td>');
 							$tr.append('<td>' + data[i].appDlDate + '</td>');
-							$tr.append('<td><input type="button" class="defaultBtn" style="background:#71acf8;" value="강퇴" onclick="deleteMember();"></td>');
+							$tr.append('<td><input type="button" class="defaultBtn" style="background:#71acf8;" value="강퇴" onclick="deleteMemberAlert();"></td>');
 							$memberTableBody.append($tr);
 						}
 					} else {
@@ -679,25 +679,90 @@
 			
 			$('#groupBossModal').modal("show");
 		}
+
+		function sweetCheck(title, text, btnText, status){
+			swal({
+				title:title,
+				text:text,
+				type:"warning",
+				showCancelButton: !0,
+				confirmButtonColor:"#DD6B55",
+				confirmButtonText:btnText,
+				closeOnConfirm: !1
+				},
+				function(){
+					if(status == '강퇴') deleteMember();
+					else if(status == '종료') deleteGroup();
+					else exitGroup();
+				}
+			)
+		};
 		
 		var sendNo;
 		var sendNick;
 		var sendId;
+		var groupName;
+		function deleteMemberAlert() {
+			sweetCheck("정말 '" + sendNick + "'님을 그룹에서 강퇴시키겠습니까?", "강퇴 후 복구할 수 없습니다.", "강퇴");
+		}
+
 		function deleteMember() {
-			console.log(sendNo + ", " + sendNick + ", " + sendId);
-			if(sweetCheck("정말 " + sendNick + "님을 그룹에서 강퇴시키겠습니까?", "강퇴 후 복구할 수 없습니다.", "종료")) {
-				$.ajax({
-					url:"deleteMember.mp",
-					data:{sgno:sendNo, id:sendId},
-					dataType: 'json',
-					success: function(data) {
-						if(data == 'success') {
-							openGroupBossModal(sendNo);
-							alert(sendNick + "님이 그룹에서 강퇴되었습니다.");
-						}
+			groupName = $('#groupBossModal').children().children().children().children().eq(1).text();
+			$.ajax({
+				url:"deleteMember.mp",
+				data:{sgno:sendNo, id:sendId, groupName:groupName},
+				dataType: 'json',
+				success: function(data) {
+					if(data == 'success') {
+						$('#groupBossModal').modal("hide");
+						sweetSuccess('그룹원을 강퇴');
 					}
-				});
-			}
+				}
+			});
+		}
+		
+		$('#deleteGroup').click(function() {
+			groupName = $('#groupBossModal').children().children().children().children().eq(1).text();
+			sweetCheck("정말 '" + groupName + "' 그룹을 종료하시겠습니까?", "그룹 종료 후 복구할 수 없습니다.", "종료");
+		})
+		
+		function deleteGroup() {
+			$.ajax({
+				url:"deleteGroup.sg",
+				data:{sgno:sgNo, groupName:groupName},
+				dataType: 'json',
+				success: function(data) {
+					if(data == 'success') {
+						sweetSuccess('스터디를 종료');
+						$('#groupBossModal').modal("hide");
+
+						getGroupList(trigerBox,category,page);
+						getGroupListPage(trigerBox,category,page);
+					}
+				}
+			})
+		}
+		
+		$('#exitGroup').click(function() {
+			groupName = $('#groupBossModal').children().children().children().children().eq(1).text();
+			sweetCheck("정말 '" + groupName + "' 그룹에서 나가시겠습니까?", "그룹을 나가면 복구할 수 없습니다.", "나가기");
+		})
+		
+		function exitGroup() {
+			$.ajax({
+				url:"exitGroup.sg",
+				data:{sgno:sgNo, id:"${loginUser.id}", nick:"${loginUser.nick}", groupName:groupName},
+				dataType: 'json',
+				success: function(data) {
+					if(data == 'success') {
+						sweetSuccess('성공');
+						$('#groupModal').modal("hide");
+						
+						getGroupList(trigerBox,category,page);
+						getGroupListPage(trigerBox,category,page);
+					}
+				}
+			})
 		}
 		
 		$('#optionArea').mouseover(function() {
@@ -804,23 +869,6 @@
 		$('#searchText').keydown(function (key) {
 	        if(key.keyCode == 13) $('#searchSubmit').click();
 	    });
-		
-		$('#deleteGroup').click(function() {
-			var groupName = $('#groupBossModal').children().children().children().children().eq(1).text();
-			if(sweetCheck("정말 " + groupName + " 그룹을 종료하시겠습니까?", "그룹 종료 후 복구할 수 없습니다.", "종료")) {
-				$.ajax({
-					url:"deleteGroup.sg",
-					data:{sgno:sgNo, groupName:groupName},
-					dataType: 'json',
-					success: function(data) {
-						if(data == 'success') {
-							alert(groupName + " 스터디가 종료되었습니다.");
-							location.reload();
-						}
-					}
-				})
-			}
-		})
 	</script>
 
 </body>

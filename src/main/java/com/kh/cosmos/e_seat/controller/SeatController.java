@@ -26,6 +26,7 @@ import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.a_common.Pagination_seat;
 import com.kh.cosmos.a_common.SearchConditionSeat;
 import com.kh.cosmos.b_member.model.vo.Member;
+import com.kh.cosmos.c_myPage.model.service.NoteService;
 import com.kh.cosmos.c_myPage.model.vo.Note;
 import com.kh.cosmos.e_seat.model.exception.SeatException;
 import com.kh.cosmos.e_seat.model.service.SeatService;
@@ -43,6 +44,9 @@ public class SeatController {
 	
 	@Autowired
 	private StudyGroupService sgService;
+
+	@Autowired
+	private NoteService nService;
 	
 	@RequestMapping("reservation.se")
 	public ModelAndView ReservationView(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, HttpServletRequest request ) {
@@ -146,7 +150,7 @@ public class SeatController {
 				
 				if(s.getReserPeople() != 1 && group != 99999 && (s.getReserSort().equals("B") || s.getReserSort().equals("C") || s.getReserSort().equals("D") || s.getReserSort().equals("E"))) { // 그룹 예약 했을 때 그룹원 전체 도장 부여
 					ArrayList<String> memberList = sgService.getMemList(group);
-					//cResult = sgService.updateMsgCount(group); // 그룹 만남 횟수 증가
+					cResult = sgService.updateMsgCount(group); // 그룹 만남 횟수 증가
 					
 					for(String memId : memberList) {
 						totalStamp = 0;
@@ -165,11 +169,11 @@ public class SeatController {
 							cResult = sService.insertCoupon(map);
 						}
 
-						/*Note n = new Note();
+						Note n = new Note();
 						n.setNoteFromId("admin00");
 						n.setNoteToId(memId);
-						n.setNoteContent("스터디 그룹 '" + groupname + "'의 좌석 예약이 추가되었습니다.");
-						int messageResult = nService.insertNote(n);*/
+						n.setNoteContent(branchName + " " + s.getReserDay() + " " + s.getStartTime() + ":00 ~ " + s.getEndTime() + ":00에 " + "'" + groupname + "' 그룹의 스터디 룸이 예약되었습니다.");
+						int messageResult = nService.insertNote(n);
 					}
 				}
 			}

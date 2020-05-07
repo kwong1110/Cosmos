@@ -30,6 +30,7 @@ import com.kh.cosmos.a_common.Pagination_five;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.c_myPage.model.exception.MyPageException;
 import com.kh.cosmos.c_myPage.model.service.MyGroupService;
+import com.kh.cosmos.c_myPage.model.service.NoteService;
 import com.kh.cosmos.c_myPage.model.vo.Note;
 import com.kh.cosmos.f_studyGroup.model.service.StudyGroupService;
 import com.kh.cosmos.f_studyGroup.model.vo.MyStudyGroup;
@@ -40,6 +41,8 @@ public class MyGroupController {
 	
 	@Autowired
 	private MyGroupService mgService;
+	@Autowired
+	private NoteService nService;
 	
 	@RequestMapping("myGroup.mp")
 	public String myGroupView(HttpServletRequest request, @RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
@@ -156,7 +159,7 @@ public class MyGroupController {
 	}
 	
 	@RequestMapping("deleteMember.mp")
-	public void deleteMember(HttpServletResponse response, @RequestParam("sgno") String sgno, @RequestParam("id") String id) throws JsonIOException, IOException {
+	public void deleteMember(HttpServletResponse response, @RequestParam("sgno") String sgno, @RequestParam("id") String id, @RequestParam("groupName") String groupName) throws JsonIOException, IOException {
 		HashMap<String, String> map = new HashMap<String, String>();
 		map.put("sgno", sgno);
 		map.put("id", id);
@@ -164,6 +167,12 @@ public class MyGroupController {
 		int result = mgService.deleteMember(map);
 		
 		if(result > 0) {
+			Note n = new Note();
+			n.setNoteFromId("admin00");
+			n.setNoteToId(id);
+			n.setNoteContent("'" + groupName + "' 그룹에서 강퇴되었습니다.");
+			int messageResult = nService.insertNote(n);
+			
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson("success", response.getWriter());
 		} else {
