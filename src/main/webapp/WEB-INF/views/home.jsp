@@ -28,7 +28,7 @@
       background : none;
    }
    .imgBackUp {
-      background : url(${contextPath}/resources/image/slide_img3.jpg) no-repeat center center;
+      background : url(${contextPath}/resources/image/slide_img2.jpg) no-repeat center center;
       background-size:cover;
       height:100%;
       width:100%;
