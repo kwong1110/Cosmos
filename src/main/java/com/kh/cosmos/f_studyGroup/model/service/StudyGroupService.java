@@ -79,4 +79,5 @@ public interface StudyGroupService {
 
 	int getRecCondition(String id);
 	
+  int getHomeListCount();
 }

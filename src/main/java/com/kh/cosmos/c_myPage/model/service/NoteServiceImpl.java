@@ -64,30 +64,18 @@ public class NoteServiceImpl implements NoteService {
 	public ArrayList<Note> selectStoreList(PageInfo pi, String userId) {
 		return nDAO.selectStoreList(sqlSession, pi, userId);
 	}
-
-//	-------------------------------------------------------------------------------------------
 	
-	/*@Override
+	
+	@Override
 	public int getSearchResultListCount(SearchCondition search) {
 		return nDAO.getSearchResultCount(sqlSession, search);
 	}
-*/
-	/*@Override
+
+	@Override
 	public ArrayList<Note> selectSearchResultList(PageInfo pi, SearchCondition search) {
 		return nDAO.selectSearchResultList(sqlSession, pi, search);
-	}*/
-
-	@Override
-	public int getSearchResultListCount(SearchCondition search, String userId) {
-		return nDAO.getSearchResultCount(sqlSession, search, userId);
 	}
-
-	@Override
-	public ArrayList<Note> selectSearchResultList(PageInfo pi, SearchCondition search, String userId) {
-		return nDAO.selectSearchResultList(sqlSession, pi, search, userId);
-	}
-//	-------------------------------------------------------------------------------------------
-
+	
 	@Override
 	public int getMenuToListCount(String userId) {
 		return nDAO.getMenuToListCount(sqlSession, userId);
@@ -117,6 +105,8 @@ public class NoteServiceImpl implements NoteService {
 	public ArrayList<Note> selectMenuToMeList(PageInfo pi, String userId) {
 		return nDAO.selectMenuToMeList(sqlSession, pi, userId);
 	}
+
+	
 
 	
 

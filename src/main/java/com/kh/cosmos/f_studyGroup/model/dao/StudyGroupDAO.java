@@ -223,4 +223,7 @@ public class StudyGroupDAO {
 		return sqlSession.selectOne("studyGroupMapper.getRecCondition", id);
 	}
 
+  public int getHomeListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("studyGroupMapper.getHomeListCount");
+	}
 }

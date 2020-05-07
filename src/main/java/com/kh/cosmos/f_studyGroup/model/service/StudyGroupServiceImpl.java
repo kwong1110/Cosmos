@@ -189,5 +189,9 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	public int getRecCondition(String id) {
 		return sgDAO.getRecCondition(sqlSession, id);
 	}
-
+  
+  @Override
+	public int getHomeListCount() {
+		return sgDAO.getHomeListCount(sqlSession);
+	}
 }
