@@ -168,6 +168,7 @@ public class MemberController {
 						return new PasswordAuthentication(admin,password);
 					}
 				});
+
 				try {
 					// 이메일 내용 구성
 					MimeMessage message = new MimeMessage(session);
@@ -207,13 +208,19 @@ public class MemberController {
 					System.out.println("---멤버--- : " + member);
 					int result = mService.fakePwd(member);
 					
+					String content ="<h2>안녕하세요  회원님</h2><br><br>" 
+							+ "<img alt=\"COSMOS\" src=\"https://postfiles.pstatic.net/MjAyMDA1MDdfMjM3/MDAxNTg4ODEzNjAwMTg5.MgjKkxaAG7HDpa8oCH4hI7x85pWG_kPJewLKFDrozUMg.0SodG8fbenNvDX6hFVf0eATWuRP1Y-2A4zxsByW9ERIg.PNG.dksdud94/KakaoTalk_Moim_9C9pCpO1SP6lkSFs0gz6goaxUjDLrj.png?type=w773\">"
+							+ "<p>비밀번호 찾기를 신청해주셔서 임시 비밀번호를 발급해드렸습니다.</p>"
+							+ "<p>임시로 발급 드린 비밀번호는 <h2 style='color : blue'>'" + lastPw +"'</h2>이며 로그인 후 마이페이지에서 비밀번호를 변경해주시면 됩니다.</p><br>"
+							+ "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";
+					
 					if(result > 0) {
 						System.out.println("임시비밀번호로 변경");
 					} else {
 						System.out.println("임시비밀번호로 변경실패");
 					}
-					message.setText("회원님의 임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");
-					
+					/*message.setText("회원님의 임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");*/
+					message.setText(content, "utf-8", "html");
 					
 					//이메일 보내기
 					Transport.send(message);
