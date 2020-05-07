@@ -644,7 +644,7 @@
 							    	    		closeOnConfirm: !0
 							    	    		},
 							    	    		function(){
-							    	    			location.href="${contextPath}";
+							    	    			location.href="allSeat.se";
 							    	    		}
 							    	    	)
 							    	    }
