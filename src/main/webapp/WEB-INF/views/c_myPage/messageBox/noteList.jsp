@@ -70,7 +70,7 @@
 						<c:forEach var="n" items="${ nList }">
 						<tr>
 							<td>
-								<input type="checkbox" name="chkNo" value="${ n.noteNo }" id="chk">
+								<input type="checkbox" name="chkNo" value="${ n.noteNo }" id="chk" class="noteNosArr">
 								${ n.noteNo }
 							</td>
 							<c:if test="${n.noteFromId eq loginUser.id }"> <!-- 보낸 편지 -->
@@ -114,6 +114,10 @@
         			<c:param name="noteNo" value="${ n.noteNo }"/>
         		</c:url>
         		<button class="btn btnNote" onclick="location.href='${noteStorageList}'">보관함</button> --%>
+        		
+        		<c:url var="noteStorageList" value="noteStorageList.mp">
+        			<c:param name="noteNo" value="${ n.noteNo }"/>
+        		</c:url>
         		<button class="btn btnNote" onclick="storeNote();">보관함</button>
         		
         		<c:url var="noteStorageList" value="noteStorageList.mp">
@@ -299,13 +303,8 @@
 		location.href="noteMenu.mp?menuCondition=" + menuCondition + "&userId=" + userId;
 	});
 
-	/* 
-	$("input[name=current_proudct]:checked").each(function() { var test = $(this).val(); }
-	*/
-	
 	/* function storeNote(){
 		var noteNo = $("#chk:checked").val();
-		
 		location.href="noteStorage.mp?noteNo=" + noteNo;
 	} */
 	
@@ -318,10 +317,14 @@
 		
 		var noteNos = noteNo.split(",");
 		noteNos.shift();
+		
 		var noteNosArr;
 		for(var i = 0; i < noteNos.length; i++){
 			noteNosArr = noteNos[i].trim();
-			location.href="noteStorage.mp?noteNos=" + noteNosArr;
+			//location.href="noteStorage.mp?noteNos=" + noteNosArr;
+			document.getElementsByClassName("noteNosArr")[i].value = noteNosArr;
+			
+			// alert(document.getElementsByClassName("noteNosArr")[i].value);
 		}
 	}
 

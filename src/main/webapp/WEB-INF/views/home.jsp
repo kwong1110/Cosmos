@@ -27,16 +27,16 @@
 	div.wrapper {
 		background : none;
 	}
-	.imgBack1 {
-		background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
+	.imgBackUp {
+		background : url(${contextPath}/resources/image/main2.jpg) no-repeat center center;
 		background-size:cover;
 		height:100%;
 		width:100%;
 		position: absolute;
-		z-index: -1;
+		z-index: -2;
 	}
-	.imgBack1 {
-		background : url(${contextPath}/resources/image/main2.jpg) no-repeat center center;
+	.imgBackDown {
+		background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
 		background-size:cover;
 		height:100%;
 		width:100%;
@@ -253,7 +253,7 @@
 							<div class="data_output_list_bg"></div>
 							<div class="data_output_list">
 								<div class="data_output_item item0  clear-fix">
-									<p class="data_output_tit"><span>전체<br>지점수</span></p>
+									<p class="data_output_tit"><span>전체<br>지점 수</span></p>
 									<div class="data_output_desc data_desc">
 										<p class="data_desc_m"><span>전국 <b>${ allBranch }</b>개의 지점 수</span></p>
 										<p class="data_desc_s">코스모스 센터는 <br>최대, 최다 규모의 경쟁력을 갖춘 공간 서비스 브랜드입니다.</p>
@@ -367,25 +367,25 @@
 							</div>
 							<button type="button" class="btn_output_close"><span class="blind">&times;</span></button>
 							<ul class="data_input_list clear-fix">
-								<li class="data_input_item">
+								<li class="data_input_item" id="item0">
 									<div>
 										<span><b>${ allBranch }</b> 센터</span>
 										<em>전체 지점 수</em>
 									</div>
 								</li>
-								<li class="data_input_item">
+								<li class="data_input_item" id="item1">
 									<div>
 										<span><b>${ allSeat }</b> 개</span>
 										<em>전 지점 좌석 수</em>
 									</div>
 								</li>
-								<li class="data_input_item">
+								<li class="data_input_item" id="item2">
 									<div>
 										<span><b>${ allGroup }</b> 그룹</span>
 										<em>모집 중 그룹</em>
 									</div>
 								</li>
-								<li class="data_input_item">
+								<li class="data_input_item" id="item3">
 									<div>
 										<span><b>${ allLecture }</b> 강연</span>
 										<em>강연 목록</em>
