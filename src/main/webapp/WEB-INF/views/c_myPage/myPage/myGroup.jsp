@@ -218,18 +218,16 @@
 							<br>
 							<table class="table table-hover" id="modalRecTable">
 								<thead>
-								<tr>
-									<th>No</th>
-									<th>모집 등록 날짜</th>
-									<th>모집 기간</th>
-									<th>모집 인원</th>
-									<th></th>
-									<th></th>
-								</tr>
+									<tr>
+										<th>No</th>
+										<th>모집 등록 날짜</th>
+										<th>모집 기간</th>
+										<th>모집 인원</th>
+										<th></th>
+										<th></th>
+									</tr>
 								</thead>
-								
-								<tbody>
-								</tbody>
+								<tbody></tbody>
 							</table>
 						</div>
 					</div>
