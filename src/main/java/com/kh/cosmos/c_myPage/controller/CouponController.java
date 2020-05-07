@@ -16,7 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
-import com.kh.cosmos.a_common.Pagination;
+import com.kh.cosmos.a_common.Pagination_five;
 import com.kh.cosmos.c_myPage.model.exception.MyPageException;
 import com.kh.cosmos.c_myPage.model.service.CouponService;
 import com.kh.cosmos.c_myPage.model.vo.Coupon;
@@ -37,7 +37,7 @@ public class CouponController {
 		}
 		
 		int listCount = cService.getCouponListCount(id);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_five.getPageInfo(currentPage, listCount);
 		
 		ArrayList<Coupon> list = cService.couponInfoList(id, pi);
 		
@@ -63,7 +63,7 @@ public class CouponController {
 		}
 		
 		int listCount = cService.getCouponListCount(id);
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_five.getPageInfo(currentPage, listCount);
 
 		Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 		gson.toJson(pi, response.getWriter());

@@ -10,6 +10,7 @@ public class StudyGroupRecruit {
 	private String sgName;
 	private String recTerm;
 	private int recNum;
+	private String id;
 	private String nick;
 	private String branchName;
 	private String sgGoal;
@@ -54,6 +55,14 @@ public class StudyGroupRecruit {
 	}
 	
 	
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
 
 	public int getPartMemNum() {
 		return partMemNum;

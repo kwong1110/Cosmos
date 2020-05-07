@@ -66,7 +66,7 @@
 				<div class="content">
 					<ul class="nav nav-tabs">
 					  <li role="presentation" class="active"><a href="#">회원 정보</a></li>
-					  <li role="presentation"><a href="#">My Group</a></li>
+					  <li role="presentation" class="active"><a href="myGroup.mp">My Group</a></li>
 					  <li role="presentation"><a href="#">강연 내역</a></li>
 					  <li role="presentation"><a href="#">결재 내역</a></li>
 					  <c:url var="memberDelete" value="memberDelete.mp">

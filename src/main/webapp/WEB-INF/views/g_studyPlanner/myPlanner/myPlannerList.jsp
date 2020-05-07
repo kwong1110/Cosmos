@@ -23,9 +23,26 @@
 	<!-- tooltip css (tooltip사용할 경우 주석 해제) -->
 	<!-- <link href='resources/css/tooltip.css' rel='stylesheet' /> -->
 <style>
+	.helpBtn{
+		background: rgb(23, 149, 95); 
+		border: 0; 
+		outline: 0; 
+		width: 30px; 
+		height: 30px; 
+		padding: 3px 11px; 
+		margin: 5px; 
+		font-size: 13px; 
+		border-radius: 100%; 
+		color: #FFF;
+	}
+	.tooltip-inner {
+    	white-space: pre-wrap;
+	}
+	
 	.fc-event{
 		border-color: white;
 		background-color: white;
+		border-radius: 15px;
 	}
 	.fc-content{
 		color: black;
@@ -33,6 +50,12 @@
 		font-size: 1.5rem;
 		font-family: 'Binggrae-Bold';
 		text-align: center;
+	}
+	.panel{
+		background-color: rgb(255, 253, 242) !important;
+	}
+	.panel-body{
+		background-color: rgb(255, 253, 242) !important;
 	}
 	/* 모달 스타일 */
 	.modal-dialog.modal-80size {
@@ -59,7 +82,7 @@
 		vertical-align: middle;
 	}
 	
-	/* 배경색 변경 */
+	/* 모달 배경색 변경 */
 	.modal-content{
 		background-color: rgb(254, 245, 198) !important;
 	}
@@ -114,10 +137,42 @@
 		cursor: pointer;
 	}
 	
+		/* planColor selectBox */
+	#planColor {
+		background-color: rgb(252, 124, 124);
+	}
+	#planColor option[value="rgb(252, 124, 124)"] {
+	  background-color: rgb(252, 124, 124);
+	}
+	#planColor option[value="rgb(252, 197, 124)"] {
+	  background: rgb(252, 197, 124);
+	}
+	#planColor option[value="rgb(249, 255, 133)"] {
+	  background: rgb(249, 255, 133);
+	}
+	#planColor option[value="rgb(130, 255, 161)"] {
+	  background: rgb(130, 255, 161);
+	}
+	#planColor option[value="rgb(130, 236, 255)"] {
+	  background: rgb(130, 236, 255);
+	}
+	#planColor option[value="rgb(197, 130, 255)"] {
+	  background: rgb(197, 130, 255);
+	}
+	#planColor option[value="rgb(255, 130, 197)"] {
+	  background: rgb(255, 130, 197);
+	}
+	#planColor option[value="rgb(255, 255, 255)"] {
+	  background: rgb(255, 255, 255);
+	}
+	#planColor option[value="rgb(194, 194, 194)"] {
+	  background: rgb(194, 194, 194);
+	}
+	
 	/* 플래너 상단 박스 */
 	.conTopBox{
 		width: 100%;
-		background-color: white;
+		background-color: rgb(255, 253, 242);
 		padding: 1%;
 	}
 	.conTopBox a {
@@ -198,8 +253,9 @@ document.addEventListener('DOMContentLoaded', function() {
 				{
 					title :	"${ p.planTitle }",
 					start : "${ p.planStart }",	
-					end : "${ p.planEnd }" + " 24:00",
+					end : "${ p.planEnd }",
 					id: '${ p.planNo }',
+					backgroundColor: "${ p.planColor }",
 					extendedProps: {
 			        	content: '${ p.planContent }',
 			        	menu: '${ p.planMenu }',
@@ -213,7 +269,9 @@ document.addEventListener('DOMContentLoaded', function() {
 			        	studyName: '${ p.studyName }',
 			        	studyNo: '${ p.studyNo }',
 			        	startDate: '${ p.planStart }',
-			        	endDate: '${ p.planEnd }'
+			        	endDate: '${ p.planEnd }',
+			        	planMemo: '${ p.planMemo }',
+			        	planAllday: '${ p.planAllday }'
 					}
 				},			
 				</c:forEach>
@@ -265,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	                //class: 'popoverInfoCalendar'
 	           		 }).append('<p><strong>종류:</strong> ' + menuName + '</p>')
 	            	.append('<p><strong>카테고리:</strong> ' + info.event.extendedProps.studyName + '</p>')
-	            	.append('<p><strong>메모:</strong> ' + "메모칼럼 추가해야함" + '</p>'),
+	            	.append('<p><strong>메모:</strong> ' + info.event.extendedProps.planMemo + '</p>'),
 	            placement: 'top',
 	            html: 'true',
 	            trigger: 'hover',
@@ -294,20 +352,52 @@ document.addEventListener('DOMContentLoaded', function() {
 		},
 		
 		//일정 드래그앤드롭
-		eventDrop: function (event, delta, revertFunc, jsEvent, ui, view) {
+		eventDrop: function (info) {
 			$('.popover.fade.top').remove();
 
+			var newDates = {
+				planStart: '',
+				planEnd: ''
+			}
+			
+			// 날짜가 모두 같은 경우
+			if(!info.event.end) {
+				info.event.end = info.event.start;
+			}
+			
+			//하루짜리 all day
+			if (info.event.allDay && info.event.end === info.event.start) {
+				newDates.planStart = moment(info.event.start).format('YYYY-MM-DD');
+				newDates.planEnd = newDates.planStart;
+			}
+			
+			//2일이상 all day
+			else if (info.event.allDay && info.event.end !== null) {
+				newDates.planStart = moment(info.event.start).format('YYYY-MM-DD');
+				newDates.planEnd = moment(info.event.end).subtract(1, 'days').format('YYYY-MM-DD');
+			}
+			
+			//all day가 아님
+			else if (!info.event.allDay) {
+				newDates.planStart = moment(info.event.start).format('YYYY-MM-DD HH:mm');
+				newDates.planEnd = moment(info.event.end).format('YYYY-MM-DD HH:mm');
+			}
+			
+			console.log("드롭 작동!");
+			
+			console.log(info.event.start);
+			console.log(info.event.end);
+			console.log(info.event.allDay);
+			console.log("==== 데이터 변환 후 ====");
+			console.log(newDates.planStart + " / " + newDates.planEnd);
 		    //주,일 view일때 종일 <-> 시간 변경불가
-			if (view.type === 'agendaWeek' || view.type === 'agendaDay') {
+			/* if (view.type === 'agendaWeek' || view.type === 'agendaDay') {
 				if (draggedEventIsAllDay !== event.allDay) {
 					sweetWrong('드래그앤드롭으로 종일<->시간 변경은 불가합니다.');
 					location.reload();
 					return false;
 				}
-			}
-
-		    // 드랍시 수정된 날짜반영
-		    //var newDates = calDateWhenDragnDrop(event);
+			} */
 
 		    //드롭한 일정 업데이트
 		   /*  $.ajax({
@@ -386,12 +476,13 @@ document.addEventListener('DOMContentLoaded', function() {
 													<select id="categorySelect" name="studyNo">
 														<optgroup label="나의 공부목록">
 															<c:forEach var="us" items="${ userStudyList }">
-															
 																<!-- category 기타가 완료되면 추가 할것 -> 기타면 기타의 이름이 보여지게  -->
-																<%-- <c:if test="${ us.studyNo eq 97 || us.studyNo eq 98 || us.studyNo eq 99 }">
+																<c:if test="${ us.studyNo eq 97 || us.studyNo eq 98 || us.studyNo eq 99 }">
+																	<option value="${ us.studyNo }">${ us.studyEtc }</option>
+																</c:if>
+																<c:if test="${ us.studyNo ne 97 && us.studyNo ne 98 && us.studyNo ne 99 }">
 																	<option value="${ us.studyNo }">${ us.studyName }</option>
-																</c:if> --%>
-																	<option value="${ us.studyNo }">${ us.studyName }</option>
+																</c:if>
 															</c:forEach>
 														</optgroup>
 														<optgroup label="전체 공부목록">
@@ -451,7 +542,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			                    </div>
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
-			                        <form action="planInsert.sp" method="post" onsubmit="return checkEmptyValues(insertTitle, summernote, insertOpenStatus, planMenu);">
+			                        <form action="planInsert.sp" method="post" onsubmit="return checkEmptyValues(insertTitle, summernote, insertOpenStatus, planMenu, planAllday);">
 				                        <table class="table">
 											<tr>
 												<th>카테고리</th>
@@ -460,12 +551,12 @@ document.addEventListener('DOMContentLoaded', function() {
 													<select id="insertCategorySelect" name="studyNo">
 														<optgroup label="나의 공부목록">
 															<c:forEach var="us" items="${ userStudyList }">
-															
-																<!-- category 기타가 완료되면 추가 할것 -> 기타면 기타의 이름이 보여지게  -->
-																<%-- <c:if test="${ us.studyNo eq 97 || us.studyNo eq 98 || us.studyNo eq 99 }">
+																<c:if test="${ us.studyNo eq 97 || us.studyNo eq 98 || us.studyNo eq 99 }">
+																	<option value="${ us.studyNo }">${ us.studyEtc }</option>
+																</c:if>
+																<c:if test="${ us.studyNo ne 97 && us.studyNo ne 98 && us.studyNo ne 99 }">
 																	<option value="${ us.studyNo }">${ us.studyName }</option>
-																</c:if> --%>
-																	<option value="${ us.studyNo }">${ us.studyName }</option>
+																</c:if>
 															</c:forEach>
 														</optgroup>
 														<optgroup label="전체 공부목록">
@@ -493,11 +584,38 @@ document.addEventListener('DOMContentLoaded', function() {
 											<tr>
 												<th>기간</th>
 												<td><input type="text" class="form-control input-daterange-timepicker" name="daterange" id="daterange"></td>
+												<th>하루종일</th>
+												<td class="exception">
+													<input id="planAllday" type="radio" name="planAllday" value="1"/>O
+													<input type="radio" name="planAllday" value="0"/>X
+													<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="하루종일을 선택하시면 시간을 입력하여도 저장되지않습니다.">?</button>
+												</td>
 											</tr>
 											<tr>
 												<th>작성일</th>
 												<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="today" />
 												<td>${ today }</td>
+												<th>메모</th>
+												<td class="exception">
+													<input id="planMemo" type="text" name="planMemo" placeholder="메모"/>
+													<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="일정에 마우스올릴시 나타나는 간략한 메모">?</button>
+												</td>
+											</tr>
+											<tr>
+												<th>표시색상</th>
+												<td>
+													<select id="planColor" name="planColor">
+														<option value="rgb(252, 124, 124)"></option>
+														<option value="rgb(252, 197, 124)"></option>
+														<option value="rgb(249, 255, 133)"></option>
+														<option value="rgb(130, 255, 161)"></option>
+														<option value="rgb(130, 236, 255)"></option>
+														<option value="rgb(197, 130, 255)"></option>
+														<option value="rgb(255, 130, 197)"></option>
+														<option value="rgb(255, 255, 255)"></option>
+														<option value="rgb(194, 194, 194)"></option>
+													</select>
+												</td>
 											</tr>
 											<tr>
 												<th colspan="4">내용</th>
@@ -562,7 +680,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			       timePickerSeconds: false,
 			       drops : 'down',
 			      	"locale": {
-			      		format: 'YYYY-MM-DD H:mm',
+			      		format: 'YYYY-MM-DD HH:mm',
 			      		buttonClasses: ['btn'],
 			      		applyClass: 'okBtn',
 			      		cancelClass: 'cancelBtn',
@@ -593,6 +711,12 @@ document.addEventListener('DOMContentLoaded', function() {
 			      	}
 			});
 			
+			// tooltip
+			$('[data-toggle="tooltip"]').tooltip();
+			
+			$('#planColor').on('change',function(){
+				$('#planColor').css('background-color', $('#planColor option:selected').val());
+			});
 		});
 		
 		// plan 수정

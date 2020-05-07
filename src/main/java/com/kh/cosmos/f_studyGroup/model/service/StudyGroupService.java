@@ -19,7 +19,7 @@ public interface StudyGroupService {
 
 	int insertGroup(StudyGroup sg);
 
-	int insertRecruit(StudyRecruit sr);
+	int insertRecruit(StudyGroupRecruit info);
 
 	ArrayList<StudyGroup> getStudyGroupList(String id);
 
@@ -60,5 +60,24 @@ public interface StudyGroupService {
 	HashMap<String, Integer> confirmApproach(HashMap<String, String> map);
 
 	ArrayList<StudyGroup> getIngStudyGroupList(String id);
+
+	ArrayList<String> getMemList(int group);
+
+	int updateOnceGroup(StudyGroup sg);
+
+	String getUserId(String nick);
+
+	int deleteGroup(int sgno);
+
+	int getRecNo(int sgno);
+
+	int updateMsgCount(int group);
+
+	int exitGroup(HashMap<String, String> map);
+
+	String getBossId(int sgno);
+
+	int getRecCondition(String id);
 	
+  int getHomeListCount();
 }

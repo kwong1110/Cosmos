@@ -1,6 +1,7 @@
 package com.kh.cosmos.e_seat.model.dao;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.RowBounds;
@@ -57,10 +58,28 @@ public class SeatDAO {
 		return (ArrayList)sqlSession.selectList("seatMapper.seatStatusList", scs, rowBounds); 
 	}
 
+	public String getBranchName(SqlSessionTemplate sqlSession, int branchNo) {
+		return sqlSession.selectOne("seatMapper.getBranchName", branchNo);
+	}
+
+	public int getTotalStamp(SqlSessionTemplate sqlSession, String id) {
+		return sqlSession.selectOne("seatMapper.getTotalStamp", id);
+	}
+
+	public int insertOneStamp(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.insert("seatMapper.insertOneStamp", map);
+	}
+
+	public int insertCoupon(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.insert("seatMapper.insertCoupon", map);
+	}
+
+	/*public int seatBuy(SqlSessionTemplate sqlSession) {
+		return sqlSession.insert("seatMapper.seatBuy");
+	}*/
+  
 	public int getSeatStatusListCount(SqlSessionTemplate sqlSession, SearchConditionSeat scs) {
 		return sqlSession.selectOne("seatMapper.getSeatStatusListCount",scs);
 	}
-
-	
 
 }

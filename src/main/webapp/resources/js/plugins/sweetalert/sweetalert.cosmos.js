@@ -22,7 +22,6 @@ function sweetConfirm(status){
 	)
 };
 
-
 	// sweet success
 	// 성공 창 전부 (회원가입, 예약완료, 수정, 삭제, 신고, 예약, 수락 등등)
 function sweetSuccess(successMsg){
@@ -38,7 +37,8 @@ function sweetSuccess(successMsg){
 function sweetWrong(wrongMsg){
 	sweetAlert({
 		title: wrongMsg, 
-		type: "error"
+		type: "error",
+		html: !0
 	});
 };
 
@@ -46,6 +46,7 @@ function sweetWrong(wrongMsg){
 function sweetUpdate(updateMsg){
 	swal({
 		title: updateMsg + "하였습니다!", 
-		type: "success"
+		type: "success",
+		html: !0
 	})
 };

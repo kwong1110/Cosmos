@@ -20,14 +20,37 @@
 	
 	/* 전체 박스  */
 	.main{
-		background : url(${contextPath}/resources/image/main7.jpg) no-repeat center center;
+		/* background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
+		background-size:cover;
+		height:100%; */
+	}
+	div.wrapper {
+		background : none;
+	}
+	.imgBack1 {
+		background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
 		background-size:cover;
 		height:100%;
+		width:100%;
+		position: absolute;
+		z-index: -1;
+	}
+	.imgBack1 {
+		background : url(${contextPath}/resources/image/main2.jpg) no-repeat center center;
+		background-size:cover;
+		height:100%;
+		width:100%;
+		position: absolute;
+		z-index: -1;
 	}
 	
+	.content {
+		position:relative;
+	}
 	/* 안에 내용 박스 */
 	.inner {
-		
+		position: absolute;
+		z-index: 100;
 	}
 	
 	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=*/
@@ -42,16 +65,45 @@
 	}
 	
 	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=*/
+		
 	/* 배너 배경 */
-	.data_output_list_bg{
-		opacity : 0;
+	.data_output_list_bg {
+		
+		/* opacity : 0; */
 		width: 1000px;
 		height : 280px;
 		background: rgba(255, 255, 255, 0.9);
 		position:absolute;
 		left:0;
-		top:0;
+		top : 0;
+		z-index:0;
+		
+		/* transform: scaleY(0);
+		transform-origin: bottom;
+		transition: transform 1s ease; */
+		
+		
+		/* -webkit-transform: scaleY(0);
+		-o-transform: scaleY(0);
+		-ms-transform: scaleY(0);
+		transform: scaleY(0);
+		
+		-webkit-transform-origin: bottom;
+		-o-transform-origin: bottom;
+		-ms-transform-origin: bottom;
+		transform-origin: bottom;
+		
+		-webkit-transition: -webkit-transform 1s ease;
+		-webkit-transition: -webkit-transform 1s ease;
+		-webkit-transition: -webkit-transform 1s ease;
+		transition: transform 1s ease; */
 	}
+	
+	/* .data_output_list_bg:hover {
+		height : 280px;
+		transform: scaleY(1);
+	} */
+	
 	
 	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=*/
 	/* 숨겨져 있다 위로 튀어 올라오는 배너, 각 배너 아이템들의 최상위 박스 */
@@ -96,7 +148,6 @@
 	.data_output_desc{
 		float:left;
 		width : 450px;
-		border:1px solid green;
 	}
 	
 	/* 각 배너 왼쪽 영역 안에 있는 헤드라인 */
@@ -111,7 +162,6 @@
 	/*------------------------------------------*/
 	/* 각 배너 오른쪽 영역 */	
 	.data_desc_list{
-		border:1px solid red;
 		float:right;
 	}
 	
@@ -203,7 +253,7 @@
 							<div class="data_output_list_bg"></div>
 							<div class="data_output_list">
 								<div class="data_output_item item0  clear-fix">
-									<p class="data_output_tit"><span>전체<br>지점 수</span></p>
+									<p class="data_output_tit"><span>전체<br>지점수</span></p>
 									<div class="data_output_desc data_desc">
 										<p class="data_desc_m"><span>전국 <b>100</b>개의 지점 수</span></p>
 										<p class="data_desc_s">코스모스 센터는 <br>최대, 최다 규모의 경쟁력을 갖춘 공간 서비스 브랜드입니다.</p>
@@ -261,7 +311,7 @@
 								<div class="data_output_item item2 clear-fix">
 									<p class="data_output_tit"><span>모집 중인<br>그룹</span></p>
 									<div class="data_output_desc data_desc">
-										<p class="data_desc_m"><span>코스모스에서<br> 현재 모집 중인 그룹 수<b>100</b>개</span></p>
+										<p class="data_desc_m"><span>코스모스에서<br> 현재 모집 중인 그룹 수<b>${ allGroup }</b>개</span></p>
 										<p class="data_desc_s">코스모스 센터는 여러 명이 같이 공부를 하거나 과제를 할 수 있도록 <br>스터디 그룹 매칭 과정을 진행하고 있습니다.</p>
 									</div>
 									<ul class="data_desc_list clr">
@@ -331,7 +381,7 @@
 								</li>
 								<li class="data_input_item">
 									<div>
-										<span><b>100</b> 그룹</span>
+										<span><b>${ allGroup }</b> 그룹</span>
 										<em>모집 중 그룹</em>
 									</div>
 								</li>
@@ -355,22 +405,81 @@
 
 <script>
 	$(function(){
-		var $tab = $(".data_input_item div");
-		// $(".tab-box .ctn1").addClass("ctnOn");
-
+		
+		// 탭 효과		
+		var $tab = $(".data_input_item");
+		$(".data_output_list_bg").css("opacity", 0);
+		$(".data_output_item").css("display", "none");
+		$(".data_output_tit").css("opacity", 0);
+		$(".data_output_tit span").css("opacity", 0);
+		$(".data_output_desc").css("opacity", 0);
+		// $(".data_output_desc p").css("opacity", 0);
+		
+		$(".btn_output_close").css("opacity", 0);
+		// $(".btn_output_close").css({"opacity" : 0}).animate({"opacity" : 1}, 300);
+		
 		$tab.hover(function() {
-			// data_output_list_bg 보이기
-			// data_output_item 보이기
-			// data_output_tit 보이기
-			// btn_output_close 보이기
-			$(".data_output_list_bg").css("opacity", 1);
-			$(".data_output_item").css("display", "block");
-			$(".btn_output_close").css("opacity", 1);
+			value = $(this).attr("id");
+			move(value); 
 		}, function(){
+			moveStop(value);
+		});
+		
+		function move(obj){
+			$(".data_output_list_bg").css({"opacity":0}).animate({"opacity":0.7}, 500, function(){
+				/* $("." + obj).css({"display" : "block", "opacity" : 0}).animate({"opacity" : 1}, 300, function(){
+					$(this).find(".data_output_tit").css({"opacity" : 0}).animate({"opacity" : 1}, 300, function(){
+						$(".btn_output_close").css({"opacity" : 0}).animate({"opacity" : 1}, 300);
+					});
+				}); */
+				$("." + obj).css({"display" : "block"});
+				$("." + obj).find(".data_output_tit").stop().css({"opacity" : 0, "width" : 0}).animate({"opacity" : 1, "width" : "135px"}, 300, function(){
+					$(this).find("span").stop().css({"opacity" : 1}).animate({"opacity" : 1}, 10, function(){
+						$("." + obj).find(".data_output_desc").stop().css({"opacity" : 0}).animate({"opacity" : 1}, 300);
+					});
+				});
+			});
+		}			
+		
+		function moveStop(obj){
 			$(".data_output_list_bg").css("opacity", 0);
 			$(".data_output_item").css("display", "none");
-			$(".btn_output_close").css("opacity", 0);
-		});
+			//$(".btn_output_close").css("opacity", 0);
+		}
+		
+		/* 
+		
+		if(path != $large.attr("src")){
+			$large.attr({src : path})
+						.css({opacity : 0})
+						.stop()
+						.animate({opacity : "100%"}, 500);				
+		}
+		
+		*/
+		
+		// 이미지 효과
+		$(".wrapper").append("<div class='imgBackUp'></div>");
+		$(".wrapper").append("<div class='imgBackDown'></div>");
+		
+		var i = 1;
+		setInterval(function(){
+			$(".wrapper .imgBackUp").css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+			
+			i++;
+			if(i == 8){
+				i = 1;
+			}
+			
+			$(".wrapper .imgBackDown").fadeOut(1000, function(){
+				$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+				$(this).fadeIn("slow");
+			});
+			$(".wrapper .imgBackUp").show(1000, function(){
+				$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+			});
+		}, 3000);
+		
 	});
 
 </script>

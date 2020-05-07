@@ -181,7 +181,7 @@
 					</div>
 
 					<div class="btnBox">
-						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" value="그룹 나가기" />
+						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" id="exitGroup" value="그룹 나가기" />
 					</div>
 				</div>
 			</div>
@@ -237,7 +237,7 @@
 					<div class="btnBox">
 						<input type="button" class="defaultBtn defaultstyle" style="background:#4188e2;" id="updateGroup" value="그룹 수정">
 						&nbsp;&nbsp;&nbsp;
-						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" id="deleteGroup" value="그룹 없애기">
+						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" id="deleteGroup" value="그룹 종료하기">
 					</div>
 				</div>
 			</div>
@@ -247,27 +247,27 @@
 	
 	<script>
 		var trigerBox;
-		var category;
+		var category = "none";
 		var sgNo;
+		var page;
 		
 		$(function() {
 			$('#hiddenOption').css('display', 'none');
-			
-			category = "";
+
+			category = "none";
 			trigerBox = 'false';
-			console.log(trigerBox);
 			getGroupList('false'); //-> 실시간 업데이트가 목적이 아니라 옵션을 위해서니까 setinterval안쓰고 진행
 			getGroupListPage('false');
 		});
 		
-		function getGroupList(triger, type) {
+		function getGroupList(triger, type, page) {
 			var userId = "${ loginUser.id }";
 			if($('#categoryLong').css('color') == 'rgb(255, 255, 255)') {
 				category = "long";
 			} else if($('#categoryOnce').css('color') == 'rgb(255, 255, 255)') {
 				category = "once";
 			} else {
-				category = "";
+				category = "none";
 			}
 			
 			var sendData;
@@ -277,6 +277,11 @@
 				sendData = {"userId":userId, "triger":triger, "category":category, "searchType":searchType, "searchText":searchText};
 			} else {
 				sendData = {"userId":userId, "triger":triger, "category":category};
+			}
+			
+			if(page) {
+				var pageData = {"page":page};
+				$.extend(true, sendData, pageData);
 			}
 			
 			$.ajax({
@@ -390,16 +395,20 @@
 					
 				}
 			})
+			
+			if(page) {
+				getGroupListPage(trigerBox, category, page);
+			}
 		}
 		
-		function getGroupListPage(triger, type) {
+		function getGroupListPage(triger, type, page) {
 			var userId = "${ loginUser.id }";
 			if($('#categoryLong').css('color') == 'rgb(255, 255, 255)') {
 				category = "long";
 			} else if($('#categoryOnce').css('color') == 'rgb(255, 255, 255)') {
 				category = "once";
 			} else {
-				category = "";
+				category = "none";
 			}
 			
 			var sendData;
@@ -409,6 +418,11 @@
 				sendData = {"userId":userId, "triger":triger, "category":category, "searchType":searchType, "searchText":searchText};
 			} else {
 				sendData = {"userId":userId, "triger":triger, "category":category};
+			}
+			
+			if(page) {
+				var pageData = {"page":page};
+				$.extend(true, sendData, pageData);
 			}
 			
 			$.ajax({
@@ -428,30 +442,36 @@
 					
 					//맨 처음으로, 이전
 					if(data.currentPage <= 1) {
-						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('≪');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('≪');
+						$span = $('<span class="icon-fast-backward">');
 						
 						$a.append($span);
 						$li.append($a);
 						$pageListUl.append($li);
 						
-						$a = $('<a href="#" aria-label="Previous" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('＜');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('＜');
+						$span = $('<span class="icon-to-start">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageListUl.append($li);
-					}
-					else if(data.currentPage > 1) {
-						$a = $('<a href="groupList.mp" aria-label="Previous">');
-						$span = $('<span aria-hidden="true">').text('≪');
+					} else if(data.currentPage > 1) {
+						var gostr = "getGroupList('" + trigerBox + "','" + category + "');";
+						$a = $('<a onclick="' + gostr + '">');
+						//$span = $('<span aria-hidden="true">').text('≪');
+						$span = $('<span class="icon-fast-backward">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageListUl.append($li);
-						
-						$a = $('<a href="groupList.mp?page=' + data.currentPage - 1 + '" aria-label="Previous">');
-						$span = $('<span aria-hidden="true">').text('≫');
+
+						var go = data.currentPage - 1;
+						var gostr = "getGroupList('" + trigerBox + "','" + category + "'," + go + ");";
+						$a = $('<a onclick="' + gostr + '">');
+						//$span = $('<span aria-hidden="true">').text('＜');
+						$span = $('<span class="icon-to-start">');
 						
 						$a.append($span);
 						$li.append($a);
@@ -460,43 +480,49 @@
 					
 					//페이지
 					for(var i = data.startPage; i <= data.endPage; i++) {
-						console.log(i);
-						
+						var gostr = "getGroupList('" + trigerBox + "','" + category + "'," + i + ");";
 						if(i == data.currentPage)
-							$a = $('<a href="#" onclick="return false;">').text(i);
-						else
-							$a = $('<a href="groupList.mp?page=' + i + '">').text(i);
-
+							$a = $('<a href="#" class="pageBtn selectPageBtn" onclick="return false;">').text(i);
+						else {
+							$a = $('<a class="pageBtn" onclick="' + gostr + '">').text(i);
+						}
+						
 						$li.append($a);
 						$pageListUl.append($li);
 					}
 
 					//맨 마지막으로, 다음
 					if(data.currentPage >= data.maxPage) {
-						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('>');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('>');
+						$span = $('<span class="icon-to-end">');
 						
 						$a.append($span);
 						$li.append($a);
 						$pageListUl.append($li);
 						
-						$a = $('<a href="#" aria-label="Next" onclick="return false;">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						$a = $('<a href="#" onclick="return false;">');
+						//$span = $('<span aria-hidden="true">').text('≫');
+						$span = $('<span class="icon-fast-forward">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageListUl.append($li);
-					}
-					else if(data.currentPage < data.maxPage) {
-						$a = $('<a href="groupList.mp?page=' + data.currentPage + 1 + '" aria-label="Next">');
-						$span = $('<span aria-hidden="true">').text('>');
+					} else if(data.currentPage < data.maxPage) {
+						var go = data.currentPage + 1;
+						var gostr = "getGroupList('" + trigerBox + "','" + category + "'," + go + ");";
+						$a = $('<a onclick="' + gostr + '">');
+						//$span = $('<span aria-hidden="true">').text('>');
+						$span = $('<span class="icon-to-end">');
 
 						$a.append($span);
 						$li.append($a);
 						$pageListUl.append($li);
 						
-						$a = $('<a href="groupList.mp?page=' + data.maxPage + '"  aria-label="Next">');
-						$span = $('<span aria-hidden="true">').text('≫');
+						var gostr = "getGroupList('" + trigerBox + "','" + category + "'," + data.maxPage + ");";
+						$a = $('<a onclick="' + gostr + '">');
+						//$span = $('<span aria-hidden="true">').text('≫');
+						$span = $('<span class="icon-fast-forward">');
 						
 						$a.append($span);
 						$li.append($a);
@@ -584,7 +610,7 @@
 							no--;
 							$tr.append('<td>' + data[i].nick + '</td>');
 							$tr.append('<td>' + data[i].appDlDate + '</td>');
-							$tr.append('<td><input type="button" class="defaultBtn" style="background:#71acf8;" value="강퇴" onclick="deleteMember();"></td>');
+							$tr.append('<td><input type="button" class="defaultBtn" style="background:#71acf8;" value="강퇴" onclick="deleteMemberAlert();"></td>');
 							$memberTableBody.append($tr);
 						}
 					} else {
@@ -653,26 +679,90 @@
 			
 			$('#groupBossModal').modal("show");
 		}
+
+		function sweetCheck(title, text, btnText, status){
+			swal({
+				title:title,
+				text:text,
+				type:"warning",
+				showCancelButton: !0,
+				confirmButtonColor:"#DD6B55",
+				confirmButtonText:btnText,
+				closeOnConfirm: !1
+				},
+				function(){
+					if(status == '강퇴') deleteMember();
+					else if(status == '종료') deleteGroup();
+					else exitGroup();
+				}
+			)
+		};
 		
 		var sendNo;
 		var sendNick;
 		var sendId;
+		var groupName;
+		function deleteMemberAlert() {
+			sweetCheck("정말 '" + sendNick + "'님을 그룹에서 강퇴시키겠습니까?", "강퇴 후 복구할 수 없습니다.", "강퇴");
+		}
+
 		function deleteMember() {
-			console.log(sendNo + ", " + sendNick + ", " + sendId);
-			
-			if(confirm("정말 " + sendNick + "님을 그룹에서 강퇴시키겠습니까?")) {
-				$.ajax({
-					url:"deleteMember.mp",
-					data:{sgno:sendNo, id:sendId},
-					dataType: 'json',
-					success: function(data) {
-						if(data == 'success') {
-							openGroupBossModal(sendNo);
-							alert(sendNick + "님이 그룹에서 강퇴되었습니다.");
-						}
+			groupName = $('#groupBossModal').children().children().children().children().eq(1).text();
+			$.ajax({
+				url:"deleteMember.mp",
+				data:{sgno:sendNo, id:sendId, groupName:groupName},
+				dataType: 'json',
+				success: function(data) {
+					if(data == 'success') {
+						$('#groupBossModal').modal("hide");
+						sweetSuccess('그룹원을 강퇴');
 					}
-				});
-			}
+				}
+			});
+		}
+		
+		$('#deleteGroup').click(function() {
+			groupName = $('#groupBossModal').children().children().children().children().eq(1).text();
+			sweetCheck("정말 '" + groupName + "' 그룹을 종료하시겠습니까?", "그룹 종료 후 복구할 수 없습니다.", "종료");
+		})
+		
+		function deleteGroup() {
+			$.ajax({
+				url:"deleteGroup.sg",
+				data:{sgno:sgNo, groupName:groupName},
+				dataType: 'json',
+				success: function(data) {
+					if(data == 'success') {
+						sweetSuccess('스터디를 종료');
+						$('#groupBossModal').modal("hide");
+
+						getGroupList(trigerBox,category,page);
+						getGroupListPage(trigerBox,category,page);
+					}
+				}
+			})
+		}
+		
+		$('#exitGroup').click(function() {
+			groupName = $('#groupBossModal').children().children().children().children().eq(1).text();
+			sweetCheck("정말 '" + groupName + "' 그룹에서 나가시겠습니까?", "그룹을 나가면 복구할 수 없습니다.", "나가기");
+		})
+		
+		function exitGroup() {
+			$.ajax({
+				url:"exitGroup.sg",
+				data:{sgno:sgNo, id:"${loginUser.id}", nick:"${loginUser.nick}", groupName:groupName},
+				dataType: 'json',
+				success: function(data) {
+					if(data == 'success') {
+						sweetSuccess('성공');
+						$('#groupModal').modal("hide");
+						
+						getGroupList(trigerBox,category,page);
+						getGroupListPage(trigerBox,category,page);
+					}
+				}
+			})
 		}
 		
 		$('#optionArea').mouseover(function() {

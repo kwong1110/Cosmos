@@ -16,9 +16,42 @@
 	.note-editable{
 		background-color: rgb(255, 255, 224) !important;
 	}
-	.note-btn{
+	/* color picker색이 잘 안보이므로 삭제 */
+	/* .note-btn{
+		background-color: rgb(255, 255, 224) !important;
+	} */
+	.note-btn-group>.note-btn{
 		background-color: rgb(255, 255, 224) !important;
 	}
+	
+	/* toolbar 항목 클릭 시 스타일 변경 */
+	.note-modal-title{
+		font-family: 'Binggrae';
+	}
+	.note-modal-header,.note-modal-body{
+		background-color: rgb(254, 245, 198);
+	}
+	.note-modal-footer{
+		display:none;
+	}
+	.note-form-label{
+		padding: 6px 9px 6px 9px;
+		border: 0;
+		background: #135D36;
+		color: white;
+		font-size: 1.7rem;
+		font-weight: bold;
+		border-radius:8px;
+		cursor: pointer;
+	}
+	input[type=file],.note-group-image-url{
+		display: none;
+	}
+	.note-dropdown-menu {
+    	min-width: 0 !important;
+	}
+	/* */
+	
 </style>
 </head>
 <body>
@@ -37,15 +70,16 @@
 		dialogsFade: true,				// 기본적으로 대화 상자는 페이딩 효과없이 표시되고 숨겨짐. 이걸 켜야됨.
 			// --
 		// placeholder: ''				//placeholder 설정
-		/* toolbar: [
-          ['style', ['style']],
-          ['font', ['bold', 'underline', 'clear']],
-          ['color', ['color']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['table', ['table']],
-          ['insert', ['link', 'picture', 'video']],
-          ['view', ['fullscreen', 'codeview', 'help']]
-        ], */
+		toolbar: [
+          	['style', ['style']],
+          	['font', ['bold', 'italic', 'underline', 'clear']],
+		    ['color', ['color']],
+		    ['para', ['paragraph']],
+		    ['height', ['height']],
+		    ['table', ['table']],
+		    ['insert', ['picture', 'hr']],
+		    ['view', ['codeview']]
+        ],
 		callbacks: {					// 이미지를 첨부하는 부분
 			onImageUpload : function(files) {
 				uploadSummernoteImageFile(files[0],this);
@@ -65,15 +99,16 @@
 		dialogsFade: true,				// 기본적으로 대화 상자는 페이딩 효과없이 표시되고 숨겨짐. 이걸 켜야됨.
 			// --
 		// placeholder: ''				//placeholder 설정
-		/* toolbar: [
-          ['style', ['style']],
-          ['font', ['bold', 'underline', 'clear']],
-          ['color', ['color']],
-          ['para', ['ul', 'ol', 'paragraph']],
-          ['table', ['table']],
-          ['insert', ['link', 'picture', 'video']],
-          ['view', ['fullscreen', 'codeview', 'help']]
-        ], */
+		toolbar: [
+          	['style', ['style']],
+          	['font', ['bold', 'italic', 'underline', 'clear']],
+		    ['color', ['color']],
+		    ['para', ['paragraph']],
+		    ['height', ['height']],
+		    ['table', ['table']],
+		    ['insert', ['picture', 'hr']],
+		    ['view', ['codeview']]
+        ],
 		callbacks: {					// 이미지를 첨부하는 부분
 			onImageUpload : function(files) {
 				uploadSummernoteImageFile(files[0],this);

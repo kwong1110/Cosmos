@@ -53,11 +53,13 @@
 					
 					<div id="goMessage">
 					<label id="bossNickname">${ info.nick }</label>
+					<c:if test="${ loginUser != null }">
 					<div id="messageHiddenArea">
 						<div id="messageArea">
 							<label id="sendMessage">쪽지 보내기</label>
 						</div>
 					</div>
+					</c:if>
 					</div>
 					
 				</div>
@@ -420,7 +422,7 @@
 			
 			if($('#appArea').children().length > 0) {
 				url = "doAppGroup.sg";
-				sendData = {"sgno":"${ info.sgNo }", "recno":"${ info.recNo }"};
+				sendData = {"sgno":"${ info.sgNo }", "recno":"${ info.recNo }", "bossid":"${info.id}", "sgname":"${info.sgName}"};
 			} else {
 				url = "getAppInfo.sg";
 				sendData = {"recno":"${ info.recNo }"};
@@ -537,13 +539,13 @@
 		}
 		
 		function confirmApproach(type) {
-			console.log("confirmApproach");
 			var recno = "${ info.recNo }";
-			var nick = $('#myModalBody').children().eq(0).text() + "";
-
+			var sgname = "${ info.sgName }";
+			var nick = $('#infoNick').text() + "";
+			
 			$.ajax({
 				url:"confirmApproach.sg",
-				data:{type:type, recno:recno, nick:nick},
+				data:{type:type, recno:recno, nick:nick, sgname:sgname},
 				dataType: 'json',
 				success: function(data) {
 					if(data != null) {
@@ -561,6 +563,21 @@
 				}
 			});
 		}
+		
+		$('#sendMessage').click(function() {
+			if("${loginUser.id}" != ""){
+				var toId = "${info.id}";
+				var url = "noteInsertView.mp?noteToId=" + toId;
+		        var name = "notePopup";
+		        
+		        var popLeft = Math.ceil(( window.screen.width - 700 )/2);
+		        var popTop = Math.ceil(( window.screen.height - 670 )/2);
+		        
+		        var option = "width = 700, height = 670, top =" + popTop + ", left = " + popLeft +", location = no";
+		        
+		        child = window.open(url, name, option); 
+			}
+		})
 	</script>
 </body>
 </html>

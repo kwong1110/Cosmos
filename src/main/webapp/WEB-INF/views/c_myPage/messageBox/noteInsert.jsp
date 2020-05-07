@@ -20,17 +20,16 @@
 		</div>
 		
 		<form action="noteInsert.mp" method="post">
-		<input type="hidden" name="noteFromId" value="${ loginUser.nick }">
+		<input type="hidden" name="noteFromId" value="${ loginUser.id }">
 		<div class="note-body">
 	
 			<div class="insert-area">
 				<span>받는 사람 :</span> 
-				<c:if test="${ !empty noteToId }">
-				<input type="hidden" name="noteToId" value="${ noteToId }">
-				<input type="text" name="noteToId" class="form-control" value="${ noteToId }" readonly>
+				<c:if test="${ !empty toNick }">
+					<input type="text" name="toNick" class="form-control" value="${ toNick }" readonly>
 				</c:if>
-				<c:if test="${ empty noteToId }">
-				<input type="text" name="noteToId" class="form-control">
+				<c:if test="${ empty toNick }">
+				<input type="text" name="toNick" class="form-control">
 				</c:if>
 			</div>
 			<div>

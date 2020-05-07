@@ -6,7 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +19,7 @@ import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.c_myPage.model.exception.MyPageException;
 import com.kh.cosmos.c_myPage.model.service.NoteService;
 import com.kh.cosmos.c_myPage.model.vo.Note;
+import com.kh.cosmos.c_myPage.model.vo.SearchCondition;
 
 
 @SessionAttributes("loginUser")
@@ -55,20 +55,19 @@ public class NoteController {
 		return mv;
 	}
 	
-	// 쪽지 보내기 뷰(@RequestParam("noteToId") : 받는 사람이 있을 떄
-	@RequestMapping("noteInsertView.mp")
-	public ModelAndView noteInsertView(@RequestParam("noteToId") String noteToId, ModelAndView mv) {
+	// 쪽지 보내기 뷰1(@RequestParam("noteToId") : 받는 사람이 있을 떄
+	@RequestMapping("noteInsertView1.mp")
+	public ModelAndView noteInsertView(@RequestParam("toNick") String toNick, ModelAndView mv) {
 		
-		mv.addObject("noteToId", noteToId);
+		mv.addObject("toNick", toNick);
 		mv.setViewName("/messageBox/noteInsert");
 		
 		return mv;
 	}
 	
-	// 쪽지 보내기 뷰1(@RequestParam("noteToId") : 받는 사람이 없을 때
-	@RequestMapping("noteInsertView1.mp")
+	// 쪽지 보내기 뷰(@RequestParam("noteToId") : 받는 사람이 없을 때
+	@RequestMapping("noteInsertView.mp")
 	public ModelAndView noteInsertView(ModelAndView mv) {
-		
 		mv.setViewName("/messageBox/noteInsert");
 		
 		return mv;
@@ -76,7 +75,21 @@ public class NoteController {
 	
 	// 쪽지 보내기
 	@RequestMapping("noteInsert.mp")
-	public String noteInsert(@ModelAttribute Note n, RedirectAttributes ra, HttpSession session) {
+	public String noteInsert(@ModelAttribute Note n, @RequestParam("toNick") String toNick, RedirectAttributes ra, HttpSession session) {
+		
+		if(toNick != null) {
+			Member toM = nService.selectMatchId(toNick);
+			String noteToId = toM.getId();
+			n.setNoteToId(noteToId);
+		}
+		
+		/*
+		 * String noteToId = nService.selectMatchId(toNick);
+		 * 이렇게 했더니 Casting Error
+		 * mapper에서 resultType="String"으로 하거나 
+		 * 이렇게 하는 방식으로 오류 해결
+		 * 
+		 * */
 		
 		int result = nService.insertNote(n);
 		
@@ -90,7 +103,7 @@ public class NoteController {
 			
 			return "redirect:noteList.mp";
 		} else {
-			throw new MyPageException("쪽지 입력에 실패하였습니다.");
+			throw new MyPageException("쪽지 보내기를 실패하였습니다.");
 		}
 	}
 	
@@ -130,7 +143,9 @@ public class NoteController {
 	
 	// 쪽지 보기 페이지에서 쪽지 보관함으로 이동
 	@RequestMapping("noteStorage.mp")
-	public String noteStorage(@RequestParam("noteNo") int noteNo, RedirectAttributes ra, HttpSession session) {
+	public String noteStorage(@RequestParam(value="noteNo", required=false) int noteNo, @RequestParam("noteNos") int noteNos[], RedirectAttributes ra, HttpSession session) {
+		
+		System.out.println("noteNos : " + noteNos);
 		
 		int result = nService.storeNote(noteNo);
 		
@@ -141,7 +156,6 @@ public class NoteController {
 			
 			ra.addFlashAttribute("successMsg", "보관함 보내기에 성공");
 			ra.addAttribute("userId", loginUserId);
-			
 			return "redirect:noteStorageList.mp";
 		} else {
 			throw new MyPageException("쪽지 보관에 실패하였습니다.");
@@ -150,8 +164,9 @@ public class NoteController {
 	
 	// 쪽지 보관함 목록
 	@RequestMapping("noteStorageList.mp")
-	public ModelAndView noteStorageList(@RequestParam(value="page", required=false) Integer page, @RequestParam("userId") String userId, ModelAndView mv) { 
-		System.out.println("userId : " + userId);
+	public ModelAndView noteStorageList(@RequestParam(value="page", required=false) Integer page, 
+										@RequestParam("userId") String userId, ModelAndView mv) { 
+		
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
@@ -159,7 +174,6 @@ public class NoteController {
 		
 		int listCount = nService.getStoreListCount(userId);
 		
-		System.out.println("listCount : " + listCount);
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		ArrayList<Note> nList = nService.selectStoreList(pi, userId);
@@ -174,5 +188,102 @@ public class NoteController {
 		
 		return mv;
 	}
+	
+	// 검색
+	@RequestMapping("search.mp")
+	public ModelAndView noteSearch(@RequestParam(value="page", required=false) Integer page, 
+								   @ModelAttribute SearchCondition search, @RequestParam("searchCondition") String condition, 
+								   @RequestParam("searchValue") String value, ModelAndView mv) {
+		
+		
+		if(condition.equals("id")) {
+			search.setId(value);
+		} else if(condition.equals("nick")) {
+			search.setNick(value);
+		} else if(condition.equals("content")) {
+			search.setContent(value);
+		} 
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = nService.getSearchResultListCount(search);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<Note> nList = nService.selectSearchResultList(pi, search);
+		
+		if(nList != null) {
+			mv.addObject("nList", nList)
+			  .addObject("pi", pi)
+			  .addObject("searchValue", value)
+			  .addObject("searchCondition", search)
+			  .setViewName("/messageBox/noteList");
+		} else {
+			throw new MyPageException("검색에 실패하였습니다.");
+		}
+		
+		return mv;
+	}
+	
+	
+	// 분류
+	@RequestMapping("noteMenu.mp")
+	public ModelAndView noteMenu(@RequestParam(value="page", required=false) Integer page, 
+								 @RequestParam("menuCondition") String menu, @RequestParam("userId") String userId, ModelAndView mv) {
+		
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		ArrayList<Note> nList = null;
+		PageInfo pi = null;
+		
+		if(menu.equals("to")) { // 받은 쪽지
+			
+			int listCount = nService.getMenuToListCount(userId);
+			pi = Pagination.getPageInfo(currentPage, listCount);
+			nList = nService.selectMenuToList(pi, userId);
+			
+		} else if (menu.equals("from")) { // 보낸 쪽지
+			
+			int listCount = nService.getMenuFromListCount(userId);
+			pi = Pagination.getPageInfo(currentPage, listCount);
+			nList = nService.selectMenuFromList(pi, userId);
+			
+		} else if (menu.equals("tome")) { // 내게 보낸 쪽지
+			
+			int listCount = nService.getMenuToMeListCount(userId);
+			pi = Pagination.getPageInfo(currentPage, listCount);
+			nList = nService.selectMenuToMeList(pi, userId);
+			
+		} else if (menu.equals("total")) { // 전체 쪽지
+			
+			int listCount = nService.getListCount(userId);
+			pi = Pagination.getPageInfo(currentPage, listCount);
+			nList = nService.selectList(pi, userId);
+			
+		}
+		
+		
+		if(nList != null) {
+			mv.addObject("nList", nList)
+			  .addObject("pi", pi)
+			  .addObject("menuCondition", menu)
+			  .setViewName("/messageBox/noteList");
+		} else {
+			throw new MyPageException("검색에 실패하였습니다.");
+		}
+		
+		
+		return mv;
+	}
+	
+	
+	
+	
 	
 }

@@ -9,9 +9,6 @@
 	margin: 0;
 	padding: 0;
 }
-.fc{
-	background-color: white;
-}
 .fc-sat{
 	color:rgb(70, 191, 240);
 }
@@ -19,7 +16,7 @@
 	color:#FF0000;
 }
 .fc-button{
-	background-color: lightgray;
+	background-color: rgb(212, 212, 212);
 	border-color: white;
 	border-radius: 30%;
 }
@@ -27,17 +24,16 @@
 	background-color: black;
 }
 .fc-content{
-	background-color: rgb(252, 211, 63);
 	white-space:pre-wrap !important;
 	word-break: keep-all !important;
 	/* text-overflow: ellipsis;  */ /* 생략기호로 보여주기 */
 }
 .fc-content:hover {
-  background: rgb(242, 201, 53);
-  cursor: pointer;
+	background-color: rgba(252,252,252,0.4);
+ 	cursor: pointer;
 }
 .fc-day-header{
-	background-color: lightgray;
+	background-color: rgb(212, 212, 212);
 }
 
 

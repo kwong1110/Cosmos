@@ -7,6 +7,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.a_common.Pagination_five;
 import com.kh.cosmos.c_myPage.model.vo.Coupon;
 
 @Repository("cDAO")

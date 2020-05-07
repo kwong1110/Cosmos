@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.c_myPage.model.dao.NoteDAO;
 import com.kh.cosmos.c_myPage.model.vo.Note;
+import com.kh.cosmos.c_myPage.model.vo.SearchCondition;
 
 @Service("nService")
 public class NoteServiceImpl implements NoteService {
@@ -29,6 +31,10 @@ public class NoteServiceImpl implements NoteService {
 		return nDAO.selectList(sqlSession, pi, userId);
 	}
 
+	public Member selectMatchId(String toNick) {
+		return nDAO.selectMatchId(sqlSession, toNick);
+	}
+	
 	@Override
 	public int insertNote(Note n) {
 		return nDAO.insertNote(sqlSession, n);
@@ -58,5 +64,50 @@ public class NoteServiceImpl implements NoteService {
 	public ArrayList<Note> selectStoreList(PageInfo pi, String userId) {
 		return nDAO.selectStoreList(sqlSession, pi, userId);
 	}
+	
+	
+	@Override
+	public int getSearchResultListCount(SearchCondition search) {
+		return nDAO.getSearchResultCount(sqlSession, search);
+	}
+
+	@Override
+	public ArrayList<Note> selectSearchResultList(PageInfo pi, SearchCondition search) {
+		return nDAO.selectSearchResultList(sqlSession, pi, search);
+	}
+	
+	@Override
+	public int getMenuToListCount(String userId) {
+		return nDAO.getMenuToListCount(sqlSession, userId);
+	}
+
+	@Override
+	public ArrayList<Note> selectMenuToList(PageInfo pi, String userId) {
+		return nDAO.selectMenuToList(sqlSession, pi, userId);
+	}
+
+	@Override
+	public int getMenuFromListCount(String userId) {
+		return nDAO.getMenuFromListCount(sqlSession, userId);
+	}
+
+	@Override
+	public ArrayList<Note> selectMenuFromList(PageInfo pi, String userId) {
+		return nDAO.selectMenuFromList(sqlSession, pi, userId);
+	}
+
+	@Override
+	public int getMenuToMeListCount(String userId) {
+		return nDAO.getMenuToMeListCount(sqlSession, userId);
+	}
+
+	@Override
+	public ArrayList<Note> selectMenuToMeList(PageInfo pi, String userId) {
+		return nDAO.selectMenuToMeList(sqlSession, pi, userId);
+	}
+
+	
+
+	
 
 }
