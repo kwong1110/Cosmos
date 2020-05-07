@@ -65,16 +65,45 @@
 	}
 	
 	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=*/
+		
 	/* 배너 배경 */
-	.data_output_list_bg{
-		opacity : 0;
+	.data_output_list_bg {
+		
+		/* opacity : 0; */
 		width: 1000px;
 		height : 280px;
 		background: rgba(255, 255, 255, 0.9);
 		position:absolute;
 		left:0;
-		top:0;
+		top : 0;
+		z-index:0;
+		
+		/* transform: scaleY(0);
+		transform-origin: bottom;
+		transition: transform 1s ease; */
+		
+		
+		/* -webkit-transform: scaleY(0);
+		-o-transform: scaleY(0);
+		-ms-transform: scaleY(0);
+		transform: scaleY(0);
+		
+		-webkit-transform-origin: bottom;
+		-o-transform-origin: bottom;
+		-ms-transform-origin: bottom;
+		transform-origin: bottom;
+		
+		-webkit-transition: -webkit-transform 1s ease;
+		-webkit-transition: -webkit-transform 1s ease;
+		-webkit-transition: -webkit-transform 1s ease;
+		transition: transform 1s ease; */
 	}
+	
+	/* .data_output_list_bg:hover {
+		height : 280px;
+		transform: scaleY(1);
+	} */
+	
 	
 	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=*/
 	/* 숨겨져 있다 위로 튀어 올라오는 배너, 각 배너 아이템들의 최상위 박스 */
@@ -119,7 +148,6 @@
 	.data_output_desc{
 		float:left;
 		width : 450px;
-		border:1px solid green;
 	}
 	
 	/* 각 배너 왼쪽 영역 안에 있는 헤드라인 */
@@ -134,7 +162,6 @@
 	/*------------------------------------------*/
 	/* 각 배너 오른쪽 영역 */	
 	.data_desc_list{
-		border:1px solid red;
 		float:right;
 	}
 	
@@ -379,51 +406,80 @@
 <script>
 	$(function(){
 		
-		// 이미지 효과
-		$(".wrapper").append("<div class='imgBack1'></div>");
-		$(".wrapper").append("<div class='imgBack2'></div>");
+		// 탭 효과		
+		var $tab = $(".data_input_item");
+		$(".data_output_list_bg").css("opacity", 0);
+		$(".data_output_item").css("display", "none");
+		$(".data_output_tit").css("opacity", 0);
+		$(".data_output_tit span").css("opacity", 0);
+		$(".data_output_desc").css("opacity", 0);
+		// $(".data_output_desc p").css("opacity", 0);
 		
-			/* var i = 1;
-			setInterval(function(){
-			$(".main").css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"})
-				i++;
-				/* if(i == 7){
-					i = 1;
-				}
-				
-				$(".main").fadeOut("slow", function(){
-					$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
-					$(this).fadeIn("slow");
-				}); */
-				
-				/* if(i == 7){
-					i = 1;
-				}
-				$(".main").fadeOut("slow", function(){
-					$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
-					$(this).fadeIn("slow");
-				});
-
-			}, 3000); */
+		$(".btn_output_close").css("opacity", 0);
+		// $(".btn_output_close").css({"opacity" : 0}).animate({"opacity" : 1}, 300);
 		
-		
-		
-		var $tab = $(".data_input_item div");
-		// $(".tab-box .ctn1").addClass("ctnOn");
-
 		$tab.hover(function() {
-			// data_output_list_bg 보이기
-			// data_output_item 보이기
-			// data_output_tit 보이기
-			// btn_output_close 보이기
-			$(".data_output_list_bg").css("opacity", 1);
-			$(".data_output_item").css("display", "block");
-			$(".btn_output_close").css("opacity", 1);
+			value = $(this).attr("id");
+			move(value); 
 		}, function(){
+			moveStop(value);
+		});
+		
+		function move(obj){
+			$(".data_output_list_bg").css({"opacity":0}).animate({"opacity":0.7}, 500, function(){
+				/* $("." + obj).css({"display" : "block", "opacity" : 0}).animate({"opacity" : 1}, 300, function(){
+					$(this).find(".data_output_tit").css({"opacity" : 0}).animate({"opacity" : 1}, 300, function(){
+						$(".btn_output_close").css({"opacity" : 0}).animate({"opacity" : 1}, 300);
+					});
+				}); */
+				$("." + obj).css({"display" : "block"});
+				$("." + obj).find(".data_output_tit").stop().css({"opacity" : 0, "width" : 0}).animate({"opacity" : 1, "width" : "135px"}, 300, function(){
+					$(this).find("span").stop().css({"opacity" : 1}).animate({"opacity" : 1}, 10, function(){
+						$("." + obj).find(".data_output_desc").stop().css({"opacity" : 0}).animate({"opacity" : 1}, 300);
+					});
+				});
+			});
+		}			
+		
+		function moveStop(obj){
 			$(".data_output_list_bg").css("opacity", 0);
 			$(".data_output_item").css("display", "none");
-			$(".btn_output_close").css("opacity", 0);
-		});
+			//$(".btn_output_close").css("opacity", 0);
+		}
+		
+		/* 
+		
+		if(path != $large.attr("src")){
+			$large.attr({src : path})
+						.css({opacity : 0})
+						.stop()
+						.animate({opacity : "100%"}, 500);				
+		}
+		
+		*/
+		
+		// 이미지 효과
+		$(".wrapper").append("<div class='imgBackUp'></div>");
+		$(".wrapper").append("<div class='imgBackDown'></div>");
+		
+		var i = 1;
+		setInterval(function(){
+			$(".wrapper .imgBackUp").css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+			
+			i++;
+			if(i == 8){
+				i = 1;
+			}
+			
+			$(".wrapper .imgBackDown").fadeOut(1000, function(){
+				$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+				$(this).fadeIn("slow");
+			});
+			$(".wrapper .imgBackUp").show(1000, function(){
+				$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+			});
+		}, 3000);
+		
 	});
 
 </script>
