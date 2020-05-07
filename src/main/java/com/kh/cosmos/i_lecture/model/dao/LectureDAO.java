@@ -23,4 +23,16 @@ public class LectureDAO {
 	public int lectureApply(SqlSessionTemplate sqlSession, Lecture l) {
 		return sqlSession.insert("lectureMapper.lectureApply", l);
 	}
+
+	public int lectureBuy(SqlSessionTemplate sqlSession, Lecture l) {
+		return sqlSession.insert("lectureMapper.lectureBuy", l);
+	}
+
+	public int lectureAttendPlus(SqlSessionTemplate sqlSession, Lecture l) {
+		return sqlSession.update("lectureMapper.lectureAttendPlus", l);
+	}
+
+	public ArrayList<Lecture> selectLectureAttendList(SqlSessionTemplate sqlSession, String loginUserId) {
+		return (ArrayList)sqlSession.selectList("lectureMapper.selectLectureAttendList", loginUserId);
+	}
 }

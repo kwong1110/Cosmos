@@ -12,4 +12,10 @@ public interface LectureService {
 	ArrayList<ViewBranch> selectBranchList();
 
 	int lectureApply(Lecture l);
+
+	int lectureBuy(Lecture l);
+
+	int lectureAttendPlus(Lecture l);
+
+	ArrayList<Lecture> selectLectureAttendList(String loginUserId);
 }
