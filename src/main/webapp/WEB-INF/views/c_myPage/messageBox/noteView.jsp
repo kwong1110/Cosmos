@@ -21,10 +21,6 @@
 			<span class="cosmos">보낸 사람</span>
 			| <c:out value="${note.noteFromId}"/>님
 			<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline;"> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
-<<<<<<< HEAD
-
-=======
->>>>>>> branch 'master' of https://github.com/kwong1110/Cosmos.git
 		</h2>
 	</div>
 	<form>
@@ -66,13 +62,6 @@
 	function statusUpdate(){
 		location.href='${noteDelete}'		
 	}
-<<<<<<< HEAD
-
-	
-	
-	
-=======
->>>>>>> branch 'master' of https://github.com/kwong1110/Cosmos.git
 	// 신고하기 라디오버튼 활성화
 	$(document).ready(function(){
  
@@ -126,11 +115,6 @@
 			}
 		});
 	}
-<<<<<<< HEAD
-	
-
-=======
->>>>>>> branch 'master' of https://github.com/kwong1110/Cosmos.git
 </script>
 	<!-- sweet alert -->
 <script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.min.js"></script>
