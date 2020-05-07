@@ -70,6 +70,7 @@
 		<div class="wrapper">
 			<div  align="center">	
 				<div class="adminList" style="margin-bottom:0px;">
+				<c:if test="${loginUser.name eq '본점관리자' }">
 					<ul class="nav nav-tabs">
 						<li role="presentation"><a href="adminPage.ap">본점관리자</a></li>
 						<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
@@ -77,6 +78,7 @@
 						<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
 						<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
 					</ul>
+				</c:if>
 				</div>
 			</div>
 			<hr>
@@ -87,9 +89,10 @@
 				</div>
 				<c:if test="${loginUser.name eq '본점관리자' }">
 				<a style="text-align:center; font-size:0.9em;">▶ COSMOS◀ 본점 관리자 어드민 페이지입니다.</a>
-				
-
-				</c:if>	
+				</c:if>
+			<%-- 	<c:if test="${loginUser.grade == 0 }">
+				<a style="text-align:center; font-size:0.9em;">지점관리자 어드민 페이지입니다.</a>
+				</c:if> --%>	
 					<table class="inner table table-hover">
 						<tr>
 							<th>아이디</th>
