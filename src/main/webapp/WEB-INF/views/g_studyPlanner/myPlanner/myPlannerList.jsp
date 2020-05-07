@@ -2,6 +2,7 @@
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,6 +23,7 @@
 
 	<!-- tooltip css (tooltip사용할 경우 주석 해제) -->
 	<!-- <link href='resources/css/tooltip.css' rel='stylesheet' /> -->
+	
 <style>
 	.helpBtn{
 		background: rgb(23, 149, 95); 
@@ -39,18 +41,6 @@
     	white-space: pre-wrap;
 	}
 	
-	.fc-event{
-		border-color: white;
-		background-color: white;
-		border-radius: 15px;
-	}
-	.fc-content{
-		color: black;
-		padding: 10px;
-		font-size: 1.5rem;
-		font-family: 'Binggrae-Bold';
-		text-align: center;
-	}
 	.panel{
 		background-color: rgb(255, 253, 242) !important;
 	}
@@ -124,9 +114,12 @@
 		width: auto;
 		height: auto;
 	}
+		/* select */
+	#categorySelect,#insertCategorySelect {
+		background-color: rgb(255, 255, 224);
+	}
 	
 	/* 플래너 전용*/
-	
 	.myIcon{
 		color: rgba(0, 0, 0, 0.3);
 		font-size: 3rem !important;
@@ -138,36 +131,34 @@
 	}
 	
 		/* planColor selectBox */
-	#planColor {
+	.planColor option[value="rgb(252, 124, 124)"] {
 		background-color: rgb(252, 124, 124);
 	}
-	#planColor option[value="rgb(252, 124, 124)"] {
-	  background-color: rgb(252, 124, 124);
+	.planColor option[value="rgb(252, 197, 124)"] {
+		background-color: rgb(252, 197, 124);
 	}
-	#planColor option[value="rgb(252, 197, 124)"] {
-	  background: rgb(252, 197, 124);
+	.planColor option[value="rgb(249, 255, 133)"] {
+		background-color: rgb(249, 255, 133);
 	}
-	#planColor option[value="rgb(249, 255, 133)"] {
-	  background: rgb(249, 255, 133);
+	.planColor option[value="rgb(130, 255, 161)"] {
+		background-color: rgb(130, 255, 161);
 	}
-	#planColor option[value="rgb(130, 255, 161)"] {
-	  background: rgb(130, 255, 161);
+	.planColor option[value="rgb(130, 236, 255)"] {
+		background-color: rgb(130, 236, 255);
 	}
-	#planColor option[value="rgb(130, 236, 255)"] {
-	  background: rgb(130, 236, 255);
+	.planColor option[value="rgb(197, 130, 255)"] {
+		background-color: rgb(197, 130, 255);
 	}
-	#planColor option[value="rgb(197, 130, 255)"] {
-	  background: rgb(197, 130, 255);
+	.planColor option[value="rgb(255, 130, 197)"] {
+		background-color: rgb(255, 130, 197);
 	}
-	#planColor option[value="rgb(255, 130, 197)"] {
-	  background: rgb(255, 130, 197);
+	.planColor option[value="rgb(255, 255, 255)"] {
+		background-color: rgb(255, 255, 255);
 	}
-	#planColor option[value="rgb(255, 255, 255)"] {
-	  background: rgb(255, 255, 255);
+	.planColor option[value="rgb(194, 194, 194)"] {
+		background-color: rgb(194, 194, 194);
 	}
-	#planColor option[value="rgb(194, 194, 194)"] {
-	  background: rgb(194, 194, 194);
-	}
+	
 	
 	/* 플래너 상단 박스 */
 	.conTopBox{
@@ -180,6 +171,7 @@
 		vertical-align: middle;
 	}
 	.conTopBox h2 {
+		font-family: 'Binggrae';
 		display: inline;
 		margin: 0;
 		font-size: 1.75em;
@@ -188,8 +180,9 @@
 	
 	/* 체크박스 체크시 */
 	.checkOn {
-		text-decoration:line-through;
+		text-decoration: line-through;
 		text-decoration-color: red;
+		text-decoration-style: solid;
 	}
 	
 	/* 오른쪽 마우스 */
@@ -212,6 +205,66 @@
 	
 	.custom-menu a:hover {
 		background: rgb(186, 186, 186);
+	}
+	
+	/* 팝 오버 */
+	.popover-title {
+	 	/* background-color: rgb(23, 149, 95) !important; */
+	 	padding: 0 !important;
+	 	margin: 0 !important;
+	 	color: black;
+	 	font-weight: bold;
+	}
+	
+	/* 체크박스 스타일링 */
+	.checkbox.custom {
+		font-family: 'Binggrae';
+		margin: 0;
+		padding: 0;
+		display: inline-block;
+		width: 15%;
+		margin-bottom: 20px;
+	}
+	
+	input[type="checkbox"].custom {
+		margin-left: 0;
+		padding: 0;
+	}
+	
+	input[type=checkbox].css-checkbox {
+		position: absolute;
+		overflow: hidden;
+		clip: rect(0 0 0 0);
+		height: 1px;
+		width: 1px;
+		margin: -1px;
+		padding: 0px;
+		border: 0;
+	}
+	
+	input[type=checkbox].css-checkbox+label.css-label {
+		padding-left: 33px;
+		height: 21px;
+		line-height: 20px;
+		background-repeat: no-repeat;
+		background-position: 0 0;
+		font-size: 20px;
+		vertical-align: middle;
+		cursor: pointer;
+		opacity: 1;
+	}
+	
+	input[type=checkbox].css-checkbox+label.css-label:hover {
+		opacity: 0.7;
+	}
+	
+	input[type=checkbox].css-checkbox:checked+label.css-label {
+	  background-position: 0 -21.5px;
+	}
+	
+	.css-label {
+	  background-image: url(http://codeopus.net/file/blog/check2.png);
+	  background-size: 21px;
 	}
 </style>
 <script>
@@ -256,6 +309,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					end : "${ p.planEnd }",
 					id: '${ p.planNo }',
 					backgroundColor: "${ p.planColor }",
+					allDay: '${ p.planAllday }' == 0 ? false : true,
 					extendedProps: {
 			        	content: '${ p.planContent }',
 			        	menu: '${ p.planMenu }',
@@ -270,8 +324,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			        	studyNo: '${ p.studyNo }',
 			        	startDate: '${ p.planStart }',
 			        	endDate: '${ p.planEnd }',
-			        	planMemo: '${ p.planMemo }',
-			        	planAllday: '${ p.planAllday }'
+			        	planMemo: '${ p.planMemo }'== null || '${ p.planMemo }'== '' ? '메모없음' : '${ p.planMemo }',
+			        	planAllday: '${ p.planAllday }' 
 					}
 				},			
 				</c:forEach>
@@ -282,11 +336,15 @@ document.addEventListener('DOMContentLoaded', function() {
 			info.event.extendedProps.menu == 'TODAY' ? $('#today').attr('checked', 'checked') : $('#default').attr('checked', 'checked');
 			$('#categorySelect').val(info.event.extendedProps.studyNo).prop('selected', true);
 			$('#title').val(info.event.title);
-			$('#planDate').val(info.event.extendedProps.startDate + "~" + info.event.extendedProps.endDate);
+			$('#planDate').val(info.event.extendedProps.startDate + " - " + info.event.extendedProps.endDate);
 			$('#planCreateDate').text(info.event.extendedProps.creatDate);
 			$('#like').text(info.event.extendedProps.likeCount);
 			$('#hit').text(info.event.extendedProps.hit);
 			$('#planNo').val(info.event.id);
+			info.event.extendedProps.planAllday == '1' ? $('#planAllday1').attr('checked', 'checked') : $('#planAllday0').attr('checked', 'checked');
+			$('#planMemo').val(info.event.extendedProps.planMemo);
+			$('#planColor').val(info.event.backgroundColor).prop('selected', true);
+			$('#planColor').css('background-color', $('#planColor option:selected').val());
 			
 			$('#content').summernote({
 				toolbar: false,
@@ -318,7 +376,12 @@ document.addEventListener('DOMContentLoaded', function() {
 	      	var menuName;
 	      	info.event.extendedProps.menu == 'TODAY' ? menuName='오늘의 할일' : menuName='기본';
 	      	$(info.el).popover({
-	            title: info.event.title,
+	            title: $('<div />', {
+	                text: info.event.title
+	              }).css({
+	                'background-color': info.event.backgroundColor,
+	                'padding' : '10px',
+	              }),
 	            content: $('<div />', {
 	                //class: 'popoverInfoCalendar'
 	           		 }).append('<p><strong>종류:</strong> ' + menuName + '</p>')
@@ -352,65 +415,62 @@ document.addEventListener('DOMContentLoaded', function() {
 		},
 		
 		//일정 드래그앤드롭
+		eventDragStart: function (event, jsEvent, ui, view) {
+		    draggedEventIsAllDay = event.allDay;
+		},
 		eventDrop: function (info) {
 			$('.popover.fade.top').remove();
-
+	
+			var draggedEventIsAllDay;
+			
 			var newDates = {
 				planStart: '',
 				planEnd: ''
 			}
 			
-			// 날짜가 모두 같은 경우
-			if(!info.event.end) {
-				info.event.end = info.event.start;
-			}
+			console.log(moment(info.event.start).format('YYYY-MM-DD'));
+			console.log(moment(info.event.end).format('YYYY-MM-DD'));
 			
-			//하루짜리 all day
-			if (info.event.allDay && info.event.end === info.event.start) {
-				newDates.planStart = moment(info.event.start).format('YYYY-MM-DD');
+			if(info.event.end === null){
+				newDates.planStart = moment(info.event.start).format('YYYY-MM-DD HH:mm');
 				newDates.planEnd = newDates.planStart;
-			}
-			
-			//2일이상 all day
-			else if (info.event.allDay && info.event.end !== null) {
-				newDates.planStart = moment(info.event.start).format('YYYY-MM-DD');
-				newDates.planEnd = moment(info.event.end).subtract(1, 'days').format('YYYY-MM-DD');
-			}
-			
-			//all day가 아님
-			else if (!info.event.allDay) {
+			} else {
 				newDates.planStart = moment(info.event.start).format('YYYY-MM-DD HH:mm');
 				newDates.planEnd = moment(info.event.end).format('YYYY-MM-DD HH:mm');
-			}
+			} 
 			
-			console.log("드롭 작동!");
-			
-			console.log(info.event.start);
+			// console.log("드롭 작동!");
+			/* console.log(info.event.start);
 			console.log(info.event.end);
 			console.log(info.event.allDay);
 			console.log("==== 데이터 변환 후 ====");
-			console.log(newDates.planStart + " / " + newDates.planEnd);
+			console.log(newDates.planStart + " / " + newDates.planEnd); */
+			
 		    //주,일 view일때 종일 <-> 시간 변경불가
-			/* if (view.type === 'agendaWeek' || view.type === 'agendaDay') {
-				if (draggedEventIsAllDay !== event.allDay) {
-					sweetWrong('드래그앤드롭으로 종일<->시간 변경은 불가합니다.');
-					location.reload();
+		    console.log(info.view.type)
+			if (info.view.type === 'timeGridWeek' || info.view.type === 'timeGridDay') {
+				if (draggedEventIsAllDay !== info.event.allDay) {
+					swal({
+						title: '드래그 앤 드롭으로 종일 ↔ 시간   변경은 불가합니다.',
+						type:"error",
+						},
+						function(){
+							location.reload();
+						}
+					)
 					return false;
 				}
-			} */
+			} 
 
 		    //드롭한 일정 업데이트
-		   /*  $.ajax({
-		      type: "get",
-		      url: "",
-		      data: {
-		        //...
-		      },
-		      success: function (response) {
-		        alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
-		      }
-		    });*/
-
+		   $.ajax({
+				type: "post",
+				url: "",
+				data: newDates,
+				success: function(data) {
+				  // alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
+				}
+		    });
 		  },
 	}); 
 
@@ -436,9 +496,11 @@ document.addEventListener('DOMContentLoaded', function() {
 							
 							<c:forEach var="p" items="${ pList }">
 								<!-- jstl 오늘 날짜 불러오는 fmt를 통해 출력  -->
-								<c:if test="${ p.planMenu eq 'TODAY' && today >= p.planStart && today <= p.planEnd }">
-									<input type="checkbox" id="${ p.planNo }" name="todayTodo" value="${ p.planNo }" ${ p.todayCheck }>
-									<label for="${ p.planNo }">${ p.planTitle }</label>
+								<c:if test="${ p.planMenu eq 'TODAY' && today >= fn:substring(p.planStart,0,10) && today <= fn:substring(p.planEnd,0,10) }">
+									<div class="checkbox custom">
+										<input type="checkbox" id="${ p.planNo }" class="css-checkbox" name="todayTodo" value="${ p.planNo }" ${ p.todayCheck }>
+										<label for="${ p.planNo }" class="css-label">${ p.planTitle }</label>
+									</div>
 								</c:if>
 							</c:forEach>
 						</form>
@@ -473,7 +535,7 @@ document.addEventListener('DOMContentLoaded', function() {
 												<th>카테고리</th>
 												<td>
 													<input type="hidden" id="planNo" name="planNo"/>
-													<select id="categorySelect" name="studyNo">
+													<select id="categorySelect" name="studyNo" class="form-control">
 														<optgroup label="나의 공부목록">
 															<c:forEach var="us" items="${ userStudyList }">
 																<!-- category 기타가 완료되면 추가 할것 -> 기타면 기타의 이름이 보여지게  -->
@@ -510,10 +572,37 @@ document.addEventListener('DOMContentLoaded', function() {
 											<tr>
 												<th>기간</th>
 												<td><input id="planDate" type="text" class="form-control input-daterange-timepicker" name="daterange"></td>
+												<th>하루종일</th>
+												<td class="exception">
+													<input id="planAllday1" type="radio" name="planAllday" value="1"/>O
+													<input id="planAllday0" type="radio" name="planAllday" value="0"/>X
+													<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="하루종일을 선택하시면 시간을 입력하여도 저장되지않습니다.">?</button>
+												</td>
 											</tr>
 											<tr>
 												<th>작성일</th>
 												<td id="planCreateDate"></td>
+												<th>메모</th>
+												<td class="exception">
+													<input id="planMemo" type="text" name="planMemo" placeholder="메모"/>
+													<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="일정에 마우스올릴시 나타나는 간략한 메모">?</button>
+												</td>
+											</tr>
+											<tr>
+												<th>표시색상</th>
+												<td>
+													<select id="planColor" name="planColor" class="form-control planColor">
+														<option value="rgb(252, 124, 124)"></option>
+														<option value="rgb(252, 197, 124)"></option>
+														<option value="rgb(249, 255, 133)"></option>
+														<option value="rgb(130, 255, 161)"></option>
+														<option value="rgb(130, 236, 255)"></option>
+														<option value="rgb(197, 130, 255)"></option>
+														<option value="rgb(255, 130, 197)"></option>
+														<option value="rgb(255, 255, 255)"></option>
+														<option value="rgb(194, 194, 194)"></option>
+													</select>
+												</td>
 											</tr>
 											<tr>
 												<td colspan="6" style="padding: 0;">
@@ -548,7 +637,7 @@ document.addEventListener('DOMContentLoaded', function() {
 												<th>카테고리</th>
 												<td>
 													<input type="hidden" name="id" value="${ loginUser.id }"/>
-													<select id="insertCategorySelect" name="studyNo">
+													<select id="insertCategorySelect" name="studyNo" class="form-control">
 														<optgroup label="나의 공부목록">
 															<c:forEach var="us" items="${ userStudyList }">
 																<c:if test="${ us.studyNo eq 97 || us.studyNo eq 98 || us.studyNo eq 99 }">
@@ -597,15 +686,15 @@ document.addEventListener('DOMContentLoaded', function() {
 												<td>${ today }</td>
 												<th>메모</th>
 												<td class="exception">
-													<input id="planMemo" type="text" name="planMemo" placeholder="메모"/>
+													<input id="insertPlanMemo" type="text" name="planMemo" placeholder="메모"/>
 													<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="일정에 마우스올릴시 나타나는 간략한 메모">?</button>
 												</td>
 											</tr>
 											<tr>
 												<th>표시색상</th>
 												<td>
-													<select id="planColor" name="planColor">
-														<option value="rgb(252, 124, 124)"></option>
+													<select id="insertPlanColor" name="planColor" class="form-control planColor ">
+														<option value="rgb(252, 124, 124)" selected></option>
 														<option value="rgb(252, 197, 124)"></option>
 														<option value="rgb(249, 255, 133)"></option>
 														<option value="rgb(130, 255, 161)"></option>
@@ -717,6 +806,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			$('#planColor').on('change',function(){
 				$('#planColor').css('background-color', $('#planColor option:selected').val());
 			});
+			
+			$('#insertPlanColor').on('change',function(){
+				$('#insertPlanColor').css('background-color', $('#insertPlanColor option:selected').val());
+			});
+			
 		});
 		
 		// plan 수정
@@ -863,6 +957,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				});
 		};
 	</script>
+	<!-- end -->
 	<script src="${contextPath}/resources/js/plugins/datepicker/moment.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.min.js"></script>
 	<script src="${contextPath}/resources/js/plugins/datepicker/bootstrap-datepicker.ko.min.js"></script>
@@ -872,6 +967,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	<script src="https://unpkg.com/popper.js/dist/umd/popper.min.js"></script>
 	<script src="https://unpkg.com/tooltip.js/dist/umd/tooltip.min.js"></script>
+	
 	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </body>

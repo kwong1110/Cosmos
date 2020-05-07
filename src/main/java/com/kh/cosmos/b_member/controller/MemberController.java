@@ -249,71 +249,47 @@ public class MemberController {
 	@RequestMapping("minsert.me")
 	public String memberInsert(@ModelAttribute Member m, 
 							   @RequestParam("studyGroupChk") int[] chkSname, @RequestParam(value="studyEtcNo", required=false) int[] etcSno, 
-							   @RequestParam("term") String[] t, @RequestParam(value="studyEtcName", required=false) String[] etcSname, Model model) {
+							   @RequestParam("term") String[] t, @RequestParam(value="etcTerm", required=false) String[] etcT,
+							   @RequestParam(value="studyEtcName", required=false) String[] etcSname, Model model) {
 		
 //		certifyNum
 //		certifyStatus : 인증상태
 		
-		// 체크 3개.(기본2개, 기타1개)
-		// t=3개, chkSname=2개, etcNo=1개, etcName=1개
-		// 체크 4개.(기본2개, 기타2개)
-		// t=4개, chkSname=2개, etcNo=2개, etcName=2개
+		//System.out.println("배열 존재 확인 : " + etcSno +""+ chkSname +""+ t +""+ etcSname + "" + etcT );
 		
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		m.setPwd(encPwd);
 		
 		// 체크된 과목과 기간을 Preview pList에 담기
 		ArrayList<Preview> pList = new ArrayList<Preview>();
-		for(int i = 0; i < chkSname.length; i++) {
+		
+		
+		// 기타가 아닌 경우
+		for(int i = 0; i < t.length; i++) {
+			
 			Preview p = new Preview();
+			p.setId(m.getId());
 			
-			if(Integer.toString(chkSname[i]).substring(0,1).equals("9")) {
-				p.setId(m.getId());
-				p.setStudyNo(etcSno[i]);
-				p.setStudyEtc(etcSname[i]);
-			} else {
-				p.setId(m.getId());
-				p.setStudyNo(chkSname[i]);
-			}
-			
-			for(int j = 0; j <= i; j++) {
-				p.setSpTerm(t[j]);
-			}
-			
-			// 기타에 추가된 과목과 기간을 Preview pList에 담기
-			/*if(etcSno != null && etcSname != null) {
-				for(int i = 0; i < etcSname.length; i++) {
-					Preview p = new Preview();
-					
-					p.setId(m.getId());
-					p.setStudyNo(etcSno[i]);
-					p.setStudyEtc(etcSname[i]);
-					
-					for(int j = 0; j <= i; j++) {
-						p.setSpTerm(t[j]);
-					}
-					pList.add(p);
-				}
-			}*/
+			p.setStudyNo(chkSname[i]);
+			p.setSpTerm(t[i]);
 			
 			pList.add(p);
 		}
 		
-		
-		// 확인
-		if(etcSno != null && etcSname != null) {
-			for(int i = 0; i < etcSname.length; i++) {
-				System.out.println("기타만 : " + etcSno[i] + etcSname[i]);
-			}
-			for(int i = 0; i < t.length; i++) {
-				System.out.println("그룹이름 확인 : " + chkSname[i]);
-				System.out.println("기간 확인 : " + t[i]);
-			}
+		// 기타의 경우
+		for(int i = 0; i < etcT.length; i++) {
+			
+			Preview p = new Preview();
+			p.setId(m.getId());
+			
+			p.setStudyNo(etcSno[i]);
+			p.setStudyEtc(etcSname[i]);
+			p.setSpTerm(etcT[i]);
+			
+			pList.add(p);
 		}
-		
-		
-		
-		// System.out.println("마지막 전송 전 확인 : " + pList);
+	
+		//System.out.println("마지막 전송 전 확인 : " + pList);
 		
 		int result = mService.insertMember(m, pList);
 		/*Member loginUser = mService.memberLogin(m);*/

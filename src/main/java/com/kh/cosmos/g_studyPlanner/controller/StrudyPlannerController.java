@@ -121,7 +121,9 @@ public class StrudyPlannerController {
 			
 			sp.setPlanTitle(URLEncoder.encode(sp.getPlanTitle(), "UTF-8"));
 			sp.setPlanContent(URLEncoder.encode(sp.getPlanContent(), "UTF-8"));
-			sp.setPlanMemo(URLEncoder.encode(sp.getPlanMemo(), "UTF-8"));
+			if(sp.getPlanMemo() != null) {
+				sp.setPlanMemo(URLEncoder.encode(sp.getPlanMemo(), "UTF-8"));
+			}
 			
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson(sp, response.getWriter());
