@@ -8,21 +8,24 @@
 <title>회원 상세보기</title>
 <style>
 	/* 소메뉴 */
-	div.content ul.nav-tabs {
+	.adminList{
+		width:600px;padding-top:50px;
+	}
+	div.adminList ul.nav-tabs {
 		border-bottom-color: transparent;
 	}
 	
-	div.content ul.nav-tabs {
-		margin-bottom :70px;
+	div.adminList ul.nav-tabs {
+		margin-bottom :30px;
 		display:flex;
 		justify-content: space-between;
 	}
 	
-	div.content ul.nav-tabs>li {
+	div.adminList ul.nav-tabs>li {
 		flex : 2 1 auto;
 	}
 	
-	div.content ul.nav-tabs>li>a {
+	div.adminList ul.nav-tabs>li>a {
 	    margin-right: 3px;
 	    line-height: 1.42857143;
 	    background-color: rgba(255, 255, 255, 0.5);
@@ -32,12 +35,12 @@
 	    text-align : center;
 	}
 	
-/* 	div.content ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+ 	div.adminList ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
 	    color: #555;
 	    cursor: default;
 	    background-color: #fff;
 	    border: 1px solid #ddd;
-	} */
+	} 
 	
 	.nav>li>a {
 	    position: relative;
@@ -65,23 +68,27 @@
 	<div class="total-wrapper">
 		<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper">
-			<div class="main" align="center">
-				
+			<div  align="center">	
+				<div class="adminList" style="margin-bottom:0px;">
+					<ul class="nav nav-tabs">
+						<li role="presentation"><a href="adminPage.ap">본점관리자</a></li>
+						<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
+						<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
+						<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
+						<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div class="main admin" style="padding:0px;" align="center">
+
 				<div class="pageTitle">
 					<h1>'${ loginUser.name }'님의 정보 보기</h1>
 				</div>
 				<c:if test="${loginUser.name eq '본점관리자' }">
 				<a style="text-align:center; font-size:0.9em;">▶ COSMOS◀ 본점 관리자 어드민 페이지입니다.</a>
-				<hr>
-				<div class="content" align="center">	
-					<ul class="nav nav-tabs">
-					  <li role="presentation" class="active"><a href="#">본점관리자</a></li>
-					  <li role="presentation"><a href="reportList.ap">신고 목록</a></li>
-					  <li role="presentation"><a href="branchList.ap">지점 목록</a></li>
-					  <li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
-					  <li role="presentation"><a href="allSeat.se">예약 현황</a></li>
-					</ul>
-				</div>
+				
+
 				</c:if>	
 					<table class="inner table table-hover">
 						<tr>

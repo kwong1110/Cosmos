@@ -20,14 +20,13 @@
 		<h2 class="title">
 			<span class="cosmos">보낸 사람</span>
 			| <c:out value="${note.noteFromId}"/>님
-			<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline;"> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
 		</h2>
+		<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline;"> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
 	</div>
 	<form>
 	<div class="note-body">
 		<div>
 			<span>받은 시간 : ${note.noteTime} &nbsp;</span>
-			<button type="button" class="btn btn-report">[ <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">신고</span> ]</button>
 		</div>
 		<div class="note-content">
 			<%-- ${note.noteContent} --%>
