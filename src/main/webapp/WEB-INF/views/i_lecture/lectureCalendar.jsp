@@ -153,6 +153,7 @@
 										+ "(" + info.event.extendedProps.time + ")");
 				$('#maxPeople').text(info.event.extendedProps.maxPeople);
 				$('#attendPeople').text(info.event.extendedProps.attendPeople);
+				$('#lectureNo').val(info.event.id);
 				//$('#content').val(info.event.extendedProps.content);
 				$('#viewModal').modal("show");
 				
@@ -211,9 +212,10 @@
 			                    </div>
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
-			                        <form action="" method="post" onsubmit="">
+			                        <form>
 				                        <table class="table">
 											<tr>
+												<td><input type="hidden" id="lectureNo"/></td>
 												<th colspan="2">이름</th>
 												<td colspan="2" id="userId"></td>
 												<th colspan="2">이력 사항 / 강연 경험</th>
@@ -257,7 +259,7 @@
 			                    </div>
 			                    <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
 			                    	<div>*참가 신청을 누르면 결제페이지로 이동합니다.</div>
-			                        <button type="button" class="btn defaultBtn" data-dismiss="modal">참가신청</button>
+			                        <button type="button" class="btn defaultBtn" data-dismiss="modal" onclick="lectureBuy()">참가신청</button>
 			                    </div>
 			                </div><!-- /.modal-content -->
 			            </div><!-- /.modal-dialog -->
@@ -268,4 +270,60 @@
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 </body>
+<script>
+	function lectureBuy(){
+		
+		var lectureFee = $('#fee').text();
+		var lectureNo = $('#lectureNo').val();
+		var id = '${ loginUser.id }';
+		
+		var IMP = window.IMP; 
+		IMP.init('imp05073510'); 
+		IMP.request_pay({
+		    pg : 'kakao', 
+		    pay_method : 'card',
+		    merchant_uid : 'merchant_' + new Date().getTime(),
+		    name : '강연 참가',
+		    amount : lectureFee,
+		    buyer_email : '${ loginUser.email }',
+		    buyer_name : '${ loginUser.name }',
+		    buyer_tel : '${ loginUser.phone }',
+		    buyer_addr : '서울특별시 강남구 삼성동',
+		    buyer_postcode : '123-456',
+		    m_redirect_url : 'https://www.yourdomain.com/payments/complete'
+		}, function(rsp) {
+		    if ( rsp.success ) {
+		    	 var msg = '${ loginUser.name }님께서 ';
+			        msg += rsp.paid_amount + '원을 결제하였습니다.';
+			        $.ajax({
+				    	   url : "",
+				    	   type : "post",
+				    	   data : { lectureNo:lectureNo, id:id},
+				    	   success : function(data) {
+				    	        swal({
+				    	    		title: "",
+				    	    		text: msg,
+				    	    		type:"success",
+				    	    		showCancelButton: !0,
+				    	    		confirmButtonColor:"#DD6B55",
+				    	    		confirmButtonText:"확인",
+				    	    		closeOnConfirm: !0
+				    	    		},
+				    	    		function(){
+				    	    			location.href="${contextPath}";
+				    	    		}
+				    	    	)
+				    	    }
+				       });
+		       
+		    } else {
+		        var msg = '결제에 실패하였습니다.';
+		        msg += '에러내용 : ' + rsp.error_msg;
+		        sweetWrong(msg);
+	
+		    }
+		   
+		});				
+	} 
+</script>
 </html>

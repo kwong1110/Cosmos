@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 @charset "UTF-8";
 
 /*
@@ -37,3 +38,54 @@
 }
 
 
+=======
+@charset "UTF-8";
+
+/*
+	fc : 캘린더 테이블
+	fc-mon : 캘린더 요일 (행)
+	fc-button : 버튼
+*/
+.col-lg-12{
+	margin: 0;
+	padding: 0;
+}
+.fc-sat{
+	color:rgb(70, 191, 240);
+}
+.fc-sun{
+	color:#FF0000;
+}
+.fc-button{
+	background-color: rgb(212, 212, 212);
+	border-color: white;
+	border-radius: 30%;
+}
+.fc-button:hover{
+	background-color: black;
+}
+.fc-content:hover {
+	background-color: rgba(0,0,0,0.1);
+ 	cursor: pointer;
+ 	border-radius: 15px;
+}
+.fc-day-header{
+	background-color: rgb(212, 212, 212);
+}
+
+.fc-event{
+	border-color: white;
+	background-color: white;
+	border-radius: 15px;
+}
+.fc-content{
+	color: black;
+	padding: 4px;
+	font-size: 1.5rem;
+	font-family: 'Binggrae-Bold';
+	text-align: center;
+	white-space:pre-wrap !important;
+	word-break: keep-all !important;
+	/* text-overflow: ellipsis;  */ /* 생략기호로 보여주기 */
+}
+>>>>>>> branch 'master' of https://github.com/kwong1110/Cosmos.git
