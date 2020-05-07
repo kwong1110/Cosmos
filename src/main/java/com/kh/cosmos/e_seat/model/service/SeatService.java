@@ -29,8 +29,6 @@ public interface SeatService {
 
 	int getSeatStatusListCount(SearchConditionSeat scs);
 
-	int getSearchListCount(Seat s);
-
 	String getBranchName(int branchNo);
 
 	int getTotalStamp(String id);
