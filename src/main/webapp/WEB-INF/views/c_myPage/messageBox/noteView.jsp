@@ -67,7 +67,6 @@
  
     // 라디오버튼 클릭시 이벤트 발생
     $("input:radio[name=reason]").click(function(){
- 
         if($("input[name='reason']:checked").data("value") == "1"){
             $("input:text[name=text]").attr("disabled",false);
             // radio 버튼의 value 값이 1이라면 활성화
