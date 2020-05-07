@@ -105,16 +105,16 @@
 		<if test="id != null">
 			join member on(id = note_fromid)
 			where note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
-			and (note_fromid = #{id} and note_toid = 'user02') or (note_fromid = 'user02' and note_toid = #{id})
+			and (note_fromid = #{id} and note_toid = #{userId}) or (note_fromid = #{userId} and note_toid = #{id})
 		</if>
 		<if test="nick != null">
 			join member on(id = note_fromid or id = note_toid)
-			where (note_fromid = 'user02' or note_toid = 'user02') and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+			where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
 			and nick = #{nick}
 		</if>
 		<if test="content != null">
 			join member on(id = note_fromid)
-			where (note_fromid = 'user02' or note_toid = 'user02') and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+			where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
 			and note_content like '%' || #{content} || '%'
 		</if>
 	</select>
@@ -127,21 +127,24 @@
 			<when test="id != null">
 				join member on(id = note_fromid)
 				where note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
-				and (note_fromid = #{id} and note_toid = 'user02') or (note_fromid = 'user02' and note_toid = #{id})
+				and (note_fromid = #{id} and note_toid = #{userId}) or (note_fromid = #{userId} and note_toid = #{id})
 			</when>
 			<when test="nick != null">
 				join member on(id = note_fromid or id = note_toid)
-				where (note_fromid = 'user02' or note_toid = 'user02') and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+				where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
 				and nick = #{nick}
 			</when>
 			<otherwise>
 				join member on(id = note_fromid)
-				where (note_fromid = 'user02' or note_toid = 'user02') and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+				where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
 				and note_content like '%' || #{content} || '%'
 			</otherwise>
 		</choose>
 	</select>
 	
+	
+	<!-- 분류 목록 수 -->
+	<!-- 분류 목록 -->
 	<select id="getMenuToListCount" resultType="_int">
 		select count(*)
 		from note

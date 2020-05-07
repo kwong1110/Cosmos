@@ -4,14 +4,16 @@ public class SearchCondition {
 	private String id;
 	private String nick;
 	private String content;
+	private String userId;
 	
 	public SearchCondition() {}
 
-	public SearchCondition(String id, String nick, String content) {
+	public SearchCondition(String id, String nick, String content, String userId) {
 		super();
 		this.id = id;
 		this.nick = nick;
 		this.content = content;
+		this.userId = userId;
 	}
 
 	public String getId() {
@@ -38,9 +40,17 @@ public class SearchCondition {
 		this.content = content;
 	}
 
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
 	@Override
 	public String toString() {
-		return "SearchCondition [id=" + id + ", nick=" + nick + ", content=" + content + "]";
+		return "SearchCondition [id=" + id + ", nick=" + nick + ", content=" + content + ", userId=" + userId + "]";
 	}
-	
+
 }
