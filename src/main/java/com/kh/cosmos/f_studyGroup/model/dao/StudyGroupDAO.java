@@ -33,7 +33,7 @@ public class StudyGroupDAO {
 		return sqlSession.insert("studyGroupMapper.insertGroup", sg);
 	}
 
-	public int insertRecruit(SqlSessionTemplate sqlSession, StudyRecruit sr) {
+	public int insertRecruit(SqlSessionTemplate sqlSession, StudyGroupRecruit sr) {
 		return sqlSession.insert("studyGroupMapper.insertRecruit", sr);
 	}
 
@@ -170,11 +170,7 @@ public class StudyGroupDAO {
 		return (ArrayList)sqlSession.selectList("studyGroupMapper.getIngStudyGroup", id);
 	}
 
-	public int getHomeListCount(SqlSessionTemplate sqlSession) {
-		return sqlSession.selectOne("studyGroupMapper.getHomeListCount");
-	}
-   
-  public ArrayList<String> getMemList(SqlSessionTemplate sqlSession, int group) {
+	public ArrayList<String> getMemList(SqlSessionTemplate sqlSession, int group) {
 		return (ArrayList)sqlSession.selectList("studyGroupMapper.getMemList", group);
 	}
 
@@ -204,8 +200,8 @@ public class StudyGroupDAO {
 	}
 
 	public int updateMsgCount(SqlSessionTemplate sqlSession, int group) {
-		//String status = sqlSession.selectOne("studyGroupMapper.getSgStatus", group);
-		String status = "";
+		String status = sqlSession.selectOne("studyGroupMapper.getSgStatus", group);
+		
 		int result;
 		if(status.equals("Y")) {
 			result = sqlSession.update("studyGroupMapper.updateMsgCount", group);
@@ -215,4 +211,19 @@ public class StudyGroupDAO {
 		return result;
 	}
 
+	public int exitGroup(SqlSessionTemplate sqlSession, HashMap<String, String> map) {
+		return sqlSession.update("studyGroupMapper.exitGroup", map);
+	}
+
+	public String getBossId(SqlSessionTemplate sqlSession, int sgno) {
+		return sqlSession.selectOne("studyGroupMapper.getBossId", sgno);
+	}
+
+	public int getRecCondition(SqlSessionTemplate sqlSession, String id) {
+		return sqlSession.selectOne("studyGroupMapper.getRecCondition", id);
+	}
+
+  public int getHomeListCount(SqlSessionTemplate sqlSession) {
+		return sqlSession.selectOne("studyGroupMapper.getHomeListCount");
+	}
 }

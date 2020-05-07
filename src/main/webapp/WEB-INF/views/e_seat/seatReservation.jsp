@@ -590,7 +590,7 @@
 				
 				//쿠폰 시작
 				if($('#groupSelect').val() != 'none') {
-					var groupInfo = {"group":$('#groupSelect').val(), "groupname":$('#groupSelect').text()};
+					var groupInfo = {"group":$('#groupSelect').val(), "groupname":$('#groupSelect option:checked').text()};
 					$.extend(true, reserInfo, groupInfo);
 				}
 				//쿠폰 끝

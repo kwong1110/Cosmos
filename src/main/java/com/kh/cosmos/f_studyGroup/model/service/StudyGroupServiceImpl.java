@@ -41,7 +41,7 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public int insertRecruit(StudyRecruit sr) {
+	public int insertRecruit(StudyGroupRecruit sr) {
 		return sgDAO.insertRecruit(sqlSession, sr);
 	}
 
@@ -146,11 +146,6 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public int getHomeListCount() {
-		return sgDAO.getHomeListCount(sqlSession);
-	}
-	
-  @Override
 	public ArrayList<String> getMemList(int group) {
 		return sgDAO.getMemList(sqlSession, group);
 	}
@@ -180,4 +175,23 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 		return sgDAO.updateMsgCount(sqlSession, group);
 	}
 
+	@Override
+	public int exitGroup(HashMap<String, String> map) {
+		return sgDAO.exitGroup(sqlSession, map);
+	}
+
+	@Override
+	public String getBossId(int sgno) {
+		return sgDAO.getBossId(sqlSession, sgno);
+	}
+
+	@Override
+	public int getRecCondition(String id) {
+		return sgDAO.getRecCondition(sqlSession, id);
+	}
+  
+  @Override
+	public int getHomeListCount() {
+		return sgDAO.getHomeListCount(sqlSession);
+	}
 }

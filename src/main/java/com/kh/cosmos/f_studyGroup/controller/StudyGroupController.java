@@ -53,12 +53,20 @@ public class StudyGroupController {
 	private MyGroupService mgService;
 	
 	@RequestMapping("listView.sg")
-	public ModelAndView StudyGroupListView(ModelAndView mv) {
+	public ModelAndView StudyGroupListView(HttpServletRequest request, ModelAndView mv) {
 		ArrayList studyList = sgService.getStudyList();
 		ArrayList<ViewBranch> branchList = sgService.getBranchList();
 		
+		int count = 0;
+		HttpSession session = request.getSession();
+		if(session.getAttribute("loginUser") != null) {
+			String id = ((Member)session.getAttribute("loginUser")).getId();
+			count = sgService.getRecCondition(id);
+		}
+		
 		mv.addObject("studyList", studyList);
 		mv.addObject("branchList", branchList);
+		mv.addObject("recCondition", count);
 		mv.setViewName("studyGroupList");
 		
 		return mv;
@@ -171,7 +179,7 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping("insertGroup.sg")
-	public String StudyGroupInsert(@ModelAttribute StudyGroup sg, @ModelAttribute StudyRecruit sr, RedirectAttributes ra,
+	public String StudyGroupInsert(@ModelAttribute StudyGroup sg, @ModelAttribute StudyGroupRecruit sr, RedirectAttributes ra,
 								   @RequestParam("studyName") String studyName, @RequestParam("loginUserId") String loginUserId) {
 		sg.setStudyName(studyName);
 		sg.setId(loginUserId);
@@ -241,12 +249,20 @@ public class StudyGroupController {
 	}
 	
 	@RequestMapping("insertRecruit.sg")
-	public String insertRecruit(@ModelAttribute StudyRecruit info, RedirectAttributes ra) {
-		System.out.println(info);
-		
+	public String insertRecruit(@ModelAttribute StudyGroupRecruit info, RedirectAttributes ra) {
 		int result = sgService.insertRecruit(info);
 		
 		if(result > 0) {
+			ArrayList<String> memberList = sgService.getMemList(info.getSgNo());
+			
+			for(String memId : memberList) {
+				Note n = new Note();
+				n.setNoteFromId("admin00");
+				n.setNoteToId(memId);
+				n.setNoteContent("'" + info.getSgName() + "' 그룹의 모집이 등록되었습니다.");
+				int messageResult = nService.insertNote(n);
+			}
+			
 			ra.addFlashAttribute("successMsg",  "모집 등록에 성공");
 			
 			return "redirect:listView.sg";
@@ -474,6 +490,64 @@ public class StudyGroupController {
 
 		return "redirect:myGroup.mp";
 	}
+
+	@RequestMapping("deleteGroup.sg")
+	public void DeleteGroup(HttpServletResponse response, @RequestParam("sgno") int sgno, @RequestParam("groupName") String groupName) throws JsonIOException, IOException {
+		
+		int result = sgService.deleteGroup(sgno);
+
+		if(result > 0) {
+			int recno = sgService.getRecNo(sgno);
+			
+			if(recno != 0) {
+				int closeResult = mgService.closeRecruit(recno);
+				
+				if(closeResult <= 0) {
+					throw new MyPageException("모집 마감에 실패하였습니다.");
+				}
+			}
+			ArrayList<String> memberList = sgService.getMemList(sgno);
+			
+			for(String memId : memberList) {
+				Note n = new Note();
+				n.setNoteFromId("admin00");
+				n.setNoteToId(memId);
+				n.setNoteContent("'" + groupName + "' 그룹의 스터디가 종료되었습니다.");
+				int messageResult = nService.insertNote(n);
+			}
+			
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson("success", response.getWriter());
+			
+		} else {
+			throw new MyPageException("그룹 종료에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("exitGroup.sg")
+	public void ExitGroup(HttpServletResponse response, @RequestParam("sgno") int sgno, @RequestParam("id") String id, @RequestParam("nick") String nick, @RequestParam("groupName") String groupName) throws JsonIOException, IOException {
+
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("sgno", sgno+"");
+		map.put("id", id);
+		
+		int result = sgService.exitGroup(map);
+		
+		if(result > 0) {
+			String bossId = sgService.getBossId(sgno);
+			
+			Note n = new Note();
+			n.setNoteFromId("admin00");
+			n.setNoteToId(bossId);
+			n.setNoteContent("'" + groupName + "' 그룹의 '" + nick + "'님께서 그룹을 나가셨습니다.");
+			int messageResult = nService.insertNote(n);
+
+			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+			gson.toJson("success", response.getWriter());
+		} else {
+			throw new MyPageException("그룹 나가기에 실패하였습니다.");
+		}
+	}
 	
 	public void alarm(@RequestParam("time") int stime, @RequestParam("min") int smin) {
 		Calendar datetime = Calendar.getInstance();
@@ -484,38 +558,5 @@ public class StudyGroupController {
 		
 		Timer timer = new Timer();
 		timer.schedule(new runTask(), datetime.getTime(), 1000*86400);
-	}
-
-	@RequestMapping("deleteGroup.sg")
-	public void DeleteGroup(HttpServletResponse response, @RequestParam("sgno") int sgno, @RequestParam("groupName") String groupName) throws JsonIOException, IOException {
-		
-		int result = sgService.deleteGroup(sgno);
-
-		if(result > 0) {
-			int recno = sgService.getRecNo(sgno);
-			int closeResult = mgService.closeRecruit(recno);
-			
-			if(result > 0) {
-				Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-				gson.toJson("success", response.getWriter());
-			} else {
-				throw new MyPageException("모집 마감에 실패하였습니다.");
-			}
-			
-			ArrayList<String> memberList = sgService.getMemList(sgno);
-			
-			for(String memId : memberList) {
-				Note n = new Note();
-				n.setNoteFromId("admin00");
-				n.setNoteToId(memId);
-				n.setNoteContent("'" + groupName + "'의 스터디가 종료되었습니다.");
-				int messageResult = nService.insertNote(n);
-			}
-			
-			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
-			gson.toJson("success", response.getWriter());
-		} else {
-			throw new MyPageException("그룹 종료에 실패하였습니다.");
-		}
 	}
 }

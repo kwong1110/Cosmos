@@ -27,12 +27,12 @@
 		values(seq_sgid.nextval, #{sgName}, #{sgGoal}, #{sgContent}, default, sysdate, #{branchNo}, #{id}, #{studyNo})
 	</insert>
 	
-	<insert id="insertRecruit">
-		<if test="recMettingDate != null">
+	<insert id="insertRecruit" parameterType="StudyGroupRecruit">
+		<if test="rsgMetDate != null">
 		insert into rec_sgroup
-		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, #{recMettingDate}, seq_sgid.currval)
+		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, #{rsgMetDate}, seq_sgid.currval)
 		</if>
-		<if test="recMettingDate == null">
+		<if test="rsgMetDate == null">
 		insert into rec_sgroup
 		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, null, #{sgNo})
 		</if>
@@ -428,15 +428,6 @@
 		where id = (select id from member where nick=#{nick}) and rsg_no = to_number(#{recno})
 	</update>
 	
-	<select id="getHomeListCount" resultType="_int">
-		<![CDATA[
-		select count(*)
-        from rec_sgroup
-        join sgroup using(sg_no)
-        where (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD')) and (sg_status='Y' or sg_status='N')
-        ]]>
-	</select>
-	
 	<select id="getMemList" parameterType="_int" resultType="string">
 		select id
 		from ap_sgroup
@@ -456,23 +447,51 @@
 	</update>
 	
 	<select id="getRecNo" parameterType="_int" resultType="_int">
-		select rsg_no
+		select nvl(max(rsg_no), 0)
 		from (select rsg_no
 			from rec_sgroup
-			where sg_no = #{sgno}
+			where sg_no = #{sgno} and TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
 			order by rsg_no desc)
 		where rownum = 1
 	</select>
 	
-	<!-- <select id="getSgStatus" parameterType="_int" resultType="string">
-		select sg_status
-		from sgroup
-		where sg_no = #{group}
-	</select> -->
-	
 	<update id="updateMsgCount" parameterType="_int">
 		update m_sgroup
-		set msg_met = (select msg_met from m_sgroup where sg_no=#{group})
+		set msg_met = (select msg_met
+			from m_sgroup
+			where sg_no = #{group})+1
 		where sg_no = #{group}
 	</update>
+	
+	<update id="exitGroup" parameterType="hashMap">
+		update ap_sgroup
+		set asg_status = 'E'
+		where id = #{id} and sg_no = to_number(#{sgno})
+	</update>
+	
+	<select id="getBossId" parameterType="_int" resultType="string">
+		select id
+		from sgroup
+		where sg_no = #{sgno}
+	</select>
+	
+	<select id="getRecCondition" parameterType="string" resultType="_int">
+		<![CDATA[
+		select count(*)
+		from (select sg_no, sg_name, sg_status, rsg_term, row_number() over( partition by sg_no order by rsg_no desc ) rn
+			from sgroup
+			join rec_sgroup using(sg_no)
+			where id = #{id})
+		where rn = 1 and TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD') and sg_status = 'Y'
+		]]>
+	</select>
+  
+  <select id="getHomeListCount" resultType="_int">
+		<![CDATA[
+		select count(*)
+        from rec_sgroup
+        join sgroup using(sg_no)
+        where (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD')) and (sg_status='Y' or sg_status='N')
+        ]]>
+	</select>
 </mapper>
