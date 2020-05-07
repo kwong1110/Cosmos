@@ -33,4 +33,19 @@ public class LectureServiceImpl implements LectureService {
 	public int lectureApply(Lecture l) {
 		return lDAO.lectureApply(sqlSession, l);
 	}
+
+	@Override
+	public int lectureBuy(Lecture l) {
+		return lDAO.lectureBuy(sqlSession, l);
+	}
+
+	@Override
+	public int lectureAttendPlus(Lecture l) {
+		return lDAO.lectureAttendPlus(sqlSession, l);
+	}
+
+	@Override
+	public ArrayList<Lecture> selectLectureAttendList(String loginUserId) {
+		return lDAO.selectLectureAttendList(sqlSession, loginUserId);
+	}
 }

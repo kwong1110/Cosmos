@@ -157,9 +157,20 @@
 				//$('#content').val(info.event.extendedProps.content);
 				$('#viewModal').modal("show");
 				
+				<c:forEach var="lL" items="${ lectureList }">
+					if("${ lL.lectureNo }" == info.event.id){
+						$('#lectureBuy').children().css('display','none');
+						$('#lectureBuy').append('<div class="attendLecture">').text('이미 신청한 강연 입니다.');
+					} else {
+						$('#lectureBuy').text("");
+						$('#lectureBuy').children().css('display','none');
+						$('#lectureBuy').append('<button type="button" class="btn defaultBtn" data-dismiss="modal" onclick="lectureBuy()">참가신청</button>');
+					}
+				</c:forEach>
+				
 				$('#content').summernote({
 					toolbar: false,
-					height: 800,                 	// 에디터 높이
+					height: 400,                 	// 에디터 높이
 					minHeight: null,             	// 최소 높이  
 					maxHeight: null,             	// 최대 높이
 					lang: "ko-KR",					// 한글 설정
@@ -215,8 +226,7 @@
 			                        <form>
 				                        <table class="table">
 											<tr>
-												<td><input type="hidden" id="lectureNo"/></td>
-												<th colspan="2">이름</th>
+												<th colspan="2"><input type="hidden" id="lectureNo"/>이름</th>
 												<td colspan="2" id="userId"></td>
 												<th colspan="2">이력 사항 / 강연 경험</th>
 											</tr>
@@ -257,7 +267,7 @@
 										</table>
 									</form>
 			                    </div>
-			                    <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
+			                    <div id="lectureBuy" class="modal-footer modalBtnContainer-modifyEvent btnBox">
 			                    	<div>*참가 신청을 누르면 결제페이지로 이동합니다.</div>
 			                        <button type="button" class="btn defaultBtn" data-dismiss="modal" onclick="lectureBuy()">참가신청</button>
 			                    </div>
@@ -296,9 +306,9 @@
 		    	 var msg = '${ loginUser.name }님께서 ';
 			        msg += rsp.paid_amount + '원을 결제하였습니다.';
 			        $.ajax({
-				    	   url : "",
+				    	   url : "lectureBuy.le",
 				    	   type : "post",
-				    	   data : { lectureNo:lectureNo, id:id},
+				    	   data : {lectureNo:lectureNo, id:id},
 				    	   success : function(data) {
 				    	        swal({
 				    	    		title: "",
@@ -326,4 +336,6 @@
 		});				
 	} 
 </script>
+
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
 </html>

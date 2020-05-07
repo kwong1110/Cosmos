@@ -86,4 +86,22 @@
 		from lecture
 		where id=#{ loginUserId } and lecture_status != 'DELETE'
 	</select>
+	
+	<insert id="lectureBuy" parameterType="Lecture">
+		insert into lecture_people
+		values(#{ lectureNo }, #{ id }, 'Y')
+	</insert>
+	
+	<update id="lectureAttendPlus" parameterType="Lecture">
+		update lecture
+		set attendpeople=attendpeople+1
+		where lecture_no=#{lectureNo}
+	</update>
+	
+	<select id="selectLectureAttendList" resultMap="lectureResultSet">
+		select *
+		from lecture_people
+		where lecture_status='Y' and id=#{ loginUserId }
+	</select>
+	
 </mapper>
