@@ -127,7 +127,7 @@
 	<!-- 신고회원 회원상태 변경 -->
 	<update id="updateMstatus" parameterType="string">
 		update member
-		set MSTATUS = 'N'
+		set MSTATUS = 'R'
 		WHERE ID = #{reportMid}
 	</update>
 </mapper>

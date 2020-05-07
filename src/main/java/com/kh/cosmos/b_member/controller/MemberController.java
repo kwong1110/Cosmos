@@ -55,7 +55,7 @@ public class MemberController {
 		} else {
 			
 			System.out.println(loginUser.getMstatus());
-			if (loginUser.getMstatus().equals("N")) {
+			if (loginUser.getMstatus().equals("R")) {
 		
 				model.addAttribute("msg","금지된 회원입니다. 관리자에게 문의하세요!");
 				return "redirect:/";
@@ -168,6 +168,7 @@ public class MemberController {
 						return new PasswordAuthentication(admin,password);
 					}
 				});
+
 				try {
 					// 이메일 내용 구성
 					MimeMessage message = new MimeMessage(session);
@@ -207,13 +208,19 @@ public class MemberController {
 					System.out.println("---멤버--- : " + member);
 					int result = mService.fakePwd(member);
 					
+					String content ="<h2>안녕하세요  회원님</h2><br><br>" 
+							+ "<img alt=\"COSMOS\" src=\"https://postfiles.pstatic.net/MjAyMDA1MDdfMjM3/MDAxNTg4ODEzNjAwMTg5.MgjKkxaAG7HDpa8oCH4hI7x85pWG_kPJewLKFDrozUMg.0SodG8fbenNvDX6hFVf0eATWuRP1Y-2A4zxsByW9ERIg.PNG.dksdud94/KakaoTalk_Moim_9C9pCpO1SP6lkSFs0gz6goaxUjDLrj.png?type=w773\">"
+							+ "<p>비밀번호 찾기를 신청해주셔서 임시 비밀번호를 발급해드렸습니다.</p>"
+							+ "<p>임시로 발급 드린 비밀번호는 <h2 style='color : blue'>'" + lastPw +"'</h2>이며 로그인 후 마이페이지에서 비밀번호를 변경해주시면 됩니다.</p><br>"
+							+ "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";
+					
 					if(result > 0) {
 						System.out.println("임시비밀번호로 변경");
 					} else {
 						System.out.println("임시비밀번호로 변경실패");
 					}
-					message.setText("회원님의 임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");
-					
+					/*message.setText("회원님의 임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");*/
+					message.setText(content, "utf-8", "html");
 					
 					//이메일 보내기
 					Transport.send(message);
@@ -249,71 +256,47 @@ public class MemberController {
 	@RequestMapping("minsert.me")
 	public String memberInsert(@ModelAttribute Member m, 
 							   @RequestParam("studyGroupChk") int[] chkSname, @RequestParam(value="studyEtcNo", required=false) int[] etcSno, 
-							   @RequestParam("term") String[] t, @RequestParam(value="studyEtcName", required=false) String[] etcSname, Model model) {
+							   @RequestParam("term") String[] t, @RequestParam(value="etcTerm", required=false) String[] etcT,
+							   @RequestParam(value="studyEtcName", required=false) String[] etcSname, Model model) {
 		
 //		certifyNum
 //		certifyStatus : 인증상태
 		
-		// 체크 3개.(기본2개, 기타1개)
-		// t=3개, chkSname=2개, etcNo=1개, etcName=1개
-		// 체크 4개.(기본2개, 기타2개)
-		// t=4개, chkSname=2개, etcNo=2개, etcName=2개
+		//System.out.println("배열 존재 확인 : " + etcSno +""+ chkSname +""+ t +""+ etcSname + "" + etcT );
 		
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		m.setPwd(encPwd);
 		
 		// 체크된 과목과 기간을 Preview pList에 담기
 		ArrayList<Preview> pList = new ArrayList<Preview>();
-		for(int i = 0; i < chkSname.length; i++) {
+		
+		
+		// 기타가 아닌 경우
+		for(int i = 0; i < t.length; i++) {
+			
 			Preview p = new Preview();
+			p.setId(m.getId());
 			
-			if(Integer.toString(chkSname[i]).substring(0,1).equals("9")) {
-				p.setId(m.getId());
-				p.setStudyNo(etcSno[i]);
-				p.setStudyEtc(etcSname[i]);
-			} else {
-				p.setId(m.getId());
-				p.setStudyNo(chkSname[i]);
-			}
-			
-			for(int j = 0; j <= i; j++) {
-				p.setSpTerm(t[j]);
-			}
-			
-			// 기타에 추가된 과목과 기간을 Preview pList에 담기
-			/*if(etcSno != null && etcSname != null) {
-				for(int i = 0; i < etcSname.length; i++) {
-					Preview p = new Preview();
-					
-					p.setId(m.getId());
-					p.setStudyNo(etcSno[i]);
-					p.setStudyEtc(etcSname[i]);
-					
-					for(int j = 0; j <= i; j++) {
-						p.setSpTerm(t[j]);
-					}
-					pList.add(p);
-				}
-			}*/
+			p.setStudyNo(chkSname[i]);
+			p.setSpTerm(t[i]);
 			
 			pList.add(p);
 		}
 		
-		
-		// 확인
-		if(etcSno != null && etcSname != null) {
-			for(int i = 0; i < etcSname.length; i++) {
-				System.out.println("기타만 : " + etcSno[i] + etcSname[i]);
-			}
-			for(int i = 0; i < t.length; i++) {
-				System.out.println("그룹이름 확인 : " + chkSname[i]);
-				System.out.println("기간 확인 : " + t[i]);
-			}
+		// 기타의 경우
+		for(int i = 0; i < etcT.length; i++) {
+			
+			Preview p = new Preview();
+			p.setId(m.getId());
+			
+			p.setStudyNo(etcSno[i]);
+			p.setStudyEtc(etcSname[i]);
+			p.setSpTerm(etcT[i]);
+			
+			pList.add(p);
 		}
-		
-		
-		
-		// System.out.println("마지막 전송 전 확인 : " + pList);
+	
+		//System.out.println("마지막 전송 전 확인 : " + pList);
 		
 		int result = mService.insertMember(m, pList);
 		/*Member loginUser = mService.memberLogin(m);*/

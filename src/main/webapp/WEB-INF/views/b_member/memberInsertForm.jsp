@@ -281,7 +281,7 @@
 				var $result = valBefore + " ";
 				var $rHidden1 = $("<input type='hidden' name='studyEtcNo' value='" + idNum + "'>");
 				var $rHidden2 = $("<input type='hidden' name='studyEtcName' value='" + valBefore + "'>");
-				var $select = $("<select name='term'>");
+				var $select = $("<select name='etcTerm'>");
 				var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
 				var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
 				var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
@@ -300,7 +300,7 @@
 				$select.append($value4);
 				$div.append($iconWrap);
 				$iconWrap.append($icon);
-				$iconWrap.append($icon1);
+				// $iconWrap.append($icon1);
 				// alert(document.getElementsByName(studyEtc).value());
 								
 				$(this).attr('disabled', false);

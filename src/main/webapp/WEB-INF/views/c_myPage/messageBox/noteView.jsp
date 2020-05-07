@@ -19,14 +19,14 @@
 	<div class="note-header">
 		<h2 class="title">
 			<span class="cosmos">보낸 사람</span>
-			| ${note.nick}(${note.noteFromId})님
+			| <c:out value="${note.noteFromId}"/>님
 		</h2>
+		<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline;"> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
 	</div>
 	<form>
 	<div class="note-body">
 		<div>
 			<span>받은 시간 : ${note.noteTime} &nbsp;</span>
-			<button type="button" class="btn btn-report">[ <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">신고</span> ]</button>
 		</div>
 		<div class="note-content">
 			<%-- ${note.noteContent} --%>
@@ -60,6 +60,59 @@
 <script>
 	function statusUpdate(){
 		location.href='${noteDelete}'		
+	}
+	// 신고하기 라디오버튼 활성화
+	$(document).ready(function(){
+ 
+    // 라디오버튼 클릭시 이벤트 발생
+    $("input:radio[name=reason]").click(function(){
+        if($("input[name='reason']:checked").data("value") == "1"){
+            $("input:text[name=text]").attr("disabled",false);
+            // radio 버튼의 value 값이 1이라면 활성화
+ 
+        }else if($("input[name='reason']:checked").data("value") == "0"){
+              $("input:text[name=text]").attr("disabled",true);
+            // radio 버튼의 value 값이 0이라면 비활성화
+        }
+    });
+    
+    
+    $('span.report').click(function(e){
+		e.preventDefault();
+		$('#report').modal("show");
+	});
+   
+	});
+	
+	// 신고 알럿
+	function success(){
+		
+		// ajax
+		
+		var userId = "${ loginUser.id }";
+		var reason = $("input[name='reason']:checked").val();
+		var reasonText = $("input[name='text']").val();
+		var targetId = "${note.noteFromId}";
+		console.log(userId);
+		console.log(reason);
+		console.log(reasonText);
+		
+		var sendData = {"mid": userId, "reportReason":reason, "reasonText":reasonText, "reportMid":targetId};
+		// ★test라고 임의의 값으로 넣어준거를 나중에 신고당한 회원으로 교체해야함 ★
+		
+		$.ajax({
+			url: "reportInsert.ap",
+			data: sendData,
+			dataType: 'json',
+			success: function(data) {
+				swal({
+			         title:" 신고되었습니다!", 
+			         type: "warning",
+			         html: !0
+			      })
+				$("#report").modal('hide');
+			}
+		});
 	}
 </script>
 	<!-- sweet alert -->

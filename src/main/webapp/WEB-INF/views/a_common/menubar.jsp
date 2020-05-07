@@ -262,9 +262,8 @@
 						<c:url var="logout" value="logout.me"/>				
 						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
 						<div class="user-menu clear-fix">
-							<div data-toggle="modal" data-target="#note"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
-							<div onclick="openCoupon();"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
-							<div><a href=""><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
+				 			<div data-toggle="modal" data-target="#note"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
+							<div><a href="adminPage.ap"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
 						</div>
 					</div>
 				</c:if>
