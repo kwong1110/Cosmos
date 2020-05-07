@@ -232,10 +232,10 @@
 				$('#sgName').val($('#groupSelect option:checked').text());
 				return true;
 			} else {
-				alert('모집 인원을 작성해주세요.');
+				sweetWrong('모집 인원을 작성해주세요.');
 			}
 		}
-		
+		sweetWrong('모든 항목을 채워주세요.');
 		return false;
 	}
 	</script>

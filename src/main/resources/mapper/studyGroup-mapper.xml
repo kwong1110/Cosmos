@@ -2,8 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="studyGroupMapper">
 	<select id="getStudyList" resultType="string">
+		<![CDATA[
 		select study_name
 		from study_category
+		where study_no < 97
+        ]]>
 	</select>
 	
 	<select id="getBranchList" resultMap="branchResultMap">
@@ -100,20 +103,6 @@
         where rownum = 1
 	</select>
 	
-	<!-- <select id="getOnceDetail" parameterType="_int" resultMap="groupRecruitResultSet">
-		select *
-        from (select sg_no, sg_name, nick, sg_status, study_name, (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) as D_CLOSE_DATE,
-				rsg_num, branch_name, sg_goal, sg_content, rsg_metting_date
-            from sgroup
-                join rec_sgroup using(sg_no)
-                join member using(id)
-                join branch using(branch_no)
-                join study_category using(study_no)
-            where sg_no = #{sgno}
-            order by rsg_no desc)
-        where rownum = 1
-	</select> -->
-	
 	<select id="getApproachStatus" parameterType="hashMap" resultType="_int">
 		select count(*)
 		from ap_sgroup
@@ -199,11 +188,12 @@
 		    join study_category using(study_no)
 			join branch using(branch_no)
 			join member using(id)
-			<if test="sortOp != ''">
+			<!-- <if test="sortOp != ''">
 				<if test="sortOp == 'numAscSort' or sortOp == 'numDescSort'">
 					join m_sgroup using(sg_no)
 				</if>
-			</if>
+			</if> -->
+			left join m_sgroup using(sg_no)
 		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
 		<if test="branchOp != ''">
 			and branch_name=#{branchOp}
@@ -271,11 +261,12 @@
 		    join study_category using(study_no)
 			join branch using(branch_no)
 			join member using(id)
-			<if test="sortOp != ''">
+			<!-- <if test="sortOp != ''">
 				<if test="sortOp == 'numAscSort' or sortOp == 'numDescSort'">
 					join m_sgroup using(sg_no)
 				</if>
-			</if>
+			</if> -->
+			left join m_sgroup using(sg_no)
 		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
 		<if test="branchOp != ''">
 			and branch_name=#{branchOp}
@@ -355,17 +346,6 @@
 	</resultMap>
 	
 	<select id="getStudyGroupInfo" parameterType="_int" resultMap="studyGroupResultSet">
-		<!-- select sg_no, sg_name, sg_goal, sg_content, sg_status, branch_no, id, study_name, msg_num, msg_rule1, msg_rule2, msg_rule3, msg_met_rule
-	    from sgroup 
-	        join m_sgroup using(sg_no)
-	        join study_category using(study_no)
-	    where sg_no = #{sgno} -->
-	    <!-- select distinct sg_no, sg_name, sg_goal, sg_content, sg_status, branch_no, id, study_name, nvl(msg_num, rsg_num) as msg_num, msg_rule1, msg_rule2, msg_rule3, nvl(msg_met_rule, rsg_metting_date) as msg_met_rule
-		from sgroup 
-		    left join m_sgroup using(sg_no)
-		    left join rec_sgroup using(sg_no)
-		    join study_category using(study_no)
-		where sg_no = #{sgno} -->
 		select *
 		from (select distinct sg_no, sg_name, sg_goal, sg_content, sg_status, branch_no, id, study_name, nvl(msg_num, rsg_num) as msg_num, msg_rule1, msg_rule2, msg_rule3, nvl(msg_met_rule, rsg_metting_date) as msg_met_rule, rsg_no, substr(rsg_term, 14) as final_rec_date
 		        from sgroup 

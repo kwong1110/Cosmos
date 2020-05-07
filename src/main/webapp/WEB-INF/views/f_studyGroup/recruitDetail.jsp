@@ -13,8 +13,8 @@
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
-	#goMessage{margin:0; padding:0;}
-	#bossNickname{display: block; text-align: center; margin-top: 3%; cursor:pointer;font-size:18px;}
+	#goMessage{margin:0; margin-bottom:3%; padding:0;}
+	#bossNickname{display: block; text-align: center; cursor:pointer;font-size:18px;}
 	#messageHiddenArea{width:100%; display: block; position:relative; text-align: center;}
 	#messageArea{width: 20%; display: inline-block; padding:8px; text-align: center; border-radius: 7px; position:absolute; left: 50%; transform: translateX(-50%); background: gray;}
 	#sendMessage{color: white; cursor: pointer; line-height:1;}
@@ -48,21 +48,18 @@
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
-				
 					<h1>${ info.sgName }</h1>
-					
-					<div id="goMessage">
+				</div>
+				
+				<div id="goMessage">
 					<label id="bossNickname">${ info.nick }</label>
-					<c:if test="${ loginUser != null }">
 					<div id="messageHiddenArea">
 						<div id="messageArea">
 							<label id="sendMessage">쪽지 보내기</label>
 						</div>
 					</div>
-					</c:if>
-					</div>
-					
 				</div>
+					
 				<div class="content">
 					 
 					<div id="infoIconArea" class="inner">
@@ -335,7 +332,6 @@
 					</c:if>
 					
 					<c:if test="${ loginUser.nick eq info.nick }">
-					<script>$(function() {approachList();})</script>
 					<div class="partStyle inner">
 						<label class="subTitle">참가 신청 리스트</label>
 						<div id="approachListArea">
@@ -362,6 +358,7 @@
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 	
+	<c:if test="${ loginUser.nick eq info.nick }">
 	<div id="myModal" class="modal fade" role="dialog">
 		<div class="modal-dialog" style="width:30%;">
 			<div class="modal-content">
@@ -373,12 +370,9 @@
 				</div>
 				
 				<div class="modal-body" id="myModalBody" style="background:#FFFFE0;">
-					
-					
 					<label style="font-size:20px;/*  background:lightgray;  */font-weight:bold;">공부 기록 리스트</label>
 					<label id="infoDate" style="float:right;">2020.00.00 00:00</label>
 					<table style="font-size:18px; margin-top:4%; margin-left:7%;" id="infoList"></table>
-
 				</div>
 				
 				<div class="modal-footer" style="background:#FFFFE0;">
@@ -398,10 +392,15 @@
 			</div>
 		</div>
 	</div>
+	</c:if>
 	
 	<script>
 		$(function() {
 			$('#messageHiddenArea').css('display', 'none');
+			
+			if("${ loginUser.nick }" == "${ info.nick }") {
+				approachList();
+			}
 		});
 		
 		$('#bossNickname').click(function() {
@@ -566,8 +565,8 @@
 		
 		$('#sendMessage').click(function() {
 			if("${loginUser.id}" != ""){
-				var toId = "${info.id}";
-				var url = "noteInsertView.mp?noteToId=" + toId;
+				var toNick = "${info.nick}";
+				var url = "noteInsertView.mp?toNick=" + toNick;
 		        var name = "notePopup";
 		        
 		        var popLeft = Math.ceil(( window.screen.width - 700 )/2);

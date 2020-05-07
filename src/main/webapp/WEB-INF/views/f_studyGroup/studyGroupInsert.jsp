@@ -42,7 +42,7 @@
 				</div>
 				<div class="content">
 					
-					<form action="insertGroup.sg" method="post">
+					<form action="insertGroup.sg" method="post" onsubmit="return ckForm();">
 					<input type="hidden" name="loginUserId" value="${ loginUser.id }">
 					<table class="inner tableStyle">
 						<tr>
@@ -90,7 +90,8 @@
 						<tr>
 							<td class="tableLabel">모임 날짜</td>
 							<td>
-								<input type="text" class="form-control" id="datepicker-autoclose" name="recMettingDate" placeholder="년/월/일" style="width:120px;">
+								<input type="text" class="form-control" id="datepicker-autoclose" id="rsgMetDate" name="rsgMetDate" placeholder="년/월/일" style="width:120px; display:inline-block;">
+								<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="right" title="모집 기간 이후로 선택해주새요.">?</button>
 							</td>
 						</tr>
 						<tr>
@@ -110,9 +111,9 @@
 						<tr>
 							<td colspan=2>
 								<div class="btnBox" style="width:100%; text-align:center;">
-									<input type="submit" class="btn btn-danger" value="등록"/>
+									<input type="submit" class="btn defaultBtn" style="width:100px; padding:10px;" value="등록"/>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="button" class="btn btn-info" value="취소"/>
+									<input type="button" class="btn defaultBtn" style="width:100px; padding:10px;" onclick="location.href='listView.sg'" value="취소"/>
 								</div>
 							</td>
 						</tr>
@@ -126,21 +127,16 @@
 	</div>
 	
 	<script>
+	function ckForm() {
+		if($('#sgName').val().trim != '' && $('#recNum').val() != '' && $('#sgGoal').val().trim() != '' && $('#sgContent').val().trim() != '') {
+			return true;
+		} else {
+			sweetWrong('모든 항목을 채워주세요.');
+			return false;
+		}
+	}
+	
 	$(function() {
-		/* var today = new Date();
-		var dd = today.getDate();
-		var mm = today.getMonth()+1; // Jan is 0
-		var yyyy = today.getFullYear();
-		 
-		if(dd<10){ dd = '0'+dd }
-		
-		if(mm<10){ mm = '0'+mm }
-		                            
-		today = yyyy + '-' + mm + '-' + dd;
-		$('#now_date').text(today);
-		$('#recStartDate').text(today);
-		console.log(today); */
-
 		$('[data-toggle="tooltip"]').tooltip();
 		
 		$('#sgGoal').keyup(function (e){

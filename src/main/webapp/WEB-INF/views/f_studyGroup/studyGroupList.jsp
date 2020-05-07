@@ -13,8 +13,6 @@
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
-	.pageTitle:hover{color:#17955F; cursor:pointer;}
-	
 	#searchArea{width:100%; display:inline-block; text-align:center; margin-top:5%;}
 	.searchForm{width:60%; display:inline-block; transform:scale(1.3); margin-bottom:7%;}
 	#reSearchText{width:70%; display:inline-block; vertical-align:middle; margin-left:3%;}

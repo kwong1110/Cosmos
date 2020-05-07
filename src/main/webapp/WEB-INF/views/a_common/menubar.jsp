@@ -193,8 +193,8 @@
 	.myCuponSize{width: 45%;}
 	.myCuponColor{background: lightgray;}
 	.myCuponTitle{width:100%; text-align:center; margin:10px;}
-	.myCuponBody{width:100%; display:inline-block; text-align:center;}
-	#cuponArea{width:80%; min-height: 330px; margin-top:5%; margin-bottom:5%; display:inline-block; text-align:center; border-radius:10px; background:white;}
+	.myCuponBody{width:100%; display:inline-block; text-align:center; margin:0; padding:0; padding-bottom:2%;}
+	#cuponArea{width:80%; min-height: 330px; margin-top:4%; margin-bottom:4%; display:inline-block; text-align:center; border-radius:10px; background:white;}
 	#cuponAreaTop{width:100%; height:120px; padding: 4%; padding-bottom: 1%;}
 	#cuponLogo{width:50%; height:100%; float:left; padding-left:3%;}
 	#cuponLogo div{height:100%; width:auto;}
@@ -210,7 +210,7 @@
 	
 	#stampListArea{width:100%; text-align:center;}
 	#stampListArea>div{width:80%; display:inline-block;}
-	#stampListArea>div table{width:100%; display:table; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
+	#stampListArea>div table{width:100%; font-size:18px; display:table; text-align:center; border-collapse: separate; border-spacing: 0em 1.7em !important}
 	/* 쿠폰 모달 스타일 끝 */
 </style>
 <body>
@@ -237,7 +237,7 @@
 						<div>
 							<span class="cosmos"><c:out value="${ loginUser.name }"/></span>님
 						</div>
-						<c:url var="logout" value="logout.me"/>				
+						<c:url var="logout" value="logout.me"/>
 						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
 						<div class="user-menu clear-fix">
 
@@ -293,7 +293,7 @@
 		
 		<div class="menubar">
 			<div class="menuTitle"><a href="reservation.se"><span class="glyphicon glyphicon-education" aria-hidden="true"></span>좌석예약</a></div>
-			<div class="menuTitle"><a href="listView.sg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>그룹목록</a></div>
+			<div class="menuTitle"><a href="listView.sg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>스터디그룹</a></div>
 			<div class="menuTitle">
 				<div><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
 				<div class="s-menu">
@@ -349,12 +349,12 @@
 	<div id="myCupon" class="modal fade" role="dialog">
 		<div class="modal-dialog myCuponSize">
 			<div class="modal-content myCuponColor">
-				<div class="modal-header">
+				<div class="modal-header" style="background:#17955F;">
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
-					<h2 class="modal-title myCuponTitle">마이 쿠폰</h2>
+					<h2 class="modal-title myCuponTitle" style="color:white;">마이 쿠폰</h2>
 				</div>
 				
-				<div class="modal-body myCuponBody">
+				<div class="modal-body myCuponBody" style="background:#FEF5C6;">
 					
 					<div id="cuponArea">
 						<div id="cuponAreaTop">
@@ -380,7 +380,7 @@
 					</div>
 				</div>
 
-				<div class="modal-footer" style="width:100%; text-align:center;">
+				<div class="modal-footer" style="width:100%; text-align:center; background:#FEF5C6; padding:0; margin:0;">
 					<nav>
 						<ul class="pagination" id="pageUl"></ul>
 					</nav>
