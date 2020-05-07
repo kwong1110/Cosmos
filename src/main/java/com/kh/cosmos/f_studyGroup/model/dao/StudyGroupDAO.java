@@ -12,7 +12,6 @@ import com.kh.cosmos.b_member.model.vo.Preview;
 import com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
-import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Repository("sgDAO")
@@ -225,5 +224,13 @@ public class StudyGroupDAO {
 
   public int getHomeListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("studyGroupMapper.getHomeListCount");
+	}
+	
+	public ArrayList<StudyGroupRecruit> getEndRecList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getEndRecList");
+	}
+	
+	public ArrayList<StudyGroupRecruit> getMetOnceGroupList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getMetOnceGroupList");
 	}
 }

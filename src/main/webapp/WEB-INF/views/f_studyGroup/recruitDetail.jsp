@@ -34,7 +34,7 @@
 	
 	#approachBtn{width: 20%; margin-top:5%; margin-bottom: 5%;}
 	
-	#approachListArea{width:60%; display: inline-block; text-align: center;}
+	#approachListArea{width:80%; display: inline-block; text-align: center;}
 	
 	
 </style>
@@ -332,7 +332,7 @@
 					</c:if>
 					
 					<c:if test="${ loginUser.nick eq info.nick }">
-					<div class="partStyle inner">
+					<div class="partStyle inner" style="width:80%; padding-top:3%; padding-bottom:1%; border-radius:20px; background:rgb(255,255,255,0.65);">
 						<label class="subTitle">참가 신청 리스트</label>
 						<div id="approachListArea">
 							<table id="approachListTable" class="table table-hover">
@@ -379,11 +379,11 @@
 					
 					<c:if test="${ info.groupType eq 'recMulti' or info.groupType eq 'recOnce' }">
 					<%-- <input type="hidden" id="infoRecNo" value="${ info.recNo }"> --%>
-					<div style="width:100%; margin-top:5%;" id="confirmArea">
+					<div style="width:100%;" id="confirmArea">
 						<div id="hiddenConfirm">
-							<input type="button" class="btn btn-info" onclick="confirmApproach('acc');" value="수락" />
+							<input type="button" class="btn defaultBtn" onclick="confirmApproach('acc');" value="수락" />
 							&nbsp;
-							<input type="button" class="btn btn-danger" onclick="confirmApproach('rej');" value="거절" />
+							<input type="button" class="btn defaultBtn" onclick="confirmApproach('rej');" value="거절" />
 						</div>
 						<label id="hiddenLabel" style="font-size:20px;"></label>
 					</div>
@@ -415,10 +415,42 @@
 			$('#bossNickname').css('color', 'black');
 		});
 		
+		function sweetCheck(title, text, btnText){
+			swal({
+				title:title,
+				text:text,
+				type:"warning",
+				showCancelButton: !0,
+				confirmButtonColor:"#17955F",
+				confirmButtonText:btnText,
+				closeOnConfirm: !1
+				},
+				function(){
+					$.ajax({
+						url:url,
+						data:sendData,
+						dataType: 'json',
+						success: function(data) {
+							if($('#appArea').children().length == 0) {
+								if(data == 'Y') {
+									$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" style="background:gray;" value="신청 완료" disabled="">');
+								} else if(data == 'N') {
+									$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" onclick="approach();" value="참가 신청">');
+								}
+							} else if($('#appArea').children().length > 0) {
+								sweetSuccess('신청');
+								$('#appArea').html('');
+								$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" style="background:gray;" value="신청 완료" disabled="">');
+							}
+						}
+					});
+				}
+			)
+		};
+
+		var url = "";
+		var sendData;
 		function approach() {
-			var url = "";
-			var sendData;
-			
 			if($('#appArea').children().length > 0) {
 				url = "doAppGroup.sg";
 				sendData = {"sgno":"${ info.sgNo }", "recno":"${ info.recNo }", "bossid":"${info.id}", "sgname":"${info.sgName}"};
@@ -428,7 +460,8 @@
 			}
 			
 			if(url == "doAppGroup.sg") {
-				if(!confirm("참가 신청은 모집 당 한 번만 가능합니다. 참가 신청하시겠습니까?")) return;
+				sweetCheck('참가 신청하시겠습니까?','참가 신청은 모집 당 한 번만 가능합니다.','신청');
+				return;
 			}
 			
 			$.ajax({
@@ -443,6 +476,7 @@
 							$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" onclick="approach();" value="참가 신청">');
 						}
 					} else if($('#appArea').children().length > 0) {
+						sweetSuccess('신청');
 						$('#appArea').html('');
 						$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" style="background:gray;" value="신청 완료" disabled="">');
 					}
@@ -484,6 +518,8 @@
 							
 							$tbody.append($tr);
 						}
+					} else {
+						$tbody.append('<tr><td colspan="4">들어온 참가 신청이 없습니다.</td></tr>');
 					}
 				}
 			});

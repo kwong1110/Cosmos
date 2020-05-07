@@ -13,7 +13,6 @@ import com.kh.cosmos.f_studyGroup.model.dao.StudyGroupDAO;
 import com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
-import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Service("sgService")
@@ -193,5 +192,15 @@ public class StudyGroupServiceImpl implements StudyGroupService{
   @Override
 	public int getHomeListCount() {
 		return sgDAO.getHomeListCount(sqlSession);
+	}
+
+	@Override
+	public ArrayList<StudyGroupRecruit> getEndRecList() {
+		return sgDAO.getEndRecList(sqlSession);
+	}
+
+	@Override
+	public ArrayList<StudyGroupRecruit> getMetOnceGroupList() {
+		return sgDAO.getMetOnceGroupList(sqlSession);
 	}
 }

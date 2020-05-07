@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,7 +25,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonIOException;
 import com.kh.cosmos.a_common.PageInfo;
-import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.a_common.Pagination_five;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.b_member.model.vo.Preview;
@@ -35,11 +35,8 @@ import com.kh.cosmos.c_myPage.model.vo.Note;
 import com.kh.cosmos.f_studyGroup.model.exception.StudyGroupException;
 import com.kh.cosmos.f_studyGroup.model.service.StudyGroupService;
 import com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup;
-import com.kh.cosmos.f_studyGroup.model.vo.MyStudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
-import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
-import com.kh.cosmos.f_studyGroup.model.vo.runTask;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Controller
@@ -549,14 +546,47 @@ public class StudyGroupController {
 		}
 	}
 	
-	public void alarm(@RequestParam("time") int stime, @RequestParam("min") int smin) {
-		Calendar datetime = Calendar.getInstance();
-		datetime.set(Calendar.HOUR_OF_DAY, stime);
-		datetime.set(Calendar.MINUTE, smin);
-		datetime.set(Calendar.SECOND, 0);
-		datetime.set(Calendar.MILLISECOND, 0);
+	@Scheduled(cron = "0 0 0 * * *")
+	public void sgNoticeMessage(){
+		ArrayList<StudyGroupRecruit> endRecList = sgService.getEndRecList();
+		if(endRecList != null) {
+			for(StudyGroupRecruit sg : endRecList) {
+				int partmem = sgService.getPartMemberNum(sg.getSgNo());
+				
+				if(sg.getSgStatus().equals("N")) {
+					if(partmem > 0) { // 모집된 인원이 1인 이상
+						Note n = new Note();
+						n.setNoteFromId("admin00");
+						n.setNoteToId(sg.getId());
+						n.setNoteContent("'" + sg.getSgName() + "' 그룹의 모집이 마감되었습니다.<br>이번 모집에서 모집된 인원은 " + partmem + "명 입니다. 아래 링크를 통해 스터디 룸 예약을 진행하세요.<br><a onclick='window.open(&quot;" + "reservation.se" + "&quot;)'>좌석 예약하러 가기</a>");
+						int messageResult = nService.insertNote(n);
+					} else { // 모집된 인원이 없음
+						Note n = new Note();
+						n.setNoteFromId("admin00");
+						n.setNoteToId(sg.getId());
+						n.setNoteContent("'" + sg.getSgName() + "' 그룹의 모집이 마감되었습니다.<br>이번 모집에서 모집된 인원이 없습니다. 아래 링크를 통해 다시 모집을 등록해보세요.<br><a onclick='window.open(&quot;" + "insertRecView.sg" + "&quot;)'>좌석 예약하러 가기</a>");
+						int messageResult = nService.insertNote(n);
+					}
+				} else if(sg.getSgStatus().equals("Y")) {
+					Note n = new Note();
+					n.setNoteFromId("admin00");
+					n.setNoteToId(sg.getId());
+					n.setNoteContent("'" + sg.getSgName() + "' 그룹의 모집이 마감되었습니다.<br>이번 모집에서 모집된 인원은 " + partmem + "명 입니다.");
+					int messageResult = nService.insertNote(n);
+				}
+			}
+		}
 		
-		Timer timer = new Timer();
-		timer.schedule(new runTask(), datetime.getTime(), 1000*86400);
+		ArrayList<StudyGroupRecruit> metOnceGroupList = sgService.getMetOnceGroupList();
+		if(metOnceGroupList != null) {
+			for(StudyGroupRecruit sg : metOnceGroupList) {
+				String link = "updateGroupView.sg?sgno=" + sg.getSgNo();
+				Note n = new Note();
+				n.setNoteFromId("admin00");
+				n.setNoteToId(sg.getId());
+				n.setNoteContent("'" + sg.getSgName() + "' 그룹의 스터디를 계속 진행하시려면 아래 링크를 통해 장기 스터디 그룹으로 변경해주세요.<br><a onclick='window.open(&quot;" + link + "&quot;)'>그룹 정보 수정하러 가기</a>");
+				int messageResult = nService.insertNote(n);
+			}
+		}
 	}
 }
