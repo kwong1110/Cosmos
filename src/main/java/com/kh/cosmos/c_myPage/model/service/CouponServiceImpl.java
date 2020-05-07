@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kh.cosmos.a_common.PageInfo;
+import com.kh.cosmos.a_common.Pagination;
+import com.kh.cosmos.a_common.Pagination_five;
 import com.kh.cosmos.c_myPage.model.dao.CouponDAO;
 import com.kh.cosmos.c_myPage.model.vo.Coupon;
 

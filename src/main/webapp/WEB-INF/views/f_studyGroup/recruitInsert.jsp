@@ -50,6 +50,7 @@
 						<tr>
 							<td class="tableLabel">그룹 명</td>
 							<td>
+								<input type="hidden" id="sgName" name="sgName">
 								<select class="form-control" id="groupSelect" name="sgNo">
 									<c:forEach var="item" items="${ sgList }">
 										<option value="${ item.sgNo }">${ item.sgName }</option>
@@ -124,9 +125,9 @@
 							<td colspan=2>
 								<div class="btnBox" style="width:100%; text-align:center;">
 								<!-- btnBox 스타일 빠진 것 가튼데 여쭤보자 -->
-									<input type="submit" class="btn btn-danger" value="등록"/>
+									<input type="submit" class="btn defaultBtn" style="width:100px; padding:10px;" value="등록"/>
 									&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-									<input type="button" class="btn btn-info" value="취소"/>
+									<input type="button" class="btn defaultBtn" style="width:100px; padding:10px;" onclick="location.href='listView.sg'" value="취소"/>
 								</div>
 							</td>
 						</tr>
@@ -228,6 +229,7 @@
 		if(checkDate()) {
 			var num = $('#recNum').val();
 			if(num.trim() != '') {
+				$('#sgName').val($('#groupSelect option:checked').text());
 				return true;
 			} else {
 				alert('모집 인원을 작성해주세요.');

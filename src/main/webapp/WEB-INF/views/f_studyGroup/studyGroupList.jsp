@@ -180,11 +180,16 @@
 								</ul>
 							</nav>
 						
+							<c:if test="${not empty loginUser }">
 							<div id="insertBtnArea">
+								<c:if test="${ recCondition > 0 }">
 								<input type="button" class="defaultBtn" onclick="location.href='insertRecView.sg'" value="모집 등록">
 								&nbsp;&nbsp;&nbsp;
+								</c:if>
+								
 								<input type="button" class="defaultBtn" onclick="location.href='insertGroupView.sg'" value="그룹 등록">
 							</div>
+							</c:if>
 						</div>
 					
 					</div> <!-- content -->

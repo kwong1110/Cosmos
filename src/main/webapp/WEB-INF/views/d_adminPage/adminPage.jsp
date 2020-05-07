@@ -79,7 +79,7 @@
 					  <li role="presentation"><a href="reportList.ap">신고 목록</a></li>
 					  <li role="presentation"><a href="branchList.ap">지점 목록</a></li>
 					  <li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
-					  <li role="presentation"><a href="">예약 현황</a></li>
+					  <li role="presentation"><a href="allSeat.se">예약 현황</a></li>
 					</ul>
 				</div>
 				</c:if>	

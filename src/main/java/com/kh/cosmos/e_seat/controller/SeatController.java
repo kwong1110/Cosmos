@@ -3,6 +3,7 @@ package com.kh.cosmos.e_seat.controller;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
@@ -26,6 +26,8 @@ import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.a_common.Pagination_seat;
 import com.kh.cosmos.a_common.SearchConditionSeat;
 import com.kh.cosmos.b_member.model.vo.Member;
+import com.kh.cosmos.c_myPage.model.service.NoteService;
+import com.kh.cosmos.c_myPage.model.vo.Note;
 import com.kh.cosmos.e_seat.model.exception.SeatException;
 import com.kh.cosmos.e_seat.model.service.SeatService;
 import com.kh.cosmos.e_seat.model.vo.Seat;
@@ -42,6 +44,9 @@ public class SeatController {
 	
 	@Autowired
 	private StudyGroupService sgService;
+
+	@Autowired
+	private NoteService nService;
 	
 	@RequestMapping("reservation.se")
 	public ModelAndView ReservationView(@RequestParam(value="page", required=false) Integer page, ModelAndView mv, HttpServletRequest request ) {
@@ -80,7 +85,9 @@ public class SeatController {
 	
 	@ResponseBody
 	@RequestMapping("seatBuy.se")
-	public int seatBuyView( @ModelAttribute Seat s, @RequestParam("reserDate") String reserDate, @RequestParam("chooseSeat") String chooseSeat,@RequestParam("totalFeeStr") String totalFeeStr ) {
+	public int seatBuyView( @ModelAttribute Seat s, @RequestParam("reserDate") String reserDate, @RequestParam("chooseSeat") String chooseSeat,
+							@RequestParam("totalFeeStr") String totalFeeStr, @RequestParam(value="group", required=false, defaultValue="99999") int group,
+							@RequestParam(value="groupname", required=false) String groupname) {
 		String startDate = "";
 		String startTime = "";
 		String endDate = "";
@@ -118,6 +125,61 @@ public class SeatController {
 		s.setSeatNo(Integer.parseInt(seatNo));
 		s.setTotalFee(Integer.parseInt(totalFeeStr));
 		int result = sService.seatBuy(s);
+
+		//쿠폰 등록 시작
+		if(result > 0) {
+			String branchName = sService.getBranchName(s.getBranchNo());
+			
+			HashMap<String, String> map = new HashMap<String, String>();
+			int cResult = 0;
+			if(s.getEndTime() - s.getStartTime() >= 3 && s.getReserType().equals("시간권")) { // 3시간 이상 좌석예약했을 때 도장 부여
+				int totalStamp = sService.getTotalStamp(s.getId())+1;
+				
+				map.put("id", s.getId());
+				map.put("totalStamp", totalStamp+"");
+				map.put("stampContent", branchName + " " + s.getReserPeople() + "인 좌석예약");
+				
+				cResult = sService.insertOneStamp(map);
+				
+				if(totalStamp == 10) {
+					map.put("id", s.getId());
+					map.put("stampContent", "쿠폰 발급");
+					
+					cResult = sService.insertCoupon(map);
+				}
+				
+				if(s.getReserPeople() != 1 && group != 99999 && (s.getReserSort().equals("B") || s.getReserSort().equals("C") || s.getReserSort().equals("D") || s.getReserSort().equals("E"))) { // 그룹 예약 했을 때 그룹원 전체 도장 부여
+					ArrayList<String> memberList = sgService.getMemList(group);
+					cResult = sgService.updateMsgCount(group); // 그룹 만남 횟수 증가
+					
+					for(String memId : memberList) {
+						totalStamp = 0;
+						totalStamp = sService.getTotalStamp(memId)+1;
+						
+						map.put("id", memId);
+						map.put("totalStamp", totalStamp+"");
+						map.put("stampContent", branchName + " " + s.getReserPeople() + "인 스터디 그룹 예약");
+						
+						cResult = sService.insertOneStamp(map);
+						
+						if(totalStamp == 10) {
+							map.put("id", s.getId());
+							map.put("stampContent", "쿠폰 발급");
+							
+							cResult = sService.insertCoupon(map);
+						}
+
+						Note n = new Note();
+						n.setNoteFromId("admin00");
+						n.setNoteToId(memId);
+						n.setNoteContent(branchName + " " + s.getReserDay() + " " + s.getStartTime() + ":00 ~ " + s.getEndTime() + ":00에 " + "'" + groupname + "' 그룹의 스터디 룸이 예약되었습니다.");
+						int messageResult = nService.insertNote(n);
+					}
+				}
+			}
+			
+		}
+		//쿠폰 등록 끝
 		
 		return result;	
 	}
@@ -212,7 +274,7 @@ public class SeatController {
 		ArrayList<Seat> seatStatusList = sService.seatStatusList(pi, scs);
 		
 		if(seatStatusList != null) {
-			model.addAttribute("seatStatusList", seatStatusList);
+			model.addAttribute("allList", seatStatusList);
 			model.addAttribute("pi", pi);
 			model.addAttribute("searchType", searchType);
 			model.addAttribute("searchText", searchText);

@@ -20,14 +20,37 @@
 	
 	/* 전체 박스  */
 	.main{
-		background : url(${contextPath}/resources/image/main7.jpg) no-repeat center center;
+		/* background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
+		background-size:cover;
+		height:100%; */
+	}
+	div.wrapper {
+		background : none;
+	}
+	.imgBack1 {
+		background : url(${contextPath}/resources/image/main1.jpg) no-repeat center center;
 		background-size:cover;
 		height:100%;
+		width:100%;
+		position: absolute;
+		z-index: -1;
+	}
+	.imgBack1 {
+		background : url(${contextPath}/resources/image/main2.jpg) no-repeat center center;
+		background-size:cover;
+		height:100%;
+		width:100%;
+		position: absolute;
+		z-index: -1;
 	}
 	
+	.content {
+		position:relative;
+	}
 	/* 안에 내용 박스 */
 	.inner {
-		
+		position: absolute;
+		z-index: 100;
 	}
 	
 	/*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=*/
@@ -203,7 +226,7 @@
 							<div class="data_output_list_bg"></div>
 							<div class="data_output_list">
 								<div class="data_output_item item0  clear-fix">
-									<p class="data_output_tit"><span>전체<br>지점 수</span></p>
+									<p class="data_output_tit"><span>전체<br>지점수</span></p>
 									<div class="data_output_desc data_desc">
 										<p class="data_desc_m"><span>전국 <b>100</b>개의 지점 수</span></p>
 										<p class="data_desc_s">코스모스 센터는 <br>최대, 최다 규모의 경쟁력을 갖춘 공간 서비스 브랜드입니다.</p>
@@ -261,7 +284,7 @@
 								<div class="data_output_item item2 clear-fix">
 									<p class="data_output_tit"><span>모집 중인<br>그룹</span></p>
 									<div class="data_output_desc data_desc">
-										<p class="data_desc_m"><span>코스모스에서<br> 현재 모집 중인 그룹 수<b>100</b>개</span></p>
+										<p class="data_desc_m"><span>코스모스에서<br> 현재 모집 중인 그룹 수<b>${ allGroup }</b>개</span></p>
 										<p class="data_desc_s">코스모스 센터는 여러 명이 같이 공부를 하거나 과제를 할 수 있도록 <br>스터디 그룹 매칭 과정을 진행하고 있습니다.</p>
 									</div>
 									<ul class="data_desc_list clr">
@@ -331,7 +354,7 @@
 								</li>
 								<li class="data_input_item">
 									<div>
-										<span><b>100</b> 그룹</span>
+										<span><b>${ allGroup }</b> 그룹</span>
 										<em>모집 중 그룹</em>
 									</div>
 								</li>
@@ -355,6 +378,36 @@
 
 <script>
 	$(function(){
+		
+		// 이미지 효과
+		$(".wrapper").append("<div class='imgBack1'></div>");
+		$(".wrapper").append("<div class='imgBack2'></div>");
+		
+			/* var i = 1;
+			setInterval(function(){
+			$(".main").css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"})
+				i++;
+				/* if(i == 7){
+					i = 1;
+				}
+				
+				$(".main").fadeOut("slow", function(){
+					$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+					$(this).fadeIn("slow");
+				}); */
+				
+				/* if(i == 7){
+					i = 1;
+				}
+				$(".main").fadeOut("slow", function(){
+					$(this).css({"background-image":"url(${contextPath}/resources/image/main" + i + ".jpg)"});
+					$(this).fadeIn("slow");
+				});
+
+			}, 3000); */
+		
+		
+		
 		var $tab = $(".data_input_item div");
 		// $(".tab-box .ctn1").addClass("ctnOn");
 

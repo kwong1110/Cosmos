@@ -87,20 +87,20 @@ public class StrudyPlannerController {
 		
 		String[] fullDate = daterange.split(" - ");
 
-		String startDate = fullDate[0].split(" ")[0];
-		String startTime = fullDate[0].split(" ")[1];
-		String endDate = fullDate[1].split(" ")[0];
-		String endTime = fullDate[1].split(" ")[1];
+		String startDate = fullDate[0];
+		String endDate = fullDate[1];
+
+		// 끝날짜와 시작날짜를 Date->String으로 바꾼 후 시간 까지 같이 저장.
+		//String startTime = fullDate[0].split(" ")[1];
+		//String endTime = fullDate[1].split(" ")[1];
 		
-		Date startDateSql = Date.valueOf(startDate);
-		Date endDateSql = Date.valueOf(endDate);
-		// System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
+//		Date startDateSql = Date.valueOf(startDate);
+//		Date endDateSql = Date.valueOf(endDate);
+//		System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
 		
-		sp.setPlanStart(startDateSql);
-		sp.setPlanEnd(endDateSql);
-		//sp.setTime(startTime + "~" + endTime);
+		sp.setPlanStart(startDate);
+		sp.setPlanEnd(endDate);
 		
-		// System.out.println("날짜 담긴 후 sp 확인 : " + sp);
 		int result = spService.insertPlan(sp);
 		
 		ra.addFlashAttribute("successMsg", "플래너 등록 성공");
@@ -121,6 +121,7 @@ public class StrudyPlannerController {
 			
 			sp.setPlanTitle(URLEncoder.encode(sp.getPlanTitle(), "UTF-8"));
 			sp.setPlanContent(URLEncoder.encode(sp.getPlanContent(), "UTF-8"));
+			sp.setPlanMemo(URLEncoder.encode(sp.getPlanMemo(), "UTF-8"));
 			
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson(sp, response.getWriter());
@@ -146,22 +147,24 @@ public class StrudyPlannerController {
 	public String updatePlan(@ModelAttribute StudyPlanner sp, Model model, 
 							 RedirectAttributes ra, @RequestParam("daterange") String daterange) {
 		
-		System.out.println(sp);
+		// System.out.println(sp);
 		System.out.println(daterange);
 		
 		String[] fullDate = daterange.split(" - ");
 
-		String startDate = fullDate[0].split(" ")[0];
-		String startTime = fullDate[0].split(" ")[1];
-		String endDate = fullDate[1].split(" ")[0];
-		String endTime = fullDate[1].split(" ")[1];
+		String startDate = fullDate[0];
+		String endDate = fullDate[1];
+
+		// 끝날짜와 시작날짜를 Date->String으로 바꾼 후 시간 까지 같이 저장.
+		//String startTime = fullDate[0].split(" ")[1];
+		//String endTime = fullDate[1].split(" ")[1];
 		
-		Date startDateSql = Date.valueOf(startDate);
-		Date endDateSql = Date.valueOf(endDate);
-		System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
+//		Date startDateSql = Date.valueOf(startDate);
+//		Date endDateSql = Date.valueOf(endDate);
+//		System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
 		
-		sp.setPlanStart(startDateSql);
-		sp.setPlanEnd(endDateSql);
+		sp.setPlanStart(startDate);
+		sp.setPlanEnd(endDate);
 		
 		System.out.println("담긴 후 sp : " + sp);
 		
@@ -282,14 +285,16 @@ public class StrudyPlannerController {
 		r.setId(Writer);
 		
 		
-		// 만약 답글에 1개의 답글이 더 있을 경웅 order(순서)를 바꿔주어야 한다.
+		// 만약 답글에 1개의 답글이 더 있을 경우 order(순서)를 바꿔주어야 한다.
 		if(r.getReGrpOrder() == 0 && !reReplyOn.equals("reReplyOn")) {
 			int orderResult = spService.updateReplyOrder(r);
 		}
 		
 		// 답글에 답글일 경우
 		if(reReplyOn.equals("reReplyOn")) {
+			// insert시 order를 +1를 해주니까 대댓글에서는 -1을해주어야함
 			int reReplyResult = spService.updateReReplyOrder(r);
+			r.setReGrpOrder(r.getReGrpOrder()-1);
 		}
 
 		int result = spService.insertReReply(r);
