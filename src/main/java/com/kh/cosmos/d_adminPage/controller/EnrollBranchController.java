@@ -65,6 +65,7 @@ public class EnrollBranchController {
 		ebService.insertBranch(vr); // 먼저 view branch먼저 insert 해주기
 		ebService.insertMaster(m);  // 그다음으로 Master insert
 		
+		me.setName(vr.getBranchName());
 		int result = ebService.insertMember(me);  // 그다음으로 기본키가 있는 member를 insert 하고 result 에 담아서 , 	
 												  // result 가 0 보다 클 때 
 		if(result > 0) {

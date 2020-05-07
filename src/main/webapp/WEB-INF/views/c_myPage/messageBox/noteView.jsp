@@ -26,7 +26,7 @@
 		<h2 class="title">
 			<span class="cosmos">보낸 사람</span>
 			| <c:out value="${note.noteFromId}"/>님
-			<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline";> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
+			<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline;"> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
 		</h2>
 	</div>
 	<form>
@@ -137,12 +137,12 @@
 		var userId = "${ loginUser.id }";
 		var reason = $("input[name='reason']:checked").val();
 		var reasonText = $("input[name='text']").val();
-		
+		var targetId = "${note.noteFromId}";
 		console.log(userId);
 		console.log(reason);
 		console.log(reasonText);
 		
-		var sendData = {"userId": userId, "reason":reason, "reasonText":reasonText, "targetId":'test'};
+		var sendData = {"mid": userId, "reportReason":reason, "reasonText":reasonText, "reportMid":targetId};
 		// ★test라고 임의의 값으로 넣어준거를 나중에 신고당한 회원으로 교체해야함 ★
 		
 		$.ajax({
@@ -150,14 +150,14 @@
 			data: sendData,
 			dataType: 'json',
 			success: function(data) {
+				swal({
+			         title:" 신고되었습니다!", 
+			         type: "warning",
+			         html: !0
+			      })
 				$("#report").modal('hide');
 			}
 		});
-		swal({
-	         title:" 신고하였습니다!", 
-	         type: "warning",
-	         html: !0
-	      })
 	}
 	
 </script>

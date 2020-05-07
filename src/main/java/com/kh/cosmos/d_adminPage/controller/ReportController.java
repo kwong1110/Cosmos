@@ -34,7 +34,7 @@ public class ReportController {
 	public String Report() {
 		return null;
 	}
-	
+	// 신고목록 조회
 	@RequestMapping("reportList.ap")
 	public ModelAndView ReportList(ModelAndView mv, @RequestParam(value="page", required=false) Integer page) {
 		
@@ -60,21 +60,24 @@ public class ReportController {
 		return mv;
 	}
 		
-	
+	// 신고등록
 	@ResponseBody
 	@RequestMapping("reportInsert.ap")
-	public int reportInsert(@ModelAttribute Report rp, HttpServletResponse response,@RequestParam("userId") String userId, @RequestParam("reason") int reason, @RequestParam("targetId") String targetId, @RequestParam("reasonText") String reasonText) throws JsonIOException, IOException {
+	public int reportInsert(@ModelAttribute Report rp, HttpServletResponse response) throws JsonIOException, IOException {
 		
-		rp.setMid(userId);
-		rp.setReportReason(reason);
-		rp.setReportMid(targetId);
+		// @RequestParam("userId") String userId, @RequestParam("reason") int reason, @RequestParam("targetId") String targetId, @RequestParam("reasonText") String reasonText
+		//rp.setMid(userId);
+		//rp.setReportReason(reason);
+		//rp.setReportMid(targetId);
+	
+		// System.out.println("rp확인 : " + rp);
 		
 		int result = rService.reportInsert(rp);
 		
 		
 		return result;
 	}
-	
+	// 신고삭제
 	@RequestMapping("reportDelete.rp")
 	public String reportDelete(@RequestParam ("no") int no) {
 		
@@ -87,7 +90,7 @@ public class ReportController {
 		return "redirect:reportList.ap";
 	}
 	
-	
+	// 금지회원
 	@RequestMapping("ban.rp")
 	public String ban(@RequestParam ("no") int no, @RequestParam("memberId") String reportMid){
 		
