@@ -12,12 +12,63 @@
 	.seatstatus th{text-align:center !important;}
 	.search-text {float: right !important;}
 	.input-group {position: relative !important; display: table !important;border-collapse: separate !important;}
+	.adminList{
+		width:600px;padding-top:50px;
+	}
+	div.adminList ul.nav-tabs {
+		border-bottom-color: transparent;
+	}
+	
+	div.adminList ul.nav-tabs {
+		margin-bottom :30px;
+		display:flex;
+		justify-content: space-between;
+	}
+	
+	div.adminList ul.nav-tabs>li {
+		flex : 2 1 auto;
+	}
+	
+	div.adminList ul.nav-tabs>li>a {
+	    margin-right: 3px;
+	    line-height: 1.42857143;
+	    background-color: rgba(255, 255, 255, 0.5);
+	    border: 1px solid #ddd;
+	    border-radius: 4px 4px 0 0;
+	    font-family: 'Binggrae';
+	    text-align : center;
+	}
+	
+ 	div.adminList ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+	    color: #555;
+	    cursor: default;
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	} 
+	
+	.nav>li>a {
+	    position: relative;
+	    display: block;
+	    padding: 10px 15px;
+	}
 </style>
 <body>
 	<div class="total-wrapper">
 		<c:import url="../a_common/menubar.jsp"/>
-		<div class="wrapper"> 
-			<div class="main">
+		<div class="wrapper">
+			<div  align="center">	
+				<div class="adminList" style="margin-bottom:0px;">
+					<ul class="nav nav-tabs">
+						<li role="presentation" class="active"><a href="adminPage.ap">본점관리자</a></li>
+						<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
+						<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
+						<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
+						<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
+					</ul>
+				</div>
+			</div>
+			<hr> 
+			<div class="main admin" style="padding:0px;" align="center">
 				<div class="pageTitle">
 					<h1>예약현황</h1>
 				</div>

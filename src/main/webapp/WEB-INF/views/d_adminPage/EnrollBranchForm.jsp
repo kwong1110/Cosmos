@@ -22,7 +22,47 @@
 <!-- 이 css와 js는 로컬에 있는 것들을 링크시킨 것이다. -->
 <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.css" rel="stylesheet">
 <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.12/summernote.js"></script>
-
+<style>
+	.adminList{
+		width:600px;padding-top:50px;
+	}
+	div.adminList ul.nav-tabs {
+		border-bottom-color: transparent;
+	}
+	
+	div.adminList ul.nav-tabs {
+		margin-bottom :30px;
+		display:flex;
+		justify-content: space-between;
+	}
+	
+	div.adminList ul.nav-tabs>li {
+		flex : 2 1 auto;
+	}
+	
+	div.adminList ul.nav-tabs>li>a {
+	    margin-right: 3px;
+	    line-height: 1.42857143;
+	    background-color: rgba(255, 255, 255, 0.5);
+	    border: 1px solid #ddd;
+	    border-radius: 4px 4px 0 0;
+	    font-family: 'Binggrae';
+	    text-align : center;
+	}
+	
+ 	div.adminList ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+	    color: #555;
+	    cursor: default;
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	} 
+	
+	.nav>li>a {
+	    position: relative;
+	    display: block;
+	    padding: 10px 15px;
+	}
+</style>
 </head>
 <body>
 	<!-- view 초기 구조 -->
@@ -30,12 +70,24 @@
 	<div class="total-wrapper">
 	<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper">
-				<div class="main">
-					<div class="pageTitle" align="center">
-						<h1>지점등록</h1>
-					</div>
-					<div class="content" align="center" >
-						 <form action="binsert.ap" method="post" id="joinForm">
+			<div  align="center">	
+				<div class="adminList" style="margin-bottom:0px;">
+					<ul class="nav nav-tabs">
+						<li role="presentation" class="active"><a href="adminPage.ap">본점관리자</a></li>
+						<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
+						<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
+						<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
+						<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
+					</ul>
+				</div>
+			</div>
+			<hr>
+			<div class="main admin" style="padding:0px;" align="center">
+				<div class="pageTitle" align="center">
+					<h1>지점등록</h1>
+				</div>
+				<div class="content" align="center" >
+					<form action="binsert.ap" method="post" id="joinForm">
 						<table class="inner">
 							<tr>
 								<th>지점명</th>
@@ -93,11 +145,9 @@
 								<button name="취소"  class="defaultBtn""  onClick="history.go(-1)">취소</button>	
 							</div> 
 						</div>
-               				</form>	
-					</div>
-					
-				</div>	
-						
+               		</form>	
+					</div>					
+				</div>							
 		</div>				
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
