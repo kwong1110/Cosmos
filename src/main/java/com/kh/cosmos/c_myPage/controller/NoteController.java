@@ -143,7 +143,9 @@ public class NoteController {
 	
 	// 쪽지 보기 페이지에서 쪽지 보관함으로 이동
 	@RequestMapping("noteStorage.mp")
-	public String noteStorage(@RequestParam("noteNo") int noteNo, RedirectAttributes ra, HttpSession session) {
+	public String noteStorage(@RequestParam(value="noteNo", required=false) int noteNo, @RequestParam("noteNos") int noteNos[], RedirectAttributes ra, HttpSession session) {
+		
+		System.out.println("noteNos : " + noteNos);
 		
 		int result = nService.storeNote(noteNo);
 		
@@ -191,7 +193,7 @@ public class NoteController {
 	@RequestMapping("search.mp")
 	public ModelAndView noteSearch(@RequestParam(value="page", required=false) Integer page, 
 								   @ModelAttribute SearchCondition search, @RequestParam("searchCondition") String condition, 
-								   @RequestParam("searchValue") String value, @RequestParam("userId") String userId, ModelAndView mv) {
+								   @RequestParam("searchValue") String value, ModelAndView mv) {
 		
 		
 		if(condition.equals("id")) {
@@ -200,21 +202,23 @@ public class NoteController {
 			search.setNick(value);
 		} else if(condition.equals("content")) {
 			search.setContent(value);
-		}
+		} 
 		
 		int currentPage = 1;
 		if(page != null) {
 			currentPage = page;
 		}
 		
-		int listCount = nService.getSearchResultListCount(search, userId);
+		int listCount = nService.getSearchResultListCount(search);
 		
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
-		ArrayList<Note> nList = nService.selectSearchResultList(pi, search, userId);
+		ArrayList<Note> nList = nService.selectSearchResultList(pi, search);
 		
 		if(nList != null) {
 			mv.addObject("nList", nList)
 			  .addObject("pi", pi)
+			  .addObject("searchValue", value)
+			  .addObject("searchCondition", search)
 			  .setViewName("/messageBox/noteList");
 		} else {
 			throw new MyPageException("검색에 실패하였습니다.");
@@ -268,6 +272,7 @@ public class NoteController {
 		if(nList != null) {
 			mv.addObject("nList", nList)
 			  .addObject("pi", pi)
+			  .addObject("menuCondition", menu)
 			  .setViewName("/messageBox/noteList");
 		} else {
 			throw new MyPageException("검색에 실패하였습니다.");

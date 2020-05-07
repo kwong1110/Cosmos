@@ -54,29 +54,16 @@ public class NoteDAO {
 		return (ArrayList)sqlSession.selectList("noteMapper.selectStoreList", userId, rowBounds);
 	}
 
-//	--------------------------------------------------------------------------------------------------------------------------
 	
-	/*public int getSearchResultCount(SqlSessionTemplate sqlSession, SearchCondition search) {
-		return sqlSession.selectOne("noteMapper.getSearchResultCount", search);
-	}*/
-
-	/*public ArrayList<Note> selectSearchResultList(SqlSessionTemplate sqlSession, PageInfo pi, SearchCondition search) {
-		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
-		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
-		return (ArrayList)sqlSession.selectList("noteMapper.selectSearchResultList", search, rowBounds);
-	}*/
-
-	public int getSearchResultCount(SqlSessionTemplate sqlSession, SearchCondition search, String userId) {
+	public int getSearchResultCount(SqlSessionTemplate sqlSession, SearchCondition search) {
 		return sqlSession.selectOne("noteMapper.getSearchResultCount", search);
 	}
 
-	public ArrayList<Note> selectSearchResultList(SqlSessionTemplate sqlSession, PageInfo pi, SearchCondition search, String userId) {
+	public ArrayList<Note> selectSearchResultList(SqlSessionTemplate sqlSession, PageInfo pi, SearchCondition search) {
 		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("noteMapper.selectSearchResultList", search, rowBounds);
 	}
-
-//  -------------------------------------------------------------------------------------------------------------------------	
 	
 	public int getMenuToListCount(SqlSessionTemplate sqlSession, String userId) {
 		return sqlSession.selectOne("noteMapper.getMenuToListCount", userId);
@@ -107,7 +94,6 @@ public class NoteDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("noteMapper.selectMenuToMeList", userId, rowBounds);
 	}
-
 	
 
 }
