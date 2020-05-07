@@ -55,7 +55,7 @@ public class MemberController {
 		} else {
 			
 			System.out.println(loginUser.getMstatus());
-			if (loginUser.getMstatus().equals("N")) {
+			if (loginUser.getMstatus().equals("R")) {
 		
 				model.addAttribute("msg","금지된 회원입니다. 관리자에게 문의하세요!");
 				return "redirect:/";

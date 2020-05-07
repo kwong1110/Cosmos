@@ -54,8 +54,8 @@
  /*  margin : 20px 10px; */
   valign:middle-aign;	
 }
-
-
+/* td{padding: 5px}
+ */
 
 </style>
 </head>
@@ -68,9 +68,12 @@
 			<div class="main" align="center">
 				
 				<div class="pageTitle">
-					<h1>관리자 페이지</h1>
+					<h1>'${ loginUser.name }'님의 정보 보기</h1>
 				</div>
-				<div class="content">	
+				<c:if test="${loginUser.name eq '본점관리자' }">
+				<a style="text-align:center; font-size:0.9em;">▶ COSMOS◀ 본점 관리자 어드민 페이지입니다.</a>
+				<hr>
+				<div class="content" align="center">	
 					<ul class="nav nav-tabs">
 					  <li role="presentation" class="active"><a href="#">본점관리자</a></li>
 					  <li role="presentation"><a href="reportList.ap">신고 목록</a></li>
@@ -79,13 +82,102 @@
 					  <li role="presentation"><a href="allSeat.se">예약 현황</a></li>
 					</ul>
 				</div>
-				
-				<a>▶ COSMOS◀ 본점 관리자 어드민 페이지입니다.</a>
-				<img src="${contextPath}/resources/image/main5.jpg" width="800" height="400">	
-				
+				</c:if>	
+					<table class="inner table table-hover">
+						<tr>
+							<th>아이디</th>
+							<td>${ loginUser.id }</td>
+						</tr>
+						<tr>
+							<th>이름</th>
+							<td>${ loginUser.name }</td>
+						</tr>
+						<tr>
+							<th>닉네임</th>
+							<td>${ loginUser.nick }</td>
+						</tr>
+						<tr>
+							<th>성별</th>
+							<c:if test="${ loginUser.gender eq 'M'}">
+								<td>남성</td>
+							</c:if>
+							<c:if test="${ loginUser.gender eq 'F'}">
+								<td>여성</td>
+							</c:if>
+						</tr>
+						<tr>
+							<th>생년월일</th>
+							<td>${ loginUser.birth }</td>
+						</tr>
+						<tr>
+							<th>핸드폰</th>
+							<td>${ loginUser.phone }</td>
+						</tr>
+						<tr>
+							<th>이메일</th>
+							<td>${ loginUser.email }</td>
+						</tr>
+					</table>
+					<div class="btnBox inner">
+						<button type="button" class="defaultBtn pwdUpBtn" onclick="">비밀번호 변경하기</button>
+						<button type="button" class="defaultBtn" onclick="location.href='memberUpView.mp'">회원정보 수정하기</button>
+					</div>
 			</div>
 		</div>
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
+	<!-- 비밀번호 변경 MODAL -->
+	<div id="pwdViewMODAL" class="modal fade" tabindex="-1" role="dialog" align="center">
+		<div class="modal-dialog modal-80size" role="document">
+			<div class="modal-content modal-80size">
+				<div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">비밀번호 수정</h4>
+                </div>
+				<form action="memberPwdUp.mp" method="post">
+					<table>
+						<tr>
+							<td>현재 비밀번호</td>
+							<td><input type="password" name="pwd"></td>
+						</tr>
+						<tr>
+							<td>새 비밀번호</td>
+							<td><input type="password" name="newPwd1"></td>
+						</tr>
+						<tr>
+							<td>새 비밀번호 확인</td>
+							<td><input type="password" name="newPwd2"></td>
+						</tr>
+						<tr>
+							<td colspan="2" align="center">
+								<input type="submit" value="수정하기">
+							</td>
+						</tr>
+					</table>
+				</form>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	
+	<script>
+		$(function(){
+			$('.pwdUpBtn').click(function(){
+				$('#pwdViewMODAL').modal("show");
+				
+				/* $.ajax({
+					url: "memberPwdUp.mp",
+					dataType: 'JSON',
+					success: function(data){
+						
+					}
+					
+				}); */
+			});
+			
+		});
+	
+	</script>
+	
 </body>
 </html>
