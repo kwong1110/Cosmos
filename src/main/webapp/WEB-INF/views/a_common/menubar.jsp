@@ -629,7 +629,11 @@
 			success: function(data) {
 
 				if(!page || page == 1) {
-					var totalStamp = data[0].cTotalStamp;
+					
+					var totalStamp = 0;
+					if(data.length > 0) {
+						totalStamp = data[0].cTotalStamp;
+					}
 					
 					$('#stampCount').text(totalStamp);
 					
