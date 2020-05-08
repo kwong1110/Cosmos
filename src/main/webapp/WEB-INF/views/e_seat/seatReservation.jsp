@@ -61,7 +61,9 @@
 		background-color: #A60303 !important;
 	} 
 	.tooltip-inner{background-color:black !important; text-align: start !important;}
-
+	
+	.helpBtn{background: rgb(23, 149, 95); border: 0; outline: 0; width: 30px; height: 30px; 
+			 padding: 3px 11px; margin: 5px; font-size: 13px; border-radius: 100%; color: #FFF; vertical-align:middle; line-height:0px;}
 	
 </style>
 </head>
@@ -232,8 +234,6 @@
 									function branchAddress(e){
 										var address1 = $(e).parent()[0].innerText;
 										var name = $(e).parent().parent().children().eq(0)[0].innerText;
-										console.log(address1);
-										console.log(name);
 										var zonecode="";
 										
 										var mapContainer = document.getElementById('right-map'), // 지도를 표시할 div 
@@ -377,6 +377,7 @@
 					            			<div class="cl">● <b>좌석선택</b></div>
 					            			<div class="cr">
 					            				<div id="seatChoose" class="btn defaultBtn" style="width:150px;">선&nbsp;택</div>
+					            				<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="초록색  : 일반석  / 파란색  : 고정석">?</button>
 					            			</div>
 					            			
 					            			<script>
@@ -409,8 +410,6 @@
 						            						e.preventDefault();
 							            					if(data.length > 0){ 
 							            						for(var i in data){
-							            							/* $('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().removeClass('seatOn'); */
-								            						 /* console.log(data[i].reserSort + "-" + data[i].seatNo);  */
 																	if($('#'+ data[i].reserSort + "-" + data[i].seatNo).val()){
 																		$('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().addClass('seatOn');
 																		 /* $('#'+ data[i].reserSort + "-" + data[i].seatNo).parent().text(data[i].id);  */
@@ -434,7 +433,7 @@
 					            		<div class="right-price">
 					            			<div class="cl">● <b>이용요금</b></div>
 					            			<div class="cr" id="userPrice" style="padding-left:50px;">
-					            			
+					            				
 					            			</div>
 					            		</div>
 					            	</div>
@@ -644,7 +643,7 @@
 							    	    		closeOnConfirm: !0
 							    	    		},
 							    	    		function(){
-							    	    			location.href="allSeat.se";
+							    	    			location.href="slHistory.mp";
 							    	    		}
 							    	    	)
 							    	    }
