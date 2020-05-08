@@ -89,7 +89,7 @@ public class ViewBranchController {
 									 @RequestParam("vbNo") int branchNo, @RequestParam(value="page", required=false) int page, 
 									 @RequestParam("post") String post, @RequestParam("address1") String addr1, @RequestParam("address2") String addr2, 
 									 @RequestParam("localNum") String localNum, @RequestParam("tel1") String tel1, @RequestParam("tel2") String tel2,
-									 @RequestParam("time1") String time1, @RequestParam("time1") String time2, 
+									 @RequestParam("time1") String time1, @RequestParam("time2") String time2, 
 									 ModelAndView mv) {
 		
 		vb.setBranchNo(branchNo);
@@ -97,6 +97,7 @@ public class ViewBranchController {
 		vb.setBranchTel(localNum + " - " + tel1 + " - " + tel2);
 		vb.setBranchTime(time1 + " : " + time2);
 		
+		System.out.println(vb);
 		
 		int result = vbService.updateBranch(vb);
 		

@@ -153,7 +153,7 @@
 							<tr>
 								<th>지점소개</th>
 								<td>
-									<textarea id="summernote" style="resize: none" name="branchIntroduce" value="${vBranch.branchContent}">${vBranch.branchContent}</textarea>
+									<textarea id="summernote" style="resize: none" name="branchContent" value="${vBranch.branchContent}">${vBranch.branchContent}</textarea>
 									<c:import url="../a_common/summernote.jsp"/>
 								</td>	
 							</tr>	
