@@ -50,7 +50,7 @@
 	<!-- MASTER 테이블에 insert -->
 	<insert  id="insertMaster" parameterType="Master">
 	
-		INSERT INTO MASTER VALUES (('branch' || SEQ_MASTERID.nextval), 2, seq_bid.currval)
+		INSERT INTO MASTER VALUES (('branch' || SEQ_MASTERID.currval), 2, seq_bid.currval)
 		<!-- nextval 대신에 currentval로 insert해야한다. 현재 등록된 seq_bid.currval  -->
 	</insert>
 	
@@ -59,7 +59,7 @@
 	<insert  id="insertMember" parameterType="Member">
 		insert into member
 		values(
-			('branch' || seq_masterid.currval),('branch' || seq_masterid.currval),#{name},null,null,null,null,sysdate, default, 0, null
+			('branch' || seq_masterid.nextval),('branch' || seq_masterid.currval),#{name},null,null,null,null,sysdate, default, 0, null
 		)  
 	</insert>
 
