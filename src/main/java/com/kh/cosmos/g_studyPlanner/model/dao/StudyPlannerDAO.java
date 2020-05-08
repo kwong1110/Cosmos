@@ -88,4 +88,12 @@ public class StudyPlannerDAO {
 		return (ArrayList)sqlSession.selectList("studyPlannerMapper.selectSearchResultList", sc, rowBounds);
 	}
 
+	public int dropPlanUpdate(SqlSessionTemplate sqlSession, StudyPlanner sp) {
+		return sqlSession.update("studyPlannerMapper.dropPlanUpdate", sp);
+	}
+
+	public int plusHit(SqlSessionTemplate sqlSession, int planNo) {
+		return sqlSession.update("studyPlannerMapper.plusHit", planNo);
+	}
+
 }

@@ -272,12 +272,12 @@
 		<hr class="bar">
 		
 		<div class="menubar">
-			<div class="menuTitle"><a href="reservation.se"><span class="glyphicon glyphicon-education" aria-hidden="true"></span>좌석예약</a></div>
+			<div class="menuTitle loginOk"><a href="reservation.se"><span class="glyphicon glyphicon-education" aria-hidden="true"></span>좌석예약</a></div>
 			<div class="menuTitle"><a href="listView.sg"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>스터디그룹</a></div>
 			<div class="menuTitle">
 				<div><a href="#"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>플래너</a></div>
 				<div class="s-menu">
-					<div><a href="myPlannerList.sp">나의 플래너</a></div>
+					<div class="loginOk"><a href="myPlannerList.sp">나의 플래너</a></div>
 					<div><a href="allPlannerList.sp">모두의 플래너</a></div>								
 				</div>
 			</div>
@@ -286,7 +286,7 @@
 				<div><a href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
 				<div class="s-menu">
 					<div><a href="lectureCalendar.le">강연 목록</a></div>
-					<div><a href="lectureApplyGuide.le">강연자 신청</a></div>								
+					<div class="loginOk"><a href="lectureApplyGuide.le">강연자 신청</a></div>								
 				</div>
 			</div>
 		</div>
@@ -834,8 +834,14 @@
 			}
 		});
 	}
-
 	 */
+   $('.loginOk').on('click',function(){
+		if("${ loginUser }" == ""){
+			sweetWrong('로그인이 필요한 서비스입니다.');
+			$("#login").trigger("click");
+			return false;
+		}
+	});
 </script>
 	<!-- 부트스트랩 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>

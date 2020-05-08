@@ -19,17 +19,26 @@
 	<script src='resources/js/plugins/fullcalendar/packages/list/main.js'></script>
 <!-- fullcalendar end -->
 <style>
-	.fc-event{
-		border-color: white;
-		background-color: white;
-	}
 	.fc-content{
 		color: black;
-		padding: 10px;
+		padding: 4px;
 		font-size: 1.5rem;
-		background-color: orange;
 		font-family: 'Binggrae-Bold';
 		text-align: center;
+		white-space:pre-wrap !important;
+		word-break: keep-all !important;
+		background-color: rgb(252, 197, 124) !important;
+		border-radius: 15px;
+	}
+	.fc-content:hover {
+		background-color: rgb(235, 183, 115) !important;
+	 	border-radius: 15px;
+	}
+	.panel{
+		background-color: rgb(255, 253, 242) !important;
+	}
+	.panel-body{
+		background-color: rgb(255, 253, 242) !important;
 	}
 	/* 모달 스타일 */
 	.modal-dialog.modal-80size {
@@ -57,8 +66,21 @@
 	}
 	
 	/* 배경색 변경 */
-	.modal-content{
+	.modalCustom{
 		background-color: rgb(254, 245, 198) !important;
+	}
+	
+	.modalCustom>.modal-header{
+		background-color: rgb(23, 149, 95);
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+	}
+	.modal-title{
+		color: white;
+		width:100%; 
+		text-align:center;
+		margin:10px;
+		font-size: 25px;
 	}
 	
 	/* 테이블 */
@@ -98,13 +120,25 @@
 	document.addEventListener('DOMContentLoaded', function() {
 		 
 		var calendarEl = document.getElementById('calendar');
+		var activeWeekends = true;
 		
 		var calendar = new FullCalendar.Calendar(calendarEl, {
+			//주말 숨기기 & 보이기 버튼
+			customButtons: {
+			  viewWeekends: {
+			    text: '주말',
+			    click: function () {
+			    	activeWeekends ? activeWeekends = false : activeWeekends = true;
+			    	/* setOption을 통해 option을 동적으로 변경 */
+			    	calendar.setOption('weekends', activeWeekends);
+			    }
+			  }
+			},
 			plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
 			header: {
-			  left: 'today prevYear,prev',
-			  center: 'title',
-			  right: 'next,nextYear dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+				  left: 'today viewWeekends prevYear,prev ',
+				  center: 'title',
+				  right: 'next,nextYear dayGridMonth,timeGridWeek,timeGridDay,listMonth'
 			},
 			locale : "ko",					// 기본언어를 한국어로 설정
 			//defaultDate: "2019-08-22",	// 첫 화면에서 보여질 기본 날짜 설정  
@@ -215,7 +249,7 @@
 					<!-- 강연 상세보기 MODAL -->
 			        <div id="viewModal" class="modal fade" tabindex="-1" role="dialog" >
 			            <div class="modal-dialog modal-80size" role="document">
-			                <div class="modal-content modal-80size">
+			                <div class="modal-content modal-80size modalCustom">
 			                    <div class="modal-header">
 			                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 			                                aria-hidden="true">&times;</span></button>

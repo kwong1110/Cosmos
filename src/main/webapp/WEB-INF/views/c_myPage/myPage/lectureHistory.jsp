@@ -78,7 +78,7 @@
 					<h1>강연관리</h1>
 				</div>
 				<div class="content">
-					<table class="table-hover inner">
+					<table class="table table-hover inner">
 						<tr>
 							<th>No.</th>
 							<th>이름(ID)</th>

@@ -29,6 +29,7 @@ import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.b_member.model.vo.Preview;
 import com.kh.cosmos.b_member.model.vo.StudyCategory;
 import com.kh.cosmos.c_myPage.model.service.MyPageService;
+import com.kh.cosmos.f_studyGroup.model.service.StudyGroupService;
 import com.kh.cosmos.g_studyPlanner.model.exception.StudyPlannerException;
 import com.kh.cosmos.g_studyPlanner.model.service.StudyPlannerService;
 import com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner;
@@ -45,6 +46,8 @@ public class StrudyPlannerController {
 	@Autowired
 	private MemberService mService;
 	
+	@Autowired
+	private StudyGroupService sgService;
 	
 	@RequestMapping("myPlannerList.sp")
 	public String myPlannerList(Model model, @ModelAttribute StudyCategory sc, HttpSession session) {
@@ -188,6 +191,9 @@ public class StrudyPlannerController {
 		// 전체 스터디카테고리 불러오기
 		ArrayList<StudyCategory> sList = mService.selectStudyCategoryList(sc);
 		
+		// 카테고리 스터디 리스트 불러오기
+		ArrayList CstudyList = sgService.getStudyList();
+		
 		// 로그인한 유저의 전체 카테고리 불러오기
 		if((Member)session.getAttribute("loginUser") != null) {
 			
@@ -214,6 +220,7 @@ public class StrudyPlannerController {
 		if(pList != null) {
 			model.addAttribute("pList", pList);
 			model.addAttribute("sList", sList);
+			model.addAttribute("CstudyList", CstudyList);
 			model.addAttribute("pi", pi);
 			return "/allPlanner/allPlannerList";
 		} else {
@@ -348,6 +355,19 @@ public class StrudyPlannerController {
 			return "/allPlanner/allPlannerList";
 		} else {
 			throw new StudyPlannerException("모두의 플래너 검색 조회에 실패하였습니다.");
+		}
+	}
+	
+	@RequestMapping("dropPlanUpdate.sp")
+	@ResponseBody
+	public String dropPlanUpdate(@ModelAttribute StudyPlanner sp) {
+		
+		int result = spService.dropPlanUpdate(sp);
+		
+		if(result > 0) {
+			return "successdropPlanUpdate";
+		} else {
+			throw new StudyPlannerException("플랜 일정 수정에 실패하였습니다.");
 		}
 	}
 }
