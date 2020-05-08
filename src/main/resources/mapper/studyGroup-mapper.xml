@@ -41,16 +41,33 @@
 		</if>
 	</insert>
 	
+	<insert id="insertRecruitOnce" parameterType="StudyGroupRecruit">
+		insert into rec_sgroup
+		values(seq_rcid.nextval, #{recTerm}, #{recNum}, sysdate, #{rsgMetDate}, #{sgNo})
+	</insert>
+	
+	<update id="updateRecruitOnce" parameterType="StudyGroupRecruit">
+		update sgroup
+		set branch_no = #{branchNo}
+		where sg_no = #{sgNo}
+	</update>
+	
 	<select id="getStudyGroup" parameterType="string" resultMap="studyGroupResultSet">
-		select sg_no, sg_name
+		<![CDATA[
+		select distinct sg_no, sg_name
 		from sgroup
-		where id=#{id} and sg_status='Y'
+		left join rec_sgroup using(sg_no)
+		where id=#{id} and (sg_status='Y' or (sg_status='N' and TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD')))
+		]]>
 	</select>
 	
 	<select id="getIngStudyGroup" parameterType="string" resultMap="studyGroupResultSet">
-		select sg_no, sg_name
+		<![CDATA[
+		select distinct sg_no, sg_name
 		from sgroup
-		where id=#{id} and (sg_status='Y' or sg_status='N')
+		left join rec_sgroup using(sg_no)
+		where id=#{id} and (sg_status='Y' or (sg_status='N' and TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD')))
+		]]>
 	</select>
 	
 	<select id="getSgStatus" parameterType="_int" resultType="string">
@@ -155,11 +172,18 @@
 	</resultMap>
 	
 	<select id="getGroupInfoForRec" parameterType="_int" resultMap="groupRecruitResultSet">
-		select sg_no, study_name, msg_num, branch_name, msg_met_rule, sg_goal, msg_rule1, msg_rule2, msg_rule3, sg_content
+		select sg_no, sg_status, study_name, msg_num, branch_name, msg_met_rule, sg_goal, msg_rule1,  msg_rule2,  msg_rule3, sg_content
 		from sgroup
 			join study_category using(study_no)
 			join branch using(branch_no)
 			join m_sgroup using(sg_no)
+		where sg_no = #{sgno}
+	</select>
+	
+	<select id="getGroupInfoForRecOnce" parameterType="_int" resultMap="groupRecruitResultSet">
+		select sg_no, sg_status, study_name, sg_goal, sg_content
+		from sgroup
+			join study_category using(study_no)
 		where sg_no = #{sgno}
 	</select>
 	
@@ -233,7 +257,7 @@
 		<if test="sortOp != ''">
 			<choose>
 				<when test="sortOp == 'timeSort'">
-					order by sg_no desc
+					order by rsg_no desc
 				</when>
 				<when test="sortOp == 'numAscSort'">
 					order by nvl(msg_num,rsg_num) asc
@@ -261,11 +285,6 @@
 		    join study_category using(study_no)
 			join branch using(branch_no)
 			join member using(id)
-			<!-- <if test="sortOp != ''">
-				<if test="sortOp == 'numAscSort' or sortOp == 'numDescSort'">
-					join m_sgroup using(sg_no)
-				</if>
-			</if> -->
 			left join m_sgroup using(sg_no)
 		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') >= TO_DATE(SYSDATE, 'YY/MM/DD')
 		<if test="branchOp != ''">
@@ -302,22 +321,6 @@
 			<if test="reSearchText != ''">
 				and (sg_name||nick||sg_content||sg_goal) like '%'||#{reSearchText}||'%'
 			</if>
-		</if>
-		<if test="sortOp != ''">
-			<choose>
-				<when test="sortOp == 'timeSort'">
-					order by sg_no desc
-				</when>
-				<when test="sortOp == 'numAscSort'">
-					order by nvl(msg_num,rsg_num) asc
-				</when>
-				<when test="sortOp == 'numDescSort'">
-					order by nvl(msg_num,rsg_num) desc
-				</when>
-				<when test="sortOp == 'recCloseSort'">
-					order by (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') - TRUNC(SYSDATE)) asc
-				</when>
-			</choose>
 		</if>
 	</select>
 	
@@ -461,8 +464,8 @@
 		from (select sg_no, sg_name, sg_status, rsg_term, row_number() over( partition by sg_no order by rsg_no desc ) rn
 			from sgroup
 			join rec_sgroup using(sg_no)
-			where id = #{id})
-		where rn = 1 and TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD') and sg_status = 'Y'
+			where id = #{id} and (sg_status = 'Y' or sg_status = 'N'))
+		where rn = 1 and TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD')
 		]]>
 	</select>
   
@@ -472,6 +475,24 @@
         from rec_sgroup
         join sgroup using(sg_no)
         where (TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD')) and (sg_status='Y' or sg_status='N')
+        ]]>
+	</select>
+	
+	<select id="getEndRecList" resultMap="groupRecruitResultSet">
+		select *
+		from sgroup
+		join rec_sgroup using(sg_no)
+		where TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') = TO_DATE(SYSDATE-1, 'YY/MM/DD')
+	</select>
+	
+	<select id="getMetOnceGroupList" resultMap="groupRecruitResultSet">
+		<![CDATA[
+		select sg_no, sg_name, id
+		from sgroup
+			join rec_sgroup using(sg_no)
+		where TO_DATE(rsg_metting_date, 'YY/MM/DD') = TO_DATE(SYSDATE-1, 'YY/MM/DD')
+			and sg_status = 'N'
+			and TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD')
         ]]>
 	</select>
 </mapper>

@@ -6,7 +6,8 @@
 	<select id="getMemberMyGroupCount" parameterType="hashMap" resultType="_int">
 		select count(*)
 		from ap_sgroup a
-			 left join sgroup g using(sg_no)
+			left join sgroup g using(sg_no)
+		    join member m on(g.id = m.id)
 		<choose>
 			<when test="triger == 'false'">
 				where a.id=#{userId}
@@ -48,6 +49,7 @@
 	<select id="getBossMyGroupCount" parameterType="hashMap" resultType="_int">
 		select count(*)
 		from sgroup
+		    join member using(id)
 		<choose>
 			<when test="triger == 'false'">
 				where id=#{userId}
@@ -117,6 +119,14 @@
 			</when>
 			<when test="triger == 'true'">
 				WHERE (a.id = #{userId} and asg_status='Y'
+					<if test="type != ''">
+						<if test="type == 'title'">
+							and (sg_name like '%'||#{text}||'%')
+						</if>
+						<if test="type == 'bossNick'">
+							and (nick like '%'||#{text}||'%')
+						</if>
+					</if>
 					  	<if test="category == 'long'">
 							and sg_status='Y'
 						</if>
@@ -127,6 +137,14 @@
 							and (sg_status='Y' or sg_status='N')
 						</if>)
 					  or (id = #{userId}
+					<if test="type != ''">
+						<if test="type == 'title'">
+							and (sg_name like '%'||#{text}||'%')
+						</if>
+						<if test="type == 'bossNick'">
+							and (nick like '%'||#{text}||'%')
+						</if>
+					</if>
 					  	<if test="category == 'long'">
 							and sg_status='Y'
 						</if>
@@ -136,14 +154,6 @@
 						<if test="category != 'once' and category != 'long'">
 							and (sg_status='Y' or sg_status='N')
 						</if>)
-					<if test="type != ''">
-						<if test="type == 'title'">
-							and (sg_name like '%'||#{text}||'%')
-						</if>
-						<if test="type == 'bossNick'">
-							and (nick like '%'||#{text}||'%')
-						</if>
-					</if>
 			</when>
 		</choose>
 		order by sort_date desc
@@ -161,6 +171,7 @@
 		SELECT RSG_NO, RSG_INSERT_DATE, RSG_TERM, RSG_NUM
 		FROM REC_SGROUP
 		WHERE SG_NO = #{SGNO}
+		order by RSG_NO desc
 	</select>
 	
 	<resultMap type="MyStudyGroup" id="ApproachGroupResultSet">

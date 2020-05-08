@@ -12,7 +12,6 @@ import com.kh.cosmos.b_member.model.vo.Preview;
 import com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
-import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Repository("sgDAO")
@@ -34,15 +33,26 @@ public class StudyGroupDAO {
 	}
 
 	public int insertRecruit(SqlSessionTemplate sqlSession, StudyGroupRecruit sr) {
-		return sqlSession.insert("studyGroupMapper.insertRecruit", sr);
+		int result;
+		if(sr.getSgStatus().equals("Y")) result = sqlSession.insert("studyGroupMapper.insertRecruit", sr);
+		else {
+			int update = sqlSession.update("studyGroupMapper.updateRecruitOnce", sr);
+			result = sqlSession.insert("studyGroupMapper.insertRecruitOnce", sr);
+		}
+		
+		return result;
 	}
 
 	public ArrayList<StudyGroup> getStudyGroupList(SqlSessionTemplate sqlSession, String id) {
 		return (ArrayList)sqlSession.selectList("studyGroupMapper.getStudyGroup", id);
 	}
 
-	public StudyGroupRecruit getGroupInfoForRec(SqlSessionTemplate sqlSession, int sgno) {
-		return sqlSession.selectOne("studyGroupMapper.getGroupInfoForRec", sgno);
+	public StudyGroupRecruit getGroupInfoForRec(SqlSessionTemplate sqlSession, int sgno, String sgStatus) {
+		StudyGroupRecruit result;
+		if(sgStatus.equals("Y")) result = sqlSession.selectOne("studyGroupMapper.getGroupInfoForRec", sgno);
+		else result = sqlSession.selectOne("studyGroupMapper.getGroupInfoForRecOnce", sgno);
+		
+		return result;
 	}
 
 	public int getPartMemberNum(SqlSessionTemplate sqlSession, int sgno) {
@@ -225,5 +235,13 @@ public class StudyGroupDAO {
 
   public int getHomeListCount(SqlSessionTemplate sqlSession) {
 		return sqlSession.selectOne("studyGroupMapper.getHomeListCount");
+	}
+	
+	public ArrayList<StudyGroupRecruit> getEndRecList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getEndRecList");
+	}
+	
+	public ArrayList<StudyGroupRecruit> getMetOnceGroupList(SqlSessionTemplate sqlSession) {
+		return (ArrayList)sqlSession.selectList("studyGroupMapper.getMetOnceGroupList");
 	}
 }

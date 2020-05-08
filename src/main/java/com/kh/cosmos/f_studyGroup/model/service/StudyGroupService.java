@@ -8,7 +8,6 @@ import com.kh.cosmos.b_member.model.vo.Preview;
 import com.kh.cosmos.f_studyGroup.model.vo.ApproachGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
-import com.kh.cosmos.f_studyGroup.model.vo.StudyRecruit;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 public interface StudyGroupService {
@@ -23,7 +22,7 @@ public interface StudyGroupService {
 
 	ArrayList<StudyGroup> getStudyGroupList(String id);
 
-	StudyGroupRecruit getGroupInfoForRec(int sgno);
+	StudyGroupRecruit getGroupInfoForRec(int sgno, String sgStatus);
 
 	int getPartMemberNum(int sgno);
 
@@ -80,4 +79,8 @@ public interface StudyGroupService {
 	int getRecCondition(String id);
 	
   int getHomeListCount();
+
+ArrayList<StudyGroupRecruit> getEndRecList();
+
+ArrayList<StudyGroupRecruit> getMetOnceGroupList();
 }

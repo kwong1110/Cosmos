@@ -10,7 +10,7 @@
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
-	.tableStyle{width: 80%; border-collapse: separate; border-spacing: 0em 3em !important}
+	.tableStyle{width: 90%; border-collapse: separate; border-spacing: 0em 1em !important}
 	.tableLabel{width: 35%; text-align: center; font-size: 20px; font-weight: bold;}
 	#now_date{width:100px;}
 	
@@ -46,9 +46,21 @@
 					<input type="hidden" name="loginUserId" value="${ loginUser.id }">
 					<table class="inner tableStyle">
 						<tr>
+							<td colspan="2">
+								<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="left" title="한 번의 모임 이후에 장기 그룹으로 전환 가능합니다.">?</button>
+								<label style="text-align:center; font-size:25px; color:#17955F; font-family: 'Binggrae';">기본 그룹 정보</label>
+								<hr style="border:1px solid #17955F; margin:0; padding:0;">
+							</td>
+						</tr>
+						<tr>
 							<td class="tableLabel">그룹 명</td>
 							<td>
 								<input type="text" class="form-control" id="sgName" name="sgName">
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
@@ -61,6 +73,11 @@
 								</select>
 							</td>
 						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
 						<tr>
 							<td class="tableLabel">모집 기간</td>
 							<td class="inline">
@@ -70,11 +87,21 @@
 								<input class="form-control input-daterange-datepicker" type="text" id="recTerm" name="recTerm">
 							</td>
 						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
 						<tr>
 							<td class="tableLabel">모집 인원</td>
 							<td>
-								<input type="number" min="1" max="7" class="form-control" id="recNum" name="recNum">
+								<input type="number" min="1" max="7" class="form-control" id="recNum" name="recNum" placeholder="1이상 7이하" style="width:120px;">
 								<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 모집 인원을 입력해주세요. 1인 이상, 7인 이하">?</button>
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
@@ -87,6 +114,11 @@
 								</select>
 							</td>
 						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
 						<tr>
 							<td class="tableLabel">모임 날짜</td>
 							<td>
@@ -94,11 +126,21 @@
 								<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="right" title="모집 기간 이후로 선택해주새요.">?</button>
 							</td>
 						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
 						<tr>
 							<td class="tableLabel">그룹 목표</td>
 							<td>
 								<input type="text" class="form-control" id="sgGoal" name="sgGoal">
 								<label class="lengthAlert" id="goalAlert"><span id="goalCount">0</span>/200</label>
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
