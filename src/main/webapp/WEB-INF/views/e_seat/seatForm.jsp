@@ -118,49 +118,49 @@
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-17" id="A-17" class="chair">A - 17
         				</div>
-        				<div class="left-top1-table-cell zchair" style="background:#0F3BBF"><input type="hidden" value="Z-18" id="Z-18" class="chair zSeat" name="z">고정석
+        				<div class="left-top1-table-cell zchair" style="background:#0F3BBF"><input type="hidden" value="Z-18" id="Z-18" class="chair zSeat" name="z">Z - 18
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-19" id="A-19" class="chair">A - 19
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-20" id="Z-20" class="chair zSeat" name="z">고정석
+        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-20" id="Z-20" class="chair zSeat" name="z">Z - 20
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-21" id="A-21" class="chair">A - 21
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-22" id="Z-22" class="chair zSeat" name="z">고정석
+        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-22" id="Z-22" class="chair zSeat" name="z">Z - 22
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-23" id="A-23" class="chair">A - 23
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-24" id="Z-24" class="chair zSeat" name="z">고정석
+        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-24" id="Z-24" class="chair zSeat" name="z">Z - 24
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-25" id="A-25" class="chair">A - 25
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-26" id="Z-26" class="chair zSeat" name="z">고정석
+        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-26" id="Z-26" class="chair zSeat" name="z">Z - 26
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-27" id="A-27" class="chair">A - 27
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-28" id="Z-28" class="chair zSeat" name="z">고정석
+        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-28" id="Z-28" class="chair zSeat" name="z">Z - 28
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-29" id="A-29" class="chair">A - 29
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-30" id="Z-30" class="chair zSeat" name="z">고정석
+        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-30" id="Z-30" class="chair zSeat" name="z">Z - 30
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-31" id="A-31" class="chair">A - 31
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-32" id="Z-32" class="chair zSeat" name="z">고정석
+        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-32" id="Z-32" class="chair zSeat" name="z">Z - 32
         				</div>
         			</div>
         		</div>
@@ -191,19 +191,19 @@
             <div class="right-top1">
             	<div class="right-top1-bigclass">
             		<div class="bigger">
-            			<div class="big"><input type="hidden" value="E-1" id="E-1" class="chair">대규모 강연동(30인석)
+            			<div class="big"><input type="hidden" value="E-1" id="E-1" class="chair">대규모 강연동(30인석) (E - 1)
             			</div>
             		</div>	
             	</div>
             	<div class="right-top1-sixclass1">
             		<div class="sixpeople">
-            			<div class="six1"><input type="hidden" value="D-1" id="D-1" class="chair">8인실
+            			<div class="six1"><input type="hidden" value="D-1" id="D-1" class="chair">8인실 (D - 1)
             			</div>
             		</div>
             	</div>
             	<div class="right-top1-sixclass2">
             		<div class="sixpeople">
-            			<div class="six2"><input type="hidden" value="D-2" id="D-2" class="chair">8인실
+            			<div class="six2"><input type="hidden" value="D-2" id="D-2" class="chair">8인실 (D - 2)
             			</div>
             		</div>
             	</div>
@@ -211,25 +211,25 @@
             <div class="right-bottom1">
             	<div class="right-bot-fourclass1">
             		<div class="fourperson1">
-            			<div class="four1"><input type="hidden" value="C-1" id="C-1" class="chair">6인실
+            			<div class="four1"><input type="hidden" value="C-1" id="C-1" class="chair">6인실 (C - 1)
             			</div>
             		</div>
             	</div>
             	<div class="right-bot-fourclass2">
             		<div class="fourperson1">
-            			<div class="four2"><input type="hidden" value="C-2" id="C-2" class="chair">6인실
+            			<div class="four2"><input type="hidden" value="C-2" id="C-2" class="chair">6인실 (C - 2)
             			</div>
             		</div>
             	</div>
             	<div class="right-bot-fourclass3">
             		<div class="fourperson2">
-            			<div class="four3"><input type="hidden" value="B-1" id="B-1" class="chair">4인실
+            			<div class="four3"><input type="hidden" value="B-1" id="B-1" class="chair">4인실 (B - 1)
             			</div>
             		</div>
             	</div>
             	<div class="right-bot-fourclass4">
             		<div class="fourperson2">
-            			<div class="four4"><input type="hidden" value="B-2" id="B-2" class="chair">4인실
+            			<div class="four4"><input type="hidden" value="B-2" id="B-2" class="chair">4인실 (B - 2)
             			</div>
             		</div>
             	</div>
