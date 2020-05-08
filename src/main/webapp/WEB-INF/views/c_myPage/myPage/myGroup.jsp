@@ -232,7 +232,7 @@
 						</div>
 					</div>
 	
-					<div class="btnBox">
+					<div class="btnBox" id="bossControl">
 						<input type="button" class="defaultBtn defaultstyle" style="background:#4188e2;" id="updateGroup" value="그룹 수정">
 						&nbsp;&nbsp;&nbsp;
 						<input type="button" class="defaultBtn defaultstyle" style="background:#94abc7;" id="deleteGroup" value="그룹 종료하기">
@@ -371,7 +371,7 @@
 									print = '거절';
 								}
 							}
-							$appStatus = $('<td>').text(print);
+							$appStatus = $('<td class="status">').text(print);
 							
 							$tr.append($no);
 							$tr.append($sgStatus);
@@ -675,6 +675,11 @@
 				}
 			});
 			
+			if($(e).children('.status').text() == '스터디 종료') {
+				$('#bossControl').css('display','none');
+			} else {
+				$('#bossControl').css('display','block');
+			}
 			$('#groupBossModal').modal("show");
 		}
 

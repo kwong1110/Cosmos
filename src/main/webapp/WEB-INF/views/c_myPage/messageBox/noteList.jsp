@@ -33,11 +33,13 @@
 					<form method="get" action="" class="category">
 						<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
 						<select class="form-control" id="menuCondition" name="menuCondition"><!--  search-select -->
-							<option value="total">전체 쪽지</option>
-							<option value="to">받은 쪽지</option>
-							<option value="from">보낸 쪽지</option>
-							<option value="tome">내게 보낸 쪽지</option>
+							<option value="total" <c:if test="${menuCondition == 'total'}">selected='selected'</c:if>>전체 쪽지</option>
+							<option value="to" <c:if test="${menuCondition == 'to'}">selected='selected'</c:if>>받은 쪽지</option>
+							<option value="from" <c:if test="${menuCondition == 'from'}">selected='selected'</c:if>>보낸 쪽지</option>
+							<option value="tome" <c:if test="${menuCondition == 'tome'}">selected='selected'</c:if>>내게 보낸 쪽지</option>
+							<option value="storage">보관함에 있는 쪽지</option>
 						</select>
+						
 					</form>
 	        		<!-- 검색창 -->
 				  	<!-- 드롭다운 + 검색 -->
@@ -70,11 +72,11 @@
 						<c:forEach var="n" items="${ nList }">
 						<tr>
 							<td>
-								<input type="checkbox" name="chkNo" value="${ n.noteNo }" id="chk" class="noteNosArr">
+								<input type="checkbox" name="chkNo" value="${ n.noteNo }" id="chk">
 								${ n.noteNo }
 							</td>
 							<c:if test="${n.noteFromId eq loginUser.id }"> <!-- 보낸 편지 -->
-								<td style="color:red;">
+								<td style="color:#4188e2;">
 									<%-- <c:url var="nInsert" value="noteInsertView.mp">
 										<c:param name="noteToId" value="${n.nick}"/>
 									</c:url>
@@ -110,21 +112,19 @@
         	<div class="btn-box">
         		<button class="btn btnNote btnSendNote" onclick="location.href='noteInsertView.mp';">쪽지 쓰기</button>
         		
+        		<!-- 1개만 선택해서 보관함에 보낼때 -->
         		<%-- <c:url var="noteStorageList" value="noteStorageList.mp">
         			<c:param name="noteNo" value="${ n.noteNo }"/>
         		</c:url>
         		<button class="btn btnNote" onclick="location.href='${noteStorageList}'">보관함</button> --%>
         		
-        		<c:url var="noteStorageList" value="noteStorageList.mp">
-        			<c:param name="noteNo" value="${ n.noteNo }"/>
-        		</c:url>
-        		<button class="btn btnNote" onclick="storeNote();">보관함</button>
+        		<!-- 여러 개를 선택해서 보관함에 보낼 때 -->
+        		<button class="btn btnNote" onclick="toStoreNote();">보관함으로 보내기</button>
         		
-        		<c:url var="noteStorageList" value="noteStorageList.mp">
-        			<c:param name="userId" value="${loginUser.id}"/>
-        		</c:url>
-        		<button class="btn btnNote" onclick="location.href='noteDelete.mp'">삭제</button>
+        		<button class="btn btnNote" onclick="toDeleteNote();">삭제</button>
         	</div>
+        	
+        	
         	<div class="note-footer">
         		<!-- 페이징  -->
 				<nav>
@@ -143,7 +143,7 @@
 						<li>
 							<c:if test="${ pi.currentPage eq pi.startPage }">
 								<a aria-label="Previous">
-									<span aria-hidden="true">&laquo;</span>
+									<span class="icon-fast-backward"></span>
 								</a>
 							</c:if>
 							<c:if test="${ pi.currentPage ne pi.startPage }">
@@ -159,7 +159,7 @@
 									<c:param name="page" value="${ pi.startPage }"/>
 								</c:url>
 								<a href="${ start }" aria-label="Previous">
-									<span aria-hidden="true">&laquo;</span>
+									<span class="icon-fast-backward"></span>
 								</a>
 							</c:if>
 						</li>
@@ -168,7 +168,7 @@
 						<li>
 							<c:if test="${ pi.currentPage <= 1 }">
 								<a aria-label="Previous">
-									<span aria-hidden="true">&lt;</span>
+									<span class="icon-to-start"></span>
 								</a>
 							</c:if>
 							<c:if test="${ pi.currentPage > 1 }">
@@ -185,7 +185,7 @@
 									<c:param name="page" value="${ pi.currentPage - 1 }"/>
 								</c:url>
 								<a href="${ before }" aria-label="Previous">
-									<span aria-hidden="true">&lt;</span>
+									<span class="icon-to-start"></span>
 								</a>
 							</c:if>
 						</li>
@@ -193,7 +193,7 @@
 						<!-- 페이지 -->
 						<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 							<c:if test="${ p eq pi.currentPage }">
-								<li><a>${ p }</a></li>
+								<li><a class="pageBtn selectPageBtn">${ p }</a></li>
 							</c:if>
 							<c:if test="${ p ne pi.currentPage }">
 								<c:url var="pagination" value="${loc}">
@@ -215,7 +215,7 @@
 						<li>
 							<c:if test="${ pi.currentPage >= pi.maxPage }">
 								<a aria-label="Next">
-									<span aria-hidden="true">&gt;</span>
+									<span class="icon-to-end"></span>
 								</a>
 							</c:if>
 							<c:if test="${ pi.currentPage < pi.maxPage }">
@@ -231,7 +231,7 @@
 									<c:param name="page" value="${ pi.currentPage + 1 }"/>
 								</c:url>
 								<a href="${ after }" aria-label="Next">
-									<span aria-hidden="true">&gt;</span>
+									<span class="icon-to-end"></span>
 								</a>
 							</c:if>
 						</li>
@@ -240,7 +240,7 @@
 						<li>
 							<c:if test="${ pi.currentPage eq maxPage }">
 								<a aria-label="Next">
-									<span aria-hidden="true">&raquo;</span>
+									<span class="icon-fast-forward"></span>
 								</a>
 							</c:if>
 							<c:if test="${ pi.currentPage ne maxPage }">
@@ -256,7 +256,7 @@
 									<c:param name="page" value="${ pi.maxPage }"/>
 								</c:url>
 								<a href="${ max }" aria-label="Next">
-									<span aria-hidden="true">&raquo;</span>
+									<span class="icon-fast-forward"></span>
 								</a>
 							</c:if>
 						</li>
@@ -296,19 +296,25 @@
 		location.href="search.mp?searchCondition=" + searchCondition + "&searchValue=" + searchValue + "&userId=" + userId;
 	}
 	
+	// 분류
 	$("#menuCondition").change(function(){
 		var menuCondition = $("#menuCondition").val();
 		var userId = $("#userId").val();
 		
 		location.href="noteMenu.mp?menuCondition=" + menuCondition + "&userId=" + userId;
+		
+		if(menuCondition == "storage"){
+			location.href="noteStorageList.mp?userId=" + userId;
+		}
 	});
 
+	// 여러 개 선택한 쪽지 보관함으로 보내기
 	/* function storeNote(){
 		var noteNo = $("#chk:checked").val();
 		location.href="noteStorage.mp?noteNo=" + noteNo;
 	} */
 	
-	function storeNote(){
+	function toStoreNote(){
 		var noteNo;
 		$("#chk:checked").each(function(){
 			
@@ -318,15 +324,35 @@
 		var noteNos = noteNo.split(",");
 		noteNos.shift();
 		
-		var noteNosArr;
+		location.href="noteStorage2.mp?noteNos=" + noteNos;
+		
+		
+		/* var noteNosArr;
 		for(var i = 0; i < noteNos.length; i++){
 			noteNosArr = noteNos[i].trim();
 			//location.href="noteStorage.mp?noteNos=" + noteNosArr;
-			document.getElementsByClassName("noteNosArr")[i].value = noteNosArr;
+			document.getElementsByClassName("noteNosArr")[i].value = noteNosArr; 
 			
 			// alert(document.getElementsByClassName("noteNosArr")[i].value);
-		}
+		}*/
 	}
+	
+	// 여러 개 선택한 쪽지 삭제
+	function toDeleteNote(){
+		var noteNo;
+		$("#chk:checked").each(function(){
+			
+			noteNo += "," + $(this).val();
+		});
+		
+		var noteNos = noteNo.split(",");
+		noteNos.shift();
+		
+		location.href="noteDelete2.mp?noteNos=" + noteNos;
+	}
+	
+	
+	
 
 	/*
 	var DATA;

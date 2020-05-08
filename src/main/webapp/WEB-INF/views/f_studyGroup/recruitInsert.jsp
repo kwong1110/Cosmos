@@ -13,16 +13,16 @@
 	@import url('https://fonts.googleapis.com/css?family=Nanum+Gothic:400,700&display=swap&subset=korean');
 	body {font-family: 'Nanum Gothic', sans-serif; font-size: 1.6rem;}
 	
-	.tableStyle{width: 80%; border-collapse: separate; border-spacing: 0em 3em !important}
+	.tableStyle{width: 90%; border-collapse: separate; border-spacing: 0em 1em !important}
 	.tableLabel{width: 35%; text-align: center; font-size: 20px; font-weight: bold;}
 	#now_date{width:100px;}
 	
-	#groupSelect{width: 200px; display: inline-block;}
+	#groupSelect{max-width: 50%; display: inline-block;}
 	#studyType{width: 200px;}
 	input[name=recEndDate]{width: 140px; display: inline-block;}
 	#recNum{width: 120px; display: inline-block;}
 	#recLoc{width: 200px;}
-	#meetingDate{width: 140px; display: inline-block;}
+	#meetingDate{display: inline-block;}
 	
 	.topTd{vertical-align: top;}
 	.resize{resize: none;}
@@ -48,9 +48,15 @@
 					<form action="insertRecruit.sg" method="post" onsubmit="return checkForm();">
 					<table class="inner tableStyle">
 						<tr>
+							<td colspan="2">
+								<hr style="border:1px solid #17955F; margin:0; padding:0;">
+							</td>
+						</tr>
+						<tr>
 							<td class="tableLabel">그룹 명</td>
 							<td>
 								<input type="hidden" id="sgName" name="sgName">
+								<input type="hidden" id="sgStatus" name="sgStatus">
 								<select class="form-control" id="groupSelect" name="sgNo">
 									<c:forEach var="item" items="${ sgList }">
 										<option value="${ item.sgNo }">${ item.sgName }</option>
@@ -60,6 +66,11 @@
 								
 							</td>
 						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
 						<tr>
 							<td class="tableLabel">공부 종류</td>
 							<td>
@@ -67,37 +78,76 @@
 								<!-- <input class="form-control" type="text" id="studyType" name="studyType" value="공부종류" disabled> -->
 							</td>
 						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
 						<tr>
 							<td class="tableLabel">모집 기간</td>
 							<td class="inline">
-								<label id="now_date"></label>
+								<!-- <label id="now_date"></label>
 								 ~ &nbsp;&nbsp;
 								<input type="text" class="form-control datePicker" id="datepicker-autoclose" name="recEndDate" placeholder="년/월/일">
-								<!-- <input type="date" class="form-control" id="recEndDate" name="recEndDate"> -->
-								<input type="hidden" id="recTerm" name="recTerm">
+								<input type="date" class="form-control" id="recEndDate" name="recEndDate">
+								<input type="hidden" id="recTerm" name="recTerm"> -->
+								<input class="form-control input-daterange-datepicker" type="text" id="recTerm" name="recTerm" style="width: 200px; display: inline-block;">
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">모집 인원</td>
 							<td id="recNumTd">
-								
-								<input type="number" min="1" class="form-control" id="recNum" name="recNum">
+								<input type="number" min="1" max="7" class="form-control" id="recNum" name="recNum">
 								<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="right" title="그룹장을 제외한 모집 인원을 입력해주세요. 단,그룹인원 수를 넘을 수 없습니다.">?</button>
-								
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
 							<td class="tableLabel">모임 장소</td>
-							<td>
+							<td class="long">
 								<p id="recLoc">한남점</p>
 								<!-- <input class="form-control" type="text" id="recLoc" name="recLoc" value="한남점" disabled> -->
 							</td>
+							<td class="once">
+								<input type="hidden" id="branchNo" name="branchNo">
+								<select class="form-control" id="branchSelect" style="width:200px;">
+									 <c:forEach var="item" items="${ branchList }">
+									 	<option value="${ item.branchNo }">${ item.branchName }</option>
+									 </c:forEach>
+								</select>
+							</td>
 						</tr>
-						<tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
+						<tr class="long">
 							<td class="tableLabel">모임 주기</td>
 							<td>
 								<p id="meetingDate">모임 주기</p>
 								<!-- <input class="form-control" type="text" id="meetingDate" name="meetingDate" value="월요일" disabled> -->
+							</td>
+						</tr>
+						<tr class="once">
+							<td class="tableLabel">모임 날짜</td>
+							<td>
+								<input type="text" class="form-control" id="datepicker-autoclose" name="rsgMetDate" placeholder="년/월/일" style="width:120px; display:inline-block;">
+								<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="right" title="모집 기간 이후로 선택해주새요.">?</button>
+							</td>
+						</tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
@@ -108,11 +158,21 @@
 								<label class="lengthAlert">0/100</label> -->
 							</td>
 						</tr>
-						<tr>
+						<tr class="hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
+							</td>
+						</tr>
+						<tr class="long">
 							<td class="tableLabel">그룹 조건</td>
 							<td>
 								<ul id="groupRule">
 								</ul>
+							</td>
+						</tr>
+						<tr class="long hiddenTr">
+							<td colspan="2">
+								<hr style="border: 0.5px solid #BDBDBD; margin:0; padding:0;">
 							</td>
 						</tr>
 						<tr>
@@ -145,9 +205,12 @@
 	var today;
 	
 	$(function() {
+		$('.long').css('display','none');
+		$('.once').css('display','none');
+		
 		getGroupInfo();
 		
-		today = new Date();
+		/* today = new Date();
 		var dd = today.getDate();
 		var mm = today.getMonth()+1; // Jan is 0
 		var yyyy = today.getFullYear();
@@ -155,7 +218,7 @@
 		if(mm<10){ mm = '0'+mm }
 		today = yyyy + '-' + mm + '-' + dd;
 		$('#now_date').text(today);
-		console.log(today);
+		console.log(today); */
 
 		$('[data-toggle="tooltip"]').tooltip();
 	})
@@ -166,44 +229,54 @@
 	
 	function getGroupInfo() {
 		var sgno = $('#groupSelect').val();
-		console.log(sgno);
 		
 		$.ajax({
 			url:"getStudyGroupInfo.sg",
 			data:{sgno:sgno},
 			dataType: 'json',
-			success: function(data) {				
+			success: function(data) {
 				$('#studyType').text(decodeURIComponent(data.studyName.replace(/\+/g, ' ')));
-				$('#recLoc').text(decodeURIComponent(data.branchName.replace(/\+/g, ' ')));
-				$('#meetingDate').text(decodeURIComponent(data.msgMetRule.replace(/\+/g, ' ')));
 				$('#groupGoal').text(decodeURIComponent(data.sgGoal.replace(/\+/g, ' ')));
+				$('#groupContent').text(decodeURIComponent(data.sgContent.replace(/\+/g, ' ')));
+				$('#recNum').val('');
+				$('#recNum').attr({'max':'7', 'placeholder':'1이상 7이하'});
 				
-				var $ruleUl = $('#groupRule');
-				$ruleUl.html('');
-				
-				var $li = $('<li>').text(decodeURIComponent(data.msgRule1.replace(/\+/g, ' ')));
-				$ruleUl.append($li);
-				
-				if(data.msgRule2 != null) {
-					$li = $('<li>').text(decodeURIComponent(data.msgRule2.replace(/\+/g, ' ')));
+				if(data.sgStatus == 'Y') {
+					$('.long').css('display','');
+					$('.once').css('display','none');
+					$('#sgStatus').val('Y');
+					
+					$('#recLoc').text(decodeURIComponent(data.branchName.replace(/\+/g, ' ')));
+					$('#meetingDate').text(decodeURIComponent(data.msgMetRule.replace(/\+/g, ' ')));
+					
+					var $ruleUl = $('#groupRule');
+					$('#groupRule').css('display','block');
+					$ruleUl.html('');
+					
+					var $li = $('<li>').text(decodeURIComponent(data.msgRule1.replace(/\+/g, ' ')));
 					$ruleUl.append($li);
 					
-					if(data.msgRule3 != null) {
-						$li = $('<li>').text(decodeURIComponent(data.msgRule3.replace(/\+/g, ' ')));
+					if(data.msgRule2 != null) {
+						$li = $('<li>').text(decodeURIComponent(data.msgRule2.replace(/\+/g, ' ')));
 						$ruleUl.append($li);
+						
+						if(data.msgRule3 != null) {
+							$li = $('<li>').text(decodeURIComponent(data.msgRule3.replace(/\+/g, ' ')));
+							$ruleUl.append($li);
+						}
 					}
+					
+					$('#recNum').attr({'max':data.msgNum, 'placeholder':'1이상 '+data.msgNum+'이하'});
+				} else {
+					$('.long').css('display','none');
+					$('.once').css('display','');
+					$('#sgStatus').val('N');
 				}
-				
-				$('#groupContent').text(decodeURIComponent(data.sgContent.replace(/\+/g, ' ')));
-				
-				$('#recNum').val('');
-				$('#recNum').attr({'max':data.msgNum, 'placeholder':'1이상 '+data.msgNum+'이하'});
-				
 			}
 		});
 	}
 	
-	function checkDate() {
+	/* function checkDate() {
 		var startDateArr = today.split('-');
 	       
 	    var endDate = $('input[name=recEndDate]').val();
@@ -223,10 +296,10 @@
 	    	alert("모집 기간을 작성해주세요.");
 	    }
     	return false;
-	}
+	} */
 	
 	function checkForm() {
-		if(checkDate()) {
+		/* if(checkDate()) {
 			var num = $('#recNum').val();
 			if(num.trim() != '') {
 				$('#sgName').val($('#groupSelect option:checked').text());
@@ -234,7 +307,20 @@
 			} else {
 				sweetWrong('모집 인원을 작성해주세요.');
 			}
+		} */
+		if($('#recNum').val().trim() != '' && $('#recTerm').val() != '') {
+			if($('.long').css('display') == 'none') {
+				if($('#datepicker-autoclose').val() != '') {
+					$('#branchNo').val($('#branchSelect option:checked').val());
+					$('#sgName').val($('#groupSelect option:checked').text());
+					return true;
+				}
+			} else {
+				$('#sgName').val($('#groupSelect option:checked').text());
+				return true;
+			}
 		}
+		
 		sweetWrong('모든 항목을 채워주세요.');
 		return false;
 	}

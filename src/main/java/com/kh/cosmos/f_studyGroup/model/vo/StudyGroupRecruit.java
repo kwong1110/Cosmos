@@ -12,6 +12,7 @@ public class StudyGroupRecruit {
 	private int recNum;
 	private String id;
 	private String nick;
+	private int branchNo;
 	private String branchName;
 	private String sgGoal;
 	private String sgContent;
@@ -55,6 +56,14 @@ public class StudyGroupRecruit {
 	}
 	
 	
+
+	public int getBranchNo() {
+		return branchNo;
+	}
+
+	public void setBranchNo(int branchNo) {
+		this.branchNo = branchNo;
+	}
 
 	public String getId() {
 		return id;

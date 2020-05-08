@@ -57,7 +57,8 @@ public class MemberController {
 			System.out.println(loginUser.getMstatus());
 			if (loginUser.getMstatus().equals("R")) {
 		
-				model.addAttribute("msg","금지된 회원입니다. 관리자에게 문의하세요!");
+				ra.addFlashAttribute("wrongMsg","금지된 회원입니다.<br>관리자에게 문의하세요!");
+				
 				return "redirect:/";
 			}
 			
@@ -208,12 +209,21 @@ public class MemberController {
 					System.out.println("---멤버--- : " + member);
 					int result = mService.fakePwd(member);
 					
-					String content ="<h2>안녕하세요  회원님</h2><br><br>" 
+					/*String content ="<h2>안녕하세요  회원님</h2><br><br>" 
 							+ "<img alt=\"COSMOS\" src=\"https://postfiles.pstatic.net/MjAyMDA1MDdfMjM3/MDAxNTg4ODEzNjAwMTg5.MgjKkxaAG7HDpa8oCH4hI7x85pWG_kPJewLKFDrozUMg.0SodG8fbenNvDX6hFVf0eATWuRP1Y-2A4zxsByW9ERIg.PNG.dksdud94/KakaoTalk_Moim_9C9pCpO1SP6lkSFs0gz6goaxUjDLrj.png?type=w773\">"
 							+ "<p>비밀번호 찾기를 신청해주셔서 임시 비밀번호를 발급해드렸습니다.</p>"
 							+ "<p>임시로 발급 드린 비밀번호는 <h2 style='color : blue'>'" + lastPw +"'</h2>이며 로그인 후 마이페이지에서 비밀번호를 변경해주시면 됩니다.</p><br>"
-							+ "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";
-					
+							+ "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";*/
+					/*String content ="";
+						content += "<div align='center' sytle='background:#fffcda'>";
+						content += "<img src='http://localhost:9280/cosmos/resources/image/FindPwdEmail01.png'>";
+						content += "<div sytle='background:#fffcda'><h1>회원님의 임시 비밀번호는" + lastPw + "입니다.</h1></div>"; 			
+						content += "<img src='http://localhost:9280/cosmos/resources/image/FindPwdEmail02.png'>";
+						content += "</div>";*/
+					String content = "<div align='center' sytle='background:#fffcda'>"
+									+ "<img src='http://localhost:9280/cosmos/resources/image/FindPwdEmail01.png'>"
+									+ "<h2>회원님의 임시 비밀번호는'" + lastPw +"'입니다.</h2>"
+									+ "<img src='http://localhost:9280/cosmos/resources/image/FindPwdEmail02.png'>";
 					if(result > 0) {
 						System.out.println("임시비밀번호로 변경");
 					} else {

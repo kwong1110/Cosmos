@@ -277,9 +277,9 @@
 					</c:if>
 					
 					<div class="btnBox" style="width: 100%; text-align: center; margin-top:10%;">
-						<input type="submit" class="btn btn-info" value="등록" />
+						<input type="submit" class="btn defaultBtn" style="width:100px; padding:10px;" value="등록" />
 						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-						<input type="button" class="btn btn-danger" value="취소" />
+						<input type="button" class="btn defaultBtn" style="width:100px; padding:10px;" onclick="location.href='myGroup.mp'" value="취소" />
 					</div>
 					</form>
 					

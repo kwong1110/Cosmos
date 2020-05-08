@@ -55,7 +55,7 @@ public class ViewBranchController {
 	}
 	
 	@RequestMapping("viewBranchDetail.vb")
-	public ModelAndView branchDetail(@RequestParam("vbNo") int vbNo, @RequestParam("page") int page, ModelAndView mv) {
+	public ModelAndView branchDetail(@RequestParam("vbNo") int vbNo, @RequestParam(value="page", required=false) int page, ModelAndView mv) {
 		
 		ViewBranch vBranch = vbService.selectBranch(vbNo);
 		
@@ -72,7 +72,7 @@ public class ViewBranchController {
 	}
 	
 	@RequestMapping("viewBranchUpForm.vb")
-	public ModelAndView branchUpFormView(@RequestParam("vbNo") int vbNo, @RequestParam("page") int page, ModelAndView mv) {
+	public ModelAndView branchUpFormView(@RequestParam("vbNo") int vbNo, @RequestParam(value="page", required=false) int page, ModelAndView mv) {
 		
 		ViewBranch vBranch = vbService.selectBranch(vbNo);
 		
@@ -83,7 +83,49 @@ public class ViewBranchController {
 		return mv;
 	}
 	
+	
 	@RequestMapping("viewBranchUpdate.vb")
+	public ModelAndView branchUpdate(@ModelAttribute ViewBranch vb, 
+									 @RequestParam("vbNo") int branchNo, @RequestParam(value="page", required=false) int page, 
+									 @RequestParam("post") String post, @RequestParam("address1") String addr1, @RequestParam("address2") String addr2, 
+									 @RequestParam("localNum") String localNum, @RequestParam("tel1") String tel1, @RequestParam("tel2") String tel2,
+									 @RequestParam("time1") String time1, @RequestParam("time1") String time2, 
+									 ModelAndView mv) {
+		
+		vb.setBranchNo(branchNo);
+		vb.setBranchAddress(post + " / " + addr1 + " / " + addr2);
+		vb.setBranchTel(localNum + " - " + tel1 + " - " + tel2);
+		vb.setBranchTime(time1 + " : " + time2);
+		
+		
+		int result = vbService.updateBranch(vb);
+		
+		if(result > 0) {
+			mv.addObject("page", page)
+			  .setViewName("redirect:viewBranchDetail.vb?vbNo=" + vb.getBranchNo());
+		} else {
+			throw new ViewBranchException("지점 정보 수정에 실패하였습니다.");
+		}
+		
+		return mv;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// 사진 구현은 일단 실패
+	/*@RequestMapping("viewBranchUpdate.vb")
 	public ModelAndView branchUpdate(@ModelAttribute ViewBranch vb, @ModelAttribute BranchPhoto bp, @RequestParam("vbNo") int branchNo, @RequestParam("page") int page,
 									 @RequestParam("uploadFile") MultipartFile[] uploadFiles, 
 									 HttpServletRequest request, ModelAndView mv) {
@@ -168,6 +210,6 @@ public class ViewBranchController {
 
 		return renameList;
 		
-	}
+	}*/
 	
 }

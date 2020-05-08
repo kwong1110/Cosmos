@@ -141,13 +141,59 @@ public class NoteController {
 		}
 	}
 	
+	// 쪽지 목록에서 쪽지 삭제
+	@RequestMapping("noteDelete2.mp")
+	public String noteDelete(@RequestParam(value="noteNos", required=false) int noteNos[], RedirectAttributes ra, HttpSession session) {
+		
+		int result = 0;
+		
+		if(noteNos != null) {
+			for(int i = 0; i<noteNos.length; i++) {
+				result = nService.deleteNote(noteNos[i]);
+			}
+		} 
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String loginUserId = loginUser.getId();
+		
+		if(result > 0) {
+			ra.addAttribute("userId", loginUserId);
+			return "redirect:noteList.mp";
+		} else {
+			throw new MyPageException("쪽지 삭제에 실패하였습니다.");
+		}
+	}
+	
 	// 쪽지 보기 페이지에서 쪽지 보관함으로 이동
 	@RequestMapping("noteStorage.mp")
-	public String noteStorage(@RequestParam(value="noteNo", required=false) int noteNo, @RequestParam("noteNos") int noteNos[], RedirectAttributes ra, HttpSession session) {
-		
-		System.out.println("noteNos : " + noteNos);
+	public String noteStorage(@RequestParam("noteNo") int noteNo, RedirectAttributes ra, HttpSession session) {
 		
 		int result = nService.storeNote(noteNo);
+		
+		Member loginUser = (Member)session.getAttribute("loginUser");
+		String loginUserId = loginUser.getId();
+		
+		if(result > 0) {
+			
+			ra.addFlashAttribute("successMsg", "보관함 보내기에 성공");
+			ra.addAttribute("userId", loginUserId);
+			return "redirect:noteStorageList.mp";
+		} else {
+			throw new MyPageException("쪽지 보관에 실패하였습니다.");
+		}
+	}
+	
+	// 쪽지 목록에서 쪽지 보관함으로 이동
+	@RequestMapping("noteStorage2.mp")
+	public String noteStorage(@RequestParam(value="noteNos", required=false) int noteNos[], RedirectAttributes ra, HttpSession session) {
+		
+		int result = 0;
+		
+		if(noteNos != null) {
+			for(int i = 0; i<noteNos.length; i++) {
+				result = nService.storeNote(noteNos[i]);
+			}
+		} 
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String loginUserId = loginUser.getId();
@@ -228,6 +274,44 @@ public class NoteController {
 	}
 	
 	
+	// 보관함검색
+		@RequestMapping("searchStore.mp")
+		public ModelAndView noteStoreSearch(@RequestParam(value="page", required=false) Integer page, 
+									   @ModelAttribute SearchCondition search, @RequestParam("searchCondition") String condition, 
+									   @RequestParam("searchValue") String value, ModelAndView mv) {
+			
+			if(condition.equals("id")) {
+				search.setId(value);
+			} else if(condition.equals("nick")) {
+				search.setNick(value);
+			} else if(condition.equals("content")) {
+				search.setContent(value);
+			} 
+			
+			int currentPage = 1;
+			if(page != null) {
+				currentPage = page;
+			}
+			
+			int listCount = nService.getStoreSearchResultListCount(search);
+			
+			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			ArrayList<Note> nList = nService.selectStoreSearchResultList(pi, search);
+			
+			if(nList != null) {
+				mv.addObject("nList", nList)
+				  .addObject("pi", pi)
+				  .addObject("searchValue", value)
+				  .addObject("searchCondition", search)
+				  .setViewName("/messageBox/noteStoreList");
+			} else {
+				throw new MyPageException("검색에 실패하였습니다.");
+			}
+			
+			return mv;
+		}
+	
+	
 	// 분류
 	@RequestMapping("noteMenu.mp")
 	public ModelAndView noteMenu(@RequestParam(value="page", required=false) Integer page, 
@@ -239,35 +323,40 @@ public class NoteController {
 			currentPage = page;
 		}
 		
+		int listCount = 0;
 		ArrayList<Note> nList = null;
 		PageInfo pi = null;
 		
 		if(menu.equals("to")) { // 받은 쪽지
 			
-			int listCount = nService.getMenuToListCount(userId);
+			listCount = nService.getMenuToListCount(userId);
 			pi = Pagination.getPageInfo(currentPage, listCount);
 			nList = nService.selectMenuToList(pi, userId);
 			
 		} else if (menu.equals("from")) { // 보낸 쪽지
 			
-			int listCount = nService.getMenuFromListCount(userId);
+			listCount = nService.getMenuFromListCount(userId);
 			pi = Pagination.getPageInfo(currentPage, listCount);
 			nList = nService.selectMenuFromList(pi, userId);
 			
 		} else if (menu.equals("tome")) { // 내게 보낸 쪽지
 			
-			int listCount = nService.getMenuToMeListCount(userId);
+			listCount = nService.getMenuToMeListCount(userId);
 			pi = Pagination.getPageInfo(currentPage, listCount);
 			nList = nService.selectMenuToMeList(pi, userId);
 			
 		} else if (menu.equals("total")) { // 전체 쪽지
 			
-			int listCount = nService.getListCount(userId);
+			listCount = nService.getListCount(userId);
 			pi = Pagination.getPageInfo(currentPage, listCount);
 			nList = nService.selectList(pi, userId);
 			
+		} else if(menu.equals("storage")) { // 보관함에 있는 쪽지
+			
+			listCount = nService.getStoreListCount(userId);
+			pi = Pagination.getPageInfo(currentPage, listCount);
+			nList = nService.selectStoreList(pi, userId);
 		}
-		
 		
 		if(nList != null) {
 			mv.addObject("nList", nList)
@@ -278,12 +367,61 @@ public class NoteController {
 			throw new MyPageException("검색에 실패하였습니다.");
 		}
 		
-		
 		return mv;
 	}
 	
 	
-	
-	
+	// 보관함 분류
+		@RequestMapping("noteMenuStore.mp")
+		public ModelAndView noteStoreMenu(@RequestParam(value="page", required=false) Integer page, 
+									 @RequestParam("menuCondition") String menu, @RequestParam("userId") String userId, ModelAndView mv) {
+			
+			
+			int currentPage = 1;
+			if(page != null) {
+				currentPage = page;
+			}
+			
+			int listCount = 0;
+			ArrayList<Note> nList = null;
+			PageInfo pi = null;
+			
+			if(menu.equals("to")) { // 보관함 받은 쪽지
+				
+				listCount = nService.getStoreMenuToListCount(userId);
+				pi = Pagination.getPageInfo(currentPage, listCount);
+				nList = nService.selectStoreMenuToList(pi, userId);
+				
+			} else if (menu.equals("from")) { // 보관함 보낸 쪽지
+				
+				listCount = nService.getStoreMenuFromListCount(userId);
+				pi = Pagination.getPageInfo(currentPage, listCount);
+				nList = nService.selectStoreMenuFromList(pi, userId);
+				
+			} else if (menu.equals("tome")) { // 보관함 내게 보낸 쪽지
+				
+				listCount = nService.getStoreMenuToMeListCount(userId);
+				pi = Pagination.getPageInfo(currentPage, listCount);
+				nList = nService.selectStoreMenuToMeList(pi, userId);
+				
+			} else if (menu.equals("total")) { // 보관함 전체 쪽지
+				
+				listCount = nService.getStoreListCount(userId);
+				pi = Pagination.getPageInfo(currentPage, listCount);
+				nList = nService.selectStoreList(pi, userId);
+				
+			} 
+			
+			if(nList != null) {
+				mv.addObject("nList", nList)
+				  .addObject("pi", pi)
+				  .addObject("menuCondition", menu)
+				  .setViewName("/messageBox/noteStoreList");
+			} else {
+				throw new MyPageException("검색에 실패하였습니다.");
+			}
+			
+			return mv;
+		}
 	
 }

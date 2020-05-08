@@ -43,4 +43,21 @@ public interface NoteService {
 
 	ArrayList<Note> selectMenuToMeList(PageInfo pi, String userId);
 
+	int getStoreSearchResultListCount(SearchCondition search);
+
+	ArrayList<Note> selectStoreSearchResultList(PageInfo pi, SearchCondition search);
+
+	int getStoreMenuToListCount(String userId);
+
+	ArrayList<Note> selectStoreMenuToList(PageInfo pi, String userId);
+
+	int getStoreMenuFromListCount(String userId);
+
+	ArrayList<Note> selectStoreMenuFromList(PageInfo pi, String userId);
+
+	int getStoreMenuToMeListCount(String userId);
+
+	ArrayList<Note> selectStoreMenuToMeList(PageInfo pi, String userId);
+
+
 }

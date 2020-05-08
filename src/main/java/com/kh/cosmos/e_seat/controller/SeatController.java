@@ -149,9 +149,10 @@ public class SeatController {
 				}
 				
 				if(s.getReserPeople() != 1 && group != 99999 && (s.getReserSort().equals("B") || s.getReserSort().equals("C") || s.getReserSort().equals("D") || s.getReserSort().equals("E"))) { // 그룹 예약 했을 때 그룹원 전체 도장 부여
-					ArrayList<String> memberList = sgService.getMemList(group);
-					cResult = sgService.updateMsgCount(group); // 그룹 만남 횟수 증가
+					String sgStatus = sgService.getSgStatus(group);
+					if(sgStatus.equals("Y")) cResult = sgService.updateMsgCount(group); // 그룹 만남 횟수 증가
 					
+					ArrayList<String> memberList = sgService.getMemList(group);
 					for(String memId : memberList) {
 						totalStamp = 0;
 						totalStamp = sService.getTotalStamp(memId)+1;

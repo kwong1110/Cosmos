@@ -13,6 +13,8 @@ public interface ViewBranchService {
 
 	ViewBranch selectBranch(int vbNo);
 
-	int insertBranchPhoto(int branchNo);
+	/*int insertBranchPhoto(int branchNo);*/
+
+	int updateBranch(ViewBranch vb);
   
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,7 +35,7 @@
 	
 	#approachBtn{width: 20%; margin-top:5%; margin-bottom: 5%;}
 	
-	#approachListArea{width:60%; display: inline-block; text-align: center;}
+	#approachListArea{width:80%; display: inline-block; text-align: center;}
 	
 	
 </style>
@@ -53,11 +54,13 @@
 				
 				<div id="goMessage">
 					<label id="bossNickname">${ info.nick }</label>
+					<c:if test="${ loginUser !=  null }">
 					<div id="messageHiddenArea">
 						<div id="messageArea">
 							<label id="sendMessage">쪽지 보내기</label>
 						</div>
 					</div>
+					</c:if>
 				</div>
 					
 				<div class="content">
@@ -279,7 +282,17 @@
 						</tr>
 						<tr>
 							<td>
-								<label class="infoStyle">${ info.msgMetRule }</label>
+								<c:choose>
+									<c:when test="${fn:contains(info.msgMetRule,'요일')}">
+										<label class="infoStyle">매주 ${ info.msgMetRule }</label>
+									</c:when>
+									<c:when test="${fn:contains(info.msgMetRule,'일')}">
+										<label class="infoStyle">${ info.msgMetRule } 마다</label>
+									</c:when>
+									<c:otherwise>
+										<label class="infoStyle">${ info.msgMetRule }</label>
+									</c:otherwise>
+								</c:choose>
 							</td>
 							<td>
 								<label class="infoStyle">${ info.partMemNum }명</label>
@@ -332,7 +345,7 @@
 					</c:if>
 					
 					<c:if test="${ loginUser.nick eq info.nick }">
-					<div class="partStyle inner">
+					<div class="partStyle inner" style="width:80%; padding-top:3%; padding-bottom:1%; border-radius:20px; background:rgb(255,255,255,0.65);">
 						<label class="subTitle">참가 신청 리스트</label>
 						<div id="approachListArea">
 							<table id="approachListTable" class="table table-hover">
@@ -379,11 +392,11 @@
 					
 					<c:if test="${ info.groupType eq 'recMulti' or info.groupType eq 'recOnce' }">
 					<%-- <input type="hidden" id="infoRecNo" value="${ info.recNo }"> --%>
-					<div style="width:100%; margin-top:5%;" id="confirmArea">
+					<div style="width:100%;" id="confirmArea">
 						<div id="hiddenConfirm">
-							<input type="button" class="btn btn-info" onclick="confirmApproach('acc');" value="수락" />
+							<input type="button" class="btn defaultBtn" onclick="confirmApproach('acc');" value="수락" />
 							&nbsp;
-							<input type="button" class="btn btn-danger" onclick="confirmApproach('rej');" value="거절" />
+							<input type="button" class="btn defaultBtn" onclick="confirmApproach('rej');" value="거절" />
 						</div>
 						<label id="hiddenLabel" style="font-size:20px;"></label>
 					</div>
@@ -415,10 +428,42 @@
 			$('#bossNickname').css('color', 'black');
 		});
 		
+		function sweetCheck(title, text, btnText){
+			swal({
+				title:title,
+				text:text,
+				type:"warning",
+				showCancelButton: !0,
+				confirmButtonColor:"#17955F",
+				confirmButtonText:btnText,
+				closeOnConfirm: !1
+				},
+				function(){
+					$.ajax({
+						url:url,
+						data:sendData,
+						dataType: 'json',
+						success: function(data) {
+							if($('#appArea').children().length == 0) {
+								if(data == 'Y') {
+									$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" style="background:gray;" value="신청 완료" disabled="">');
+								} else if(data == 'N') {
+									$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" onclick="approach();" value="참가 신청">');
+								}
+							} else if($('#appArea').children().length > 0) {
+								sweetSuccess('신청');
+								$('#appArea').html('');
+								$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" style="background:gray;" value="신청 완료" disabled="">');
+							}
+						}
+					});
+				}
+			)
+		};
+
+		var url = "";
+		var sendData;
 		function approach() {
-			var url = "";
-			var sendData;
-			
 			if($('#appArea').children().length > 0) {
 				url = "doAppGroup.sg";
 				sendData = {"sgno":"${ info.sgNo }", "recno":"${ info.recNo }", "bossid":"${info.id}", "sgname":"${info.sgName}"};
@@ -428,7 +473,8 @@
 			}
 			
 			if(url == "doAppGroup.sg") {
-				if(!confirm("참가 신청은 모집 당 한 번만 가능합니다. 참가 신청하시겠습니까?")) return;
+				sweetCheck('참가 신청하시겠습니까?','참가 신청은 모집 당 한 번만 가능합니다.','신청');
+				return;
 			}
 			
 			$.ajax({
@@ -443,6 +489,7 @@
 							$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" onclick="approach();" value="참가 신청">');
 						}
 					} else if($('#appArea').children().length > 0) {
+						sweetSuccess('신청');
 						$('#appArea').html('');
 						$('#appArea').append('<input type="button" class="defaultBtn" id="approachBtn" style="background:gray;" value="신청 완료" disabled="">');
 					}
@@ -484,6 +531,8 @@
 							
 							$tbody.append($tr);
 						}
+					} else {
+						$tbody.append('<tr><td colspan="4">들어온 참가 신청이 없습니다.</td></tr>');
 					}
 				}
 			});
@@ -566,7 +615,7 @@
 		$('#sendMessage').click(function() {
 			if("${loginUser.id}" != ""){
 				var toNick = "${info.nick}";
-				var url = "noteInsertView.mp?toNick=" + toNick;
+				var url = "noteInsertView1.mp?toNick=" + toNick;
 		        var name = "notePopup";
 		        
 		        var popLeft = Math.ceil(( window.screen.width - 700 )/2);
