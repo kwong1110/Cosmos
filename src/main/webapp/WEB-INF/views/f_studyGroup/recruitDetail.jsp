@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,11 +54,13 @@
 				
 				<div id="goMessage">
 					<label id="bossNickname">${ info.nick }</label>
+					<c:if test="${ loginUser !=  null }">
 					<div id="messageHiddenArea">
 						<div id="messageArea">
 							<label id="sendMessage">쪽지 보내기</label>
 						</div>
 					</div>
+					</c:if>
 				</div>
 					
 				<div class="content">
@@ -279,7 +282,17 @@
 						</tr>
 						<tr>
 							<td>
-								<label class="infoStyle">${ info.msgMetRule }</label>
+								<c:choose>
+									<c:when test="${fn:contains(info.msgMetRule,'요일')}">
+										<label class="infoStyle">매주 ${ info.msgMetRule }</label>
+									</c:when>
+									<c:when test="${fn:contains(info.msgMetRule,'일')}">
+										<label class="infoStyle">${ info.msgMetRule } 마다</label>
+									</c:when>
+									<c:otherwise>
+										<label class="infoStyle">${ info.msgMetRule }</label>
+									</c:otherwise>
+								</c:choose>
 							</td>
 							<td>
 								<label class="infoStyle">${ info.partMemNum }명</label>
@@ -602,7 +615,7 @@
 		$('#sendMessage').click(function() {
 			if("${loginUser.id}" != ""){
 				var toNick = "${info.nick}";
-				var url = "noteInsertView.mp?toNick=" + toNick;
+				var url = "noteInsertView1.mp?toNick=" + toNick;
 		        var name = "notePopup";
 		        
 		        var popLeft = Math.ceil(( window.screen.width - 700 )/2);

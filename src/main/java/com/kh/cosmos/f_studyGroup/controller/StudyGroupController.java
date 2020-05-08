@@ -201,7 +201,8 @@ public class StudyGroupController {
 
 		HttpSession session = request.getSession();
 		String id = ((Member)session.getAttribute("loginUser")).getId();
-		
+
+		ArrayList<ViewBranch> branchList = sgService.getBranchList();
 		ArrayList<StudyGroup> sgList = sgService.getStudyGroupList(id);
 		
 		for(int i = 0; i < sgList.size(); i++) {
@@ -211,7 +212,8 @@ public class StudyGroupController {
 				sgList.remove(i);
 			}
 		}
-		
+
+		mv.addObject("branchList", branchList);
 		mv.addObject("sgList", sgList);
 		mv.setViewName("recruitInsert");
 		
@@ -220,23 +222,32 @@ public class StudyGroupController {
 	
 	@RequestMapping("getStudyGroupInfo.sg")
 	public void getStudyGroupInfo(HttpServletResponse response, @RequestParam("sgno") int sgno) throws JsonIOException, IOException {
+		String sgStatus = sgService.getSgStatus(sgno);
+		System.out.println(sgStatus);
 		
-		StudyGroupRecruit info = sgService.getGroupInfoForRec(sgno);
-		int partNum = sgService.getPartMemberNum(sgno);
-		//System.out.println("partNum : " + partNum);
+		StudyGroupRecruit info = sgService.getGroupInfoForRec(sgno, sgStatus);
+		System.out.println(info);
 		
 		if(info != null) {
-			info.setStudyName(URLEncoder.encode(info.getStudyName(), "UTF-8"));
-			info.setBranchName(URLEncoder.encode(info.getBranchName(), "UTF-8"));
-			info.setMsgMetRule(URLEncoder.encode(info.getMsgMetRule(), "UTF-8"));
-			info.setSgGoal(URLEncoder.encode(info.getSgGoal(), "UTF-8"));
-			info.setMsgRule1(URLEncoder.encode(info.getMsgRule1(), "UTF-8"));
-			if(info.getMsgRule2() != null) info.setMsgRule2(URLEncoder.encode(info.getMsgRule2(), "UTF-8"));
-			if(info.getMsgRule3() != null) info.setMsgRule3(URLEncoder.encode(info.getMsgRule3(), "UTF-8"));
-			info.setSgContent(URLEncoder.encode(info.getSgContent(), "UTF-8"));
-			
-			info.setMsgNum(info.getMsgNum() - partNum);
-			//System.out.println("msgNum - partNum : " + info.getMsgNum());
+			if(info.getSgStatus().equals("Y")) {
+				int partNum = sgService.getPartMemberNum(sgno);
+
+				info.setStudyName(URLEncoder.encode(info.getStudyName(), "UTF-8"));
+				info.setBranchName(URLEncoder.encode(info.getBranchName(), "UTF-8"));
+				info.setMsgMetRule(URLEncoder.encode(info.getMsgMetRule(), "UTF-8"));
+				info.setSgGoal(URLEncoder.encode(info.getSgGoal(), "UTF-8"));
+				info.setMsgRule1(URLEncoder.encode(info.getMsgRule1(), "UTF-8"));
+				if(info.getMsgRule2() != null) info.setMsgRule2(URLEncoder.encode(info.getMsgRule2(), "UTF-8"));
+				if(info.getMsgRule3() != null) info.setMsgRule3(URLEncoder.encode(info.getMsgRule3(), "UTF-8"));
+				info.setSgContent(URLEncoder.encode(info.getSgContent(), "UTF-8"));
+				
+				info.setMsgNum(info.getMsgNum() - partNum);
+				//System.out.println("msgNum - partNum : " + info.getMsgNum());
+			} else {
+				info.setStudyName(URLEncoder.encode(info.getStudyName(), "UTF-8"));
+				info.setSgGoal(URLEncoder.encode(info.getSgGoal(), "UTF-8"));
+				info.setSgContent(URLEncoder.encode(info.getSgContent(), "UTF-8"));
+			}
 			
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson(info, response.getWriter());
@@ -247,6 +258,7 @@ public class StudyGroupController {
 	
 	@RequestMapping("insertRecruit.sg")
 	public String insertRecruit(@ModelAttribute StudyGroupRecruit info, RedirectAttributes ra) {
+		if(info.getSgStatus().equals("Y")) info.setRsgMetDate(null);
 		int result = sgService.insertRecruit(info);
 		
 		if(result > 0) {
@@ -261,7 +273,6 @@ public class StudyGroupController {
 			}
 			
 			ra.addFlashAttribute("successMsg",  "모집 등록에 성공");
-			
 			return "redirect:listView.sg";
 		} else {
 			throw new StudyGroupException("모집 등록에 실패하였습니다.");

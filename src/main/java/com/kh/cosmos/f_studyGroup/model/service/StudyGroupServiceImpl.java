@@ -50,8 +50,8 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	}
 
 	@Override
-	public StudyGroupRecruit getGroupInfoForRec(int sgno) {
-		return sgDAO.getGroupInfoForRec(sqlSession, sgno);
+	public StudyGroupRecruit getGroupInfoForRec(int sgno, String sgStatus) {
+		return sgDAO.getGroupInfoForRec(sqlSession, sgno, sgStatus);
 	}
 
 	@Override

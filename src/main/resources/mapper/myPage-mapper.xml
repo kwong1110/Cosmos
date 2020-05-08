@@ -171,6 +171,7 @@
 		SELECT RSG_NO, RSG_INSERT_DATE, RSG_TERM, RSG_NUM
 		FROM REC_SGROUP
 		WHERE SG_NO = #{SGNO}
+		order by RSG_NO desc
 	</select>
 	
 	<resultMap type="MyStudyGroup" id="ApproachGroupResultSet">

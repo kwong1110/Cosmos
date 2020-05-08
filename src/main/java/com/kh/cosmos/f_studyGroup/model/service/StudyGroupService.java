@@ -22,7 +22,7 @@ public interface StudyGroupService {
 
 	ArrayList<StudyGroup> getStudyGroupList(String id);
 
-	StudyGroupRecruit getGroupInfoForRec(int sgno);
+	StudyGroupRecruit getGroupInfoForRec(int sgno, String sgStatus);
 
 	int getPartMemberNum(int sgno);
 

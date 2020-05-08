@@ -241,9 +241,9 @@
 						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
 						<div class="user-menu clear-fix">
 
-							<div class="noteBtn"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
+							<div class="noteBtn" style="cursor:pointer;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
 <!-- 							<div onclick="popup();"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div> -->
-							<div onclick="openCoupon();"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
+							<div onclick="openCoupon();" style="cursor:pointer;"><span class="glyphicon glyphicon-tags" aria-hidden="true"></span>쿠폰</div>
 
 							<div>
 								<c:url var="mypage" value="myPage.mp">
