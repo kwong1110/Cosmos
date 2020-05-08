@@ -225,6 +225,22 @@ body {
 	cursor: pointer
 }
 
+ul.pagingArea {
+	list-style-type: none;
+	
+}
+
+ul.pagingArea li {
+	list-style-type: none;
+	position: relative;
+	margin: 1em auto;
+	border: 3px solid white;
+	background: none;
+	font-weight: bold;
+	text-transform: uppercase;
+	cursor: pointer
+}
+
 /* 기타 */
 /* focus시 테두리 없애기*/
 *:focus {

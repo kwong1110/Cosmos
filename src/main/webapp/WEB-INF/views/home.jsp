@@ -147,22 +147,55 @@
    /* 각 배너 왼쪽 영역 */
    .data_output_desc{
       float:left;
-      width : 450px;
+      width : 370px;
+      
+      margin-top : 30px;
+      margin-left : 20px;
+      font-size : 1.5rem;
+      line-height : 1.5;
+      font-weight : bold;
    }
    
    /* 각 배너 왼쪽 영역 안에 있는 헤드라인 */
    .data_desc_m {
-       margin-bottom: 10px;
-       font-size: 25px;
-       font-weight: 400;
-       color: #333;
-       line-height: 34px;
+
    }
 
    /*------------------------------------------*/
    /* 각 배너 오른쪽 영역 */   
    .data_desc_list{
       float:right;
+      
+      margin-top: 20px;
+      margin-left : 160px;
+      font-size: 25px;
+      font-weight: 700;
+      color: #333;
+      line-height: 1.8;
+      
+      letter-spacing : -2px;
+      
+   }
+   
+   .data_desc_list .deco {
+   	 display : inline-block;
+   	 width:60px;
+   	 height : 30px;
+   	 
+   	 position : relative;
+
+   }
+   .data_desc_list b {
+	   	font-size : 60px;
+	   	font-style : italic;
+	   	margin-left : 10px;
+	   	margin-right : 10px;
+	   	position:absolute;
+	   	right : 10px;
+	   	top : 10px;
+
+	   	line-height : 0;
+	   	letter-spacing : -2px;
    }
    
    /* 각 배너 오른쪽 영역 안에 있는 아이템 */
@@ -258,7 +291,7 @@
                               <%-- <p class="data_desc_m"><span>전국 <b>${ allBranch }</b>개의 지점 수</span></p> --%>
                               <p class="data_desc_s">시장 점유율 1위인 코스모스 스터디 센터는 <br>최대, 최다 규모의 경쟁력을 갖춘 공간 서비스 브랜드입니다.</p>
                            </div>
-                           <p class="data_desc_list"><span>전국 <b>${ allBranch }</b>개의 지점 수</span></p>
+                           <p class="data_desc_list"><span>전국<span class="deco"><b>${ allBranch }</b></span>개의 지점 수</span></p>
                            
                         </div>
                         <!-- 전제 지점 수 -->
@@ -267,7 +300,7 @@
                            <div class="data_output_desc data_desc">
                               <p class="data_desc_s">코스모스에는 결과와 성과를 만들어가는 <br>여러분을 위한 자리가 준비되어 있습니다.<br> 꿈을 이루어가는 공간에 당신의 자리를 확보하세요.</p>
                            </div>
-                           <p class="data_desc_list"><span>코스모스 공간의 좌석은<br><b>${ allSeat }</b>개 입니다.</span></p>
+                           <p class="data_desc_list"><span>코스모스 공간의 좌석은<br><span class="deco"><b>${ allSeat }</b></span>개 입니다.</span></p>
                            
                         </div>
                         <!-- 전체 좌석 수 -->
@@ -276,7 +309,7 @@
                            <div class="data_output_desc data_desc">
                               <p class="data_desc_s">코스모스 센터는 여러 명이 같이 공부를 하거나 과제를 할 수 있도록 <br>스터디 그룹 매칭 과정을 진행하고 있습니다.</p>
                            </div>
-                           <p class="data_desc_list"><span>코스모스에서<br> 현재 모집 중인 그룹 수<b>${ allGroup }</b>개</span></p>
+                           <p class="data_desc_list"><span>코스모스에서<br> 현재 모집 중인 그룹 수<span class="deco"><b>${ allGroup }</b></span>개</span></p>
                            
                         </div>
                         <!-- 모집 중인 그룹 -->
@@ -285,7 +318,7 @@
                            <div class="data_output_desc data_desc">
                               <p class="data_desc_s">온/오프라인 연계를 통해 차별화된 서비스를 경험하실 수 있습니다.<br>코스모스 센터에서 시행되는 강연 목록을 확인하세요.</p>
                            </div>
-                           <p class="data_desc_list"><span>현재 진행하는 강연 수<b>${ allLecture }</b>개</span></p>
+                           <p class="data_desc_list"><span>현재 진행하는 강연 수<span class="deco"><b>${ allLecture }</b></span>개</span></p>
                            
                         </div>
                         <!-- 강연 목록 -->

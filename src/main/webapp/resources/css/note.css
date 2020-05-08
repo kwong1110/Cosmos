@@ -11,9 +11,23 @@ a {
 	text-decoration: none!important;
 }
 
-.pagination a {
+/* pagingArea */
+ul.pagination a {
 	cursor:pointer;
+	background: none!important;
+	border: none!important;
+	font-weight: bold;
+	text-transform: uppercase;
+	text-align : center;
 }
+
+/* 페이징 */
+.pagination a{border:none !important; background:transparent !important; color:black !important; width:35px !important;cursor:pointer !important;}
+.pagination .pageBtn{height:35px !important;}
+.pagination .selectPageBtn{border-radius:50% !important; background:rgb(255,0,0,0.1) !important;}
+
+
+
 
 .content {
 	background:  rgb(254, 245, 198);
@@ -140,8 +154,8 @@ div.input-group input.form-control {
 	margin-bottom:20px;
 }
 .category select.form-control {
-	width:150px;
-	margin-right : 62px;
+	width:180px;
+	margin-right : 32px;
 }
 
 .form-area select { 
