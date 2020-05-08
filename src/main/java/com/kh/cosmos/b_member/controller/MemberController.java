@@ -272,7 +272,8 @@ public class MemberController {
 //		certifyNum
 //		certifyStatus : 인증상태
 		
-		//System.out.println("배열 존재 확인 : " + etcSno +""+ chkSname +""+ t +""+ etcSname + "" + etcT );
+		System.out.println("배열 존재 확인 : " + etcSno +""+ chkSname +""+ t +""+ etcSname + "" + etcT );
+		System.out.println(m);
 		
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		m.setPwd(encPwd);

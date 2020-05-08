@@ -41,7 +41,7 @@
 	<!-- 회원가입 -->
 	<insert id="insertMember" parameterType="Member">
 		insert into Member
-		values(#{id}, #{pwd}, #{name}, #{nick}, #{birth}, #{email}, #{phone}, sysdate, null, default, default, default, #{gender})
+		values(#{id}, #{pwd}, #{name}, #{nick}, #{birth}, #{email}, #{phone}, sysdate, default, default, #{gender})
 		<!-- 																  enroll, certifyNum, certifyStatus, grade, gender -->
 	</insert>
 	
