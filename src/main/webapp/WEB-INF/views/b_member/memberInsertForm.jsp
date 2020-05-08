@@ -97,14 +97,7 @@
 									<th><label for="userMail">이메일</label></th>
 									<td>
 										<input type="email" id="userMail" name="email">
-										<input type="button" value="인증메일 발송">
-									</td>
-								</tr>
-								<tr>
-									<th><label for="userNum">인증번호 입력</label></th>
-									<td>
-										<input type="text" id="userNum" name="certifyNum">
-										<input type="button" value="인증완료">
+										
 									</td>
 								</tr>
 							</table>
@@ -152,13 +145,12 @@
 									</td>
 								</tr>
 							</table>
+							<div class="btnBox inner">
+								<button class="defaultBtn" onclick="validate();">가입하기</button>
+								<input type="reset" value="취소하기">
+								<button type="button" onclick="location.href='home.do'">홈으로</button>						
+							</div>
 						</form>
-					</div>
-					
-					<div class="btnBox inner">
-						<button class="defaultBtn" onclick="validate();">가입하기</button>
-						<input type="reset" value="취소하기">
-						<button type="button" onclick="location.href='home.do'">홈으로</button>						
 					</div>
 				</div>
 			</div>
