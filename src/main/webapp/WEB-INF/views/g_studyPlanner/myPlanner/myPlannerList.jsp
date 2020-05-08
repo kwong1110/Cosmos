@@ -673,7 +673,9 @@ document.addEventListener('DOMContentLoaded', function() {
 														</optgroup>
 														<optgroup label="전체 공부목록">
 															<c:forEach var="s" items="${ sList }">
+															<c:if test="${ s.studyNo ne 97 && s.studyNo ne 98 && s.studyNo ne 99 }">
 																<option value="${ s.studyNo }">${ s.studyName }</option>
+															</c:if>
 															</c:forEach>
 														</optgroup>
 													</select>

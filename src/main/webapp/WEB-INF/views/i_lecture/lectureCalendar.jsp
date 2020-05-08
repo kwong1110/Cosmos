@@ -153,7 +153,7 @@
 					{
 						title :	"${ l.lectureTitle }",
 						start : "${ l.lectureStart }",	
-						end : "${ l.lectureEnd }" + " 24:00",
+						end : "${ l.lectureEnd }",
 						id: '${ l.lectureNo }',
 						extendedProps: {
 				        	record: '${ l.lectureRecord }',
@@ -162,7 +162,6 @@
 				        	maxPeople: '${ l.maxpeople }',
 				        	attendPeople: '${ l.attendpeople }',
 				        	createDate: '${ l.lectureDate }',
-				        	time: '${ l.lectureTime }',
 				        	status: '${ l.lectureStatus }',
 				        	userId: '${ l.id }',
 				        	job: '${ l.lectureJob }',
@@ -183,8 +182,7 @@
 				$('#title').text(info.event.title);
 				$('#branchName').text(info.event.extendedProps.branchName);
 				$('#fee').text(info.event.extendedProps.fee);
-				$('#lectureDate').text(info.event.extendedProps.startDate + "~" + info.event.extendedProps.endDate
-										+ "(" + info.event.extendedProps.time + ")");
+				$('#lectureDate').text(info.event.extendedProps.startDate + "~" + info.event.extendedProps.endDate);
 				$('#maxPeople').text(info.event.extendedProps.maxPeople);
 				$('#attendPeople').text(info.event.extendedProps.attendPeople);
 				$('#lectureNo').val(info.event.id);
@@ -315,6 +313,45 @@
 	</div>
 </body>
 <script>
+	$(function(){
+		$('.input-daterange-timepicker').daterangepicker({
+		       timePicker: true,
+		       timePickerIncrement: 60,
+		       timePicker24Hour: true,
+		       timePickerSeconds: false,
+		       drops : 'down',
+		      	"locale": {
+		      		format: 'YYYY-MM-DD HH:mm',
+		      		buttonClasses: ['btn'],
+		      		applyClass: 'okBtn',
+		      		cancelClass: 'cancelBtn',
+		      		"daysOfWeek": [
+		                  "일",
+		                  "월",
+		                  "화",
+		                  "수",
+		                  "목",
+		                  "금",
+		                  "토"
+		              ],
+		              "monthNames": [
+		                  "1월",
+		                  "2월",
+		                  "3월",
+		                  "4월",
+		                  "5월",
+		                  "6월",
+		                  "7월",
+		                  "8월",
+		                  "9월",
+		                  "10월",
+		                  "11월",
+		                  "12월"
+		              ],
+		              "firstDay": 1
+		      	}
+		});
+	});
 	function lectureBuy(){
 		
 		var lectureFee = $('#fee').text();
@@ -354,7 +391,7 @@
 				    	    		closeOnConfirm: !0
 				    	    		},
 				    	    		function(){
-				    	    			location.href="${contextPath}";
+				    	    			location.href="slHistory.mp";
 				    	    		}
 				    	    	)
 				    	    }
