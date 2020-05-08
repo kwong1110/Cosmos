@@ -286,7 +286,7 @@
 				<div><a href="#"><span class="glyphicon glyphicon-blackboard" aria-hidden="true"></span>강연</a></div>
 				<div class="s-menu">
 					<div><a href="lectureCalendar.le">강연 목록</a></div>
-					<div class="loginOk"><a href="lectureApplyGuide.le">강연자 신청</a></div>								
+					<div class="loginOk"><a href="lectureApplyGuide.le">강연 등록 신청</a></div>								
 				</div>
 			</div>
 		</div>
