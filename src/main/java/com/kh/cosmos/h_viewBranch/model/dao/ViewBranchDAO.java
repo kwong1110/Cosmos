@@ -30,8 +30,12 @@ public class ViewBranchDAO {
 		return sqlSession.selectOne("viewBranchMapper.selectBranch", vbNo);
 	}
 
-	public int insertBranchPhoto(SqlSessionTemplate sqlSession, int branchNo) {
+	/*public int insertBranchPhoto(SqlSessionTemplate sqlSession, int branchNo) {
 		return sqlSession.insert("viewBranchMapper.insertBranchPhoto", branchNo);
+	}*/
+
+	public int updateBranch(SqlSessionTemplate sqlSession, ViewBranch vb) {
+		return sqlSession.update("viewBranchMapper.updateBranch", vb);
 	}
 
 }

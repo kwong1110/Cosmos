@@ -106,8 +106,44 @@ public class NoteServiceImpl implements NoteService {
 		return nDAO.selectMenuToMeList(sqlSession, pi, userId);
 	}
 
-	
+	@Override
+	public int getStoreSearchResultListCount(SearchCondition search) {
+		return nDAO.getStoreSearchResultCount(sqlSession, search);
+	}
 
-	
+	@Override
+	public ArrayList<Note> selectStoreSearchResultList(PageInfo pi, SearchCondition search) {
+		return nDAO.selectStoreSearchResultList(sqlSession, pi, search);
+	}
+
+	@Override
+	public int getStoreMenuToListCount(String userId) {
+		return nDAO.getStoreMenuToListCount(sqlSession, userId);
+	}
+
+	@Override
+	public ArrayList<Note> selectStoreMenuToList(PageInfo pi, String userId) {
+		return nDAO.selectStoreMenuToList(sqlSession, pi, userId);
+	}
+
+	@Override
+	public int getStoreMenuFromListCount(String userId) {
+		return nDAO.getStoreMenuFromListCount(sqlSession, userId);
+	}
+
+	@Override
+	public ArrayList<Note> selectStoreMenuFromList(PageInfo pi, String userId) {
+		return nDAO.selectStoreMenuFromList(sqlSession, pi, userId);
+	}
+
+	@Override
+	public int getStoreMenuToMeListCount(String userId) {
+		return nDAO.getStoreMenuToMeListCount(sqlSession, userId);
+	}
+
+	@Override
+	public ArrayList<Note> selectStoreMenuToMeList(PageInfo pi, String userId) {
+		return nDAO.selectStoreMenuToMeList(sqlSession, pi, userId);
+	}
 
 }

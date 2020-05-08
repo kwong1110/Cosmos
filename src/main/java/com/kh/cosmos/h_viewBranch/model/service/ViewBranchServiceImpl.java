@@ -37,8 +37,13 @@ public class ViewBranchServiceImpl implements ViewBranchService {
 		return vbDAO.selectBranch(sqlSession,  vbNo);
 	}
 
-	@Override
+	/*@Override
 	public int insertBranchPhoto(int branchNo) {
 		return vbDAO.insertBranchPhoto(sqlSession, branchNo);
+	}*/
+
+	@Override
+	public int updateBranch(ViewBranch vb) {
+		return vbDAO.updateBranch(sqlSession, vb);
 	}
 }

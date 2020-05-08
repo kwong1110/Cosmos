@@ -94,6 +94,46 @@ public class NoteDAO {
 		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
 		return (ArrayList)sqlSession.selectList("noteMapper.selectMenuToMeList", userId, rowBounds);
 	}
-	
+
+	public int getStoreSearchResultCount(SqlSessionTemplate sqlSession, SearchCondition search) {
+		return sqlSession.selectOne("noteMapper.getStoreSearchResultCount", search);
+	}
+
+	public ArrayList<Note> selectStoreSearchResultList(SqlSessionTemplate sqlSession, PageInfo pi,
+			SearchCondition search) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("noteMapper.selectStoreSearchResultList", search, rowBounds);
+	}
+
+	public int getStoreMenuToListCount(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.selectOne("noteMapper.getStoreMenuToListCount", userId);
+	}
+
+	public ArrayList<Note> selectStoreMenuToList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("noteMapper.selectStoreMenuToList", userId, rowBounds);
+	}
+
+	public int getStoreMenuFromListCount(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.selectOne("noteMapper.getStoreMenuFromListCount", userId);
+	}
+
+	public ArrayList<Note> selectStoreMenuFromList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("noteMapper.selectStoreMenuFromList", userId, rowBounds);
+	}
+
+	public int getStoreMenuToMeListCount(SqlSessionTemplate sqlSession, String userId) {
+		return sqlSession.selectOne("noteMapper.getStoreMenuToMeListCount", userId);
+	}
+
+	public ArrayList<Note> selectStoreMenuToMeList(SqlSessionTemplate sqlSession, PageInfo pi, String userId) {
+		int offset = (pi.getCurrentPage() - 1) * pi.getBoardLimit();
+		RowBounds rowBounds = new RowBounds(offset, pi.getBoardLimit());
+		return (ArrayList)sqlSession.selectList("noteMapper.selectStoreMenuToMeList", userId, rowBounds);
+	}
 
 }

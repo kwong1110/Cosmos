@@ -143,6 +143,52 @@
 	</select>
 	
 	
+	<!-- 보관함 검색 결과 목록 수 -->	
+	<select id="getStoreSearchResultCount" resultType="_int">
+		select count(*)
+		from note
+		
+		<if test="id != null">
+			join member on(id = note_fromid)
+			where note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+			and (note_fromid = #{id} and note_toid = #{userId}) or (note_fromid = #{userId} and note_toid = #{id})
+		</if>
+		<if test="nick != null">
+			join member on(id = note_fromid or id = note_toid)
+			where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+			and nick = #{nick}
+		</if>
+		<if test="content != null">
+			join member on(id = note_fromid)
+			where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+			and note_content like '%' || #{content} || '%'
+		</if>
+	</select>
+	
+	<!-- 보관함 검색 결과 목록 -->
+	<select id="selectStoreSearchResultList" resultMap="noteResultSet">
+		select *
+		from note
+		<choose>
+			<when test="id != null">
+				join member on(id = note_fromid)
+				where note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+				and (note_fromid = #{id} and note_toid = #{userId}) or (note_fromid = #{userId} and note_toid = #{id})
+			</when>
+			<when test="nick != null">
+				join member on(id = note_fromid or id = note_toid)
+				where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+				and nick = #{nick}
+			</when>
+			<otherwise>
+				join member on(id = note_fromid)
+				where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+				and note_content like '%' || #{content} || '%'
+			</otherwise>
+		</choose>
+	</select>
+	
+	
 	<!-- 분류 목록 수 -->
 	<!-- 분류 목록 -->
 	<select id="getMenuToListCount" resultType="_int">
@@ -183,4 +229,46 @@
 		join member on(id = note_fromid)
 		where note_fromid = #{userId} and note_toid = #{userId} and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
 	</select>
+	
+	<!-- 보관함 분류 목록 수 -->
+	<!-- 보관함 분류 목록 -->
+	<select id="getStoreMenuToListCount" resultType="_int">
+		select count(*)
+		from note
+		join member on(id = note_fromid)
+		where note_toid = #{userId} and note_tostatus = 'Y' and note_storage = 'Y'
+	</select>
+	<select id="selectStoreMenuToList" resultMap="noteResultSet">
+		select *
+		from note
+		join member on(id = note_fromid)
+		where note_toid = #{userId} and note_tostatus = 'Y' and note_storage = 'Y'
+	</select>
+	
+	<select id="getStoreMenuFromListCount" resultType="_int">
+		select count(*)
+		from note
+		join member on(id = note_fromid)
+		where note_fromid = #{userId} and note_fromstatus = 'Y' and note_storage = 'Y'
+	</select>
+	<select id="selectStoreMenuFromList" resultMap="noteResultSet">
+		select *
+		from note
+		join member on(id = note_fromid)
+		where note_fromid = #{userId} and note_fromstatus = 'Y' and note_storage = 'Y'
+	</select>
+	
+	<select id="getStoreMenuToMeListCount" resultType="_int">
+		select count(*)
+		from note
+		join member on(id = note_fromid)
+		where note_fromid = #{userId} and note_toid = #{userId} and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+	</select>
+	<select id="selectStoreMenuToMeList" resultMap="noteResultSet">
+		select *
+		from note
+		join member on(id = note_fromid)
+		where note_fromid = #{userId} and note_toid = #{userId} and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+	</select>
+	
 </mapper>

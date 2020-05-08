@@ -45,9 +45,9 @@
 					<form action="viewBranchUpdate.vb" method="post" enctype="Multipart/form-data">
 						<input type="hidden" name="page" value="${page}">
 						<input type="hidden" name="vbNo" value="${vBranch.branchNo}">
-						<c:if test="${!empty vBranch.originalFileName}">
+						<%-- <c:if test="${!empty vBranch.originalFileName}">
 							<input type="hidden" name="renameFileName" value="${ vBranch.renameFileName }">
-						</c:if>
+						</c:if> --%>
 						
 						<table class="inner">
 							<!-- 지점명 -->
@@ -55,9 +55,6 @@
 								<th>지점명</th>
 								<td>
 									<input type="text" name="branchName" value="${vBranch.branchName}" class="form-control" style="padding:5px; width:50%">
-									<span class="guide ok" style="color:gray">*이 지점명은 사용 가능합니다.</span>
-									<span class="guide error">*이 지점명은 사용 불가능합니다.</span>
-									<input type="hidden" name="idDuplicateCheck" value="0">
 								</td>
 							</tr>
 							
@@ -135,8 +132,8 @@
 							<tr>
 								<th>이용시간</th>
 								<td>
-									<input type="text" onKeyup="inputTimeColon(this);" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;" value="${time1}"> ~
-									<input type="text" onKeyup="inputTimeColon(this);" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;" value="${time2}">
+									<input type="text" name="time1" onKeyup="inputTimeColon(this);" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;" value="${time1}"> ~
+									<input type="text" name="time2" onKeyup="inputTimeColon(this);" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;" value="${time2}">
 								</td>
 									
 							</tr>
@@ -156,14 +153,14 @@
 							<tr>
 								<th>지점소개</th>
 								<td>
-									<textarea id="description" name="branchIntroduce" value="${vBranch.branchContent}">${vBranch.branchContent}</textarea>
+									<textarea id="summernote" style="resize: none" name="branchIntroduce" value="${vBranch.branchContent}">${vBranch.branchContent}</textarea>
 									<c:import url="../a_common/summernote.jsp"/>
 								</td>	
 							</tr>	
 							
 							<!-- 지점 사진 -->
 							<!-- 지점 사진이 있으면 사진보이고 수정하기 위한 파일 첨부 보이기 -->
-							<c:if test="${!empty vBranch.originalFileName}">
+							<%-- <c:if test="${!empty vBranch.originalFileName}">
 								<tr>
 									<th rowspan="2">지점사진</th>
 									<td>	
@@ -203,7 +200,7 @@
 										<input type="file" id="thumbnailImg4" multiple="multiple" name="uploadFile" onchange="LoadImg(this,4)">
 									</td>
 								</tr>
-							</c:if>
+							</c:if> --%>
 						
 						</table>
 						<!-- 버튼 박스 시작  -->
@@ -231,6 +228,33 @@
 	
 	<!-- 지점사진 -->
 	<script>
+	
+	/**
+	* 이미지 파일 업로드
+	*/
+	function uploadSummernoteImageFile(file, editor) {
+		data = new FormData();
+		data.append("file", file);
+		folderRoot = "branch"
+		data.append("folderRoot", folderRoot);
+		$.ajax({
+			data : data,
+			type : "POST",
+			url : "uploadSummernoteImageFile.cm",
+			contentType : false,
+			processData : false,
+			success : function(data) {
+				// console.log("url확인 : " + data.url);
+	        	//항상 업로드된 파일의 url이 있어야 한다.
+				$(editor).summernote('insertImage', "${ contextPath }/resources/" + data.url);
+			}
+		});
+	}
+	
+	
+	
+	
+	
 	// 내용 작성 부분의 공간을 클릭할 때 파일 첨부 창이 뜨도록 설정하는 함수
 	/* $(function(){
 		$("#fileArea").hide();
@@ -250,7 +274,7 @@
 	}); */
 	
 	// 각각의 영역에 파일을 첨부 했을 경우 미리 보기가 가능하도록 하는 함수
-	function LoadImg(value, num){
+	/* function LoadImg(value, num){
 		if(value.files && value.files[0]){
 			var reader = new FileReader();
 			
@@ -273,7 +297,7 @@
 			
 			reader.readAsDataURL(value.files[0]);
 		}
-	}
+	} */
 	</script>
 	
 	
@@ -281,7 +305,7 @@
 	<script>
 	//id가 description인 것을 summernote 방식으로 적용하라는 의미이다.
 	//높이와 넓이를 설정하지 않으면 화면이 작게 나오기때문에 설정해주어야 한다.
-	$(function(){
+	/* $(function(){
 	   	$("#description").summernote({
 	       	height : 300,
 	       	width : 800,
@@ -295,27 +319,10 @@
 	            ['view', ['fullscreen', 'codeview', 'help']]
 	         ]
 	   	});
-	});
+	}); */
 	</script>
 	
-	<!-- 
 	
-	 $('#summernote').summernote({
-	      height: 300,          // 기본 높이값
-	      minHeight: 550,      // 최소 높이값(null은 제한 없음)
-	      maxHeight: null,      // 최대 높이값(null은 제한 없음)
-	      focus: true,          // 페이지가 열릴때 포커스를 지정함
-	      lang: 'ko-KR'         // 한국어 지정(기본값은 en-US)
-	    	  popover: {         //팝오버 설정
-	    	        image: [], //이미지 삭제
-	    	        link: [],  //링크 삭제
-	    	        air: []
-	    	  }
-	      placeholder: '최대 2048자'
-	    });
-	  });
-	
-	-->
 	
 	<!-- 우편번호 도로명주소 상세주소  --> 
 	<!-- jQuery와 Postcodify를 로딩한다. -->
