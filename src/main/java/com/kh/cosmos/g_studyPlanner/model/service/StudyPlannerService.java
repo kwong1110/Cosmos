@@ -43,4 +43,6 @@ public interface StudyPlannerService {
 
 	ArrayList<StudyPlanner> selectSearchResultList(PageInfo pi, SearchCondition sc);
 
+	int dropPlanUpdate(StudyPlanner sp);
+
 }

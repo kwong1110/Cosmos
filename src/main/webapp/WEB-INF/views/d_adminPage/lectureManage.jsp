@@ -31,8 +31,21 @@
 		vertical-align: middle;
 	}
 	/* 배경색 변경 */
-	.modal-content{
+	.modalCustom{
 		background-color: rgb(254, 245, 198) !important;
+	}
+	
+	.modalCustom>.modal-header{
+		background-color: rgb(23, 149, 95);
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+	}
+	.modal-title{
+		color: white;
+		width:100%; 
+		text-align:center;
+		margin:10px;
+		font-size: 25px;
 	}
 	
 	/* 테이블 */
@@ -78,7 +91,7 @@
 					<h1>강연관리</h1>
 				</div>
 				<div class="content">
-					<table class="table-hover inner">
+					<table class="table table-hover inner">
 						<tr>
 							<th>No.</th>
 							<th>이름(ID)</th>
@@ -100,7 +113,7 @@
 									<td>${ l.lectureStart }(${ l.lectureTime })</td>
 								</c:if>
 								<c:if test="${ l.lectureStart ne l.lectureEnd }">
-									<td>${ l.lectureStart }~${ l.lectureEnd }(${ l.lectureTime })</td>
+									<td>${ l.lectureStart }~${ l.lectureEnd }</td>
 								</c:if>
 								<td>${ l.lectureFee }</td>
 								<td>
@@ -211,7 +224,7 @@
 	<!-- 강연 상세보기 MODAL -->
     <div id="viewModal" class="modal fade" tabindex="-1" role="dialog" >
         <div class="modal-dialog modal-80size" role="document">
-            <div class="modal-content modal-80size">
+            <div class="modal-content modal-80size modalCustom">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
@@ -221,10 +234,8 @@
                 	<!-- 내용 -->
 					<table class="inner table">
 						<tr>
-							<th>강연번호</th>
-							<td><input type="text" id="lectureNo" name="lectureNo" readonly></td>
-							<th>분류</th>
-							<td><input type="text" id="lectureCategory" readonly></td>
+							<th colspan="1">강연번호</th>
+							<td colspan="3"><input type="text" id="lectureNo" name="lectureNo" readonly></td>
 							<th colspan="7">이력 사항 / 강연 경험</th>
 						</tr>
 						<tr>
@@ -281,7 +292,7 @@
                 </div>
                 <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
                     <button type="button" id="ok" class="btn defaultBtn" data-dismiss="modal" onclick="lectureUpdate('OPEN');">수락</button>
-                    <button type="button" id="no" class="btn btn-danger" data-dismiss="modal" onclick="lectureUpdate('REJECT');">거절</button>
+                    <button type="button" id="no" class="btn cosmosBtn" data-dismiss="modal" onclick="lectureUpdate('REJECT');">거절</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -326,7 +337,7 @@
 					// sumernote 상세보기			
 					$('#content').summernote({
 						toolbar: false,
-						height: 800,                 	// 에디터 높이
+						height: 350,                 	// 에디터 높이
 						minHeight: null,             	// 최소 높이  
 						maxHeight: null,             	// 최대 높이
 						lang: "ko-KR",					// 한글 설정

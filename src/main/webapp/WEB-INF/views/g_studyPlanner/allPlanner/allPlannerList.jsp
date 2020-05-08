@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>모두의 플래너</title>
 <style>
+
 	.modal-dialog.modal-80size {
 		width: 60%; 
 		height: auto; 
@@ -31,9 +32,23 @@
 		text-align: left; 
 		vertical-align: middle;
 	}
+
 	/* 배경색 변경 */
-	.modal-content{
+	.modalCustom{
 		background-color: rgb(254, 245, 198) !important;
+	}
+	
+	.modalCustom>.modal-header{
+		background-color: rgb(23, 149, 95);
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+	}
+	.modal-title{
+		color: white;
+		width:100%; 
+		text-align:center;
+		margin:10px;
+		font-size: 25px;
 	}
 	
 	/* 테이블 */
@@ -79,36 +94,11 @@
 		display: inline-block; 
 		text-align: center;
 	}
-	
-	.categoryLabel {
-		width: 115px; 
-		cursor: pointer; 
-		margin: 0; 
-		padding: 0; 
-		margin-right: 50px;
-		float: left; 
-		line-height: 1.7;
-	}
-	
-	#categoryHiddenArea {
-		width: 100%; 
-		display: inline; 
-		text-align: center;
-	}
-	
-	.categoryDiv {
-		width: 100%; 
-		min-height: 40px; 
-		border-radius: 8px; 
-		margin-top: 5px; 
-		padding-top: 10px; 
-		padding-bottom: 10px; 
-		padding-left: 30px; 
-		vertical-align: middle; 
-		display: inline-block; 
-		text-align: left; 
-		background-color: lightgray;
-	}
+	#categoryBtn{width:200px; display:inline-block; text-align:center;}
+	#categoryHiddenArea{width:100%; display:inline; text-align:center;}
+	.categoryDiv{width:100%; min-height:40px; border-radius:8px; margin-top:5px; padding-top:10px; padding-bottom:10px; padding-left:30px; vertical-align: middle; display:inline-block; text-align:left; background-color:lightgray;}
+	.categoryLabel{width:115px; cursor:pointer; margin:0; padding:0; margin-right:50px;float:left; line-height:1.7;}
+	.pointer{cursor:pointer;}
 	
 	/* 모달창 스크롤바 */ 
 	.modal-dialog { 
@@ -192,12 +182,9 @@
 						<div class="searchForm">
 						<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
 						<select style="width: 22%;" id="searchType" class="form-control search-select">
-							<optgroup label="분류">
-								<option value="all">전체</option>
-								<option value="title">제목</option>
-								<option value="writer">작성자</option>
-								<option value="content">내용</option>
-							</optgroup>
+							<option value="title">제목</option>
+							<option value="writer">작성자</option>
+							<option value="content">내용</option>
 						</select>
 						<div class="input-group search-text" style="width: 78%;">
 							<input type="text" id="searchText" class="form-control" style="border: none;" placeholder="검색어를 입력하세요.">
@@ -213,29 +200,29 @@
 						<div id="categoryArea">
 							<input type="button" class="defaultBtn" id="categoryBtn" value="카테고리">
 							
-							<div id="sortArea">
+							<!-- <div id="sortArea">
 								<label class="sort" id="hitSort" onclick="categoryClickOption('sort', this);">조회수 순</label>
 								&nbsp;&nbsp;|&nbsp;&nbsp;
 								<label class="sort" id="likeSort" onclick="categoryClickOption('sort', this);">추천 순</label>
 								&nbsp;&nbsp;|&nbsp;&nbsp;
 								<label class="sort" id="replySort" onclick="categoryClickOption('sort', this);">댓글 순</label>
 								&nbsp;&nbsp;|&nbsp;&nbsp;
-							</div>
+							</div> -->
 							
 							<div id="categoryHiddenArea">
 								<div class="categoryDiv">
-									<c:forEach items="${ sList }" var="s" varStatus="i">
-										<div class="categoryLabel">
-										<c:if test="${ (i.count mod 5) eq 1 }">
-												<label class="pointer studyCategory" onclick="categoryClickOption('study', this);">${ s.studyName }</label><br>
+									<c:forEach items="${ CstudyList }" var="item" varStatus="status">
+										<c:if test="${ (status.count mod 5) eq 1 }">
+											<section class="categoryLabel">
+												<label class="pointer studyCategory" onclick="categoryClickOption('study', this);">${ item }</label><br>
 										</c:if>
-										<c:if test="${ (i.count mod 5) ne 1 && (i.count mod 5) ne 0 }">
-												<label class="pointer studyCategory" onclick="categoryClickOption('study', this);">${ s.studyName }</label><br>
+										<c:if test="${ (status.count mod 5) ne 1 && (status.count mod 5) ne 0 }">
+												<label class="pointer studyCategory" onclick="categoryClickOption('study', this);">${ item }</label><br>
 										</c:if>
-										<c:if test="${ (i.count mod 5) eq 0 }">
-												<label class="pointer studyCategory" onclick="categoryClickOption('study', this);">${ s.studyName }</label>
+										<c:if test="${ (status.count mod 5) eq 0 }">
+												<label class="pointer studyCategory" onclick="categoryClickOption('study', this);">${ item }</label>
+											</section>
 										</c:if>
-										</div>
 									</c:forEach>
 								</div>
 								
@@ -253,7 +240,7 @@
 					</div>
 					
 					<!-- 내용(표) -->
-					<table class="table-hover inner">
+					<table class="table table-hover inner">
 						<tr>
 							<th>No.</th>
 							<th>카테고리</th>
@@ -388,17 +375,19 @@
 	<!-- 플랜  상세보기 MODAL -->
     <div id="viewModal" class="modal fade" tabindex="-1" role="dialog" >
 		<div class="modal-dialog modal-80size" role="document">
-		    <div class="modal-content modal-80size">
+		    <div class="modal-content modal-80size modalCustom">
 		        <div class="modal-header">
 		            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 		                    aria-hidden="true">&times;</span></button>
 		            <h4 class="modal-title">플래너 상세 보기</h4>
-		            <span>좋아요 수 : </span><span id="like" class="modal-title"></span>
-		            <span>조회 수 : </span><span id="hit" class="modal-title"></span>
 		        </div>
 		        <div id="modalBody" class="modal-body">
 		            <!-- 내용 -->
-	                 <table id="viewPlan" class="table">
+		            <div>
+			            <span>좋아요 수 : </span><span id="like"></span>
+						<span>조회 수 : </span><span id="hit"></span>
+					</div>
+	                <table id="viewPlan" class="table">
 						<tr>
 							<th>카테고리</th>
 							<td>
@@ -462,12 +451,17 @@
 						<tbody></tbody>
 					</table>
 					
+						<table class="replyTable table inner">
+						<c:if test="${ !empty sessionScope.loginUser }">
 					<!-- 댓글을 등록하는 곳 -->
-					<table class="replyTable table inner">
-						<tr>
-							<td class="r1"><textarea id="replyContent" class="replyTA"></textarea></td>
-							<td><button id="replySubmit" class="defaultBtn replyBtn">등록</button></td>
-						</tr>
+							<tr>
+								<td class="r1"><textarea id="replyContent" class="replyTA"></textarea></td>
+								<td><button id="replySubmit" class="defaultBtn replyBtn">등록</button></td>
+							</tr>
+						</c:if>
+						<c:if test="${ empty sessionScope.loginUser }">
+							<tr><td>로그인을 하시면 댓글을 등록하실수 있습니다.</td></tr>
+						</c:if>
 					</table>
              	</div>
 		    </div><!-- /.modal-content -->
@@ -502,6 +496,20 @@
 			//console.log(searchType + searchText);
 			
 			location.href="searchPlanner.sp?searchType="+searchType+"&searchText="+searchText;
+		});
+		
+		// 상세보기 모달 닫을 시 hit 갯수를 위해 리로드
+		$('#viewModal').on('hide.bs.modal', function(e){
+			
+			location.reload();
+			
+			//이 이벤트는 위 closer를 여러번 호출시 실행되는 함수가 여러번 호출되는 것을 방지하는 이벤트 핸들러
+			e.stopImmediatePropagation();
+		});
+		
+		$('#categorySerchBtn').on('click', function(){
+			
+			
 		});
 	});
 	// ready 끝 //
@@ -805,6 +813,32 @@
 			});
 		});
 	};
+	
+	function categoryClickOption(e, click) {
+		var $where;
+		if(e == 'branch') $where = $('.branchCategory');
+		else if(e == 'study') $where = $('.studyCategory');
+		else if(e == 'type') $where = $('.typeCategory');
+		else $where = $('.sort');
+		
+		if(e == 'sort') {
+			for(var i = 0; i < $where.length; i++) {
+				if($where.eq(i).attr('id') == $(click).attr('id') && $where.eq(i).css('color') == 'rgb(255, 255, 255)') {
+					$where.eq(i).css({'background':'transparent', 'color':'#333'});
+					return;
+				}
+			}
+		}
+		
+		for(var i = 0; i < $where.length; i++) {
+			if($where.eq(i).css('color') == 'rgb(255, 255, 255)') {
+				$where.eq(i).css({'background':'transparent', 'color':'#333'});
+			}
+		}
+		
+		$(click).css({'background':'#135D36', 'color':'white'});
+	}
+	
 </script>
 
 <!-- autosize textarea -->

@@ -3,7 +3,7 @@
 <mapper namespace="lectureMapper">
 	<select id="getLectureList" resultMap="lectureResultSet">
 		select LECTURE_NO, LECTURE_RECORD, LECTURE_TITLE, LECTURE_CONTENT, LECTURE_FEE, MAXPEOPLE, 
-       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_TIME, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
+       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
        		   LECTURE_END, LECTURE_START, NAME, BRANCH_NAME
 		from lecture
     		join member using(id)
@@ -21,7 +21,6 @@
 		<result property="maxpeople" column="MAXPEOPLE"/>
 		<result property="attendpeople" column="ATTENDPEOPLE"/>
 		<result property="lectureDate" column="LECTURE_DATE"/>
-		<result property="lectureTime" column="LECTURE_TIME"/>
 		<result property="lectureStatus" column="LECTURE_STATUS"/>
 		<result property="id" column="ID"/>
 		<result property="branchNo" column="BRANCH_NO"/>
@@ -34,12 +33,12 @@
 	<insert id="lectureApply" parameterType="Lecture">
 		insert into lecture
 		values(seq_lid.nextval, #{lectureRecord}, #{lectureTitle}, #{lectureContent}, #{lectureFee}, #{maxpeople},
-		       0, sysdate, #{lectureTime}, default, #{id}, #{branchNo}, #{lectureJob}, #{lectureEnd}, #{lectureStart}) 
+		       0, sysdate, default, #{id}, #{branchNo}, #{lectureJob}, #{lectureEnd}, #{lectureStart}) 
 	</insert>
 	
 	<select id="getLectureManageList" resultMap="lectureResultSet">
 		select LECTURE_NO, LECTURE_RECORD, LECTURE_TITLE, LECTURE_CONTENT, LECTURE_FEE, MAXPEOPLE, 
-       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_TIME, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
+       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
        		   LECTURE_END, LECTURE_START, NAME, BRANCH_NAME
 		from lecture
     		join member using(id)
@@ -56,7 +55,7 @@
 	
 	<select id="selectLecture" parameterType="_int" resultMap="lectureResultSet">
 		select LECTURE_NO, LECTURE_RECORD, LECTURE_TITLE, LECTURE_CONTENT, LECTURE_FEE, MAXPEOPLE, 
-       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_TIME, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
+       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
        		   LECTURE_END, LECTURE_START, NAME, BRANCH_NAME
 		from lecture
     		join member using(id)
@@ -72,7 +71,7 @@
 	
 	<select id="getMyLectureList" resultMap="lectureResultSet">
 		select LECTURE_NO, LECTURE_RECORD, LECTURE_TITLE, LECTURE_CONTENT, LECTURE_FEE, MAXPEOPLE, 
-       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_TIME, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
+       		   ATTENDPEOPLE, LECTURE_DATE, LECTURE_STATUS, ID, BRANCH_NO, LECTURE_JOB,
        		   LECTURE_END, LECTURE_START, NAME, BRANCH_NAME
 		from lecture
     		join member using(id)
@@ -89,7 +88,7 @@
 	
 	<insert id="lectureBuy" parameterType="Lecture">
 		insert into lecture_people
-		values(#{ lectureNo }, #{ id }, 'Y')
+		values(#{ lectureNo }, #{ id }, 'C', sysdate)
 	</insert>
 	
 	<update id="lectureAttendPlus" parameterType="Lecture">
@@ -104,4 +103,40 @@
 		where lecture_status='Y' and id=#{ loginUserId }
 	</select>
 	
+	<!-- myPage 결제내역 관련 -->
+	<resultMap id="mySeatResultSet" type="Seat">
+		<id property="reserNo" column="RESER_NO"/>
+		<result property="reserPeople" column="RESER_PEOPLE"/>
+		<result property="reserDay" column="RESER_DAY"/>
+		<result property="startTime" column="START_TIME"/>
+		<result property="endTime" column="END_TIME"/>
+		<result property="reserYn" column="RESER_YN"/>
+		<result property="seatNo" column="SEAT_NO"/>
+		<result property="id" column="ID"/>
+		<result property="branchNo" column="BRANCH_NO"/>
+		<result property="branchName" column="BRANCH_NAME"/>
+		<result property="reserSort" column="RESER_SORT"/>
+		<result property="finishDay" column="FINISH_DAY"/>
+		<result property="reserType" column="RESER_TYPE"/>
+		<result property="totalFee" column="TOTAL_FEE"/>
+	</resultMap>
+	
+	<select id="mySeatHistory" parameterType="String" resultMap="mySeatResultSet">
+		select *
+		from reser
+			join branch using(branch_no)
+		where id=#{ loginUserId }
+		order by reser_day desc
+	</select>
+	
+	<select id="myLectureHistory" parameterType="String" resultMap="lectureResultSet">
+		select lecture_no, lecture_start, lecture_end, branch_name, lecture_title, lp.lecture_status
+		from lecture l
+		    join branch using(branch_no)
+		    join lecture_people lp using(lecture_no) 
+		where l.id=#{ loginUserId }
+		order by attend_date desc
+	</select>
+	
+	<!-- myPage 결제내역 관련 끝 -->
 </mapper>

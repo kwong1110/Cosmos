@@ -11,6 +11,7 @@ import com.kh.cosmos.a_common.Reply;
 import com.kh.cosmos.a_common.SearchCondition;
 import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.g_studyPlanner.model.dao.StudyPlannerDAO;
+import com.kh.cosmos.g_studyPlanner.model.exception.StudyPlannerException;
 import com.kh.cosmos.g_studyPlanner.model.vo.StudyPlanner;
 
 @Service("spService")
@@ -39,7 +40,14 @@ public class StudyPlannerServiceImpl implements StudyPlannerService {
 
 	@Override
 	public StudyPlanner selectPlan(int planNo) {
-		return spDAO.selectPlan(sqlSession, planNo);
+		
+		int hitResult = spDAO.plusHit(sqlSession, planNo);
+		
+		if(hitResult > 0) {
+			return spDAO.selectPlan(sqlSession, planNo);
+		} else {
+			throw new StudyPlannerException("플래너 조회수 증가에 실패했습니다");
+		}
 	}
 
 	@Override
@@ -105,6 +113,11 @@ public class StudyPlannerServiceImpl implements StudyPlannerService {
 	@Override
 	public ArrayList<StudyPlanner> selectSearchResultList(PageInfo pi, SearchCondition sc) {
 		return spDAO.selectSearchResultList(sqlSession, pi, sc);
+	}
+
+	@Override
+	public int dropPlanUpdate(StudyPlanner sp) {
+		return spDAO.dropPlanUpdate(sqlSession, sp);
 	}
 
 }

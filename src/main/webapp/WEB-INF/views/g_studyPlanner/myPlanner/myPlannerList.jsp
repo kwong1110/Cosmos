@@ -73,8 +73,21 @@
 	}
 	
 	/* 모달 배경색 변경 */
-	.modal-content{
+	.modalCustom{
 		background-color: rgb(254, 245, 198) !important;
+	}
+	
+	.modalCustom>.modal-header{
+		background-color: rgb(23, 149, 95);
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+	}
+	.modal-title{
+		color: white;
+		width:100%; 
+		text-align:center;
+		margin:10px;
+		font-size: 25px;
 	}
 	
 	/* 테이블 */
@@ -404,14 +417,14 @@ document.addEventListener('DOMContentLoaded', function() {
 		
 		// 일정 리사이즈
 		eventResize: function(info) {
-			$('.popover.fade.top').remove();	// 리사이즈시, popover 잔상 제거. 
-			
+			 $('.popover.fade.top').remove();	// 리사이즈시, popover 잔상 제거. 
+			/*
 			// ajax로 연결해주어야함.
-			alert(info.event.title + " end is now " + info.event.end.toISOString());
+			alert(info.event.title + " 리사이즈 발동 " + info.event.end.toISOString());
 		
-			if (!confirm("is this okay?")) {
+			if (!confirm("?")) {
 				info.revert();
-			}
+			} */
 		},
 		
 		//일정 드래그앤드롭
@@ -425,7 +438,8 @@ document.addEventListener('DOMContentLoaded', function() {
 			
 			var newDates = {
 				planStart: '',
-				planEnd: ''
+				planEnd: '',
+				planNo: info.event.id
 			}
 			
 			console.log(moment(info.event.start).format('YYYY-MM-DD'));
@@ -465,10 +479,17 @@ document.addEventListener('DOMContentLoaded', function() {
 		    //드롭한 일정 업데이트
 		   $.ajax({
 				type: "post",
-				url: "",
+				url: "dropPlanUpdate.sp",
 				data: newDates,
 				success: function(data) {
-				  // alert('수정: ' + newDates.startDate + ' ~ ' + newDates.endDate);
+					if(data == "successdropPlanUpdate"){
+						swal({
+							title: "플랜 일정을 수정" + "하였습니다!",
+							text: newDates.planStart + ' ~ ' + newDates.planEnd,
+							type: "success",
+						})
+					}
+					// 리로드 필요?
 				}
 		    });
 		  },
@@ -519,17 +540,19 @@ document.addEventListener('DOMContentLoaded', function() {
 					<!-- 플랜 상세보기 MODAL -->
 			        <div id="viewModal" class="modal fade" tabindex="-1" role="dialog" >
 			            <div class="modal-dialog modal-80size" role="document">
-			                <div class="modal-content modal-80size">
+			                <div class="modal-content modal-80size modalCustom">
 			                    <div class="modal-header">
 			                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 			                                aria-hidden="true">&times;</span></button>
 			                        <h4 class="modal-title">플래너 상세 보기</h4>
-			                        <span>좋아요 수 : </span><span id="like" class="modal-title"></span>
-			                        <span>조회 수 : </span><span id="hit" class="modal-title"></span>
 			                    </div>
 			                    <form action="updatePlan.sp" method="post" onsubmit="return checkEmptyValues(title, content, open, today);">
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
+				                    <div>
+				                        <span>좋아요 수 : </span><span id="like"></span>
+				                        <span>조회 수 : </span><span id="hit"></span>
+			                        </div>
 				                        <table class="table">
 											<tr>
 												<th>카테고리</th>
@@ -614,7 +637,7 @@ document.addEventListener('DOMContentLoaded', function() {
 				                    </div>
 				                     <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
 				                        <button class="btn defaultBtn">수정</button>
-				                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="deletePlan('planDetail');">삭제</button>
+				                        <button type="button" class="btn cosmosBtn" data-dismiss="modal" onclick="deletePlan('planDetail');">삭제</button>
 				                    </div>
 			                    </form>
 			                </div><!-- /.modal-content -->
@@ -623,7 +646,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			        <!-- 플랜 INSERT MODAL -->
 			        <div id="insertModal" class="modal fade" tabindex="-1" role="dialog" >
 			            <div class="modal-dialog modal-80size" role="document">
-			                <div class="modal-content modal-80size">
+			                <div class="modal-content modal-80size modalCustom">
 			                    <div class="modal-header">
 			                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
 			                                aria-hidden="true">&times;</span></button>
@@ -971,5 +994,4 @@ document.addEventListener('DOMContentLoaded', function() {
 	
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 </body>
->>>>>>> branch 'master' of https://github.com/kwong1110/Cosmos.git
 </html>

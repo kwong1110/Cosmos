@@ -33,17 +33,19 @@ public class LectureController {
 		// System.out.println("list확인 : " + list);
 		
 		// 해당 로그인 유저의 강연 신청 내역을 받아와 신청 버튼 비활성화.
-		Member loginUser = (Member)session.getAttribute("loginUser");
-		String loginUserId = loginUser.getId();
+		if((Member)session.getAttribute("loginUser") != null) {
+			Member loginUser = (Member)session.getAttribute("loginUser");
+			String loginUserId = loginUser.getId();
+			ArrayList<Lecture> lectureList = lService.selectLectureAttendList(loginUserId);
+			model.addAttribute("lectureList", lectureList);
+		}
 		
-		ArrayList<Lecture> lectureList = lService.selectLectureAttendList(loginUserId);
 		
 		if(list != null) {
 			for(Lecture l : list) {
 				// Fullcalander를 쓰게되면 바로 <textarea>로 값이 들어가는게 아니라 치환을 해주어야 정상적으로 출력된다.
 				l.setLectureRecord(l.getLectureRecord().replaceAll("\r\n", "<br>"));
 			}
-			model.addAttribute("lectureList", lectureList);
 			model.addAttribute("llist", list);
 			return "lectureCalendar";
 		} else {
@@ -79,18 +81,18 @@ public class LectureController {
 		
 		String[] fullDate = daterange.split(" - ");
 
-		String startDate = fullDate[0].split(" ")[0];
-		String startTime = fullDate[0].split(" ")[1];
-		String endDate = fullDate[1].split(" ")[0];
-		String endTime = fullDate[1].split(" ")[1];
+		String startDate = fullDate[0];
+		String endDate = fullDate[1];
 		
-		Date startDateSql = Date.valueOf(startDate);
-		Date endDateSql = Date.valueOf(endDate);
+//		String startTime = fullDate[0].split(" ")[1];
+//		String endTime = fullDate[1].split(" ")[1];		
+//		Date startDateSql = Date.valueOf(startDate);
+//		Date endDateSql = Date.valueOf(endDate);
 		// System.out.println("sql] start : " + startDateSql + " end : " + endDateSql);
 		
-		l.setLectureStart(startDateSql);
-		l.setLectureEnd(endDateSql);
-		l.setLectureTime(startTime + "~" + endTime);
+		l.setLectureStart(startDate);
+		l.setLectureEnd(endDate);
+//		l.setLectureTime(startTime + "~" + endTime);
 		// System.out.println(l);
 		
 //		// textarea의 띄어쓰기, 공백을 치환한다. -> 받아올떄도 똑같이 치환하여 받아와주어야함.
@@ -98,7 +100,7 @@ public class LectureController {
 		int result = lService.lectureApply(l);
 		
 		// alert창을 위해 1번만 보내주는 메소드(addFlashAttribute) 사용.
-		ra.addFlashAttribute("successMsg", "성공");
+		ra.addFlashAttribute("successMsg", "강연 신청");
 		
 		return "redirect:lectureHistory.mp";
 	}
