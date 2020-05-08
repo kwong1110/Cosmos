@@ -13,6 +13,13 @@
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
 <link rel="stylesheet" href="${contextPath}/resources/css/plugins/sweetalert/sweetalert.css">
+<style>
+/* 신고 모달 */
+	div.modal-reportContent {
+		background-color: #FFFFED;
+	}
+	
+</style>
 </head>
 <body class="body">
 <div class="content">
@@ -20,13 +27,14 @@
 		<h2 class="title">
 			<span class="cosmos">보낸 사람</span>
 			| <c:out value="${note.noteFromId}"/>님
+			<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline";> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
 		</h2>
-		<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline;"> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
 	</div>
 	<form>
 	<div class="note-body">
 		<div>
 			<span>받은 시간 : ${note.noteTime} &nbsp;</span>
+			<!-- <button type="button" class="btn btn-report"> [ <span class="glyphicon glyphicon-thumbs-down" aria-hidden="true">신고</span> ]</button> -->
 		</div>
 		<div class="note-content">
 			<%-- ${note.noteContent} --%>
@@ -34,10 +42,10 @@
 			${ fn:replace(note.noteContent, newLineChar, "<br>") }
 		</div>
 	</div>
-	
+
 	<!--푸터-->
-	<c:url var="noteReply" value="noteInsertView1.mp">
-		<c:param name="toNick" value="${note.nick}"/>
+	<c:url var="noteReply" value="noteInsertView.mp">
+		<c:param name="noteToId" value="${note.noteFromId}"/>
 	</c:url>
 	<c:url var="noteDelete" value="noteDelete.mp">
 		<c:param name="noteNo" value="${note.noteNo}"/>
@@ -56,16 +64,54 @@
 	</div>
 	</form>
 </div>
+
+<!-- 신고 모달 -->
+	<div id="report" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<div class="modal-reportContent" >
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+					<h2 class="modal-title reportTitle" style="text-align:center; 	font-family: 'Binggrae';">신고사유</h2>
+				</div>
+				<div id="reportReason">
+					<div class="modal-body" align="center">
+						<form>
+							<table>
+								<tr>
+									<td><input type="radio" class="reasonNo" name="reason" data-value="0" id="r2" value="1" checked><label for="r1">스터디 모임 불참이 잦음</label></td>
+									<td><input type="radio" class="reasonNo" name="reason" data-value="0" id="r2" value="2"><label for="r1">공부하지 않음</label></td>					
+									<td><input type="radio" class="reasonNo" name="reason" data-value="0" id="r2" value="3"><label for="r1">타인 비하 발언</label></td>
+								</tr>
+								<tr>
+									<td><input type="radio" class="reasonNo" name="reason" data-value="0" id="r2" value="4" ><label for="r1">유흥분위기 주도</label></td>					
+									<td><input type="radio" class="reasonText"name="reason" data-value="1" id="r2" value="0"><label for="r2">기타</label></td>
+									<td><input type="text" name="text"></td>
+								</tr>		
+							</table>
+							<div class="btnBox">
+				        		<button type="button" class="btn" onclick="success()">신고</button>
+							</div> 
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 신고모달 -->
 </body>
 <script>
 	function statusUpdate(){
 		location.href='${noteDelete}'		
 	}
+	
+	
+	
 	// 신고하기 라디오버튼 활성화
 	$(document).ready(function(){
  
     // 라디오버튼 클릭시 이벤트 발생
     $("input:radio[name=reason]").click(function(){
+ 
         if($("input[name='reason']:checked").data("value") == "1"){
             $("input:text[name=text]").attr("disabled",false);
             // radio 버튼의 value 값이 1이라면 활성화
@@ -114,7 +160,12 @@
 			}
 		});
 	}
+	
+
 </script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+<script src="${contextPath}/resources/js/common.js"></script>
 	<!-- sweet alert -->
 <script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="${contextPath}/resources/js/plugins/sweetalert/sweetalert.cosmos.js"></script>

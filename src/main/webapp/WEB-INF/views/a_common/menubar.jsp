@@ -250,7 +250,7 @@
 									<c:param name="id" value="${ loginUser.id }"/>
 								</c:url>
 							<a href="${mypage}"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>마이 페이지</a></div>
-							<div data-toggle="modal" data-target="#report"aria-hidden="true"><span class="glyphicon glyphicon-thumbs-down"></span>신고</div>
+							<!-- <div data-toggle="modal" data-target="#report"aria-hidden="true"><span class="glyphicon glyphicon-thumbs-down"></span>신고</div> -->
 						</div>
 					</div>
 				</c:if>
@@ -269,25 +269,6 @@
 				</c:if>
 			</c:if>
 		</div>
-		<%-- 관리자 페이지 메뉴  --%>
-		<%-- 
-		<div class="master-area">
-			<c:if test="${ sessionScope.loginUser.grade == 0}">
-				<div class="menuTitle" id="myPage">
-					<div><a href="">관리자페이지</a></div>
-					<div class="s-menu">	
-						<div><a href="">신고목록</a></div>
-						<div><a href="">강연관리</a></div>
-						<div><a href="">좌석예약조회</a></div>
-						<div><a href="">회원목록</a></div>
-						<div><a href="enrollBranch.ap">지점등록</a></div>
-						<div><a href="branchList.ap">지점목록</a></div>
-					</div>
-				</div>
-			</c:if>
-		</div> 
-		--%>
-		
 		<hr class="bar">
 		
 		<div class="menubar">
@@ -809,7 +790,7 @@
 	}
 	
 	
-	
+	/*	
 	// 신고하기 라디오버튼 활성화
 	$(document).ready(function(){
  
@@ -827,7 +808,7 @@
     });
    
 });
-	// 신고 알럿
+	 // 신고 알럿
 	function success(){
 		alert("신고되었습니다.");
 		
@@ -854,7 +835,7 @@
 		});
 	}
 
-	
+	 */
 </script>
 	<!-- 부트스트랩 -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
