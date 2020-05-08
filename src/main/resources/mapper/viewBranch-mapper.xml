@@ -59,7 +59,7 @@
 	<insert  id="insertMember" parameterType="Member">
 		insert into member
 		values(
-			('branch' || seq_masterid.currval),('branch' || seq_masterid.currval),#{name},null,null,null,null,sysdate, null,null, default, 0, null
+			('branch' || seq_masterid.currval),('branch' || seq_masterid.currval),#{name},null,null,null,null,sysdate, default, 0, null
 		)  
 	</insert>
 
