@@ -262,7 +262,7 @@
 						<c:url var="logout" value="logout.me"/>				
 						<div><button onclick="location.href='${logout}'" class="btn btn-default">로그아웃</button></div>
 						<div class="user-menu clear-fix">
-				 			<div data-toggle="modal" data-target="#note"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
+							<div class="noteBtn" style="cursor:pointer;"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>쪽지</div>
 							<div><a href="adminPage.ap"><span class="glyphicon glyphicon-user" aria-hidden="true"></span>관리자 페이지</a></div>
 						</div>
 					</div>

@@ -117,7 +117,7 @@
 								</ul>
 							</div>
 						</div>
-						<c:if test="${!empty vBranch.originalFileName}">
+						<%-- <c:if test="${!empty vBranch.originalFileName}">
 							<div class="detail-box branch-infoPhoto">
 								<h2>지점 사진</h2>
 								<c:forEach var="p" items=""> <!-- ${ vBranch.renameFileName } -->
@@ -126,7 +126,7 @@
 									</div>	
 								</c:forEach>
 							</div>
-						</c:if>
+						</c:if> --%>
 						<div class="detail-box branch-infoMap" id="branch-infoMap">
 							<input type="hidden" name="branchAddress" value="${vBranch.branchAddress}" id="branchAddress">
 							<input type="hidden" name="branchName" value="${vBranch.branchName}" id="branchName">
