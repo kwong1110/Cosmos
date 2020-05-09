@@ -34,7 +34,8 @@
 	
 	div.content ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
 	    color: #555;
-	    cursor: default;
+	    /*cursor: default;*/
+		cursor:pointer;
 	    background-color: #fff;
 	    border: 1px solid #ddd;
 	}
@@ -66,14 +67,14 @@
 				<div class="content">
 					<ul class="nav nav-tabs">
 					  <li role="presentation" class="active"><a href="#">회원 정보</a></li>
-					  <li role="presentation" class="active"><a href="myGroup.mp">My Group</a></li>
+					  <li role="presentation" class="active"><a href="myGroup.mp">마이 그룹</a></li>
 					  <li role="presentation"><a href="#">강연 내역</a></li>
 					  <li role="presentation"><a href="slHistory.mp">결재 내역</a></li>
 					  <c:url var="memberDelete" value="memberDelete.mp">
 					  	<c:param name="id" value="${loginUser.id}"/>
 					  </c:url>
 					  <li role="presentation"><a href="location.href='${memberDelete}'">회원 탈퇴하기</a></li>
-					</ul>	
+					</ul>
 					<table class="inner table table-hover">
 						<tr>
 							<th>아이디</th>

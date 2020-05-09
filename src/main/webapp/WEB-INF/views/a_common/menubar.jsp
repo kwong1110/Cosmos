@@ -661,10 +661,12 @@
 				if(data.length > 0) {
 					for(var i in data) {
 						var $tr = $('<tr>');
+						var stampstr = data[i].cStamp + "";
+						if(stampstr.indexOf("-") == -1) stampstr = "+" + stampstr;
 						
 						$tr.append('<td style="width:30%;">' + data[i].cInsertDate + '</td>');
 						$tr.append('<td>' + decodeURIComponent(data[i].cContent.replace(/\+/g, ' ')) + '</td>');
-						$tr.append('<td style="width:15%;">' + data[i].cStamp + '</td>');
+						$tr.append('<td style="width:15%;">' + stampstr + '</td>');
 						$stampTable.append($tr);
 					}
 				} else {

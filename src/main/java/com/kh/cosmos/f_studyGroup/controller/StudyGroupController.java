@@ -189,7 +189,7 @@ public class StudyGroupController {
 		}
 		
 		if(result > 0 && result2 > 0) {
-			ra.addFlashAttribute("successMsg",  "그룹 생성에 성공");
+			ra.addFlashAttribute("successMsg",  "그룹 등록에 성공");
 			return "redirect:listView.sg";
 		} else {
 			throw new StudyGroupException("그룹 생성에 실패하였습니다.");
