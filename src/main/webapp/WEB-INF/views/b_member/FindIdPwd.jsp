@@ -90,7 +90,7 @@
 				</ul>                                  
 					<div class="btnBox inner" align=center>
 						<button type="submit" class="defaultBtn" onclick="showLogin();">로그인</button>
-						<button name="취소" onclick="location.href='${ contextPath }'" class="defaultBtn">취소</button>
+						<button name="취소" onclick="location.href=history.go(-1)" class="defaultBtn">취소</button>
 					</div>
 				</div>
 			</div>
