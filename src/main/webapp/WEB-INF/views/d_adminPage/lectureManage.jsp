@@ -316,7 +316,7 @@
 					$('#userEmail').val(data.email);
 					$('#job').val(decodeURIComponent(data.lectureJob.replace(/\+/g, ' ')));
 					$('#title').val(decodeURIComponent(data.lectureTitle.replace(/\+/g, ' ')));
-					$('#lectureStart').val(data.lectureStart + "~" + data.lectureEnd + "(" + data.lectureTime + ")");
+					$('#lectureStart').val(data.lectureStart + "~" + data.lectureEnd);
 					$('#branchName').val(decodeURIComponent(data.branchName.replace(/\+/g, ' ')));
 					$('#lectureFee').val(data.lectureFee);
 					$('#maxpeople').val(data.maxpeople);

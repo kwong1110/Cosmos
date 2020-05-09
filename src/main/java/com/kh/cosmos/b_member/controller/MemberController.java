@@ -293,16 +293,18 @@ public class MemberController {
 		}
 		
 		// 기타의 경우
-		for(int i = 0; i < etcT.length; i++) {
-			
-			Preview p = new Preview();
-			p.setId(m.getId());
-			
-			p.setStudyNo(etcSno[i]);
-			p.setStudyEtc(etcSname[i]);
-			p.setSpTerm(etcT[i]);
-			
-			pList.add(p);
+		if(etcT != null) {
+			for(int i = 0; i < etcT.length; i++) {
+				
+				Preview p = new Preview();
+				p.setId(m.getId());
+				
+				p.setStudyNo(etcSno[i]);
+				p.setStudyEtc(etcSname[i]);
+				p.setSpTerm(etcT[i]);
+				
+				pList.add(p);
+			}
 		}
 	
 		//System.out.println("마지막 전송 전 확인 : " + pList);

@@ -116,113 +116,7 @@
 		background-color: rgb(247, 239, 193);
 	}
 </style>
-<script>
-	document.addEventListener('DOMContentLoaded', function() {
-		 
-		var calendarEl = document.getElementById('calendar');
-		var activeWeekends = true;
-		
-		var calendar = new FullCalendar.Calendar(calendarEl, {
-			//주말 숨기기 & 보이기 버튼
-			customButtons: {
-			  viewWeekends: {
-			    text: '주말',
-			    click: function () {
-			    	activeWeekends ? activeWeekends = false : activeWeekends = true;
-			    	/* setOption을 통해 option을 동적으로 변경 */
-			    	calendar.setOption('weekends', activeWeekends);
-			    }
-			  }
-			},
-			plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
-			header: {
-				  left: 'today viewWeekends prevYear,prev ',
-				  center: 'title',
-				  right: 'next,nextYear dayGridMonth,timeGridWeek,timeGridDay,listMonth'
-			},
-			locale : "ko",					// 기본언어를 한국어로 설정
-			//defaultDate: "2019-08-22",	// 첫 화면에서 보여질 기본 날짜 설정  
-			navLinks: true, 				// 날짜를 클릭 했을때 상세페이지 보여지게 함
-			// weekNumber: true,			// 주의 숫자를 표시
-			businessHours: true, 			// 시간 표시
-			editable: false,				// 등록된 스케쥴의 위치 이동
-			selectable: false,				// 날짜에 드래그 사용
-			displayEventTime: false,		// 캘린더에서 title에 시간표시 삭제
-			events: [						// 스케쥴 데이터를 넣는 곳
-				<c:forEach var="l" items="${ llist }">
-					{
-						title :	"${ l.lectureTitle }",
-						start : "${ l.lectureStart }",	
-						end : "${ l.lectureEnd }",
-						id: '${ l.lectureNo }',
-						extendedProps: {
-				        	record: '${ l.lectureRecord }',
-				        	content: '${ l.lectureContent }',
-				        	fee: '${ l.lectureFee }',
-				        	maxPeople: '${ l.maxpeople }',
-				        	attendPeople: '${ l.attendpeople }',
-				        	createDate: '${ l.lectureDate }',
-				        	status: '${ l.lectureStatus }',
-				        	userId: '${ l.id }',
-				        	job: '${ l.lectureJob }',
-				        	name: '${ l.name }',
-				        	branchName: '${ l.branchName }',
-				        	startDate: '${  l.lectureStart }',
-				        	endDate: '${ l.lectureEnd }'
-						}
-					},			
-				</c:forEach>
-	      	],
-	      	// 이벤트 클릭시 모달창에 값전달 후 모달 보여주기.
-	      	eventClick: function (info) {
-				$('#userId').text(info.event.extendedProps.name + "(" + info.event.extendedProps.userId + ")");
-				$('#job').text(info.event.extendedProps.job);
-					// 치환해준것을 다시 줄바꿈으로 바꾸는 과정
-				$('#record').val(info.event.extendedProps.record.replace(/<br>/gi,"\r\n"));
-				$('#title').text(info.event.title);
-				$('#branchName').text(info.event.extendedProps.branchName);
-				$('#fee').text(info.event.extendedProps.fee);
-				$('#lectureDate').text(info.event.extendedProps.startDate + "~" + info.event.extendedProps.endDate);
-				$('#maxPeople').text(info.event.extendedProps.maxPeople);
-				$('#attendPeople').text(info.event.extendedProps.attendPeople);
-				$('#lectureNo').val(info.event.id);
-				//$('#content').val(info.event.extendedProps.content);
-				$('#viewModal').modal("show");
-				
-				<c:forEach var="lL" items="${ lectureList }">
-					if("${ lL.lectureNo }" == info.event.id){
-						$('#lectureBuy').children().css('display','none');
-						$('#lectureBuy').append('<div class="attendLecture">').text('이미 신청한 강연 입니다.');
-					} else {
-						$('#lectureBuy').text("");
-						$('#lectureBuy').children().css('display','none');
-						$('#lectureBuy').append('<button type="button" class="btn defaultBtn" data-dismiss="modal" onclick="lectureBuy()">참가신청</button>');
-					}
-				</c:forEach>
-				
-				$('#content').summernote({
-					toolbar: false,
-					height: 400,                 	// 에디터 높이
-					minHeight: null,             	// 최소 높이  
-					maxHeight: null,             	// 최대 높이
-					lang: "ko-KR",					// 한글 설정
-				});
-				$('#content').summernote('code',info.event.extendedProps.content);
-				$('#content').summernote('disable');
-			},
-			//일정에 hover시 요약 (popover, tooltip을 못불러온다..)
-			/* eventRender: function(info) {
-				var tooltip = new Tooltip(info.el, {
-			        title: info.event.extendedProps.record,
-			        placement: 'top',
-			        container: 'body'
-			   	});
-			} */
-		});
-	
-		calendar.render();
-	});	
-</script>
+
 </head>
 <body>
 	<div class="total-wrapper">
@@ -313,7 +207,124 @@
 	</div>
 </body>
 <script>
-	$(function(){
+	document.addEventListener('DOMContentLoaded', function() {
+		 
+		var calendarEl = document.getElementById('calendar');
+		var activeWeekends = true;
+		
+		var calendar = new FullCalendar.Calendar(calendarEl, {
+			//주말 숨기기 & 보이기 버튼
+			customButtons: {
+			  viewWeekends: {
+			    text: '주말',
+			    click: function () {
+			    	activeWeekends ? activeWeekends = false : activeWeekends = true;
+			    	/* setOption을 통해 option을 동적으로 변경 */
+			    	calendar.setOption('weekends', activeWeekends);
+			    }
+			  }
+			},
+			plugins: [ 'interaction', 'dayGrid', 'timeGrid', 'list' ],
+			header: {
+				  left: 'today viewWeekends prevYear,prev ',
+				  center: 'title',
+				  right: 'next,nextYear dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+			},
+			locale : "ko",					// 기본언어를 한국어로 설정
+			//defaultDate: "2019-08-22",	// 첫 화면에서 보여질 기본 날짜 설정  
+			navLinks: true, 				// 날짜를 클릭 했을때 상세페이지 보여지게 함
+			// weekNumber: true,			// 주의 숫자를 표시
+			businessHours: true, 			// 시간 표시
+			editable: false,				// 등록된 스케쥴의 위치 이동
+			selectable: false,				// 날짜에 드래그 사용
+			displayEventTime: false,		// 캘린더에서 title에 시간표시 삭제
+			events: [						// 스케쥴 데이터를 넣는 곳
+				<c:forEach var="l" items="${ llist }">
+					{
+						title :	"${ l.lectureTitle }",
+						start : "${ l.lectureStart }",	
+						end : "${ l.lectureEnd }",
+						id: '${ l.lectureNo }',
+						extendedProps: {
+				        	record: '${ l.lectureRecord }',
+				        	content: '${ l.lectureContent }',
+				        	fee: '${ l.lectureFee }',
+				        	maxPeople: '${ l.maxpeople }',
+				        	attendPeople: '${ l.attendpeople }',
+				        	createDate: '${ l.lectureDate }',
+				        	status: '${ l.lectureStatus }',
+				        	userId: '${ l.id }',
+				        	job: '${ l.lectureJob }',
+				        	name: '${ l.name }',
+				        	branchName: '${ l.branchName }',
+				        	startDate: '${  l.lectureStart }',
+				        	endDate: '${ l.lectureEnd }'
+						}
+					},			
+				</c:forEach>
+	      	],
+	      	// 이벤트 클릭시 모달창에 값전달 후 모달 보여주기.
+	      	eventClick: function (info) {
+				$('#userId').text(info.event.extendedProps.name + "(" + info.event.extendedProps.userId + ")");
+				$('#job').text(info.event.extendedProps.job);
+					// 치환해준것을 다시 줄바꿈으로 바꾸는 과정
+				$('#record').val(info.event.extendedProps.record.replace(/<br>/gi,"\r\n"));
+				$('#title').text(info.event.title);
+				$('#branchName').text(info.event.extendedProps.branchName);
+				$('#fee').text(info.event.extendedProps.fee);
+				$('#lectureDate').text(info.event.extendedProps.startDate + "~" + info.event.extendedProps.endDate);
+				$('#maxPeople').text(info.event.extendedProps.maxPeople);
+				$('#attendPeople').text(info.event.extendedProps.attendPeople);
+				$('#lectureNo').val(info.event.id);
+				//$('#content').val(info.event.extendedProps.content);
+				$('#viewModal').modal("show");
+				
+				console.log("${ lectureList }");
+				<c:forEach var="lL" items="${ lectureList }">
+					if("${ lL.lectureNo }" == info.event.id){
+						$('#lectureBuy').children().css('display','none');
+						$('#lectureBuy').append('<div class="attendLecture">').text('이미 신청한 강연 입니다.');
+					} else {
+						$('#lectureBuy').text("");
+						$('#lectureBuy').children().css('display','none');
+						$('#lectureBuy').append('<button type="button" class="btn defaultBtn" data-dismiss="modal" onclick="lectureBuy()">참가신청</button>');
+					}
+				</c:forEach>
+				
+				/* if("${ loginUser.id }" == info.event.id) {
+					$('#lectureBuy').children().css('display','none');
+					$('#lectureBuy').append('<div class="attendLecture">').text('강연자는 신청 할 수 없습니다.');
+				} else {
+					$('#lectureBuy').text("");
+					$('#lectureBuy').children().css('display','none');
+					$('#lectureBuy').append('<button type="button" class="btn defaultBtn" data-dismiss="modal" onclick="lectureBuy()">참가신청</button>');
+				} */
+				
+				$('#content').summernote({
+					toolbar: false,
+					height: 400,                 	// 에디터 높이
+					minHeight: null,             	// 최소 높이  
+					maxHeight: null,             	// 최대 높이
+					lang: "ko-KR",					// 한글 설정
+				});
+				$('#content').summernote('code',info.event.extendedProps.content);
+				$('#content').summernote('disable');
+			},
+			//일정에 hover시 요약 (popover, tooltip을 못불러온다..)
+			/* eventRender: function(info) {
+				var tooltip = new Tooltip(info.el, {
+			        title: info.event.extendedProps.record,
+			        placement: 'top',
+			        container: 'body'
+			   	});
+			} */
+		});
+	
+		calendar.render();
+	});	
+</script>
+<script>
+	/* $(function(){
 		$('.input-daterange-timepicker').daterangepicker({
 		       timePicker: true,
 		       timePickerIncrement: 60,
@@ -351,7 +362,7 @@
 		              "firstDay": 1
 		      	}
 		});
-	});
+	}); */
 	function lectureBuy(){
 		
 		var lectureFee = $('#fee').text();
