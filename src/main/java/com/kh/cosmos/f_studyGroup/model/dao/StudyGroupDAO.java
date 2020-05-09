@@ -34,10 +34,14 @@ public class StudyGroupDAO {
 
 	public int insertRecruit(SqlSessionTemplate sqlSession, StudyGroupRecruit sr) {
 		int result;
-		if(sr.getSgStatus().equals("Y")) result = sqlSession.insert("studyGroupMapper.insertRecruit", sr);
-		else {
-			int update = sqlSession.update("studyGroupMapper.updateRecruitOnce", sr);
-			result = sqlSession.insert("studyGroupMapper.insertRecruitOnce", sr);
+		if(sr.getSgStatus() != null) {
+			if(sr.getSgStatus().equals("Y")) result = sqlSession.insert("studyGroupMapper.insertRecruit", sr);
+			else {
+				int update = sqlSession.update("studyGroupMapper.updateRecruitOnce", sr);
+				result = sqlSession.insert("studyGroupMapper.insertRecruitOnce", sr);
+			}
+		} else {
+			result = sqlSession.insert("studyGroupMapper.insertRecruit", sr);
 		}
 		
 		return result;
