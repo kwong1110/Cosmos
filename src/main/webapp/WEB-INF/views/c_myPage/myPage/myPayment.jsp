@@ -17,6 +17,16 @@
 					<h1>결제 내역</h1>
 				</div>
 				<div class="content">
+					<ul class="nav nav-tabs">
+					  <li role="presentation" class="active"><a href="#">회원 정보</a></li>
+					  <li role="presentation" class="active"><a href="myGroup.mp">마이 그룹</a></li>
+					  <li role="presentation"><a href="#">강연 내역</a></li>
+					  <li role="presentation"><a href="slHistory.mp">결재 내역</a></li>
+					  <c:url var="memberDelete" value="memberDelete.mp">
+					  	<c:param name="id" value="${loginUser.id}"/>
+					  </c:url>
+					  <li role="presentation"><a href="location.href='${memberDelete}'">회원 탈퇴하기</a></li>
+					</ul>
 					<table class="table table-hover inner">
 						<%-- <c:if test="${ not empty mySeatList || not empty myLectureList }" > --%>
 						<tr>
