@@ -11,7 +11,6 @@
 <style>
 	/* map */
 	.branch-infoMap {
-		background-color : yellow;
 		width:100%; height:300px; border:1px solid #000; 
 	}	
 	
@@ -39,6 +38,14 @@
 		margin : 20px 50px 0;
 	}
 	
+	.detail-box {
+		margin : 70px 0;
+	}
+	 
+	.detail-boxtop {
+		margin-top : 50px;
+	}
+	
 	/* 편의시설 */
 	ul.cvc-box li {
 		list-style-type : none;
@@ -52,8 +59,6 @@
 		width : 42px; height : 42px;
 		margin-right : 30px;
 	}
-	
-	
 	
 </style>
 
@@ -75,19 +80,12 @@
 				<div class="content">
 					<div class="inner">
 						<ul class="page-sub-menu">
-							<li><a href="#">지점 소개</a></li>
-							<li><a href="#">공간소개</a></li>
-							<li><a href="#">지점 위치</a></li>
+							<li><a href="#a1">지점 소개</a></li>
+							<li><a href="#a2">공간소개</a></li>
+							<li><a href="#branch-infoMap">지점 위치</a></li>
 						</ul>
-						<div class="detail-box branch-infoText">
+						<div class="detail-boxtop branch-infoText">
 							안녕하세요. 코스모스 스터디센터(${vBranch.branchName})입니다.
-							<br><br>
-							${vBranch.branchContent}
-							<br><br>
-							[카페 무료이용 + 모임공간, 스터디룸, 스터디카페, 업무공간, 세미나실, 강의실, 화상인터뷰, 사업자등록, 복사, 프린트]
-							<br>
-							저희 지점은 최소 1명 ~ 최대 33명 수용가능한 모임공간이 준비되어 있으며,<br>
-							개인공부를 위한 오픈형 독서실, '스마트카페'를 운영중에 있습니다.
 							<br><br>
 							문의사항은 방문, 전화해 주시면 친절히 안내해 드리겠습니다.
 							출력을 위한 방문도 언제든 환영입니다.
@@ -97,15 +95,21 @@
 							<br><br>
 							고맙습니다.
 							
-							<div>
+							<br><br>
+							<div id="a1">
+							${vBranch.branchContent}
+							</div>
+							<br><br>
+							
+							<div class="detail-box branch-infoText" id="a2">
 								<h2>이용시간</h2>
 								<p>${vBranch.branchTime}</p>
 							</div>
-							<div>
+							<div class="detail-box branch-infoText">
 								<h2>지점 휴일</h2>
 								<p>${vBranch.branchRest}</p>
 							</div>
-							<div>
+							<div class="detail-box branch-infoText cvc">
 								<h2>편의시설 및 서비스</h2>
 								<ul class="cvc-box">
 									<li><img src="resources/image/service/parking.png" alt=""><span>주차시설 </span></li>
@@ -145,6 +149,14 @@
 										
 										// 주소-좌표 변환 객체를 생성합니다
 										var geocoder = new kakao.maps.services.Geocoder();
+										
+										/* var address="";
+
+										if('${vBranch.branchAddress}'.indexOf("/")) {
+											address = '${vBranch.branchAddress}'.split(" / ");
+											address.shift();
+											address.pop();
+										} */
 										
 										// 주소로 좌표를 검색합니다
 										geocoder.addressSearch(address, function(result, status) {

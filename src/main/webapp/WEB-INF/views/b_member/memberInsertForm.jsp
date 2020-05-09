@@ -26,6 +26,25 @@
 	span.error {
 		color: red;	
 	}
+	.first {
+		width : 300px;
+	}
+	.table td.second {
+		text-align : left;
+		padding-left : 30px;
+		padding-top : 10px;
+		padding-bottom:10px;
+	}
+	table.table {
+		border-bottom:1px solid #ddd;
+	}
+	.etc {
+		margin-top : 30px; 
+	}
+	
+	.defaultBtn {
+		vertical-align : middle;
+	}
 </style>
 </head>
 <body>
@@ -41,10 +60,10 @@
 				<div class="content">
 					<div class="inner">
 						<form action="minsert.me" method="post" id="joinForm"><!-- onsubmit="return checkEmptyValues(userId, userPwd)" -->
-							<table class="table table-hover">
+							<table class="table">
 								<tr>
-									<th>아이디</th>
-									<td>
+									<th class="first">아이디</th>
+									<td class="second">
 										<input type="text" id="userId" name="id">
 										<span class="guide ok idOk">이 아이디는 사용 가능합니다.</span>
 										<span class="guide error idError">이 아이디는 사용 불가능합니다.</span>
@@ -52,22 +71,22 @@
 									</td>
 								</tr>
 								<tr>
-									<th>비밀번호</th>
-									<td><input type="password" id="userPwd" name="pwd"></td>
+									<th class="first">비밀번호</th>
+									<td class="second"><input type="password" id="userPwd" name="pwd"></td>
 								</tr>
 								<tr>
-									<th><label for="userPwd2">비밀번호 확인</label></th>
-									<td>
+									<th class="first"><label for="userPwd2">비밀번호 확인</label></th>
+									<td class="second">
 										<input type="password" id="userPwd2" name="pwd2">
 									</td>
 								</tr>
 								<tr>
-									<th><label for="userName">이름</label></th>
-									<td><input type="text" id="userName" name="name"></td>
+									<th class="first"><label for="userName">이름</label></th>
+									<td class="second"><input type="text" id="userName" name="name"></td>
 								</tr>
 								<tr>
-									<th><label for="userNick">닉네임</label></th>
-									<td>
+									<th class="first"><label for="userNick">닉네임</label></th>
+									<td class="second">
 										<input type="text" id="userNick" name="nick">
 										<span class="guide ok nickOk">이 닉네임은 사용 가능합니다.</span>
 										<span class="guide error nickError">이 닉네임은 사용 불가능합니다.</span>
@@ -75,37 +94,36 @@
 									</td>
 								</tr>
 								<tr>
-									<th>성별</th>
-									<td>
+									<th class="first">성별</th>
+									<td class="second">
 										<input type="radio" id="userGenderM" name="gender" value="M"><label for="userGenderM">남</label>
 										<input type="radio" id="userGenderF" name="gender" value="F"><label for="userGenderF">여</label>
 									</td>
 								</tr>
 								<tr>
-									<th><label for="datepicker-autoclose">생년월일</label></th>
-									<td>
+									<th class="first"><label for="datepicker-autoclose">생년월일</label></th>
+									<td class="second">
 									<div class="input-group">
 										<input type="text" class="form-control" id="datepicker-autoclose" placeholder="년/월/일" name="birth"><span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
 									</div>
 									</td>
 								</tr>
 								<tr>
-									<th><label for="userPhone">핸드폰</label></th>
-									<td><input type="tel" id="userPhone" name="phone"></td>
+									<th class="first"><label for="userPhone">핸드폰</label></th>
+									<td class="second"><input type="tel" id="userPhone" name="phone"></td>
 								</tr>
 								<tr>
-									<th><label for="userMail">이메일</label></th>
-									<td>
+									<th class="first"><label for="userMail">이메일</label></th>
+									<td class="second">
 										<input type="email" id="userMail" name="email">
-										
 									</td>
 								</tr>
 							</table>
 							<div>스터디 그룹 참여를 원한다면 다음 사항을 입력해 주세요</div>
-							<table class="table table-hover">
+							<table class="table">
 								<tr>
-									<th><label>공부 중인 항목</label></th>
-									<td>
+									<th class="first"><label>공부 중인 항목</label></th>
+									<td class="second">
 										<div class="categoryLabel">
 											<c:forEach var="i" begin="0" end="4" items="${ sList }">
 												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
@@ -131,7 +149,7 @@
 												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
-										<div class="categoryLabel">
+										<div class="categoryLabel etc">
 												<p>기타 항목을 입력해 주세요(3개까지 추가할 수 있습니다.)</p> 
 												<input type="text" name="studyEtc" value="" class="studyEtc">
 												<button type="button" class="addEtcBtn">추가</button>
@@ -139,16 +157,16 @@
 									</td>
 								</tr>
 								<tr>
-									<th>공부기간</th>
-									<td id="category-area">
+									<th class="first">공부기간</th>
+									<td id="category-area" class="second" style="vertical-align:top;">
 										<p>해당 학업에서 본인이 공부한 기간을 입력해 주세요.</p>
 									</td>
 								</tr>
 							</table>
 							<div class="btnBox inner">
 								<button class="defaultBtn" onclick="validate();">가입하기</button>
-								<input type="reset" value="취소하기">
-								<button type="button" onclick="location.href='home.do'">홈으로</button>						
+								<input type="reset" value="취소하기" class="defaultBtn">
+								<button type="button" class="defaultBtn" onclick="location.href='home.do'">홈으로</button>						
 							</div>
 						</form>
 					</div>
@@ -237,7 +255,7 @@
 			var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
 			var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
 			var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
-			var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상 ~ 3년 이하");
+			var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상");
 			var $iconWrap = $("<span class='minus'>");
 			var $icon = $("<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'>");
 			
@@ -256,6 +274,11 @@
 			} else {
 				$("div#" + valAfter).remove();
 			}
+			
+			$(".minus").on('click', function(e){
+				e.preventDefault();
+				$(this).parent().remove();
+			});
 		});
 		
 		var count = 0;
@@ -277,7 +300,7 @@
 				var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
 				var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
 				var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
-				var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상 ~ 3년 이하");
+				var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상");
 				var $iconWrap = $("<span class='minus'>");
 				var $icon = $("<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'>");
 				
@@ -292,8 +315,6 @@
 				$select.append($value4);
 				$div.append($iconWrap);
 				$iconWrap.append($icon);
-				// $iconWrap.append($icon1);
-				// alert(document.getElementsByName(studyEtc).value());
 								
 				$(this).attr('disabled', false);
 				$("#studyEtc").attr('disabled', false);
@@ -301,9 +322,16 @@
 					$(this).attr('disabled', true);
 					$(".studyEtc").attr('disabled', true);
 				}
+				
+				$(".minus").on('click', function(e){
+					e.preventDefault();
+					$(this).parent().remove();
+				});
 			} 
 			
 			console.log($('input[name="studyEtcName"]').val());
+		
+			
 						
 		});
 		

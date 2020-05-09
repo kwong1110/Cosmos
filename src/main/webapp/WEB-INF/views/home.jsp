@@ -373,7 +373,6 @@
 		// $(".data_output_desc p").css("opacity", 0);
 		
 		$(".btn_output_close").css("opacity", 0);
-		// $(".btn_output_close").css({"opacity" : 0}).animate({"opacity" : 1}, 300);
 		
 		$tab.hover(function() {
 			value = $(this).attr("id");
@@ -384,11 +383,6 @@
 		
 		function move(obj){
 			$(".data_output_list_bg").css({"opacity":0}).animate({"opacity":0.7}, 500, function(){
-				/* $("." + obj).css({"display" : "block", "opacity" : 0}).animate({"opacity" : 1}, 300, function(){
-					$(this).find(".data_output_tit").css({"opacity" : 0}).animate({"opacity" : 1}, 300, function(){
-						$(".btn_output_close").css({"opacity" : 0}).animate({"opacity" : 1}, 300);
-					});
-				}); */
 				$("." + obj).css({"display" : "block"});
 				$("." + obj).find(".data_output_tit").stop().css({"opacity" : 0, "width" : 0}).animate({"opacity" : 1, "width" : "135px"}, 300, function(){
 					$(this).find("span").stop().css({"opacity" : 1}).animate({"opacity" : 1}, 10, function(){
@@ -401,19 +395,7 @@
 		function moveStop(obj){
 			$(".data_output_list_bg").css("opacity", 0);
 			$(".data_output_item").css("display", "none");
-			//$(".btn_output_close").css("opacity", 0);
 		}
-		
-		/* 
-		
-		if(path != $large.attr("src")){
-			$large.attr({src : path})
-						.css({opacity : 0})
-						.stop()
-						.animate({opacity : "100%"}, 500);				
-		}
-		
-		*/
 		
 		// 이미지 효과
 		$(".wrapper").append("<div class='imgBackUp'></div>");

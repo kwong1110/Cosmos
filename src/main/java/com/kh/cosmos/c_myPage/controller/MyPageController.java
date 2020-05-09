@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.b_member.model.vo.Preview;
@@ -49,7 +50,7 @@ public class MyPageController {
 		// 비밀번호 업데이트
 		@RequestMapping("memberPwdUp.mp")
 		public String mPwdUpdate(@ModelAttribute Member m, 
-								 @RequestParam("newPwd1") String newPwd1, @RequestParam("newPwd2") String newPwd2, Model model) {
+								 @RequestParam("newPwd1") String newPwd1, @RequestParam("newPwd2") String newPwd2, SessionStatus status, Model model) {
 			
 			Member loginUser = (Member)model.getAttribute("loginUser");
 			
@@ -64,7 +65,10 @@ public class MyPageController {
 					
 					if(result > 0) {
 						model.addAttribute("loginUser", loginUser);
-						return "/myPage/myPage";
+						
+						status.setComplete();
+						
+						return "redirect:/";
 					} else {
 						throw new MyPageException("비밀번호 수정에 실패했습니다.");
 					}

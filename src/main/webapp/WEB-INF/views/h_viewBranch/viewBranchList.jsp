@@ -10,17 +10,15 @@
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <style>
 	.inner {
-		background-color : aqua;
-		height : 650px;
+		height : 690px;
+		border-top : 1px solid #000;
+		border-bottom : 1px solid #000;
 	}
 	.div-left {
 		float:left;
-		width: 40%; 
 	}
 	.div-right {
-	
-		background-color:orange;
-		width:60%;
+		width:550px;
 		height : 100%;
 		float : right;
 	}
@@ -30,16 +28,59 @@
 		clear:both;
 	}
 	#right-map{
-		background-color : yellow;
-		width:100%; height:100%; border:1px solid #000; box-sizing: border-box; border-left:0; border-bottom:0;}
+		width:100%; height:100%; box-sizing: border-box; }
 		
 	.branch-box {
-		
 		position : relative;
+		width:506px;
 	}
+	
+	.branch-box:first-child {
+		border-top:1px solid black;
+	}
+	
 	.detail {
 		position : absolute; right : 20px; top : 10px;
+		text-decoration : underline;
 	}
+	
+	.branch-box {
+		border-bottom:1px solid black;
+		padding : 9px 5px;
+	}
+	
+	.left-mid {
+		width: 100%;
+		margin 0 auto;
+	}
+	
+	/* 검색 */
+	.search-form {
+		margin-top : 5px;
+		margin-bottom : 5px;
+	}
+	select.form-control{
+		display : inline-block!important;
+		width:120px;
+	}
+	select.form-control option:first-child {
+		font-weight : bold;
+		color : #000;
+	}
+	div.input-group, span.input-group-btn {
+		display : inline-block!important;
+	}
+	div.input-group {		
+		width: 330px;
+	}
+	
+	div.input-group input.form-control {
+		width:99%;
+		padding:6px 10px;
+		border-right:none;
+	}
+
+	
 </style>
 </head>
 <body>
@@ -59,34 +100,25 @@
 							
 							<!-- 검색창 -->
 						  	<!-- 드롭다운 + 검색 -->
-							<form method="get" action="">
-								<div class="row">
-									<div class="col-lg-6">
-										<div class="input-group">
-											<div class="input-group-btn">
-												<button type="button" class="btn dropdown-toggle" data-toggle="dropdown" aria-expanded="false">분류 <span class="caret"></span></button>
-												<ul class="dropdown-menu" role="menu">
-													<li><a href="#">분류</a></li>
-													<li><a href="#">111</a></li>
-													<li><a href="#">222</a></li>
-													<li class="divider"></li>
-													<li><a href="#">333</a></li>
-												</ul>
-											</div><!-- /btn-group -->
-											<input type="text" class="form-control" style="border:none;" placeholder="검색어를 입력하세요.">
-												<span class="input-group-btn">
-													<button class="btn search-submit" type="button">검색</button>
-												</span>
-										</div>
-										<!-- /input-group -->
-									</div><!-- /.col-lg-6 -->
-								</div><!-- /.row -->
+						  	<form method="get" action="" class="search-form">
+								<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
+								<select class="form-control" id="searchCondition" name="searchCondition" style="background : #67A261"><!--  search-select -->
+									<option>분류</option>
+									<option value="name">지점명</option>
+									<option value="address">지역명</option>
+								</select>
+								<div class="input-group"><!-- search-text -->
+									<input type="text" class="form-control" placeholder="검색어를 입력하세요." id="searchValue" name="searchValue">
+									<span class="input-group-btn">
+										<button class="btn search-submit" style="border:1px solid #ccc" type="button" onclick="searchBranch();">검색</button>
+									</span>
+								</div><!-- /input-group -->
 							</form>
-							
+		
 							<!-- 지점 리스트 -->
 							<div class="left-mid">
 				        			<c:forEach var="b" items="${vbList}">
-				        				<div class="branch-box" style="margin-left:20px; margin-right:20px;border-bottom:1px solid black; height:102px;">
+				        				<div class="branch-box">
 				        					<div style="margin-left:38px;"><b>코스모스 스터디센터 ${ b.branchName }</b></div>
 				        					<c:url var="vbdetail" value="viewBranchDetail.vb">
 												<c:param name="vbNo" value="${ b.branchNo }"/>
@@ -105,74 +137,107 @@
 				        	<!-- 지점 페이징  -->
 							<div class="left-bot" style="text-align:center;">
 								<ul class="pagination">
+									<c:if test="${searchValue eq null}"><!-- 검색 안 한것 전체 값 가지고 오기 -->
+									  <c:set var="loc" value="viewBranchList.vb" scope="page"/>
+									</c:if>
+									  <c:if test="${searchValue ne null} "><!-- 검색을 했다면 search.vb로 검색해서 가지고 오기 -->
+									  <c:set var="loc" value="search.vb" scope="page"/>
+									</c:if>
+									<!-- 맨 처음으로 -->
 									<li>
 										<c:if test="${ pi.currentPage eq pi.startPage }">
 											<a aria-label="Previous">
-												<span aria-hidden="true">&laquo;</span>
+												<span class="icon-fast-backward"></span>
 											</a>
 										</c:if>
 										<c:if test="${ pi.currentPage ne pi.startPage }">
-											<c:url var="start" value="viewBranchList.vb">
+											<c:url var="start" value="${loc}">
+												<c:if test="${searchValue ne null}">
+													<c:param name="searchCondition" value="${ searchCondition }"/>
+													<c:param name="searchValue" value="${ searchValue }"/>
+												</c:if>
 												<c:param name="page" value="${ pi.startPage }"/>
 											</c:url>
 											<a href="${ start }" aria-label="Previous">
-												<span aria-hidden="true">&laquo;</span>
+												<span class="icon-fast-backward"></span>
 											</a>
 										</c:if>
 									</li>
+									<!-- 이전  -->
 									<li>
 										<c:if test="${ pi.currentPage <= 1 }">
 											<a aria-label="Previous">
-												<span aria-hidden="true">&lt;</span>
+												<span class="icon-to-start"></span>
 											</a>
 										</c:if>
 										<c:if test="${ pi.currentPage > 1 }">
-											<c:url var="before" value="viewBranchList.vb">
+											<c:url var="before" value="${loc}">
+												<c:if test="${searchValue ne null}">
+													<c:param name="searchCondition" value="${ searchCondition }"/>
+													<c:param name="searchValue" value="${ searchValue }"/>
+												</c:if>
 												<c:param name="page" value="${ pi.currentPage - 1 }"/>
 											</c:url>
 											<a href="${ before }" aria-label="Previous">
-												<span aria-hidden="true">&lt;</span>
+												<span class="icon-to-start"></span>
 											</a>
 										</c:if>
 									</li>
+									
+									<!-- 페이지 -->
 									<c:forEach var="p" begin="${ pi.startPage }" end="${ pi.endPage }">
 										<c:if test="${ p eq pi.currentPage }">
-											<li><a>${ p }</a></li>
+											<li><a class="pageBtn selectPageBtn">${ p }</a></li>
 										</c:if>
 										<c:if test="${ p ne pi.currentPage }">
-											<c:url var="pagination" value="viewBranchList.vb">
+											<c:url var="pagination" value="${loc}">
+												<c:if test="${searchValue ne null}">
+													<c:param name="searchCondition" value="${ searchCondition }"/>
+													<c:param name="searchValue" value="${ searchValue }"/>
+												</c:if>
 												<c:param name="page" value="${ p }"/>
 											</c:url>
 											<li><a href="${ pagination }">${ p }</a></li>
 										</c:if>
 									</c:forEach>
+						
+									<!-- 다음으로 -->
 									<li>
 										<c:if test="${ pi.currentPage >= pi.maxPage }">
 											<a aria-label="Next">
-												<span aria-hidden="true">&gt;</span>
+												<span class="icon-to-end"></span>
 											</a>
 										</c:if>
 										<c:if test="${ pi.currentPage < pi.maxPage }">
-											<c:url var="after" value="viewBranchList.vb">
+											<c:url var="after" value="${loc}">
+												<c:if test="${searchValue ne null}">
+													<c:param name="searchCondition" value="${ searchCondition }"/>
+													<c:param name="searchValue" value="${ searchValue }"/>
+												</c:if>
 												<c:param name="page" value="${ pi.currentPage + 1 }"/>
 											</c:url>
 											<a href="${ after }" aria-label="Next">
-												<span aria-hidden="true">&gt;</span>
+												<span class="icon-to-end"></span>
 											</a>
 										</c:if>
 									</li>
+									<!-- 마지막으로 -->
 									<li>
 										<c:if test="${ pi.currentPage eq maxPage }">
-											<a href="#" aria-label="Next">
-												<span aria-hidden="true">&raquo;</span>
+											<a aria-label="Next">
+												<span class="icon-fast-forward"></span>
 											</a>
 										</c:if>
 										<c:if test="${ pi.currentPage ne maxPage }">
-											<c:url var="max" value="viewBranchList.vb">
+											<c:url var="max" value="${loc}">
+												<c:if test="${searchValue ne null}">
+													<c:param name="searchCondition" value="${ searchCondition }"/>
+													<c:param name="searchValue" value="${ searchValue }"/>
+												</c:if>
 												<c:param name="page" value="${ pi.maxPage }"/>
 											</c:url>
 											<a href="${ max }" aria-label="Next">
-												<span aria-hidden="true">&raquo;</span>
+												<span class="icon-fast-forward"></span>
 											</a>
 										</c:if>
 									</li>
@@ -230,6 +295,13 @@
 									var name = $(e).parent().parent().children().eq(0)[0].innerText;
 									console.log(address1);
 									console.log(name);
+									
+									/* if(address1.indexOf("/")) {
+										address1 = address1.split(" / ");
+										address1.shift();
+										address1.pop();
+									} */
+									
 									var zonecode="";
 									
 									var mapContainer = document.getElementById('right-map'), // 지도를 표시할 div 
@@ -281,4 +353,17 @@
 	</div>
 	
 </body>
+<script>
+	function searchBranch(){
+		var searchCondition = $("#searchCondition").val();
+		var searchValue = $("#searchValue").val();
+		// var userId = $("#userId").val(); // b.branchNo
+		
+		location.href="search.vb?searchCondition=" + searchCondition + "&searchValue=" + searchValue;
+	}
+	
+
+
+
+</script>
 </html>

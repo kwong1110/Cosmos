@@ -1,27 +1,19 @@
 package com.kh.cosmos.h_viewBranch.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Enumeration;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.a_common.Pagination;
 import com.kh.cosmos.h_viewBranch.model.exception.ViewBranchException;
 import com.kh.cosmos.h_viewBranch.model.service.ViewBranchService;
-import com.kh.cosmos.h_viewBranch.model.vo.BranchPhoto;
+import com.kh.cosmos.h_viewBranch.model.vo.SearchCondition;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 
 @Controller
@@ -42,6 +34,7 @@ public class ViewBranchController {
 		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
 		
 		ArrayList<ViewBranch> vbList = vbService.selectBranchList(pi);
+		System.out.println(vbList);
 		
 		if(vbList != null) {
 			mv.addObject("vbList", vbList);
@@ -54,13 +47,51 @@ public class ViewBranchController {
 		
 	}
 	
+	// 지점 검색
+	@RequestMapping("search.vb")
+	public ModelAndView noteSearch(@RequestParam(value="page", required=false) Integer page, 
+								   @ModelAttribute SearchCondition search, @RequestParam("searchCondition") String condition, 
+								   @RequestParam("searchValue") String value, ModelAndView mv) {
+		
+		
+		if(condition.equals("name")) {
+			search.setName(value);
+		} else if(condition.equals("address")) {
+			search.setAddress(value);
+		} 
+		
+		int currentPage = 1;
+		if(page != null) {
+			currentPage = page;
+		}
+		
+		int listCount = vbService.getSearchResultListCount(search);
+		
+		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		ArrayList<ViewBranch> vbList = vbService.selectSearchResultList(pi, search);
+		
+		if(vbList != null) {
+			mv.addObject("vbList", vbList)
+			  .addObject("pi", pi)
+			  .addObject("searchValue", value)
+			  .addObject("searchCondition", search)
+			  .setViewName("viewBranchList");
+		} else {
+			throw new ViewBranchException("지점 검색에 실패하였습니다.");
+		}
+		
+		return mv;
+	}
+	
+	
 	@RequestMapping("viewBranchDetail.vb")
-	public ModelAndView branchDetail(@RequestParam("vbNo") int vbNo, @RequestParam(value="page", required=false) int page, ModelAndView mv) {
+	public ModelAndView branchDetail(@RequestParam("vbNo") int vbNo, @RequestParam(value="page", required=false) int page, 
+									 ModelAndView mv) {
 		
 		ViewBranch vBranch = vbService.selectBranch(vbNo);
 		
+		
 		if(vBranch != null) {
-			
 			mv.addObject("vBranch", vBranch)
 			  .addObject("page", page)
 			  .setViewName("viewBranchDetail");
@@ -95,7 +126,7 @@ public class ViewBranchController {
 		vb.setBranchNo(branchNo);
 		vb.setBranchAddress(post + " / " + addr1 + " / " + addr2);
 		vb.setBranchTel(localNum + " - " + tel1 + " - " + tel2);
-		vb.setBranchTime(time1 + " : " + time2);
+		vb.setBranchTime(time1 + " ~ " + time2);
 		
 		System.out.println(vb);
 		
