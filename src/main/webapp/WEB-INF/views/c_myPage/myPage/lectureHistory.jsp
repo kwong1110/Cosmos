@@ -31,8 +31,21 @@
 		vertical-align: middle;
 	}
 	/* 배경색 변경 */
-	.modal-content{
+	.modalCustom{
 		background-color: rgb(254, 245, 198) !important;
+	}
+	
+	.modalCustom>.modal-header{
+		background-color: rgb(23, 149, 95);
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+	}
+	.modal-title{
+		color: white;
+		width:100%; 
+		text-align:center;
+		margin:10px;
+		font-size: 25px;
 	}
 	
 	/* 테이블 */
@@ -211,7 +224,7 @@
 	<!-- 강연 상세보기 MODAL -->
     <div id="viewModal" class="modal fade" tabindex="-1" role="dialog" >
         <div class="modal-dialog modal-80size" role="document">
-            <div class="modal-content modal-80size">
+            <div class="modal-content modal-80size modalCustom">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                             aria-hidden="true">&times;</span></button>
@@ -222,9 +235,7 @@
 					<table class="inner table">
 						<tr>
 							<th>강연번호</th>
-							<td><input type="text" id="lectureNo" name="lectureNo" readonly></td>
-							<th>분류</th>
-							<td><input type="text" id="lectureCategory" readonly></td>
+							<td colspan="3"><input type="text" id="lectureNo" name="lectureNo" readonly></td>
 							<th colspan="7">이력 사항 / 강연 경험</th>
 						</tr>
 						<tr>
@@ -280,7 +291,7 @@
 					</table>
                 </div>
                 <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
-                    <button type="button" id="no" class="btn btn-danger" data-dismiss="modal" onclick="sweetConfirm('DELETE');">삭제</button>
+                    <button type="button" id="no" class="btn cosmosBtn" data-dismiss="modal" onclick="sweetConfirm('DELETE');">삭제</button>
                 </div>
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
@@ -304,7 +315,7 @@
 					$('#userEmail').val(data.email);
 					$('#job').val(decodeURIComponent(data.lectureJob.replace(/\+/g, ' ')));
 					$('#title').val(decodeURIComponent(data.lectureTitle.replace(/\+/g, ' ')));
-					$('#lectureStart').val(data.lectureStart + "~" + data.lectureEnd + "(" + data.lectureTime + ")");
+					$('#lectureStart').val(data.lectureStart + "~" + data.lectureEnd);
 					$('#branchName').val(decodeURIComponent(data.branchName.replace(/\+/g, ' ')));
 					$('#lectureFee').val(data.lectureFee);
 					$('#maxpeople').val(data.maxpeople);
@@ -330,7 +341,7 @@
 					// sumernote 상세보기			
 					$('#content').summernote({
 						toolbar: false,
-						height: 800,                 	// 에디터 높이
+						height: 400,                 	// 에디터 높이
 						minHeight: null,             	// 최소 높이  
 						maxHeight: null,             	// 최대 높이
 						lang: "ko-KR",					// 한글 설정

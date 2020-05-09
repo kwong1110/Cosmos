@@ -32,12 +32,15 @@ public class LectureController {
 		ArrayList<Lecture> list = lService.selectList();
 		// System.out.println("list확인 : " + list);
 		
+		ArrayList<Lecture> lectureList = null;
+		System.out.println("로그인 확인 : " +(Member)session.getAttribute("loginUser"));
 		// 해당 로그인 유저의 강연 신청 내역을 받아와 신청 버튼 비활성화.
 		if((Member)session.getAttribute("loginUser") != null) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			String loginUserId = loginUser.getId();
-			ArrayList<Lecture> lectureList = lService.selectLectureAttendList(loginUserId);
-			model.addAttribute("lectureList", lectureList);
+			System.out.println(loginUserId);
+			lectureList = lService.selectLectureAttendList(loginUserId);
+			System.out.println("반환 확인 : " + lectureList);
 		}
 		
 		
@@ -45,6 +48,9 @@ public class LectureController {
 			for(Lecture l : list) {
 				// Fullcalander를 쓰게되면 바로 <textarea>로 값이 들어가는게 아니라 치환을 해주어야 정상적으로 출력된다.
 				l.setLectureRecord(l.getLectureRecord().replaceAll("\r\n", "<br>"));
+			}
+			if(lectureList != null) {
+				model.addAttribute("lectureList", lectureList);
 			}
 			model.addAttribute("llist", list);
 			return "lectureCalendar";

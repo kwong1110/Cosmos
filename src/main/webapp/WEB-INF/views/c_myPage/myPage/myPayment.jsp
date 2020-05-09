@@ -18,7 +18,7 @@
 				</div>
 				<div class="content">
 					<table class="table table-hover inner">
-						<c:if test="${ not empty mySeatList && not empty myLectureList }" >
+						<%-- <c:if test="${ not empty mySeatList || not empty myLectureList }" > --%>
 						<tr>
 							<th>No.</th>
 							<th>참가/예약일</th>
@@ -89,7 +89,7 @@
 								</td>
 							</tr>
 						</c:forEach>
-						</c:if>
+						<%-- </c:if> --%>
 						<c:if test="${ empty mySeatList && empty myLectureList }">
 							<tr><td>결제내역이 없습니다.</td></tr>
 						</c:if>

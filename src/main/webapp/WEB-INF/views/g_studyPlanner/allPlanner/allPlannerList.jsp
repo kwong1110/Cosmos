@@ -196,7 +196,7 @@
 					</div>
 					
 					<!-- 카테고리  -->
-					<div id="settingArea" class="inner">
+					<%-- <div id="settingArea" class="inner">
 						<div id="categoryArea">
 							<input type="button" class="defaultBtn" id="categoryBtn" value="카테고리">
 							
@@ -237,7 +237,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div> --%>
 					
 					<!-- 내용(표) -->
 					<table class="table table-hover inner">
