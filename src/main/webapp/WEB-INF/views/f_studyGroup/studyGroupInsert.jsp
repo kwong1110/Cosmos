@@ -49,7 +49,7 @@
 							<td colspan="2">
 								<!-- <button type="button" class="helpBtn" data-toggle="tooltip" data-placement="left" title="한 번의 모임 이후에 장기 그룹으로 전환 가능합니다.">?</button> -->
 								<label style="text-align:center; font-size:25px; color:#17955F; font-family: 'Binggrae';">기본 그룹 정보</label>
-								<label style="background:lightgray; font-family: 'Binggrae'; font-weight:normal; float:right; display:inline-block; margin-top:10px;">※ 한 번의 모임 이후에 장기 그룹으로 전환 가능합니다.</label>
+								<label style="background:lightgray; font-family: 'Binggrae'; font-weight:normal; float:right; display:inline-block; margin-top:10px;">※ 한 번의 모집 이후 장기 그룹으로 전환 가능합니다.</label>
 								<hr style="border:1px solid #17955F; margin:0; padding:0;">
 							</td>
 						</tr>
