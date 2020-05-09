@@ -26,8 +26,8 @@
 	<div class="note-header">
 		<h2 class="title">
 			<span class="cosmos">보낸 사람</span>
-			| <c:out value="${note.noteFromId}"/>님
-			<div data-toggle="modal" data-target="#report"aria-hidden="true" style="position:inline";> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
+			| <c:out value="${note.nick}"/>님
+			<div data-toggle="modal" data-target="#report" aria-hidden="true" style="position:inline"> [ <span class="report glyphicon glyphicon-thumbs-down"></span> ] 신고</div>
 		</h2>
 	</div>
 	<form>
@@ -44,8 +44,8 @@
 	</div>
 
 	<!--푸터-->
-	<c:url var="noteReply" value="noteInsertView.mp">
-		<c:param name="noteToId" value="${note.noteFromId}"/>
+	<c:url var="noteReply" value="noteInsertView1.mp">
+		<c:param name="toNick" value="${note.nick}"/>
 	</c:url>
 	<c:url var="noteDelete" value="noteDelete.mp">
 		<c:param name="noteNo" value="${note.noteNo}"/>

@@ -33,11 +33,13 @@
 		where branch_no = #{branchNo}
 	</select>
 	
-	<insert id="insertBranchPhoto">
+	<!-- <insert id="insertBranchPhoto">
 		insert into branch_photo
 		values(seq_photoid.nextval, #{branchNo}, #{orginaleFileName}, #{bpPath}, #{bpLevel}, #{bpStatus}, #{renameFileName})
 	</insert>
-
+ -->
+ 
+ 
  	<!-- 지점 등록_0426-->
   	<!-- BRANCH 테이블에 insert-->
 	<insert id="insertBranch" parameterType="ViewBranch">
@@ -87,14 +89,41 @@
 	</select>
 
 	 
-	<!-- 200508 지점 업데이트 : 경진 --> 
+	<!-- 200508 지점 업데이트 및 검색 : 경진 --> 
 	<update id="updateBranch">
 		update branch
 		set branch_name = #{branchName}, branch_address = #{branchAddress}, branch_tel = #{branchTel}, branch_content = #{branchContent}, branch_time = #{branchTime}, branch_rest = #{branchRest}
 		where branch_no = #{branchNo}
 	</update> 
 	 
-	 
+	<!-- 검색 결과 목록 수 -->	
+	<select id="getSearchResultCount" resultType="_int">
+		select count(*)
+		from branch
+		
+		<if test="name != null">
+			where branch_name like '%' || #{name} || '%'
+		</if>
+		<if test="address != null">
+			where branch_address like '%' || #{address} || '%'
+		</if>
+		order by branch_no
+	</select>
+	
+	<!-- 검색 결과 목록 -->
+	<select id="selectSearchResultList" resultMap="branchResultSet">
+		select *
+		from branch
+		<choose>
+			<when test="name != null">
+				where branch_name like '%' || #{name} || '%'
+			</when>
+			<otherwise>
+				where branch_address like '%' || #{address} || '%'
+			</otherwise>
+		</choose>
+		order by branch_no
+	</select> 
 	 
 	 
 </mapper>

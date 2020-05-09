@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>지점 상세 정보 수정</title>	
 
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4a8fa7e4a9e7170fa234c76a796cecab&libraries=services"></script>
 <script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
 
 <!-- branch css불러오기 -->
@@ -55,6 +56,9 @@
 								<th>지점명</th>
 								<td>
 									<input type="text" name="branchName" value="${vBranch.branchName}" class="form-control" style="padding:5px; width:50%">
+									<!-- <span class="guide ok" style="color:gray">*이 지점명은 사용 가능합니다.</span>
+									<span class="guide error">*이 지점명은 사용 불가능합니다.</span>
+									<input type="hidden" name="idDuplicateCheck" value="0"> -->
 								</td>
 							</tr>
 							
@@ -73,6 +77,7 @@
 									<c:set var="address2" value="${addr}"/>
 								</c:if>
 							</c:forTokens>
+
 						 	<tr>
                					<th>우편번호</th>
                					<td colspan="2">
@@ -142,7 +147,7 @@
 							<tr>
 								<th>휴무일</th>
 								<td>
-									<select style="padding:5px" class="closeday" name="brachRest" value="${vBranch.branchRest}">
+									<select style="padding:5px" class="closeday" name="branchRest" value="${vBranch.branchRest}">
 										<option>월요일</option> <option>화요일</option> <option>수요일</option> <option>목요일</option>
 										<option>금요일</option> <option>토요일</option> <option>일요일</option>
 									</select>
@@ -153,7 +158,7 @@
 							<tr>
 								<th>지점소개</th>
 								<td>
-									<textarea id="summernote" style="resize: none" name="branchContent" value="${vBranch.branchContent}">${vBranch.branchContent}</textarea>
+									<textarea id="summernote" style="resize: none; width : 800px!important;" name="branchContent" value="${vBranch.branchContent}">${vBranch.branchContent}</textarea>
 									<c:import url="../a_common/summernote.jsp"/>
 								</td>	
 							</tr>	
@@ -228,7 +233,7 @@
 	
 	<!-- 지점사진 -->
 	<script>
-	
+
 	/**
 	* 이미지 파일 업로드
 	*/

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.kh.cosmos.a_common.PageInfo;
 import com.kh.cosmos.b_member.model.dao.MemberDAO;
 import com.kh.cosmos.h_viewBranch.model.dao.ViewBranchDAO;
+import com.kh.cosmos.h_viewBranch.model.vo.SearchCondition;
 import com.kh.cosmos.h_viewBranch.model.vo.ViewBranch;
 import com.kh.cosmos.b_member.model.dao.MemberDAO;
 import com.kh.cosmos.h_viewBranch.model.dao.ViewBranchDAO;
@@ -46,4 +47,15 @@ public class ViewBranchServiceImpl implements ViewBranchService {
 	public int updateBranch(ViewBranch vb) {
 		return vbDAO.updateBranch(sqlSession, vb);
 	}
+
+	@Override
+	public int getSearchResultListCount(SearchCondition search) {
+		return vbDAO.getSearchResultCount(sqlSession, search);
+	}
+
+	@Override
+	public ArrayList<ViewBranch> selectSearchResultList(PageInfo pi, SearchCondition search) {
+		return vbDAO.selectSearchResultList(sqlSession, pi, search);
+	}
+
 }

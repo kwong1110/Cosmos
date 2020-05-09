@@ -111,11 +111,11 @@ public class MemberController {
 		 @RequestMapping("findId.me")
 		   public ModelAndView findMemberId(@ModelAttribute Member m, ModelAndView mv) {
 		      
-			  System.out.println(m);
+//			  System.out.println(m);
 		    
 		      Member result = mService.findMemberId(m);
-		      System.out.println("결과"+result);
-		      System.out.println("mv"+ mv);
+//		      System.out.println("결과"+result);
+//		      System.out.println("mv"+ mv);
 		     
 		      if(result != null) {
 		    	  // 이렇게 하면 삽질함 내가 findMemberId 코드를 돌려서  result에 담아놨는데
@@ -142,11 +142,11 @@ public class MemberController {
 		@RequestMapping("findPwd.me")
 		public ModelAndView findPwd(@ModelAttribute Member m, ModelAndView mv, @RequestParam("id") String id, @RequestParam("email") String email) {
 			
-			System.out.println(m); //m Member 찍어보기
+//			System.out.println(m); //m Member 찍어보기
 			
 			Member member = mService.findMemberPwd(m);
 			
-			System.out.println(member);
+//			System.out.println(member);
 			if(member != null) {
 				
 				// 메일 보내기 전에 발송도었따는  넘어갈 수 있으니까 if문 안에다가 메일 보내는 함수를 작성해준다..
@@ -269,11 +269,9 @@ public class MemberController {
 							   @RequestParam("term") String[] t, @RequestParam(value="etcTerm", required=false) String[] etcT,
 							   @RequestParam(value="studyEtcName", required=false) String[] etcSname, Model model) {
 		
-//		certifyNum
-//		certifyStatus : 인증상태
 		
-		System.out.println("배열 존재 확인 : " + etcSno +""+ chkSname +""+ t +""+ etcSname + "" + etcT );
-		System.out.println(m);
+//		System.out.println("배열 존재 확인 : " + etcSno +""+ chkSname +""+ t +""+ etcSname + "" + etcT );
+//		System.out.println(m);
 		
 		String encPwd = bcryptPasswordEncoder.encode(m.getPwd());
 		m.setPwd(encPwd);
