@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.Date;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -146,6 +147,18 @@ public class SeatController {
 					map.put("stampContent", "쿠폰 발급");
 					
 					cResult = sService.insertCoupon(map);
+
+					Random rnd = new Random();
+					String couponStr = "";
+					for(int i = 0; i < 11; i++) {
+						couponStr = couponStr + String.valueOf((char) ((int) (rnd.nextInt(26)) + 65));
+					}
+					
+					Note n = new Note();
+					n.setNoteFromId("admin00");
+					n.setNoteToId(s.getId());
+					n.setNoteContent("♥쿠폰♥ 도장 10개가 적립되어 코스모스 전 지점에서 사용할 수 있는 1시간 이용권이 지급되었습니다! <label style='color:blue;'>" + couponStr + "</label>");
+					int messageResult = nService.insertNote(n);
 				}
 				
 				if(s.getReserPeople() != 1 && group != 99999 && (s.getReserSort().equals("B") || s.getReserSort().equals("C") || s.getReserSort().equals("D") || s.getReserSort().equals("E"))) { // 그룹 예약 했을 때 그룹원 전체 도장 부여
@@ -168,8 +181,20 @@ public class SeatController {
 							map.put("stampContent", "쿠폰 발급");
 							
 							cResult = sService.insertCoupon(map);
+							
+							Random rnd = new Random();
+							String couponStr = "";
+							for(int i = 0; i < 11; i++) {
+								couponStr = couponStr + String.valueOf((char) ((int) (rnd.nextInt(26)) + 65));
+							}
+							
+							Note n = new Note();
+							n.setNoteFromId("admin00");
+							n.setNoteToId(memId);
+							n.setNoteContent("♥쿠폰♥ 도장 10개가 적립되어 코스모스 전 지점에서 사용할 수 있는 1시간 이용권이 지급되었습니다! <label style='color:blue;'>" + couponStr + "</label>");
+							int messageResult = nService.insertNote(n);
 						}
-
+						
 						Note n = new Note();
 						n.setNoteFromId("admin00");
 						n.setNoteToId(memId);

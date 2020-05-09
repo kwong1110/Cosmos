@@ -640,16 +640,16 @@
 					var $couponTable = $('#couponTable');
 					$couponTable.html('');
 					for(var j = 0; j < 10; j++) {
+						console.log(j + " : " + data[j]);
 						var $tr;
 						if(j < 5) {
 							if(j == 0) $tr = $('<tr>');
-							if(data[j] != undefined && totalStamp-1 >= j) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
+							if(totalStamp-1 >= j) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
 							else $tr.append('<td><div class="emptyStamp"></div></td>');
 							if(j == 4) $couponTable.append($tr);
-							
 						} else {
 							if(j == 5) $tr = $('<tr>');
-							if(data[j] != undefined && totalStamp-1 >= j) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
+							if(totalStamp-1 >= j) $tr.append('<td class="iconStamp"><img src="${contextPath }/resources/image/alien.png" /></td>');
 							else $tr.append('<td><div class="emptyStamp"></div></td>');
 							if(j == 9) $couponTable.append($tr);
 						}
