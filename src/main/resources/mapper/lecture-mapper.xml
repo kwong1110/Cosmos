@@ -100,7 +100,7 @@
 	<select id="selectLectureAttendList" resultMap="lectureResultSet">
 		select *
 		from lecture_people
-		where lecture_status='Y' and id=#{ loginUserId }
+		where lecture_status='C' and id=#{ loginUserId }
 	</select>
 	
 	<!-- myPage 결제내역 관련 -->
@@ -126,7 +126,7 @@
 		from reser
 			join branch using(branch_no)
 		where id=#{ loginUserId }
-		order by reser_day desc
+		order by reser_no desc
 	</select>
 	
 	<select id="myLectureHistory" parameterType="String" resultMap="lectureResultSet">
@@ -134,7 +134,7 @@
 		from lecture l
 		    join branch using(branch_no)
 		    join lecture_people lp using(lecture_no) 
-		where l.id=#{ loginUserId }
+		where lp.id=#{ loginUserId }
 		order by attend_date desc
 	</select>
 	

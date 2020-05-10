@@ -33,14 +33,14 @@ public class LectureController {
 		// System.out.println("list확인 : " + list);
 		
 		ArrayList<Lecture> lectureList = null;
-		System.out.println("로그인 확인 : " +(Member)session.getAttribute("loginUser"));
+		//System.out.println("로그인 확인 : " +(Member)session.getAttribute("loginUser"));
 		// 해당 로그인 유저의 강연 신청 내역을 받아와 신청 버튼 비활성화.
 		if((Member)session.getAttribute("loginUser") != null) {
 			Member loginUser = (Member)session.getAttribute("loginUser");
 			String loginUserId = loginUser.getId();
 			System.out.println(loginUserId);
 			lectureList = lService.selectLectureAttendList(loginUserId);
-			System.out.println("반환 확인 : " + lectureList);
+			//System.out.println("반환 확인 : " + lectureList);
 		}
 		
 		
@@ -121,7 +121,7 @@ public class LectureController {
 		if(result > 0 && attendPlus > 0) {
 			return result;
 		} else {
-			throw new LectureException("지점 전체 조회에 실패하였습니다.");
+			throw new LectureException("강연 신청에 실패하였습니다.");
 		}
 		
 	}
