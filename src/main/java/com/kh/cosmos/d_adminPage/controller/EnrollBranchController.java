@@ -84,7 +84,7 @@ public class EnrollBranchController {
 			System.out.println("member : " + member);
 			System.out.println("master :" + m);
 			
-			ra.addFlashAttribute("successMsg", "성공");
+			ra.addFlashAttribute("successMsg", "지점을 생성");
 		
 			return "redirect:branchList.ap";
 		} else {
