@@ -150,6 +150,7 @@
 							<th>참가비</th>
 							<th>상태</th>
 						</tr>
+						<c:if test=" ${ !empty lList }">
 						<c:forEach var="l" items="${ lList }">
 							<tr class="contentTR">
 								<td>${ l.lectureNo }</td>
@@ -185,6 +186,10 @@
 								</td>
 							</tr>
 						</c:forEach>
+						</c:if>
+						<c:if test="${ empty lList }">
+							<tr><td colspan="8">신청한 강연 목록이 없습니다.</td></tr>
+						</c:if>
 					</table>
 					<!-- 페이징 -->
 					<c:if test="${ pi.endPage > 1 }">
