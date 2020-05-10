@@ -256,9 +256,9 @@
 		</if>
 		<if test="sortOp != ''">
 			<choose>
-				<when test="sortOp == 'timeSort'">
+				<!-- <when test="sortOp == 'timeSort'">
 					order by rsg_no desc
-				</when>
+				</when> -->
 				<when test="sortOp == 'numAscSort'">
 					order by nvl(msg_num,rsg_num) asc
 				</when>
@@ -268,7 +268,13 @@
 				<when test="sortOp == 'recCloseSort'">
 					order by D_CLOSE_DATE asc
 				</when>
+				<otherwise>
+					order by rsg_no desc
+				</otherwise>
 			</choose>
+		</if>
+		<if test="sortOp == ''">
+			order by rsg_no desc
 		</if>
 	</select>
 	

@@ -420,7 +420,11 @@
 									print = '거절';
 								}
 							}
-							$appStatus = $('<td class="status">').text(print);
+							
+							if(print == '스터디 진행 중')
+								$appStatus = $('<td class="status" style="color:#67A261; font-weight:bold;">').text(print);
+							else 
+								$appStatus = $('<td class="status">').text(print);
 							
 							$tr.append($no);
 							$tr.append($sgStatus);
