@@ -58,7 +58,11 @@ public class MemberController {
 			if (loginUser.getMstatus().equals("R")) {
 		
 				ra.addFlashAttribute("wrongMsg","금지된 회원입니다.<br>관리자에게 문의하세요!");
+				return "redirect:/";
+			}
+			if (loginUser.getMstatus().equals("N")) {
 				
+				ra.addFlashAttribute("wrongMsg","탈퇴한 회원입니다.<br>관리자에게 문의하세요!");
 				return "redirect:/";
 			}
 			
