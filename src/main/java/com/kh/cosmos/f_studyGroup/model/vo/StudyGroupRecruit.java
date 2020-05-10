@@ -31,10 +31,11 @@ public class StudyGroupRecruit {
 	private String groupType;
 	
 	public StudyGroupRecruit() {}
-
+	
 	public StudyGroupRecruit(int sgNo, int recNo, String sgStatus, String studyName, String sgName, String recTerm,
-			int recNum, String nick, String branchName, String sgGoal, String sgContent, String msgRule1,
-			String msgRule2, String msgRule3, String msgMetRule, int msgMet, int msgNum) {
+			int recNum, String id, String nick, int branchNo, String branchName, String sgGoal, String sgContent,
+			Date rsgMetDate, String msgRule1, String msgRule2, String msgRule3, String msgMetRule, int msgMet,
+			int msgNum, int dCloseDate, int partNum, int partMemNum, String groupType) {
 		super();
 		this.sgNo = sgNo;
 		this.recNo = recNo;
@@ -43,19 +44,26 @@ public class StudyGroupRecruit {
 		this.sgName = sgName;
 		this.recTerm = recTerm;
 		this.recNum = recNum;
+		this.id = id;
 		this.nick = nick;
+		this.branchNo = branchNo;
 		this.branchName = branchName;
 		this.sgGoal = sgGoal;
 		this.sgContent = sgContent;
+		this.rsgMetDate = rsgMetDate;
 		this.msgRule1 = msgRule1;
 		this.msgRule2 = msgRule2;
 		this.msgRule3 = msgRule3;
 		this.msgMetRule = msgMetRule;
 		this.msgMet = msgMet;
 		this.msgNum = msgNum;
+		this.dCloseDate = dCloseDate;
+		this.partNum = partNum;
+		this.partMemNum = partMemNum;
+		this.groupType = groupType;
 	}
-	
-	
+
+
 
 	public int getBranchNo() {
 		return branchNo;
