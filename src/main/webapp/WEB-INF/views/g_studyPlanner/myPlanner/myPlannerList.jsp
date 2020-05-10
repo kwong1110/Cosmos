@@ -317,6 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
 		events: [						// 스케쥴 데이터를 넣는 곳
 				<c:forEach var="p" items="${ pList }">
 				{
+					
 					title :	"${ p.planTitle }",
 					start : "${ p.planStart }",	
 					end : "${ p.planEnd }",
@@ -442,8 +443,8 @@ document.addEventListener('DOMContentLoaded', function() {
 				planNo: info.event.id
 			}
 			
-			console.log(moment(info.event.start).format('YYYY-MM-DD'));
-			console.log(moment(info.event.end).format('YYYY-MM-DD'));
+			console.log("시작시간 확인 : " + moment(info.event.start).format('YYYY-MM-DD HH:mm'));
+			console.log("끝시간 확인 : " + moment(info.event.end).format('YYYY-MM-DD HH:mm'));
 			
 			if(info.event.end === null){
 				newDates.planStart = moment(info.event.start).format('YYYY-MM-DD HH:mm');
@@ -453,6 +454,14 @@ document.addEventListener('DOMContentLoaded', function() {
 				newDates.planEnd = moment(info.event.end).format('YYYY-MM-DD HH:mm');
 			} 
 			
+			if (info.event.allDay) {
+			    newDates.planStart = moment(info.event.start).format('YYYY-MM-DD');
+			    newDates.planEnd = moment(info.event.end).subtract(1, 'days').format('YYYY-MM-DD');
+			  } else {
+			    newDates.planStart = moment(info.event.start).format('YYYY-MM-DD HH:mm');
+			    newDates.planEnd = moment(info.event.end).format('YYYY-MM-DD HH:mm');
+			  }
+			
 			// console.log("드롭 작동!");
 			/* console.log(info.event.start);
 			console.log(info.event.end);
@@ -461,7 +470,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			console.log(newDates.planStart + " / " + newDates.planEnd); */
 			
 		    //주,일 view일때 종일 <-> 시간 변경불가
-		    console.log(info.view.type)
+		   	//console.log(info.view.type)
 			if (info.view.type === 'timeGridWeek' || info.view.type === 'timeGridDay') {
 				if (draggedEventIsAllDay !== info.event.allDay) {
 					swal({
@@ -483,11 +492,13 @@ document.addEventListener('DOMContentLoaded', function() {
 				data: newDates,
 				success: function(data) {
 					if(data == "successdropPlanUpdate"){
+						$('#planDate').val(newDates.planStart + " - " + newDates.planEnd);
 						swal({
 							title: "플랜 일정을 수정" + "하였습니다!",
 							text: newDates.planStart + ' ~ ' + newDates.planEnd,
 							type: "success",
 						})
+						
 					}
 					// 리로드 필요?
 				}
@@ -550,7 +561,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			                    <div id="modalBody" class="modal-body">
 			                        <!-- 내용 -->
 				                    <div>
-				                        <span>좋아요 수 : </span><span id="like"></span>
+				                        <!-- <span>좋아요 수 : </span><span id="like"></span> -->
 				                        <span>조회 수 : </span><span id="hit"></span>
 			                        </div>
 				                        <table class="table">
@@ -599,7 +610,7 @@ document.addEventListener('DOMContentLoaded', function() {
 												<td class="exception">
 													<input id="planAllday1" type="radio" name="planAllday" value="1"/>O
 													<input id="planAllday0" type="radio" name="planAllday" value="0"/>X
-													<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="하루종일을 선택하시면 시간을 입력하여도 저장되지않습니다.">?</button>
+													<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="기간이 2일 이상이면 하루종일을 선택해주세요. 하루종일 선택 시 시간은 저장되지 않습니다.">?</button>
 												</td>
 											</tr>
 											<tr>
@@ -702,7 +713,7 @@ document.addEventListener('DOMContentLoaded', function() {
 												<td class="exception">
 													<input id="planAllday" type="radio" name="planAllday" value="1"/>O
 													<input type="radio" name="planAllday" value="0"/>X
-													<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="하루종일을 선택하시면 시간을 입력하여도 저장되지않습니다.">?</button>
+													<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="bottom" title="기간이 2일 이상이면 하루종일을 선택해주세요. 하루종일 선택 시 시간은 저장되지 않습니다.">?</button>
 												</td>
 											</tr>
 											<tr>
@@ -890,7 +901,7 @@ document.addEventListener('DOMContentLoaded', function() {
 					data.planMenu == 'TODAY' ? $('#today').attr('checked', 'checked') : $('#default').attr('checked', 'checked');
 					$('#categorySelect').val(data.studyNo).prop('selected', true);
 					$('#title').val(decodeURIComponent(data.planTitle.replace(/\+/g, ' ')));
-					$('#planDate').val(data.planStart + "~" + data.planEnd);
+					$('#planDate').val(data.planStart + " - " + data.planEnd);
 					$('#planCreateDate').text(data.createDate);
 					$('#like').text(data.likeCount);
 					$('#hit').text(data.hit);

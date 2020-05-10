@@ -7,6 +7,45 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+<style>
+	div.content ul.nav-tabs {
+		border-bottom-color: transparent;
+	}
+	
+	div.content ul.nav-tabs {
+		margin-bottom :70px;
+		display:flex;
+		justify-content: space-between;
+	}
+	
+	div.content ul.nav-tabs>li {
+		flex : 2 1 auto;
+	}
+	
+	div.content ul.nav-tabs>li>a {
+	    margin-right: 3px;
+	    line-height: 1.42857143;
+	    background-color: rgba(255, 255, 255, 0.5);
+	    border: 1px solid #ddd;
+	    border-radius: 4px 4px 0 0;
+	    font-family: 'Binggrae';
+	    text-align : center;
+	}
+	
+	div.content ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+	    color: #555;
+	    /*cursor: default;*/
+		cursor:pointer;
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	}
+	
+	.nav>li>a {
+	    position: relative;
+	    display: block;
+	    padding: 10px 15px;
+	}
+</style>
 </head>
 <body>
 <div class="total-wrapper">
@@ -18,10 +57,10 @@
 				</div>
 				<div class="content">
 					<ul class="nav nav-tabs">
-					  <li role="presentation" class="active"><a href="#">회원 정보</a></li>
+					  <li role="presentation" class="active"><a href="myPage.mp?id=${loginUser.id}">회원 정보</a></li>
 					  <li role="presentation" class="active"><a href="myGroup.mp">마이 그룹</a></li>
-					  <li role="presentation"><a href="#">강연 내역</a></li>
-					  <li role="presentation"><a href="slHistory.mp">결재 내역</a></li>
+					  <li role="presentation"><a href="lectureHistory.mp">강연 내역</a></li>
+					  <li role="presentation"><a href="slHistory.mp">결제 내역</a></li>
 					  <c:url var="memberDelete" value="memberDelete.mp">
 					  	<c:param name="id" value="${loginUser.id}"/>
 					  </c:url>
@@ -31,6 +70,7 @@
 						<%-- <c:if test="${ not empty mySeatList || not empty myLectureList }" > --%>
 						<tr>
 							<th>No.</th>
+							<th>분류</th>
 							<th>참가/예약일</th>
 							<th>참가/예약 시간</th>
 							<th>장소</th>
@@ -41,6 +81,7 @@
 						<c:forEach var="msl" items="${ mySeatList }">
 							<tr class="contentTR">
 								<td>${ msl.reserNo }</td>
+								<td>좌석예약</td>
 								<td>${ msl.reserDay } ~ ${ msl.finishDay }</td>
 								<td>${ msl.startTime }시 ~ ${ msl.endTime }시</td>
 								<td>${ msl.branchName }</td>
@@ -79,6 +120,7 @@
 						<c:forEach var="mll" items="${ myLectureList }">
 							<tr class="contentTR">
 								<td>${ mll.lectureNo }</td>
+								<td>강연</td>
 								<td>${ fn:substring(mll.lectureStart,0,10) } ~ ${ fn:substring(mll.lectureEnd,0,10) }</td>
 								<td>${ fn:substring(mll.lectureStart,11,13) }시 ~ ${ fn:substring(mll.lectureEnd,11,13) }시</td>
 								<td>${ mll.branchName }</td>

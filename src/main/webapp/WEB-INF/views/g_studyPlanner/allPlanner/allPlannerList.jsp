@@ -248,7 +248,7 @@
 							<th>작성자</th>
 							<th>작성일</th>
 							<th>조회수</th>
-							<th>추천수</th>
+							<!-- <th>추천수</th> -->
 						</tr>
 						<c:forEach var="p" items="${ pList }">
 							<tr class="contentTR">
@@ -258,7 +258,7 @@
 								<td>${ p.nickName }</td>
 								<td>${ p.createDate }</td>
 								<td>${ p.hit }</td>
-								<td>${ p.likeCount }</td>
+								<%-- <td>${ p.likeCount }</td> --%>
 							</tr>
 						</c:forEach>
 					</table>
@@ -384,8 +384,8 @@
 		        <div id="modalBody" class="modal-body">
 		            <!-- 내용 -->
 		            <div>
-			            <span>좋아요 수 : </span><span id="like"></span>
-						<span>조회 수 : </span><span id="hit"></span>
+<!-- 			            <span>좋아요 수 : </span><span id="like"></span> -->	
+					<span>조회 수 : </span><span id="hit"></span>
 					</div>
 	                <table id="viewPlan" class="table">
 						<tr>

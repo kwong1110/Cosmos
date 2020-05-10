@@ -80,12 +80,67 @@
 	input:read-only {
 		background-color: rgb(247, 239, 193);
 	}
+	
+	.adminList{
+		width:600px;padding-top:50px;
+	}
+	div.adminList ul.nav-tabs {
+		border-bottom-color: transparent;
+	}
+	
+	div.adminList ul.nav-tabs {
+		margin-bottom :30px;
+		display:flex;
+		justify-content: space-between;
+	}
+	
+	div.adminList ul.nav-tabs>li {
+		flex : 2 1 auto;
+	}
+	
+	div.adminList ul.nav-tabs>li>a {
+	    margin-right: 3px;
+	    line-height: 1.42857143;
+	    background-color: rgba(255, 255, 255, 0.5);
+	    border: 1px solid #ddd;
+	    border-radius: 4px 4px 0 0;
+	    font-family: 'Binggrae';
+	    text-align : center;
+	}
+	
+ 	div.adminList ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+	    color: #555;
+	    cursor: default;
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	} 
+	
+	.nav>li>a {
+	    position: relative;
+	    display: block;
+	    padding: 10px 15px;
+	}
 </style>
 </head>
 <body>
 	<div class="total-wrapper">
 		<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper">
+			<div  align="center">	
+				<div class="adminList" style="margin-bottom:0px;">
+				<c:if test="${loginUser.name eq '본점관리자' }">
+					<ul class="nav nav-tabs">
+						<li role="presentation"><a href="adminPage.ap">본점관리자</a></li>
+						<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
+						<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
+						<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
+						<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
+					</ul>
+				</c:if>
+				</div>
+			</div>
+			<hr>
+			
 			<div class="main">
 				<div class="pageTitle">
 					<h1>강연관리</h1>
@@ -110,7 +165,7 @@
 								<td>${ l.branchName }</td>
 								<td>${ l.lectureDate }</td>
 								<c:if test="${ l.lectureStart eq l.lectureEnd }">
-									<td>${ l.lectureStart }(${ l.lectureTime })</td>
+									<td>${ l.lectureStart }</td>
 								</c:if>
 								<c:if test="${ l.lectureStart ne l.lectureEnd }">
 									<td>${ l.lectureStart }~${ l.lectureEnd }</td>
@@ -290,7 +345,7 @@
 						</tr>
 					</table>
                 </div>
-                <div class="modal-footer modalBtnContainer-modifyEvent btnBox">
+                <div id="updateBtn" class="modal-footer modalBtnContainer-modifyEvent btnBox">
                     <button type="button" id="ok" class="btn defaultBtn" data-dismiss="modal" onclick="lectureUpdate('OPEN');">수락</button>
                     <button type="button" id="no" class="btn cosmosBtn" data-dismiss="modal" onclick="lectureUpdate('REJECT');">거절</button>
                 </div>
@@ -325,6 +380,21 @@
 					$('#attendpeople').val(data.attendpeople);
 					$('#lectureDate').val(data.lectureDate);
 					
+					if(data.lectureStatus == 'REJECT'){
+						$('#updateBtn').text("");
+						$('#updateBtn').children().remove();
+						$('#updateBtn').text('거절 된 강연 입니다.');
+					} else if(data.lectureStatus == 'APPLY'){
+						$('#updateBtn').text("");
+						$('#updateBtn').children().remove();
+						$('#updateBtn').append("<button type='button' id='ok' class='btn defaultBtn' data-dismiss='modal' onclick='lectureUpdate("+'"OPEN"'+")'>수락</button>")
+									   .append("<button type='button' id='no' class='btn cosmosBtn' data-dismiss='modal' onclick='lectureUpdate("+'"REJECT"'+")'>거절</button>");
+					} else if(data.lectureStatus == 'OPEN'){
+						$('#updateBtn').text("");
+						$('#updateBtn').children().remove();
+						$('#updateBtn').append("<button type='button' id='no' class='btn cosmosBtn' data-dismiss='modal' onclick='lectureUpdate("+'"REJECT"'+")'>거절</button>");
+					}
+					
 					switch(data.lectureStatus){
 					case 'APPLY': data.lectureStatus = '신청'; break;
 					case 'OPEN': data.lectureStatus = '모집중'; break;
@@ -344,6 +414,8 @@
 					});
 					$('#content').summernote('code',decodeURIComponent(data.lectureContent.replace(/\+/g, ' ')));
 					$('#content').summernote('disable');
+					
+					
 				}
 			});
 		});

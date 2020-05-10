@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>강연 관리</title>
+<title>강연 내역</title>
 <style>
 	.modal-dialog.modal-80size {
 		width: 60%; 
@@ -80,6 +80,44 @@
 	input:read-only {
 		background-color: rgb(247, 239, 193);
 	}
+	
+	div.content ul.nav-tabs {
+		border-bottom-color: transparent;
+	}
+	
+	div.content ul.nav-tabs {
+		margin-bottom :70px;
+		display:flex;
+		justify-content: space-between;
+	}
+	
+	div.content ul.nav-tabs>li {
+		flex : 2 1 auto;
+	}
+	
+	div.content ul.nav-tabs>li>a {
+	    margin-right: 3px;
+	    line-height: 1.42857143;
+	    background-color: rgba(255, 255, 255, 0.5);
+	    border: 1px solid #ddd;
+	    border-radius: 4px 4px 0 0;
+	    font-family: 'Binggrae';
+	    text-align : center;
+	}
+	
+	div.content ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+	    color: #555;
+	    /*cursor: default;*/
+		cursor:pointer;
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	}
+	
+	.nav>li>a {
+	    position: relative;
+	    display: block;
+	    padding: 10px 15px;
+	}
 </style>
 </head>
 <body>
@@ -88,9 +126,19 @@
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
-					<h1>강연관리</h1>
+					<h1>강연 내역</h1>
 				</div>
 				<div class="content">
+					<ul class="nav nav-tabs">
+					  <li role="presentation" class="active"><a href="myPage.mp?id=${loginUser.id}">회원 정보</a></li>
+					  <li role="presentation" class="active"><a href="myGroup.mp">마이 그룹</a></li>
+					  <li role="presentation"><a href="lectureHistory.mp">강연 내역</a></li>
+					  <li role="presentation"><a href="slHistory.mp">결제 내역</a></li>
+					  <c:url var="memberDelete" value="memberDelete.mp">
+					  	<c:param name="id" value="${loginUser.id}"/>
+					  </c:url>
+					  <li role="presentation"><a href="location.href='${memberDelete}'">회원 탈퇴하기</a></li>
+					</ul>
 					<table class="table table-hover inner">
 						<tr>
 							<th>No.</th>
