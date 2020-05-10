@@ -28,7 +28,8 @@
 	#confirmArea{min-height:40px; margin-top:5px; padding-bottom:10px; padding-left:30px; vertical-align: middle; display:inline-block; float:right;}
 	
 	#sortArea{display:inline-block; float:right;}
-	.sort{font-size:17px;}
+	.sort{font-size:17px; cursor:pointer;}
+	.sort:hover{color:#17955F;}
 	
 	.typeBadge{
 		font-weight: bold;

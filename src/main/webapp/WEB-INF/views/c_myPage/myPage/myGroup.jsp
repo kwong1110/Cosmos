@@ -734,6 +734,8 @@
 							
 							$recTableBody.append($tr);
 						}
+					} else {
+						$recTableBody.append('<tr><td colspan=5>등록된 모집이 없습니다.</td></tr>');
 					}
 				}
 			});
@@ -757,8 +759,8 @@
 				closeOnConfirm: !1
 				},
 				function(){
-					if(status == '강퇴') deleteMember();
-					else if(status == '종료') deleteGroup();
+					if(btnText == '강퇴') deleteMember();
+					else if(btnText == '종료') deleteGroup();
 					else exitGroup();
 				}
 			)
