@@ -1,5 +1,7 @@
 package com.kh.cosmos.c_myPage.controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpSession;
@@ -22,7 +24,7 @@ public class SeatHistoryController {
 	private SeatHistoryService shService;
 	
 	@RequestMapping("slHistory.mp")
-	public String myPlannerList(Model model, HttpSession session) {
+	public String myPlannerList(Model model, HttpSession session) throws UnsupportedEncodingException {
 		
 		Member loginUser = (Member)session.getAttribute("loginUser");
 		String loginUserId = loginUser.getId();
@@ -33,9 +35,10 @@ public class SeatHistoryController {
 		if(mySeatList != null && myLectureList != null) {
 			model.addAttribute("mySeatList", mySeatList);
 			model.addAttribute("myLectureList", myLectureList);
+			//System.out.println(myLectureList);
 			return "/myPage/myPayment";
 		} else {
-			throw new StudyPlannerException("나의 플래너 전체 조회에 실패하였습니다.");
+			throw new StudyPlannerException("결제내역 전체 조회에 실패하였습니다.");
 		}
 	}
 }

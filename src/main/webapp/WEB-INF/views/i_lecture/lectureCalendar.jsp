@@ -280,25 +280,34 @@
 				$('#viewModal').modal("show");
 				
 				console.log("${ lectureList }");
-				<c:forEach var="lL" items="${ lectureList }">
-					if("${ lL.lectureNo }" == info.event.id){
-						$('#lectureBuy').children().css('display','none');
-						$('#lectureBuy').append('<div class="attendLecture">').text('이미 신청한 강연 입니다.');
-					} else {
-						$('#lectureBuy').text("");
-						$('#lectureBuy').children().css('display','none');
-						$('#lectureBuy').append('<button type="button" class="btn defaultBtn" data-dismiss="modal" onclick="lectureBuy()">참가신청</button>');
-					}
-				</c:forEach>
 				
-				/* if("${ loginUser.id }" == info.event.id) {
-					$('#lectureBuy').children().css('display','none');
-					$('#lectureBuy').append('<div class="attendLecture">').text('강연자는 신청 할 수 없습니다.');
+				if("${ loginUser.id }" == info.event.extendedProps.userId) {
+					$('#lectureBuy').text("");
+					$('#lectureBuy').children().remove();
+					$('#lectureBuy').text('강연자는 신청 할 수 없습니다.');
+				} else if("${ loginUser.id }" == "") {
+					$('#lectureBuy').text("");
+					$('#lectureBuy').children().remove();
+					$('#lectureBuy').text('로그인을 해야만 신청 하실 수 있습니다.');
 				} else {
 					$('#lectureBuy').text("");
 					$('#lectureBuy').children().css('display','none');
-					$('#lectureBuy').append('<button type="button" class="btn defaultBtn" data-dismiss="modal" onclick="lectureBuy()">참가신청</button>');
-				} */
+					$('#lectureBuy').append("<div>*참가 신청을 누르면 결제페이지로 이동합니다.</div>")
+									.append('<button type="button" class="btn defaultBtn" data-dismiss="modal" onclick="lectureBuy()">참가신청</button>');
+				} 
+				
+				//console.log(info.event.id);
+				if("${ lectureList }" != ""){
+					<c:forEach var="lL" items="${ lectureList }">
+							if("${ lL.lectureNo }" == info.event.id){
+								$('#lectureBuy').text("");
+								$('#lectureBuy').children().css('display','none');
+								$('#lectureBuy').text('이미 신청한 강연 입니다.');
+							}
+					</c:forEach>
+	      		}
+				
+				
 				
 				$('#content').summernote({
 					toolbar: false,
@@ -389,7 +398,7 @@
 			        msg += rsp.paid_amount + '원을 결제하였습니다.';
 			        $.ajax({
 				    	   url : "lectureBuy.le",
-				    	   type : "post",
+				    	   type : "get",
 				    	   data : {lectureNo:lectureNo, id:id},
 				    	   success : function(data) {
 				    	        swal({

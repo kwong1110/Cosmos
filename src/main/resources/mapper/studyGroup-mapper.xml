@@ -172,7 +172,7 @@
 	</resultMap>
 	
 	<select id="getGroupInfoForRec" parameterType="_int" resultMap="groupRecruitResultSet">
-		select sg_no, sg_status, study_name, msg_num, branch_name, msg_met_rule, sg_goal, msg_rule1,  msg_rule2,  msg_rule3, sg_content
+		select sg_no, sg_status, study_name, msg_num, branch_no, branch_name, msg_met_rule, sg_goal, msg_rule1,  msg_rule2,  msg_rule3, sg_content
 		from sgroup
 			join study_category using(study_no)
 			join branch using(branch_no)
@@ -334,18 +334,20 @@
 		<id property="nick" column="NICK"/>
 		<id property="sgStatus" column="SG_STATUS"/>
 		<id property="studyName" column="STUDY_NAME"/>
-		<id property="rsgMetDate" column="rsg_metting_date"/>
-		<id property="msgNum" column="MSG_NUM"/>
-		<id property="branchName" column="BRANCH_NAME"/>
-		<id property="msgMet" column="MSG_MET"/>
-		<id property="msgMetRule" column="MSG_MET_RULE"/>
 		<id property="sgName" column="SG_NAME"/>
 		<id property="sgStatus" column="SG_STATUS"/>
 		<id property="sgGoal" column="SG_GOAL"/>
+		<id property="sgContent" column="SG_CONTENT"/>
+		
+		<id property="rsgMetDate" column="rsg_metting_date"/>
+		<id property="msgNum" column="MSG_NUM"/>
+		<id property="branchNo" column="BRANCH_NO"/>
+		<id property="branchName" column="BRANCH_NAME"/>
+		<id property="msgMet" column="MSG_MET"/>
+		<id property="msgMetRule" column="MSG_MET_RULE"/>
 		<id property="msgRule1" column="MSG_RULE1"/>
 		<id property="msgRule2" column="MSG_RULE2"/>
 		<id property="msgRule3" column="MSG_RULE3"/>
-		<id property="sgContent" column="SG_CONTENT"/>
 	</resultMap>
 	
 	<select id="getStudyGroupInfo" parameterType="_int" resultMap="studyGroupResultSet">

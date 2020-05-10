@@ -223,10 +223,7 @@ public class StudyGroupController {
 	@RequestMapping("getStudyGroupInfo.sg")
 	public void getStudyGroupInfo(HttpServletResponse response, @RequestParam("sgno") int sgno) throws JsonIOException, IOException {
 		String sgStatus = sgService.getSgStatus(sgno);
-		System.out.println(sgStatus);
-		
 		StudyGroupRecruit info = sgService.getGroupInfoForRec(sgno, sgStatus);
-		System.out.println(info);
 		
 		if(info != null) {
 			if(info.getSgStatus().equals("Y")) {
@@ -249,6 +246,8 @@ public class StudyGroupController {
 				info.setSgContent(URLEncoder.encode(info.getSgContent(), "UTF-8"));
 			}
 			
+			System.out.println("getStudyGroupInfo");
+			System.out.println(info);
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson(info, response.getWriter());
 		} else {
@@ -258,6 +257,9 @@ public class StudyGroupController {
 	
 	@RequestMapping("insertRecruit.sg")
 	public String insertRecruit(@ModelAttribute StudyGroupRecruit info, RedirectAttributes ra) {
+		System.out.println("insertRecruit");
+		System.out.println(info);
+		
 		if(info.getSgStatus().equals("Y")) info.setRsgMetDate(null);
 		int result = sgService.insertRecruit(info);
 		

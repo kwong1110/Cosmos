@@ -619,7 +619,8 @@
 				}
 			});
 		}
-
+	
+		var modalTitle = "";
 		function openGroupBossModal(e, sgno) {
 			sgNo = sgno;
 			
@@ -635,7 +636,12 @@
 					<th style="width:20%;">강퇴</th>
 					*/
 					
-					$('.modalTitle').text($(e).children('.title').text());
+					if(modalTitle == '') {
+						modalTitle = $(e).children('.title').text();
+						$('.modalTitle').text(modalTitle);
+					} else {
+						modalTitle = "";
+					}
 
 					$memberTableBody = $('#modalMemberTable tbody');
 					$memberTableBody.html('');
@@ -701,9 +707,17 @@
 							var endDate = data[i].recTerm.substr(13)
 					        var endDateArr = endDate.split('-');
 					        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
-					        
+							
+					        console.log('modalTitle : ' + modalTitle);
+					        console.log('i : ' + i);
+					        console.log('Object.keys(data).length : ' + Object.keys(data).length);
+							if(modalTitle == '' && i == 0) {
+								data[i].recTerm = data[i].recTerm.slice(0,21) + dd;
+							}
+					        console.log('data[i].recTerm : ' + data[i].recTerm);
+							
 							$tr = $('<tr>');
-
+							
 							$tr.append('<td>' + no + '</td>');
 							no--;
 							$tr.append('<td>' + data[i].recEnrollDate + '</td>');
@@ -895,9 +909,10 @@
 				data:{recno:recno},
 				dataType: 'json',
 				success: function(data) {
-					if(data == 'success')
+					if(data == 'success') {
+						$('.modalTitle').text(modalTitle);
 						openGroupBossModal(e, sgno);
-					else
+					} else
 						alert('모집 마감에 실패하였습니다.');
 				}
 			})
