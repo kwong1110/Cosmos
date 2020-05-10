@@ -118,7 +118,7 @@
 								<!-- <input class="form-control" type="text" id="recLoc" name="recLoc" value="한남점" disabled> -->
 							</td>
 							<td class="once">
-								<input type="hidden" id="branchNo" name="branchNo">
+								<input type="hidden" id="branchNo" name="branchNo" value="999">
 								<select class="form-control" id="branchSelect" style="width:200px;">
 									 <c:forEach var="item" items="${ branchList }">
 									 	<option value="${ item.branchNo }">${ item.branchName }</option>
@@ -141,7 +141,7 @@
 						<tr class="once">
 							<td class="tableLabel">모임 날짜</td>
 							<td>
-								<input type="text" class="form-control" id="datepicker-autoclose" name="rsgMetDate" placeholder="년/월/일" style="width:120px; display:inline-block;">
+								<input type="text" class="form-control" id="datepicker-autoclose" id="rsgMetDate" name="rsgMetDate" value="2020-02-02" placeholder="년/월/일" style="width:120px; display:inline-block;">
 								<button type="button" class="helpBtn" data-toggle="tooltip" data-placement="right" title="모집 기간 이후로 선택해주새요.">?</button>
 							</td>
 						</tr>
@@ -240,11 +240,11 @@
 				$('#groupContent').text(decodeURIComponent(data.sgContent.replace(/\+/g, ' ')));
 				$('#recNum').val('');
 				$('#recNum').attr({'max':'7', 'placeholder':'1이상 7이하'});
+				$('#sgStatus').val(data.sgStatus);
 				
 				if(data.sgStatus == 'Y') {
 					$('.long').css('display','');
 					$('.once').css('display','none');
-					$('#sgStatus').val('Y');
 					
 					$('#recLoc').text(decodeURIComponent(data.branchName.replace(/\+/g, ' ')));
 					$('#meetingDate').text(decodeURIComponent(data.msgMetRule.replace(/\+/g, ' ')));
@@ -270,7 +270,6 @@
 				} else {
 					$('.long').css('display','none');
 					$('.once').css('display','');
-					$('#sgStatus').val('N');
 				}
 			}
 		});
@@ -308,13 +307,12 @@
 				sweetWrong('모집 인원을 작성해주세요.');
 			}
 		} */
+		
 		if($('#recNum').val().trim() != '' && $('#recTerm').val() != '') {
-			if($('.long').css('display') == 'none') {
-				if($('#datepicker-autoclose').val() != '') {
-					$('#branchNo').val($('#branchSelect option:checked').val());
-					$('#sgName').val($('#groupSelect option:checked').text());
-					return true;
-				}
+			if($('.long').css('display') == 'none' && $('#rsgMetDate').val() != '') {
+				$('#branchNo').val(parseInt($('#branchSelect option:checked').val()));
+				$('#sgName').val($('#groupSelect option:checked').text());
+				return true;
 			} else {
 				$('#sgName').val($('#groupSelect option:checked').text());
 				return true;
