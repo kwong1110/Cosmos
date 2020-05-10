@@ -105,9 +105,9 @@ public class SeatController {
 			String[] singleDate = reserDate.split(" ");
 			
 			startDate = singleDate[0];
-			startTime = singleDate[1];
+			startTime = singleDate[1].split(":")[0];
 			endDate = singleDate[0];
-			endTime = "24:00";
+			endTime = "24";
 		}
 		
 		Date reserDay = Date.valueOf(startDate);
