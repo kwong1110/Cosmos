@@ -91,7 +91,7 @@
 		<div class="wrapper">
 			<div class="main">
 				<div class="pageTitle">
-					<h1>지점 리스트</h1>
+					<h1>지점 찾기</h1>
 				</div>
 				<div class="content">
 					<!-- 지점 찾기 wrapper -->

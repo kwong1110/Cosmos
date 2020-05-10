@@ -40,13 +40,35 @@ public class MyPageServiceImpl implements MyPageService{
 	public int updateMember(Member m, ArrayList<Preview> pList) {
 		
 		int resultM = mpDAO.updateMember(sqlSession, m);
-		int resultP = 0;
+		
+		int resultP1 = 0;
+		int resultP2 = 0;
 		
 		if(resultM > 0) {
-			resultP = mpDAO.updatePreview(sqlSession, m, pList);
+			
+			resultP1 = mpDAO.deleteAllPreview(sqlSession, m);
+			
+			if(resultP1 > 0 ) {
+				
+				resultP2 = mpDAO.insertAllPreview(sqlSession, m , pList);
+			} 
+			
 		}
 		
-		return resultP;
+		return resultP2;
+	}
+
+	@Override
+	public int deleteMember(String loginUserId) {
+		
+		int resultM = 0;
+		int resultP = mpDAO.deletePreview(sqlSession, loginUserId);
+		
+		if(resultP > 0) {
+			resultM = mpDAO.deleteMember(sqlSession, loginUserId);
+		}
+			
+		return resultM;
 	}
 
 

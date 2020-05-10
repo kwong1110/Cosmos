@@ -14,7 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.cosmos.a_common.PageInfo;
-import com.kh.cosmos.a_common.Pagination;
+import com.kh.cosmos.a_common.Pagination_three;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.c_myPage.model.exception.MyPageException;
 import com.kh.cosmos.c_myPage.model.service.NoteService;
@@ -39,8 +39,8 @@ public class NoteController {
 		}
 		
 		int listCount = nService.getListCount(userId);
-		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_three.getPageInfo(currentPage, listCount);
 		
 		ArrayList<Note> nList = nService.selectList(pi, userId);
 		
@@ -220,7 +220,8 @@ public class NoteController {
 		
 		int listCount = nService.getStoreListCount(userId);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_three.getPageInfo(currentPage, listCount);
 		
 		ArrayList<Note> nList = nService.selectStoreList(pi, userId);
 		
@@ -257,7 +258,8 @@ public class NoteController {
 		
 		int listCount = nService.getSearchResultListCount(search);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_three.getPageInfo(currentPage, listCount);
 		ArrayList<Note> nList = nService.selectSearchResultList(pi, search);
 		
 		if(nList != null) {
@@ -295,7 +297,8 @@ public class NoteController {
 			
 			int listCount = nService.getStoreSearchResultListCount(search);
 			
-			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+//			PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+			PageInfo pi = Pagination_three.getPageInfo(currentPage, listCount);
 			ArrayList<Note> nList = nService.selectStoreSearchResultList(pi, search);
 			
 			if(nList != null) {
@@ -330,31 +333,31 @@ public class NoteController {
 		if(menu.equals("to")) { // 받은 쪽지
 			
 			listCount = nService.getMenuToListCount(userId);
-			pi = Pagination.getPageInfo(currentPage, listCount);
+			pi = Pagination_three.getPageInfo(currentPage, listCount);
 			nList = nService.selectMenuToList(pi, userId);
 			
 		} else if (menu.equals("from")) { // 보낸 쪽지
 			
 			listCount = nService.getMenuFromListCount(userId);
-			pi = Pagination.getPageInfo(currentPage, listCount);
+			pi = Pagination_three.getPageInfo(currentPage, listCount);
 			nList = nService.selectMenuFromList(pi, userId);
 			
 		} else if (menu.equals("tome")) { // 내게 보낸 쪽지
 			
 			listCount = nService.getMenuToMeListCount(userId);
-			pi = Pagination.getPageInfo(currentPage, listCount);
+			pi = Pagination_three.getPageInfo(currentPage, listCount);
 			nList = nService.selectMenuToMeList(pi, userId);
 			
 		} else if (menu.equals("total")) { // 전체 쪽지
 			
 			listCount = nService.getListCount(userId);
-			pi = Pagination.getPageInfo(currentPage, listCount);
+			pi = Pagination_three.getPageInfo(currentPage, listCount);
 			nList = nService.selectList(pi, userId);
 			
 		} else if(menu.equals("storage")) { // 보관함에 있는 쪽지
 			
 			listCount = nService.getStoreListCount(userId);
-			pi = Pagination.getPageInfo(currentPage, listCount);
+			pi = Pagination_three.getPageInfo(currentPage, listCount);
 			nList = nService.selectStoreList(pi, userId);
 		}
 		
@@ -389,25 +392,25 @@ public class NoteController {
 			if(menu.equals("to")) { // 보관함 받은 쪽지
 				
 				listCount = nService.getStoreMenuToListCount(userId);
-				pi = Pagination.getPageInfo(currentPage, listCount);
+				pi = Pagination_three.getPageInfo(currentPage, listCount);
 				nList = nService.selectStoreMenuToList(pi, userId);
 				
 			} else if (menu.equals("from")) { // 보관함 보낸 쪽지
 				
 				listCount = nService.getStoreMenuFromListCount(userId);
-				pi = Pagination.getPageInfo(currentPage, listCount);
+				pi = Pagination_three.getPageInfo(currentPage, listCount);
 				nList = nService.selectStoreMenuFromList(pi, userId);
 				
 			} else if (menu.equals("tome")) { // 보관함 내게 보낸 쪽지
 				
 				listCount = nService.getStoreMenuToMeListCount(userId);
-				pi = Pagination.getPageInfo(currentPage, listCount);
+				pi = Pagination_three.getPageInfo(currentPage, listCount);
 				nList = nService.selectStoreMenuToMeList(pi, userId);
 				
 			} else if (menu.equals("total")) { // 보관함 전체 쪽지
 				
 				listCount = nService.getStoreListCount(userId);
-				pi = Pagination.getPageInfo(currentPage, listCount);
+				pi = Pagination_three.getPageInfo(currentPage, listCount);
 				nList = nService.selectStoreList(pi, userId);
 				
 			} 

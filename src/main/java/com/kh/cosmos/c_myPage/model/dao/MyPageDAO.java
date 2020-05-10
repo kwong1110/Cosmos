@@ -38,8 +38,25 @@ public class MyPageDAO {
 		return sqlSession.update("myPageMapper.updateMember", m);
 	}
 
-	public int updatePreview(SqlSessionTemplate sqlSession, Member m, ArrayList<Preview> pList) {
+/*	public int updatePreview(SqlSessionTemplate sqlSession, Member m, ArrayList<Preview> pList) {
 		return sqlSession.update("myPageMapper.updatePreview", pList);
+	}*/
+	public int deleteAllPreview(SqlSessionTemplate sqlSession, Member m) {
+		return sqlSession.delete("myPageMapper.deleteFirstPreview", m);
 	}
+
+	public int insertAllPreview(SqlSessionTemplate sqlSession, Member m, ArrayList<Preview> pList) {
+		return sqlSession.delete("myPageMapper.insertSecondPreview", pList);
+	}
+	
+	public int deletePreview(SqlSessionTemplate sqlSession, String loginUserId) {
+		return sqlSession.delete("myPageMapper.deleteUpPreview", loginUserId);
+	}
+
+	public int deleteMember(SqlSessionTemplate sqlSession, String loginUserId) {
+		return sqlSession.update("myPageMapper.deleteUpMember", loginUserId);
+	}
+
+
 
 }

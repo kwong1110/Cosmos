@@ -6,6 +6,74 @@
 <head>
 <meta charset="UTF-8">
 <title>회원정보 수정하기</title>
+<style>
+	/* 소메뉴 */
+	div.content ul.nav-tabs {
+		border-bottom-color: transparent;
+	}
+	
+	div.content ul.nav-tabs {
+		margin-bottom :70px;
+		display:flex;
+		justify-content: space-between;
+	}
+	
+	div.content ul.nav-tabs>li {
+		flex : 2 1 auto;
+	}
+	
+	div.content ul.nav-tabs>li>a {
+	    margin-right: 3px;
+	    line-height: 1.42857143;
+	    background-color: rgba(255, 255, 255, 0.5);
+	    border: 1px solid #ddd;
+	    border-radius: 4px 4px 0 0;
+	    font-family: 'Binggrae';
+	    text-align : center;
+	}
+	
+	div.content ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+	    color: #555;
+	    /*cursor: default;*/
+		cursor:pointer;
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	}
+	
+	.nav>li>a {
+	    position: relative;
+	    display: block;
+	    padding: 10px 15px;
+	}
+
+	table.table {
+		border-bottom:1px solid #ddd;
+	}
+	
+	.first {
+		width : 300px;
+	}
+	.table td.second {
+		text-align : left;
+		padding-left : 30px;
+		padding-top : 10px;
+		padding-bottom:10px;
+	}
+	a.minusWrap {
+		display : inline-block !important;
+	}
+	.second input:not([type="checkbox"]) {
+		width : 300px;
+		padding : 3px 5px;
+	}
+	
+	.second input[type="radio"]{
+		width: 20px;
+	}
+	.etc {
+		margin-top : 30px; 
+	}
+</style>
 </head>
 <body>
 	<!-- view 초기 구조 -->
@@ -19,48 +87,51 @@
 				</div>
 				<div class="content">
 					<ul class="nav nav-tabs">
-					  <li role="presentation" class="active"><a href="#">회원 정보</a></li>
-					  <li role="presentation"><a href="#">My Group</a></li>
-					  <li role="presentation"><a href="#">강연 내역</a></li>
-					  <li role="presentation"><a href="#">결재 내역</a></li>
+						<c:url var="mypage" value="myPage.mp">
+							<c:param name="id" value="${ loginUser.id }"/>
+						</c:url>
+					  <li role="presentation" class="active"><a href="${mypage}">회원 정보</a></li>
+					  <li role="presentation" class="active"><a href="myGroup.mp">마이 그룹</a></li>
+					  <li role="presentation" class="active"><a href="#">강연 내역</a></li>
+					  <li role="presentation" class="active"><a href="slHistory.mp">결재 내역</a></li>
 					  <c:url var="memberDelete" value="memberDelete.mp">
 					  	<c:param name="id" value="${loginUser.id}"/>
 					  </c:url>
-					  <li role="presentation"><a href="location.href='${memberDelete}'">회원 탈퇴하기</a></li>
+					  <li role="presentation" class="active"><a href="location.href='${memberDelete}'">회원 탈퇴하기</a></li>
 					</ul>
 					<div class="inner">
 						<form action="memberUp.mp" method="post" id="upForm">
-							<table class="table table-hover">
+							<table class="table">
 								<tr>
-									<th>아이디</th>
-									<td>${loginUser.id}<input type="hidden" name="id" value="${loginUser.id}"></td>
+									<th class="first">아이디</th>
+									<td class="second">${loginUser.id}<input type="hidden" name="id" value="${loginUser.id}" readonly></td>
 								</tr>
 								<tr>
-									<th>이름</th>
-									<td><input type="text" name="name" value="${loginUser.name}"></td>								
+									<th class="first">이름</th>
+									<td class="second"><input type="text" name="name" value="${loginUser.name}"></td>								
 								</tr>
 								<tr>
-									<th>닉네임</th>
-									<td><input type="text" name="nick" value="${loginUser.nick}"></td>								
+									<th class="first">닉네임</th>
+									<td class="second"><input type="text" name="nick" value="${loginUser.nick}"></td>								
 								</tr>
 								<tr>
-									<th>성별</th>	
+									<th class="first">성별</th>	
 									<c:if test="${loginUser.gender eq 'M'}">
-										<td>
+										<td class="second">
 											<input type="radio" name="gender" value="M" checked>남
 											<input type="radio" name="gender" value="F">여
 										</td>								
 									</c:if>
 									<c:if test="${loginUser.gender eq 'F'}">
-										<td>
+										<td class="second">
 											<input type="radio" name="gender" value="M">남
 											<input type="radio" name="gender" value="F" checked>여
 										</td>								
 									</c:if>
 								</tr>
 								<tr>
-									<th><label for="datepicker-autoclose">생년월일</label></th>
-									<td> 
+									<th class="first"><label for="datepicker-autoclose">생년월일</label></th>
+									<td class="second"> 
 										<div class="input-group">
 											<input type="text" class="form-control" id="datepicker-autoclose" placeholder="년/월/일"  name="birth" value="${loginUser.birth}">
 											<span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
@@ -68,18 +139,18 @@
 									</td>								
 								</tr>
 								<tr>
-									<th>핸드폰</th>
-									<td><input type="tel" id="userPhone" name="phone" value="${loginUser.phone}"></td>								
+									<th class="first">핸드폰</th>
+									<td class="second"><input type="tel" id="userPhone" name="phone" value="${loginUser.phone}"></td>								
 								</tr>
 								<tr>
-									<th>이메일</th>
-									<td><input type="email" id="userMail" name="email" value="${loginUser.email}"></td>								
+									<th class="first">이메일</th>
+									<td class="second"><input type="email" id="userMail" name="email" value="${loginUser.email}"></td>								
 								</tr>
 							</table>
-							<table class="table table-hover">
+							<table class="table">
 								<tr>
-									<th>공부 중인 항목</th>
-									<td>
+									<th class="first">공부 중인 항목</th>
+									<td class="second">
 										<div class="categoryLabel">
 											<c:forEach var="i" begin="0" end="4" items="${ sList }">
 												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
@@ -105,7 +176,7 @@
 												<input type="checkbox" id="${ i.studyNo }" name="studyGroup" value="${ i.studyName }"> ${ i.studyName }&nbsp;&nbsp;
 											</c:forEach>
 										</div>
-										<div class="categoryLabel">
+										<div class="categoryLabel etc">
 												<p>기타 항목을 입력해 주세요(3개까지 추가할 수 있습니다.)</p> 
 												<input type="text" name="studyEtc" value="" class="studyEtc">
 												<button type="button" class="addEtcBtn">추가</button>
@@ -113,8 +184,8 @@
 									</td>
 								</tr>
 								<tr>
-									<th>공부기간</th>
-									<td id="category-area">
+									<th class="first">공부기간</th>
+									<td id="category-area" class="second">
 											<c:forEach var="s" items="${ loginUserList }">
 											<c:choose>
 												<c:when test="${ s.studyName eq '기타1' }">
@@ -122,11 +193,11 @@
 													${ s.studyEtc } : 
 													<input type="hidden" name="studyEtcNo" value="${ s.studyNo }">
 													<input type="hidden" name="studyEtcName" value="${ s.studyEtc }">
-													<select name='term'>
+													<select name='etcTerm'>
 														<option value="0 ~ 3개월">0 ~ 3개월</option>
 														<option value="3개월 이상 ~ 1년 이하">3개월 이상 ~ 1년 이하</option>
 														<option value="1년 이상 ~ 2년 이하">1년 이상 ~ 2년 이하</option>
-														<option value="2년 이상 ~ 3년 이하">2년 이상 ~ 3년 이하</option>
+														<option value="2년 이상 ~ 3년 이하">2년 이상</option>
 													</select>
 													<a href="#" class="minusWrap"><span class='glyphicon glyphicon-minus-sign' aria-hidden='true'></span></a>
 													</div>
@@ -137,11 +208,11 @@
 													${ s.studyEtc } : 
 													<input type="hidden" name="studyEtcNo" value="${ s.studyNo }">
 													<input type="hidden" name="studyEtcName" value="${ s.studyEtc }">
-													<select name='term'>
+													<select name='etcTerm'>
 														<option value="0 ~ 3개월">0 ~ 3개월</option>
 														<option value="3개월 이상 ~ 1년 이하">3개월 이상 ~ 1년 이하</option>
 														<option value="1년 이상 ~ 2년 이하">1년 이상 ~ 2년 이하</option>
-														<option value="2년 이상 ~ 3년 이하">2년 이상 ~ 3년 이하</option>
+														<option value="2년 이상 ~ 3년 이하">2년 이상</option>
 													</select>
 													<a href="#" class="minusWrap"><span class='glyphicon glyphicon-minus-sign' aria-hidden='true'></span></a>
 													</div>
@@ -152,11 +223,11 @@
 													${ s.studyEtc } : 
 													<input type="hidden" name="studyEtcNo" value="${ s.studyNo }">
 													<input type="hidden" name="studyEtcName" value="${ s.studyEtc }">
-													<select name='term'>
+													<select name='etcTerm'>
 														<option value="0 ~ 3개월">0 ~ 3개월</option>
 														<option value="3개월 이상 ~ 1년 이하">3개월 이상 ~ 1년 이하</option>
 														<option value="1년 이상 ~ 2년 이하">1년 이상 ~ 2년 이하</option>
-														<option value="2년 이상 ~ 3년 이하">2년 이상 ~ 3년 이하</option>
+														<option value="2년 이상 ~ 3년 이하">2년 이상</option>
 													</select>
 													<a href="#" class="minusWrap"><span class='glyphicon glyphicon-minus-sign' aria-hidden='true'></span></a>
 													</div>
@@ -170,7 +241,7 @@
 														<option value="0 ~ 3개월">0 ~ 3개월</option>
 														<option value="3개월 이상 ~ 1년 이하">3개월 이상 ~ 1년 이하</option>
 														<option value="1년 이상 ~ 2년 이하">1년 이상 ~ 2년 이하</option>
-														<option value="2년 이상 ~ 3년 이하">2년 이상 ~ 3년 이하</option>
+														<option value="2년 이상 ~ 3년 이하">2년 이상</option>
 													</select>
 													<a href="#" class="minusWrap"><span class='glyphicon glyphicon-minus-sign' aria-hidden='true'></span></a>
 													</div>
@@ -224,7 +295,7 @@
 		var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
 		var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
 		var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
-		var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상 ~ 3년 이하");
+		var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상");
 		var $iconMinusWrap = $("<a href='#' class='minusWrap'>");
 		var $iconMinus = $("<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'>")
 		
@@ -274,11 +345,11 @@
 			var $subject = val + " ";	
 			var $hiddenVal1 = $("<input type='hidden' name='studyEtcNo' value='" + etcNum + "'>");	// name='studyEtcNo'
 			var $hiddenVal2 = $("<input type='hidden' name='studyEtcName' value='" + val + "'>");	// name='studyEtcName'
-			var $select = $("<select name='term'>");												// name=term
+			var $select = $("<select name='etcTerm'>");												// name=term
 			var $value1 = $("<option value='0 ~ 3개월'>").text("0 ~ 3개월");
 			var $value2 = $("<option value='3개월 이상 ~ 1년 이하'>").text("3개월 이상 ~ 1년 이하");
 			var $value3 = $("<option value='1년 이상 ~ 2년 이하'>").text("1년 이상 ~ 2년 이하");
-			var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상 ~ 3년 이하");
+			var $value4 = $("<option value='2년 이상 ~ 3년 이하'>").text("2년 이상");
 			var $iconMinusWrap = $("<a href='#' class='minusWrap'>");
 			var $iconMinus = $("<span class='glyphicon glyphicon-minus-sign' aria-hidden='true'>")
 			

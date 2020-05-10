@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.b_member.model.vo.Preview;
@@ -28,118 +29,146 @@ public class MyPageController {
 	@Autowired
 		private BCryptPasswordEncoder bcryptPasswordEncoder;
 		
-		// 마이페이지 이동
-		@RequestMapping("myPage.mp")
-		public String myPage(Model model) {
-			
-			Member loginUser = (Member)model.getAttribute("loginUser");
-			String loginUserId = loginUser.getId();
-			
-			ArrayList<Preview> pList = mpService.getStudyList(loginUserId);
-			System.out.println("pList : " + pList);
-			// [Preview [id=user03, studyNo=97, spTerm=1년 이상 ~ 2년 이하, studyName=기타1, studyEtc=토플], Preview [id=user03, studyNo=1, spTerm=1년 이상 ~ 2년 이하, studyName=대학생 학점 관리, studyEtc=null]]
-			
-			if(pList != null) {
-				model.addAttribute("pList", pList);
-			}
-			
-			return "/myPage/myPage";
+	// 마이페이지 이동
+	@RequestMapping("myPage.mp")
+	public String myPage(Model model) {
+		
+		Member loginUser = (Member)model.getAttribute("loginUser");
+		String loginUserId = loginUser.getId();
+		
+		ArrayList<Preview> pList = mpService.getStudyList(loginUserId);
+		
+		if(pList != null) {
+			model.addAttribute("pList", pList);
 		}
 		
+		return "/myPage/myPage";
+	}
+	
+	
+	// 비밀번호 업데이트
+	@RequestMapping("memberPwdUp.mp")
+	public String mPwdUpdate(@ModelAttribute Member m, 
+							 @RequestParam("newPwd1") String newPwd1, @RequestParam("newPwd2") String newPwd2, SessionStatus status, Model model) {
 		
-		// 비밀번호 업데이트
-		@RequestMapping("memberPwdUp.mp")
-		public String mPwdUpdate(@ModelAttribute Member m, 
-								 @RequestParam("newPwd1") String newPwd1, @RequestParam("newPwd2") String newPwd2, SessionStatus status, Model model) {
+		Member loginUser = (Member)model.getAttribute("loginUser");
+		
+		if(bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())){
 			
-			Member loginUser = (Member)model.getAttribute("loginUser");
+			String encPwd1 = bcryptPasswordEncoder.encode(newPwd1);
 			
-			if(bcryptPasswordEncoder.matches(m.getPwd(), loginUser.getPwd())){
+			if(bcryptPasswordEncoder.matches(newPwd2,  encPwd1)) {
 				
-				String encPwd1 = bcryptPasswordEncoder.encode(newPwd1);
+				loginUser.setPwd(encPwd1);
+				int result = mpService.updatePwd(loginUser);
 				
-				if(bcryptPasswordEncoder.matches(newPwd2,  encPwd1)) {
+				if(result > 0) {
+					model.addAttribute("loginUser", loginUser);
 					
-					loginUser.setPwd(encPwd1);
-					int result = mpService.updatePwd(loginUser);
+					status.setComplete();
 					
-					if(result > 0) {
-						model.addAttribute("loginUser", loginUser);
-						
-						status.setComplete();
-						
-						return "redirect:/";
-					} else {
-						throw new MyPageException("비밀번호 수정에 실패했습니다.");
-					}
+					return "redirect:/";
 				} else {
-					throw new MyPageException("새 비밀번호를 다시 확인하세요.");
+					throw new MyPageException("비밀번호 수정에 실패했습니다.");
 				}
 			} else {
-				throw new MyPageException("현재 비밀번호와 일치하지 않습니다.");
+				throw new MyPageException("새 비밀번호를 다시 확인하세요.");
 			}
+		} else {
+			throw new MyPageException("현재 비밀번호와 일치하지 않습니다.");
 		}
-		
-		// 회원정보 수정 뷰 이동
-		@RequestMapping("memberUpView.mp")
-		public String updateFormView(@ModelAttribute StudyCategory sc, Model model) {
-			Member loginUser = (Member)model.getAttribute("loginUser"); // 로그인한 회원정보
-			String loginUserId = loginUser.getId(); // 로그인한 회원의 아이디
-			
-			ArrayList<Preview> loginUserList = mpService.getStudyList(loginUserId); // 로그인한 회원의 공부 정보
-			ArrayList<StudyCategory> sList = mpService.selectStudyCategoryList(sc); // 공부 카테고리
-			if(sList != null) {
-				model.addAttribute("sList", sList);
-			}
-			
-			model.addAttribute("loginUserList", loginUserList);
+	}
 	
-			return "/myPage/memberUpView";
+	// 회원정보 수정 뷰 이동
+	@RequestMapping("memberUpView.mp")
+	public String updateFormView(@ModelAttribute StudyCategory sc, Model model) {
+		
+		Member loginUser = (Member)model.getAttribute("loginUser"); // 로그인한 회원정보
+		String loginUserId = loginUser.getId(); // 로그인한 회원의 아이디
+		
+		ArrayList<Preview> loginUserList = mpService.getStudyList(loginUserId); // 로그인한 회원의 공부 정보
+		ArrayList<StudyCategory> sList = mpService.selectStudyCategoryList(sc); // 공부 카테고리
+		if(sList != null) {
+			model.addAttribute("sList", sList);
 		}
 		
-		// 회원정보 수정
-		// 회원가입(int[] chkSname 공부 과목 번호, int[] etcSno 기타 과목 번호, String[] t 공부 했던 기간, String[] etcSname 기타 과목 중 사용자가 직접 입력한 항목)
-		@RequestMapping("memberUp.mp")
-		public String updateMember(@ModelAttribute Member m, @RequestParam("studyGroupChk") int[] chkSname, @RequestParam("studyEtcNo") int[] etcSno, 
-				   				   @RequestParam("studyEtcName") String[] etcSname, @RequestParam("term") String[] t, Model model) {
-			
-		System.out.println("controller : " + m);
+		model.addAttribute("loginUserList", loginUserList);
+
+		return "/myPage/memberUpView";
+	}
+	
+	// 회원정보 수정
+	// 회원가입(int[] chkSname 공부 과목 번호, int[] etcSno 기타 과목 번호, String[] t 공부 했던 기간, String[] etcSname 기타 과목 중 사용자가 직접 입력한 항목)
+	@RequestMapping("memberUp.mp")
+	public String updateMember(@ModelAttribute Member m, 
+							   @RequestParam("studyGroupChk") int[] chkSname, @RequestParam(value="studyEtcNo", required=false) int[] etcSno, 
+							   @RequestParam("term") String[] t, @RequestParam(value="etcTerm", required=false) String[] etcT,
+							   @RequestParam(value="studyEtcName", required=false) String[] etcSname, Model model) {
+		
+		// System.out.println("controller : " + m);
+		
 		// 체크된 과목과 기간을 Preview pList에 담기
-			
 		ArrayList<Preview> pList = new ArrayList<Preview>();
-				
-		for(int i = 0; i < chkSname.length; i++) {
+		
+		
+		// 기타가 아닌 경우
+		for(int i = 0; i < t.length; i++) {
+			
 			Preview p = new Preview();
+			p.setId(m.getId());
+			
+			p.setStudyNo(chkSname[i]);
+			p.setSpTerm(t[i]);
 				
-			p.setStudyNo(chkSname[i]); // 공부 과목 번호 크기만큼
-				
-			for(int j = 0; j <= i; j++) {
-				p.setSpTerm(t[j]); // 기간 설정하기
-			}
 			pList.add(p);
 		}
 			
 			
-		// 기타에 추가된 과목과 기간을 Preview pList에 담기
-		for(int i = 0; i < etcSname.length; i++) {
-			Preview p = new Preview();
+		// 기타의 경우
+		if(etcT != null)
 			
-			p.setStudyNo(etcSno[i]);
-			p.setStudyEtc(etcSname[i]);
+			for(int i = 0; i < etcT.length; i++) {
+				
+				Preview p = new Preview();
+				p.setId(m.getId());
+				
+				p.setStudyNo(etcSno[i]);
+				p.setStudyEtc(etcSname[i]);
+				p.setSpTerm(etcT[i]);
 			
-			for(int j = 0; j <= i; j++) {
-				p.setSpTerm(t[j]);
-			}
-			pList.add(p);
+				pList.add(p);
 		}
+		
+		// System.out.println("마지막 전송 전 확인 : " + pList);
 		
 		int result = mpService.updateMember(m, pList);
 		
 		if(result > 0) {
-			model.addAttribute("loginUser", m);
-			return "/myPage/myPage";
+
+			return "redirect:myPage.mp";
+			
 		} else {
 			throw new MyPageException("회원 정보 수정에 실패했습니다.");
+		}
+	}
+	
+	// 회원탈퇴
+	@RequestMapping("memberDelete.mp")
+	public String deleteMember(SessionStatus status, RedirectAttributes ra, Model model) {
+		
+		Member loginUser = (Member)model.getAttribute("loginUser");
+		String loginUserId = loginUser.getId();
+		
+		int result  = mpService.deleteMember(loginUserId);
+		
+		if(result > 0 ) {
+			
+			ra.addFlashAttribute("successMsg",  "회원 탈퇴");
+			status.setComplete();
+			return "redirect:/";
+			
+		} else {
+			throw new MyPageException("회원 탈퇴에 실패하였습니다.");
 		}
 	}
 	

@@ -92,7 +92,7 @@
 	<!-- 200508 지점 업데이트 및 검색 : 경진 --> 
 	<update id="updateBranch">
 		update branch
-		set branch_name = #{branchName}, branch_address = #{branchAddress}, branch_tel = #{branchTel}, branch_content = #{branchContent}, branch_time = #{branchTime}, branch_rest = #{branchRest}
+		set branch_name = #{branchName}, branch_tel = #{branchTel}, branch_content = #{branchContent}, branch_time = #{branchTime}, branch_rest = #{branchRest}
 		where branch_no = #{branchNo}
 	</update> 
 	 

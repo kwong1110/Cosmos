@@ -16,4 +16,7 @@ public interface MyPageService {
 
 	int updateMember(Member m, ArrayList<Preview> pList);
 
+	int deleteMember(String loginUserId);
+
+
 }

@@ -54,7 +54,7 @@ public class MemberController {
 			ra.addFlashAttribute("wrongMsg", "아이디가 존재하지않습니다!");
 		} else {
 			
-			System.out.println(loginUser.getMstatus());
+			// System.out.println(loginUser.getMstatus());
 			if (loginUser.getMstatus().equals("R")) {
 		
 				ra.addFlashAttribute("wrongMsg","금지된 회원입니다.<br>관리자에게 문의하세요!");
