@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>branchInsert</title>	
+<title>지점 등록</title>	
 <script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
 
 <!-- branch css불러오기 -->
@@ -88,6 +88,7 @@
 					  		<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
 							<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
 							<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
+							<li role="presentation"><a href="lectureManage.ap">강연 관리</a></li>
 							<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
 						</ul>
 						 <form action="binsert.ap" method="post" id="joinForm">
