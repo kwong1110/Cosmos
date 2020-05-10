@@ -8,24 +8,22 @@
 <title>Insert title here</title>
 <script src="${contextPath}/resources/js/jquery-3.4.1.min.js"></script>
 <style>
-.adminList{
-		width:600px;padding-top:50px;
-	}
-	div.adminList ul.nav-tabs {
+	/* 소메뉴 */
+	div.content ul.nav-tabs {
 		border-bottom-color: transparent;
 	}
 	
-	div.adminList ul.nav-tabs {
-		margin-bottom :30px;
+	div.content ul.nav-tabs {
+		margin-bottom :70px;
 		display:flex;
 		justify-content: space-between;
 	}
 	
-	div.adminList ul.nav-tabs>li {
+	div.content ul.nav-tabs>li {
 		flex : 2 1 auto;
 	}
 	
-	div.adminList ul.nav-tabs>li>a {
+	div.content ul.nav-tabs>li>a {
 	    margin-right: 3px;
 	    line-height: 1.42857143;
 	    background-color: rgba(255, 255, 255, 0.5);
@@ -35,18 +33,28 @@
 	    text-align : center;
 	}
 	
- 	div.adminList ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+/* 	div.content ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
 	    color: #555;
 	    cursor: default;
 	    background-color: #fff;
 	    border: 1px solid #ddd;
-	} 
+	} */
 	
 	.nav>li>a {
 	    position: relative;
 	    display: block;
 	    padding: 10px 15px;
 	}
+
+  table.inner{
+  	width: 70%;
+    border-spacing: 1px;
+    text-align: left;
+    line-height: 1.5;
+    border-top: 1px solid #ccc;
+ /*  margin : 20px 10px; */
+  valign:middle-aign;	
+}
 
  table.inner{
   	width: 100%;
@@ -84,37 +92,29 @@ table.inner td {
 .countlist{
 	text-decoration: underline;
 }
-/*페이징*/
-	.pagination a{border:none !important; background:transparent !important; color:black !important; width:43px !important; cursor:pointer !important;}
-	.pagination .pageBtn{width:35px !important; height:35px !important;}
-	.pagination .selectPageBtn{border-radius:50% !important; background:rgb(255,0,0,0.1) !important;}
+
 </style>
 </head>
 <body>
 	<div class="total-wrapper">
 	<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper">
-			<div  align="center">	
-				<div class="adminList" style="margin-bottom:0px;">
+				<div class="main">
+					<div class="pageTitle" align="center">
+						<h1>신고회원 리스트(관리자)</h1>
+						<br>
+					</div>					
+					<div class="content" align="center" >
 					<ul class="nav nav-tabs">
-						<li role="presentation" class="active"><a href="adminPage.ap">본점관리자</a></li>
-						<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
-						<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
-						<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
-						<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
-					</ul>
-				</div>
-			</div>
-			<hr>
-			<div class="main admin" style="padding:0px;" align="center">
-				<div class="pageTitle" align="center">
-					<h1>신고회원 리스트(관리자)</h1>
-					<br>
+							<li role="presentation"><a href="adminPage.ap">본점관리자</a></li>
+					  		<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
+							<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
+							<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
+							<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
+						</ul>
 						<h4 align="center" class="countlist">총 신고된 회원 수 :  ${ pi.listCount } </h4>
-				</div>					
-					<div class="content" align="center">
 						<table class="inner">
-							<tr>
+							<tr >
 								<th>No.</th>
 								<th>신고당한 회원 ID</th>
 								<th>신고 사유</th>
@@ -130,7 +130,7 @@ table.inner td {
 										<td align ="center">${ rp.reportMid }</td>				
 										<td align ="center">${ rp.reportReason}</td>	
 										<td align ="center">${ rp.mid}</td>
-										<td align ="center">${ rp.reportDate}</td>
+										<td align ="center">${ rp.reportDate}</td>	
 										<c:if test ="${ rp.reportStatus eq 'Y'}">
 											<td align ="center"><a  class="glyphicon glyphicon-ban-circle"></a></td>
 										</c:if>									
@@ -146,10 +146,10 @@ table.inner td {
 	                                 			<input type="button" value="거절" class="stbtn" style="background:red; color:white" onclick="reportDelete(${rp.reportNo})">
 	                              			</c:if>
                               			</td>
-									</tr>							
+									</tr>
 								</c:forEach> 
 						</table>
-						<div id="bottomArea" class="inner" align="center">					
+						<div id="bottomArea" class="inner" align="center">
 						<!-- 페이징  -->
  						<ul class="pagination">
                               <li>
@@ -224,10 +224,11 @@ table.inner td {
                                  </c:if>
                               </li>
                            </ul>
+                           </div>                       
 					</div>
 				</div>
 			</div>
-		</div>
+		
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 	<script>

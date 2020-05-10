@@ -15,21 +15,22 @@
 	.adminList{
 		width:600px;padding-top:50px;
 	}
-	div.adminList ul.nav-tabs {
+	/* 소메뉴 */
+	div.content ul.nav-tabs {
 		border-bottom-color: transparent;
 	}
 	
-	div.adminList ul.nav-tabs {
-		margin-bottom :30px;
+	div.content ul.nav-tabs {
+		margin-bottom :70px;
 		display:flex;
 		justify-content: space-between;
 	}
 	
-	div.adminList ul.nav-tabs>li {
+	div.content ul.nav-tabs>li {
 		flex : 2 1 auto;
 	}
 	
-	div.adminList ul.nav-tabs>li>a {
+	div.content ul.nav-tabs>li>a {
 	    margin-right: 3px;
 	    line-height: 1.42857143;
 	    background-color: rgba(255, 255, 255, 0.5);
@@ -38,14 +39,6 @@
 	    font-family: 'Binggrae';
 	    text-align : center;
 	}
-	
- 	div.adminList ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
-	    color: #555;
-	    cursor: default;
-	    background-color: #fff;
-	    border: 1px solid #ddd;
-	} 
-	
 	.nav>li>a {
 	    position: relative;
 	    display: block;
@@ -56,39 +49,35 @@
 	<div class="total-wrapper">
 		<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper">
-			<div  align="center">	
-				<div class="adminList" style="margin-bottom:0px;">
+			<div class="main">
+				<div class="pageTitle" align="center">
+					<h1>예약현황</h1>
+					<br>
+				</div>					
+				<div class="content" align="center" >
 					<ul class="nav nav-tabs">
-						<li role="presentation" class="active"><a href="adminPage.ap">본점관리자</a></li>
-						<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
+						<li role="presentation"><a href="adminPage.ap">본점관리자</a></li>
+					  	<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
 						<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
 						<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
 						<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
 					</ul>
-				</div>
-			</div>
-			<hr> 
-			<div class="main admin" style="padding:0px;" align="center">
-				<div class="pageTitle">
-					<h1>예약현황</h1>
-				</div>
-				<div class="content">
 					<table border="1" class="seatstatus">
-				      <tr style=" background:#67A261;">
-				         <th>No.</th>
-				         <th>예약인원</th>
-				         <th>시작날짜</th>
-				         <th>종료날짜</th>
-				         <th>시작시간</th>
-				         <th>종료시간</th>
-				         <th>예약지점</th>
-				         <th>아이디</th>
-				         <th>자리유형</th>
-				         <th>자리번호</th>
-				         <th>예약분류</th>
-				         <th>총요금</th>
-				      </tr>
-				      <c:forEach var="seat" items="${ allList }">
+				    	<tr style=" background:#67A261;">
+				         	<th>No.</th>
+				         	<th>예약인원</th>
+				         	<th>시작날짜</th>
+				         	<th>종료날짜</th>
+				         	<th>시작시간</th>
+				         	<th>종료시간</th>
+				         	<th>예약지점</th>
+				         	<th>아이디</th>
+				         	<th>자리유형</th>
+				         	<th>자리번호</th>
+				         	<th>예약분류</th>
+				         	<th>총요금</th>
+				      	</tr>
+				      	<c:forEach var="seat" items="${ allList }">
 				      	<tr>
 				      		<td>${ seat.reserNo }</td>
 				      		<td>${ seat.reserPeople }</td>
@@ -103,11 +92,9 @@
 				      		<td>${ seat.reserType }</td>
 				      		<td>${ seat.totalFee }</td>
 				      	</tr>
-				      </c:forEach>
-				      
+				      	</c:forEach>				      
 				   </table>
-				   
-				  	 <div class="searchPaging" style="text-align:center;">
+				  	<div class="searchPaging" style="text-align:center;">
 									  <ul class="pagination">
 										<c:if test="${ searchText eq null }">
 											<c:set var="loc" value="/allSeat.se" scope="page"/>
