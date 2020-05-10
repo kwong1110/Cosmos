@@ -109,30 +109,16 @@ public class MemberController {
 	  
 	// 아이디찾기_한솔 
 		 @RequestMapping("findId.me")
-		   public ModelAndView findMemberId(@ModelAttribute Member m, ModelAndView mv) {
-		      
-//			  System.out.println(m);
+		   public ModelAndView findMemberId(@ModelAttribute Member m, ModelAndView mv,RedirectAttributes ra) {		     
 		    
 		      Member result = mService.findMemberId(m);
-//		      System.out.println("결과"+result);
-//		      System.out.println("mv"+ mv);
 		     
 		      if(result != null) {
-		    	  // 이렇게 하면 삽질함 내가 findMemberId 코드를 돌려서  result에 담아놨는데
-		    	  // 계속 m.getName으로 받아오니까 null값이 떠서 조회할 수 없었던것.
-		    	  
-		         /*mv.addObject("findId", result)
-		         .addObject("name", m.getName())
-		         .addObject("email", m.getEmail())
-		         .addObject("id", m.getId())
-		         .setViewName("FindResult");
-		          */	 
-		    	  
 		    	 mv.addObject("id",result.getId())
-		    	 /*.setViewName("FindResult");*/
 		    	 .setViewName("FindResult");
 		      }else {
-		         throw new MemberException("정보와 일치하는 아이디가 없습니다.");
+		    	 mv.addObject("wrongMsg","존재하지 않는 회원입니다.")
+		    	 .setViewName("FindIdPwd");		    	 	 
 		      }
 		      return mv;
 		   }
@@ -179,9 +165,7 @@ public class MemberController {
 					//제목
 					message.setSubject("▶▶COSMOS◀ ◀ 비밀번호 찾기 결과 이메일입니다.");
 					//내용
-					
 					// --------- 임시 비밀번호 생성 
-					// 처음 문자는 영어로
 					char pwSet1[] = new char[] {
 		                      'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
 		                      'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'
@@ -200,8 +184,6 @@ public class MemberController {
 						int ranIndex = (int)(Math.random()*(pwSet2.length));
 						ranPw += pwSet2[ranIndex];
 					}
-					
-					// bcryptPasswordEncoder.encode(m.getPwd());
 			
 					String lastPw = firstPw + ranPw + "!"; // 비밀번호를 새로 생성해준
 					String lastPwd = bcryptPasswordEncoder.encode(lastPw);
@@ -209,17 +191,7 @@ public class MemberController {
 					System.out.println("---멤버--- : " + member);
 					int result = mService.fakePwd(member);
 					
-					/*String content ="<h2>안녕하세요  회원님</h2><br><br>" 
-							+ "<img alt=\"COSMOS\" src=\"https://postfiles.pstatic.net/MjAyMDA1MDdfMjM3/MDAxNTg4ODEzNjAwMTg5.MgjKkxaAG7HDpa8oCH4hI7x85pWG_kPJewLKFDrozUMg.0SodG8fbenNvDX6hFVf0eATWuRP1Y-2A4zxsByW9ERIg.PNG.dksdud94/KakaoTalk_Moim_9C9pCpO1SP6lkSFs0gz6goaxUjDLrj.png?type=w773\">"
-							+ "<p>비밀번호 찾기를 신청해주셔서 임시 비밀번호를 발급해드렸습니다.</p>"
-							+ "<p>임시로 발급 드린 비밀번호는 <h2 style='color : blue'>'" + lastPw +"'</h2>이며 로그인 후 마이페이지에서 비밀번호를 변경해주시면 됩니다.</p><br>"
-							+ "(혹시 잘못 전달된 메일이라면 이 이메일을 무시하셔도 됩니다)";*/
-					/*String content ="";
-						content += "<div align='center' sytle='background:#fffcda'>";
-						content += "<img src='http://localhost:9280/cosmos/resources/image/FindPwdEmail01.png'>";
-						content += "<div sytle='background:#fffcda'><h1>회원님의 임시 비밀번호는" + lastPw + "입니다.</h1></div>"; 			
-						content += "<img src='http://localhost:9280/cosmos/resources/image/FindPwdEmail02.png'>";
-						content += "</div>";*/
+					
 					String content = "<div align='center' sytle='background:#fffcda'>"
 									+ "<img src='http://localhost:9280/cosmos/resources/image/FindPwdEmail01.png'>"
 									+ "<h2>회원님의 임시 비밀번호는'" + lastPw +"'입니다.</h2>"
@@ -229,7 +201,6 @@ public class MemberController {
 					} else {
 						System.out.println("임시비밀번호로 변경실패");
 					}
-					/*message.setText("회원님의 임시비밀번호는 " + lastPw + "입니다.\n 임시비밀번호로 로그인하고 비밀번호를 변경해주세요.");*/
 					message.setText(content, "utf-8", "html");
 					
 					//이메일 보내기
@@ -241,23 +212,21 @@ public class MemberController {
 				} catch (MessagingException e) {
 					e.printStackTrace();
 				}
-				
+					
 				
 				String maskEmail = member.getEmail().toString();
-				System.out.println("email가져와보기 :" + maskEmail);
-				
-				String[] emailArr = maskEmail.split("@");
-				System.out.println(emailArr[0]);		
+				String[] emailArr = maskEmail.split("@");	
 								
 				String test = emailArr[0].substring(0, emailArr[0].length() - 3);
-				System.out.println("test1:" + test);
 				
 				test = test + "***@" + emailArr[1];
-				System.out.println("test2: " + test);
+
 				mv.addObject("email",test)
 		    	 .setViewName("FindPwResult");
 		      }else {
-		         throw new MemberException("정보와 일치하는 아이디가 없습니다.");
+		    	mv.addObject("wrongMsg","존재하지 않는 회원입니다.")
+			    .setViewName("FindIdPwd");	
+		       /*  throw new MemberException("정보와 일치하는 아이디가 없습니다.");*/
 		      }
 		      return mv;
 		   }

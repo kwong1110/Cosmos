@@ -131,12 +131,22 @@ table.inner td {
 										<td align ="center">${ rp.reportReason}</td>	
 										<td align ="center">${ rp.mid}</td>
 										<td align ="center">${ rp.reportDate}</td>
-										<td align ="center">${ rp.reportStatus}</td>		
-										<td>
-											<input type="button" value="수락" class="stbtn" style="background:green; color:white" onclick="ban(${rp.reportNo},'${rp.reportMid}')">
-											<input type="button" value="거절" class="stbtn" style="background:red; color:white" onclick="reportDelete(${rp.reportNo})">
-										</td>
-									</tr>
+										<c:if test ="${ rp.reportStatus eq 'Y'}">
+											<td align ="center"><a  class="glyphicon glyphicon-ban-circle"></a></td>
+										</c:if>									
+										<c:if test ="${ rp.reportStatus eq 'N'}">
+											<td align ="center" >${ rp.reportStatus}</td>
+										</c:if>
+										<td>		
+											<c:if test="${ rp.reportStatus eq 'Y'}">
+	                                 			신고완료
+	                            			</c:if>
+	                             		 	<c:if test="${ rp.reportStatus eq 'N'}">
+	                                		 	<input type="button" value="수락" class="stbtn" style="background:green; color:white" onclick="ban(${rp.reportNo},'${rp.reportMid}')">
+	                                 			<input type="button" value="거절" class="stbtn" style="background:red; color:white" onclick="reportDelete(${rp.reportNo})">
+	                              			</c:if>
+                              			</td>
+									</tr>							
 								</c:forEach> 
 						</table>
 						<div id="bottomArea" class="inner" align="center">					
@@ -149,7 +159,7 @@ table.inner td {
                                     </a>
                                  </c:if>
                                  <c:if test="${ pi.currentPage ne pi.startPage }">
-                                    <c:url var="start" value="branchList.ap">
+                                    <c:url var="start" value="reportList.ap">
                                        <c:param name="page" value="${ pi.startPage }"/>
                                     </c:url>
                                     <a href="${ start }" aria-label="Previous">
@@ -164,7 +174,7 @@ table.inner td {
                                     </a>
                                  </c:if>
                                  <c:if test="${ pi.currentPage > 1 }">
-                                    <c:url var="before" value="branchList.ap">
+                                    <c:url var="before" value="reportList.ap">
                                        <c:param name="page" value="${ pi.currentPage - 1 }"/>
                                     </c:url>
                                     <a href="${ before }" aria-label="Previous">
@@ -177,7 +187,7 @@ table.inner td {
                                     <li><a class="pageBtn selectPageBtn">${ p }</a></li>
                                  </c:if>
                                  <c:if test="${ p ne pi.currentPage }">
-                                    <c:url var="pagination" value="branchList.ap">
+                                    <c:url var="pagination" value="reportList.ap">
                                        <c:param name="page" value="${ p }"/>
                                     </c:url>
                                     <li><a href="${ pagination }">${ p }</a></li>
@@ -190,7 +200,7 @@ table.inner td {
                                     </a>
                                  </c:if>
                                  <c:if test="${ pi.currentPage < pi.maxPage }">
-                                    <c:url var="after" value="branchList.ap">
+                                    <c:url var="after" value="reportList.ap">
                                        <c:param name="page" value="${ pi.currentPage + 1 }"/>
                                     </c:url>
                                     <a href="${ after }" aria-label="Next">
@@ -205,7 +215,7 @@ table.inner td {
                                     </a>
                                  </c:if>
                                  <c:if test="${ pi.currentPage ne maxPage }">
-                                    <c:url var="max" value="branchList.ap">
+                                    <c:url var="max" value="reportList.ap">
                                        <c:param name="page" value="${ pi.maxPage }"/>
                                     </c:url>
                                     <a href="${ max }" aria-label="Next">
@@ -221,13 +231,17 @@ table.inner td {
 		<c:import url="../a_common/footer.jsp"/>
 	</div>
 	<script>
-	function reportDelete(no){
-		window.location.href="reportDelete.rp?no=" + no;
-	}
+ 	function reportDelete(no){
+		 window.location.href="reportDelete.rp?no=" + no; 
+	} 
+	
 	
 	function ban(no, memberId){
 		window.location.href="ban.rp?no=" + no + "&memberId="+memberId;
 	}
+	
+	
+
 
 	</script>
 </body>

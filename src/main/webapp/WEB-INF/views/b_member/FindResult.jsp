@@ -34,7 +34,8 @@
 				<div class="content">
 					<div class=resultArea style="border:1px solid black; width:70%; height:160px; margin:auto" >
 							<div class="find">
-								<p style="text-align:center;line-height:160px">회원님의 ID는  ${id} 입니다.</p> 
+								<p style="text-align:center;line-height:160px">회원님의 ID는  ${id} 입니다.</p>					
+								<p style="text-align:center;line-height:160px">존재하지않는 회원입니다.</p>
 							</div>
 					</div>
 			                                 
