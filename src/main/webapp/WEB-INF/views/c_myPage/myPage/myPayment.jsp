@@ -143,7 +143,7 @@
 						</c:forEach>
 						<%-- </c:if> --%>
 						<c:if test="${ empty mySeatList && empty myLectureList }">
-							<tr><td>결제내역이 없습니다.</td></tr>
+							<tr><td colspan="8">결제내역이 없습니다.</td></tr>
 						</c:if>
 					</table>
 					<!-- 페이징 -->

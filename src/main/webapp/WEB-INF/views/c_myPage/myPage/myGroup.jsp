@@ -125,8 +125,8 @@
 					<ul class="nav nav-tabs">
 					  <li role="presentation" class="active"><a href="myPage.mp?id=${loginUser.id }">회원 정보</a></li>
 					  <li role="presentation" class="active"><a href="myGroup.mp">마이 그룹</a></li>
-					  <li role="presentation"><a href="#">강연 내역</a></li>
-					  <li role="presentation"><a href="slHistory.mp">결재 내역</a></li>
+					  <li role="presentation"><a href="lectureHistory.mp">강연 내역</a></li>
+					  <li role="presentation"><a href="slHistory.mp">결제 내역</a></li>
 					  <c:url var="memberDelete" value="memberDelete.mp">
 					  	<c:param name="id" value="${loginUser.id}"/>
 					  </c:url>

@@ -291,7 +291,7 @@
                               <%-- <p class="data_desc_m"><span>전국 <b>${ allBranch }</b>개의 지점 수</span></p> --%>
                               <p class="data_desc_s">시장 점유율 1위인 코스모스 스터디 센터는 <br>최대, 최다 규모의 경쟁력을 갖춘 공간 서비스 브랜드입니다.</p>
                            </div>
-                           <p class="data_desc_list"><span>전국<span class="deco"><b>${ allBranch }</b></span>개의 지점 수</span></p>
+                           <p class="data_desc_list"><span>전국&nbsp;&nbsp;&nbsp;<span class="deco">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>${ allBranch }</b></span>개의 지점 수</span></p>
                            
                         </div>
                         <!-- 전제 지점 수 -->
@@ -327,7 +327,7 @@
                      <ul class="data_input_list clear-fix">
                         <li class="data_input_item" id="item0">
                            <div>
-                              <span><b>${ allBranch }</b> 센터</span>
+                              <span><b>  ${ allBranch }</b> 센터</span>
                               <em>전체 지점 수</em>
                            </div>
                         </li>
