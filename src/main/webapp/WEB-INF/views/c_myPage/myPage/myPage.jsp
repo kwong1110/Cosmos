@@ -45,12 +45,58 @@
 	    display: block;
 	    padding: 10px 15px;
 	}
-	
-	/* 타이틀 이렇게 하면 어떨까? */
-	div.pageTitle h1{
-		font-family: 'Nanum Gothic', sans-serif;
-		letter-spacing:-2px;
+
+	table.table {
+		border-bottom:1px solid #ddd;
 	}
+	
+	.first {
+		width : 50%;
+	}
+	.table td.second {
+		text-align : left;
+		padding-left : 30px;
+		padding-top : 10px;
+		padding-bottom:10px;
+	}
+	
+	/* 비밀번호 변경 */
+
+	#pwdViewMODAL .modal-content {
+		background-color: rgb(255, 255, 224);
+		width : 450px;
+	 }
+	
+	#pwdViewMODAL .modal-header {
+		background-color: rgb(23, 149, 95);
+		color: #fff;
+		font-weight : bold;
+		text-align : center;
+		padding : 30px 20px;
+	}
+	#pwdViewMODAL .pwdForm {
+		width : 100%;
+		padding: 30px 40px;
+	}
+	
+	.pwdForm table { 
+		width : 100%;
+	}
+	
+	.pwdForm td {
+		padding: 3px 2px;
+	}
+	
+	.pwdForm input{
+		width: 100%;
+		padding : 3px 2px;
+	}
+	.pwdbtn {
+		padding : 7px 0;
+    	margin : 20px 0;
+    	padding : 10px 0 !important;
+	}
+
 </style>
 </head>
 <body>
@@ -68,50 +114,50 @@
 					<ul class="nav nav-tabs">
 					  <li role="presentation" class="active"><a href="#">회원 정보</a></li>
 					  <li role="presentation" class="active"><a href="myGroup.mp">마이 그룹</a></li>
-					  <li role="presentation"><a href="#">강연 내역</a></li>
-					  <li role="presentation"><a href="slHistory.mp">결재 내역</a></li>
+					  <li role="presentation" class="active"><a href="#">강연 내역</a></li>
+					  <li role="presentation" class="active"><a href="slHistory.mp">결재 내역</a></li>
 					  <c:url var="memberDelete" value="memberDelete.mp">
 					  	<c:param name="id" value="${loginUser.id}"/>
 					  </c:url>
-					  <li role="presentation"><a href="location.href='${memberDelete}'">회원 탈퇴하기</a></li>
+					  <li role="presentation" class="active"><a href="${memberDelete}">회원 탈퇴하기</a></li>
 					</ul>
-					<table class="inner table table-hover">
+					<table class="inner table">
 						<tr>
-							<th>아이디</th>
-							<td>${ loginUser.id }</td>
+							<th class="first">아이디</th>
+							<td class="second">${ loginUser.id }</td>
 						</tr>
 						<tr>
-							<th>이름</th>
-							<td>${ loginUser.name }</td>
+							<th class="first">이름</th>
+							<td class="second">${ loginUser.name }</td>
 						</tr>
 						<tr>
-							<th>닉네임</th>
-							<td>${ loginUser.nick }</td>
+							<th class="first">닉네임</th>
+							<td class="second">${ loginUser.nick }</td>
 						</tr>
 						<tr>
 							<th>성별</th>
 							<c:if test="${ loginUser.gender eq 'M'}">
-								<td>남성</td>
+								<td class="second">남성</td>
 							</c:if>
 							<c:if test="${ loginUser.gender eq 'F'}">
-								<td>여성</td>
+								<td class="second">여성</td>
 							</c:if>
 						</tr>
 						<tr>
-							<th>생년월일</th>
-							<td>${ loginUser.birth }</td>
+							<th class="first">생년월일</th>
+							<td class="second">${ loginUser.birth }</td>
 						</tr>
 						<tr>
-							<th>핸드폰</th>
-							<td>${ loginUser.phone }</td>
+							<th class="first">핸드폰</th>
+							<td class="second">${ loginUser.phone }</td>
 						</tr>
 						<tr>
-							<th>이메일</th>
-							<td>${ loginUser.email }</td>
+							<th class="first">이메일</th>
+							<td class="second">${ loginUser.email }</td>
 						</tr>
 						<tr>
-							<th>공부 중인 항목</th>
-							<td>
+							<th class="first">공부 중인 항목</th>
+							<td class="second">
 							<c:forEach var="s" items="${ pList }">
 								<c:choose>
 									<c:when test="${ s.studyName eq '기타1' }">
@@ -150,23 +196,23 @@
                             aria-hidden="true">&times;</span></button>
                     <h4 class="modal-title">비밀번호 수정</h4>
                 </div>
-				<form action="memberPwdUp.mp" method="post">
+				<form action="memberPwdUp.mp" method="post" class="pwdForm">
 					<table>
 						<tr>
-							<td>현재 비밀번호</td>
+							<td style="width:130px;">현재 비밀번호</td>
 							<td><input type="password" name="pwd"></td>
 						</tr>
 						<tr>
-							<td>새 비밀번호</td>
+							<td style="width:130px;">새 비밀번호</td>
 							<td><input type="password" name="newPwd1"></td>
 						</tr>
 						<tr>
-							<td>새 비밀번호 확인</td>
+							<td style="width:130px;">새 비밀번호 확인</td>
 							<td><input type="password" name="newPwd2"></td>
 						</tr>
 						<tr>
 							<td colspan="2" align="center">
-								<input type="submit" value="수정하기">
+								<input type="submit" value="수정하기" class="btn loginBtn pwdbtn">
 							</td>
 						
 						</tr>
@@ -180,19 +226,23 @@
 		$(function(){
 			$('.pwdUpBtn').click(function(){
 				$('#pwdViewMODAL').modal("show");
-				
-				/* $.ajax({
-					url: "memberPwdUp.mp",
-					dataType: 'JSON',
-					success: function(data){
-						
-					}
-					
-				}); */
 			});
 			
+			
+			/* $('.dMem').click(function(){
+				
+				sweetConfirm('DELETE');
+				
+				function statusUpdate(state){
+					var id = ${loginUser.id};
+					var mstatus = ${loginUser.mstatus};
+					location.href="memberDelete.mp?mstatus=" + state + "&id=" + id;
+				};
+				
+			}); */
+			
 		});
-	
+		
 	</script>
 	
 	

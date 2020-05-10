@@ -63,7 +63,7 @@
 							</tr>
 							
 							<!-- 우편번호 도로명주소 상세주소-->
-							<c:forTokens var="addr" items="${vBranch.branchAddress}" delims="/" varStatus="status">
+							<%-- <c:forTokens var="addr" items="${vBranch.branchAddress}" delims="/" varStatus="status">
 								<c:if test="${status.index eq 0 && addr >= '0' && addr <= '99999'}">
 									<c:set var="post" value="${addr}"/>
 								</c:if>
@@ -93,7 +93,7 @@
             				<tr>
                					<th>상세 주소</th>
                					<td><input type="text" name="address2" class="postcodify_extra_info" value="${address2}" style="width:50%;"></td>
-            				</tr>
+            				</tr> --%>
             				
 							<!-- 전화번호 -->
 							<c:forTokens var="tel" items="${vBranch.branchTel}" delims="-" varStatus="telStatus">
@@ -142,8 +142,6 @@
 								</td>
 									
 							</tr>
-							
-							<!-- 휴무일 -->
 							<tr>
 								<th>휴무일</th>
 								<td>
@@ -158,7 +156,7 @@
 							<tr>
 								<th>지점소개</th>
 								<td>
-									<textarea id="summernote" style="resize: none; width : 800px!important;" name="branchContent" value="${vBranch.branchContent}">${vBranch.branchContent}</textarea>
+									<textarea id="summernote" style="resize: none;" name="branchContent" value="${vBranch.branchContent}">${vBranch.branchContent}</textarea>
 									<c:import url="../a_common/summernote.jsp"/>
 								</td>	
 							</tr>	

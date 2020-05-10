@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kh.cosmos.a_common.PageInfo;
-import com.kh.cosmos.a_common.Pagination;
+import com.kh.cosmos.a_common.Pagination_five;
 import com.kh.cosmos.h_viewBranch.model.exception.ViewBranchException;
 import com.kh.cosmos.h_viewBranch.model.service.ViewBranchService;
 import com.kh.cosmos.h_viewBranch.model.vo.SearchCondition;
@@ -31,10 +31,10 @@ public class ViewBranchController {
 		}
 		
 		int listCount = vbService.getListCount();
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+//		PageInfo pi = Pagination_five.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_five.getPageInfo(currentPage, listCount);
 		
 		ArrayList<ViewBranch> vbList = vbService.selectBranchList(pi);
-		System.out.println(vbList);
 		
 		if(vbList != null) {
 			mv.addObject("vbList", vbList);
@@ -67,7 +67,8 @@ public class ViewBranchController {
 		
 		int listCount = vbService.getSearchResultListCount(search);
 		
-		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+//		PageInfo pi = Pagination.getPageInfo(currentPage, listCount);
+		PageInfo pi = Pagination_five.getPageInfo(currentPage, listCount);
 		ArrayList<ViewBranch> vbList = vbService.selectSearchResultList(pi, search);
 		
 		if(vbList != null) {
@@ -118,14 +119,14 @@ public class ViewBranchController {
 	@RequestMapping("viewBranchUpdate.vb")
 	public ModelAndView branchUpdate(@ModelAttribute ViewBranch vb, 
 									 @RequestParam("vbNo") int branchNo, @RequestParam(value="page", required=false) int page, 
-									 @RequestParam("post") String post, @RequestParam("address1") String addr1, @RequestParam("address2") String addr2, 
+									 /*@RequestParam("post") String post, @RequestParam("address1") String addr1, @RequestParam("address2") String addr2,*/ 
 									 @RequestParam("localNum") String localNum, @RequestParam("tel1") String tel1, @RequestParam("tel2") String tel2,
 									 @RequestParam("time1") String time1, @RequestParam("time2") String time2, 
 									 ModelAndView mv) {
 		
 		vb.setBranchNo(branchNo);
-		vb.setBranchAddress(post + " / " + addr1 + " / " + addr2);
-		vb.setBranchTel(localNum + " - " + tel1 + " - " + tel2);
+//		vb.setBranchAddress(post + " / " + addr1 + " / " + addr2);
+		vb.setBranchTel(localNum + "-" + tel1 + "-" + tel2);
 		vb.setBranchTime(time1 + " ~ " + time2);
 		
 		System.out.println(vb);

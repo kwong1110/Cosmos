@@ -9,6 +9,47 @@
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=4a8fa7e4a9e7170fa234c76a796cecab&libraries=services"></script>
 <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js" ></script>
 <style>
+	/* 소메뉴 */
+	div.content ul.nav-tabs {
+		border-bottom-color: transparent;
+	}
+	
+	div.content ul.nav-tabs {
+		margin-bottom :70px;
+		display:flex;
+		justify-content: space-between;
+	}
+	
+	div.content ul.nav-tabs>li {
+		flex : 2 1 auto;
+	}
+	
+	div.content ul.nav-tabs>li>a {
+	    margin-right: 3px;
+	    line-height: 1.42857143;
+	    background-color: rgba(255, 255, 255, 0.5);
+	    border: 1px solid #ddd;
+	    border-radius: 4px 4px 0 0;
+	    font-family: 'Binggrae';
+	    text-align : center;
+	}
+	
+	div.content ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+	    color: #555;
+	    /*cursor: default;*/
+		cursor:pointer;
+	    background-color: #fff;
+	    border: 1px solid #ddd;
+	}
+	
+	.nav>li>a {
+	    position: relative;
+	    display: block;
+	    padding: 10px 15px;
+	}
+
+
+
 	/* map */
 	.branch-infoMap {
 		width:100%; height:300px; border:1px solid #000; 
@@ -79,10 +120,10 @@
 				</div>
 				<div class="content">
 					<div class="inner">
-						<ul class="page-sub-menu">
-							<li><a href="#a1">지점 소개</a></li>
-							<li><a href="#a2">공간소개</a></li>
-							<li><a href="#branch-infoMap">지점 위치</a></li>
+						<ul class="nav nav-tabs">
+							<li class="active"><a href="#a1">지점 소개</a></li>
+							<li class="active"><a href="#a2">공간소개</a></li>
+							<li class="active"><a href="#branch-infoMap">지점 위치</a></li>
 						</ul>
 						<div class="detail-boxtop branch-infoText">
 							안녕하세요. 코스모스 스터디센터(${vBranch.branchName})입니다.

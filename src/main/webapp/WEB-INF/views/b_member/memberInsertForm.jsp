@@ -14,9 +14,7 @@
 	
 	span.guide {
 		display: none;
-		font-size: 12px;
-		top: 12px;
-		right: 10px;
+		font-size: 14px;
 	}
 	
 	span.ok {
@@ -45,6 +43,16 @@
 	.defaultBtn {
 		vertical-align : middle;
 	}
+	
+	.second input:not([type="checkbox"]) {
+		width : 300px;
+		padding : 3px 5px;
+	}
+	
+	.second input[type="radio"]{
+		width: 20px;
+	}
+
 </style>
 </head>
 <body>
@@ -66,23 +74,27 @@
 									<td class="second">
 										<input type="text" id="userId" name="id">
 										<span class="guide ok idOk">이 아이디는 사용 가능합니다.</span>
-										<span class="guide error idError">이 아이디는 사용 불가능합니다.</span>
+										<span class="guide error idError">이미 사용 중인 아이디입니다.</span>
+										<span id=checkId style="font-size: 14px;">(영문소문자로 시작하는 영문소문자/숫자 조합, 4~7자)</span>
 										<input type="hidden" name="idDuplicateCheck" id="idDuplicateCheck" value="0">
 									</td>
 								</tr>
 								<tr>
 									<th class="first">비밀번호</th>
-									<td class="second"><input type="password" id="userPwd" name="pwd"></td>
+									<td class="second"><input type="password" id="userPwd" name="pwd">
+									<span id=checkPwd style="font-size: 14px;">(영어로 시작하며 영어와 숫자, !*&가 섞인 8~12자)</span>
+									</td>
 								</tr>
 								<tr>
 									<th class="first"><label for="userPwd2">비밀번호 확인</label></th>
 									<td class="second">
 										<input type="password" id="userPwd2" name="pwd2">
+										<span id=pwd2Result style="font-size: 14px;"></span>
 									</td>
 								</tr>
 								<tr>
 									<th class="first"><label for="userName">이름</label></th>
-									<td class="second"><input type="text" id="userName" name="name"></td>
+									<td class="second"><input type="text" id="userName" name="name" required="required"></td>
 								</tr>
 								<tr>
 									<th class="first"><label for="userNick">닉네임</label></th>
@@ -90,6 +102,7 @@
 										<input type="text" id="userNick" name="nick">
 										<span class="guide ok nickOk">이 닉네임은 사용 가능합니다.</span>
 										<span class="guide error nickError">이 닉네임은 사용 불가능합니다.</span>
+										<span id=checkNick style="font-size: 14px;">(한글,영문, 숫자 가능/특수문자 포함안됨, 2~7자)</span>
 										<input type="hidden" name="nickDuplicateCheck" id="nickDuplicateCheck" value="0">
 									</td>
 								</tr>
@@ -104,22 +117,22 @@
 									<th class="first"><label for="datepicker-autoclose">생년월일</label></th>
 									<td class="second">
 									<div class="input-group">
-										<input type="text" class="form-control" id="datepicker-autoclose" placeholder="년/월/일" name="birth"><span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
+										<input type="text" class="form-control" id="datepicker-autoclose" placeholder="년/월/일" name="birth" required="required"><span class="input-group-append"><span class="input-group-text"><i class="mdi mdi-calendar-check"></i></span></span>
 									</div>
 									</td>
 								</tr>
 								<tr>
 									<th class="first"><label for="userPhone">핸드폰</label></th>
-									<td class="second"><input type="tel" id="userPhone" name="phone"></td>
+									<td class="second"><input type="tel" id="userPhone" name="phone" required="required"></td>
 								</tr>
 								<tr>
 									<th class="first"><label for="userMail">이메일</label></th>
 									<td class="second">
-										<input type="email" id="userMail" name="email">
+										<input type="email" id="userMail" name="email" required="required">
 									</td>
 								</tr>
 							</table>
-							<div>스터디 그룹 참여를 원한다면 다음 사항을 입력해 주세요</div>
+							<div>스터디 그룹 참여를 위해 다음 사항을 입력해 주세요</div>
 							<table class="table">
 								<tr>
 									<th class="first"><label>공부 중인 항목</label></th>
@@ -179,64 +192,118 @@
 	<script>
 
 	$(function(){
+		
+		var isPw, isPw2 = false;		
+		
 		// 아이디 중복 체크
 		$('#userId').on('keyup', function(){
 			
 			var userId = $(this).val().trim();
+			var regExp = /^[a-z]+[0-9]+[a-z0-9]*$/;
 			
-			if(userId.length < 4){
+			if(!regExp.test(userId) || $(this).val().trim().length < 4 || $(this).val().trim().length > 7){
+				$('#checkId').text('영문소문자로 시작하는 영문소문자/숫자 조합, 4~7자').css('color', 'red');
 				$('.guide').hide();
 				$('#idDuplicateCheck').val(0);
-				
 				return;
-			}
+				
+			} else if(regExp.test(userId) && $(this).val().trim().length != 0) {
+				$('#checkId').text(''); 
 			
-			$.ajax({
-				url:'dupId.me',
-				data: {id:userId},
-				success:function(data){
-					if(data == 'true'){
-						$('.guide.idError').hide();
-						$('.guide.idOk').show();
-						$('#idDuplicateCheck').val(1);
-					} else{
-						$('.guide.idError').show();
-						$('.guide.idOk').hide();
-						$('#idDuplicateCheck').val(0);
+				$.ajax({
+					url:'dupId.me',
+					data: {id:userId},
+					success:function(data){
+						if(data == 'true'){
+							$('.guide.idError').hide();
+							$('.guide.idOk').show();
+							$('#idDuplicateCheck').val(1);
+						} else {
+							$('.guide.idError').show();
+							$('.guide.idOk').hide();
+							$('#idDuplicateCheck').val(0);
+						}
 					}
-				}
-			});
-			
+				});
+			}
+			 
 		}); // 아이디 중복 체크 끝
 		
 		// 닉네임 중복 체크
 		$('#userNick').on('keyup', function(){
 			var userNick = $(this).val().trim();
+			var regExp = /^[a-zA-Z0-9가-힣]*$/;
 			
-			if(userNick < 7){
+			if(!regExp.test(userNick) || $(this).val().trim().length < 2 || $(this).val().trim().length > 7){
+				$('#checkNick').text('한글,영문, 숫자 가능/특수문자 포함안됨, 2~7자').css('color', 'red');
 				$('.guide').hide();
 				$('#nickDuplicateCheck').val(0);
-				
 				return;
+				
+			} else if(regExp.test(userNick) && $(this).val().trim().length != 0) {
+				$('#checkNick').text(''); 
+				
+				$.ajax({
+					url:'dupNick.me',
+					data : {nick:userNick},
+					success:function(data){
+						if(data == 'true'){
+							$('.guide.nickError').hide();
+							$('.guide.nickOk').show();
+							$('#nickDuplicateCheck').val(1);
+						} else{
+							$('.guide.nickError').show();
+							$('.guide.nickOk').hide();
+							$('#nickDuplicateCheck').val(0);
+						}
+					}
+				});
 			}
 			
-			$.ajax({
-				url:'dupNick.me',
-				data : {nick:userNick},
-				success:function(data){
-					if(data == 'true'){
-						$('.guide.nickError').hide();
-						$('.guide.nickOk').show();
-						$('#nickDuplicateCheck').val(1);
-					} else{
-						$('.guide.nickError').show();
-						$('.guide.nickOk').hide();
-						$('#nickDuplicateCheck').val(0);
-					}
-				}
-			});
-			
 		}); // 닉네임 중복 체크 끝
+		
+		// 비밀번호
+		$('#userPwd').on('keyup',function(){
+			var userPwd = $(this).val().trim();
+			var regExp = /^[a-zA-z](?=.*[0-9])(?=.*[!$*]).{7,11}$/;
+			
+			if(!regExp.test(userPwd)){
+				$('#checkPwd').text('알맞은 비밀번호 : 영어로 시작, 영어, 숫자, !*& 조합, 8~12자').css('color', 'red');
+				isPw = false;
+			} else{
+				$('#checkPwd').text('사용 가능한 비밀번호입니다.').css('color', 'green');
+				isPw = true;
+			}
+			
+		});
+		
+		$('#userPwd2').keyup(function(){
+			if($('#userPwd').val() != $(this).val()){
+				$('#pwd2Result').text('비밀번호 불일치').css('color', 'red');
+				isPw2 = false;
+			}else{
+				$('#pwd2Result').text('비밀번호 일치').css('color', 'green');
+				isPw2 = true;
+			}
+		});
+		
+		// 유효성 검증 스크립트
+		function validate(){
+			if($('#idDuplicateCheck').val() == 0){
+				alert('사용 가능한 아이디를 입력해 주세요.');
+				$('#userId').focus();
+				return false;
+			} else if($('#nickDuplicateCheck').val() == 0){
+				alert('사용 가능한 닉네임을 입력해 주세요.');
+				$('#userNick').focus();
+			} else if(!isPw) {
+				$('#userPwd').focus();
+			} else if(!isPw2){
+				$('#userPwd').focus();
+			} else{
+				$('#joinForm').submit();
+			}
+		}
 		
 		
 		// 공부 과목 추가 삭제
@@ -330,8 +397,6 @@
 			} 
 			
 			console.log($('input[name="studyEtcName"]').val());
-		
-			
 						
 		});
 		
@@ -351,16 +416,7 @@
 		*/ 
 	});
 
-	// 유효성 검증 스크립트
-	function validate(){
-		if($('#idDuplicateCheck').val() == 0){
-			alert('사용 가능한 아이디를 입력해 주세요.');
-			$('#userId').focus();
-			return false;
-		} else{
-			$('#joinForm').submit();
-		}
-	}
+	
 	
 	</script>
 	

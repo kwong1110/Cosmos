@@ -266,13 +266,30 @@
 	<update id="updateMember" parameterType="Member">
 		update member 
 		set name=#{name}, nick=#{nick}, birth=#{birth}, email=#{email}, phone=#{phone}, gender=#{gender} 
-		where id=${id}
+		where id=#{id}
 	</update>
 	
-	<update id="updatePreview" parameterType="Preview">
-		update preview
-		set styudyNo=#{studyNo}, spTerm=#{spTerm}, studyName=#{studyName}, studyEtc=#{studyEtc}
-		where id=${id} 
-	</update>
-  
+	<delete id="deleteFirstPreview" parameterType="Preview">
+		delete preview
+		where id=#{id} 
+	</delete>
+	
+	<insert id="insertSecondPreview" parameterType="java.util.List">
+		insert all
+		<foreach collection="list" item="item" separator=" ">
+			into Preview (id, study_no, sp_term, study_etc) 
+			values (#{item.id}, #{item.studyNo}, #{item.spTerm}, #{item.studyEtc})
+		</foreach>
+		select * from dual
+	</insert>
+	
+	<delete id="deleteUpPreview" parameterType="Preview">
+		delete preview
+		where id = #{loginUser}	
+	</delete>
+  	<update id="deleteUpMember" parameterType="Member">
+  		update member
+		set mstatus='N'
+		where id = #{loginUser}	
+  	</update>
 </mapper>

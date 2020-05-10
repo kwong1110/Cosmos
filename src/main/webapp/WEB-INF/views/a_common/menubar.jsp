@@ -78,6 +78,10 @@
     	margin-right : auto;
     }
     
+    .user-area .oneLine{
+    	height : 120px;
+    }
+    
     .oneLine {
     	color : rgba(255, 255, 255, 0.9);
     	letter-spacing : -1px;

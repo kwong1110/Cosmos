@@ -11,8 +11,6 @@ public class Member {
 	private String email;
 	private String phone;
 	private Date enroll;
-	private int certifyNum;
-	private String certifyStatus;
 	private String mstatus;
 	private int grade;
 	private String gender;
@@ -21,7 +19,8 @@ public class Member {
 	
 	// 전체 생성자
 	public Member(String id, String pwd, String name, String nick, String birth, String email, String phone,
-			Date enroll, int certifyNum, String certifyStatus, String mstatus, int grade, String gender) {
+			Date enroll, String mstatus, int grade, String gender) {
+		super();
 		this.id = id;
 		this.pwd = pwd;
 		this.name = name;
@@ -30,12 +29,11 @@ public class Member {
 		this.email = email;
 		this.phone = phone;
 		this.enroll = enroll;
-		this.certifyNum = certifyNum;
-		this.certifyStatus = certifyStatus;
 		this.mstatus = mstatus;
 		this.grade = grade;
 		this.gender = gender;
 	}
+	
 	
 	// 아이디 찾기 생성자
 	public Member(String id, String name, String email) {
@@ -45,6 +43,7 @@ public class Member {
 		this.email = email;
 	}
 	
+
 	// 비밀번호 찾기 생성자
 	public Member(String id, String pwd, String name, String email) {
 		super();
@@ -53,7 +52,6 @@ public class Member {
 		this.name = name;
 		this.email = email;
 	}
-	
 
 	public String getId() {
 		return id;
@@ -119,22 +117,6 @@ public class Member {
 		this.enroll = enroll;
 	}
 
-	public int getCertifyNum() {
-		return certifyNum;
-	}
-
-	public void setCertifyNum(int certifyNum) {
-		this.certifyNum = certifyNum;
-	}
-
-	public String getCertifyStatus() {
-		return certifyStatus;
-	}
-
-	public void setCertifyStatus(String certifyStatus) {
-		this.certifyStatus = certifyStatus;
-	}
-
 	public String getMstatus() {
 		return mstatus;
 	}
@@ -162,9 +144,9 @@ public class Member {
 	@Override
 	public String toString() {
 		return "Member [id=" + id + ", pwd=" + pwd + ", name=" + name + ", nick=" + nick + ", birth=" + birth
-				+ ", email=" + email + ", phone=" + phone + ", enroll=" + enroll + ", certifyNum=" + certifyNum
-				+ ", certifyStatus=" + certifyStatus + ", mstatus=" + mstatus + ", grade=" + grade + ", gender="
-				+ gender + "]";
+				+ ", email=" + email + ", phone=" + phone + ", enroll=" + enroll + ", mstatus=" + mstatus + ", grade="
+				+ grade + ", gender=" + gender + "]";
 	}
+
 	
 }

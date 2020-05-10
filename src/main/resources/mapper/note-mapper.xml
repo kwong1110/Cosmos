@@ -85,7 +85,6 @@
 		from note
 		join member on(id = note_fromid)
 		where (note_fromid = #{userId} or note_toid = #{userId}) and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
-		order by note_no desc
 	</select>
 	
 	<!-- 쪽지 보관함 목록 -->
@@ -140,6 +139,7 @@
 				and note_content like '%' || #{content} || '%'
 			</otherwise>
 		</choose>
+		order by note_no desc 
 	</select>
 	
 	
@@ -186,6 +186,7 @@
 				and note_content like '%' || #{content} || '%'
 			</otherwise>
 		</choose>
+		order by note_no desc 
 	</select>
 	
 	
@@ -202,6 +203,7 @@
 		from note
 		join member on(id = note_fromid)
 		where note_toid = #{userId} and note_tostatus = 'Y' and note_storage = 'N'
+		order by note_no desc 
 	</select>
 	
 	<select id="getMenuFromListCount" resultType="_int">
@@ -215,6 +217,7 @@
 		from note
 		join member on(id = note_fromid)
 		where note_fromid = #{userId} and note_fromstatus = 'Y' and note_storage = 'N'
+		order by note_no desc 
 	</select>
 	
 	<select id="getMenuToMeListCount" resultType="_int">
@@ -228,6 +231,7 @@
 		from note
 		join member on(id = note_fromid)
 		where note_fromid = #{userId} and note_toid = #{userId} and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'N'
+		order by note_no desc 
 	</select>
 	
 	<!-- 보관함 분류 목록 수 -->
@@ -243,6 +247,7 @@
 		from note
 		join member on(id = note_fromid)
 		where note_toid = #{userId} and note_tostatus = 'Y' and note_storage = 'Y'
+		order by note_no desc 
 	</select>
 	
 	<select id="getStoreMenuFromListCount" resultType="_int">
@@ -256,6 +261,7 @@
 		from note
 		join member on(id = note_fromid)
 		where note_fromid = #{userId} and note_fromstatus = 'Y' and note_storage = 'Y'
+		order by note_no desc 
 	</select>
 	
 	<select id="getStoreMenuToMeListCount" resultType="_int">
@@ -269,6 +275,7 @@
 		from note
 		join member on(id = note_fromid)
 		where note_fromid = #{userId} and note_toid = #{userId} and note_fromstatus = 'Y' and note_tostatus = 'Y' and note_storage = 'Y'
+		order by note_no desc 
 	</select>
 	
 </mapper>
