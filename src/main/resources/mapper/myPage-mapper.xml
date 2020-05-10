@@ -94,7 +94,9 @@
 	<select id="getGroupList" parameterType="hashMap" resultMap="ApproachGroupResultSet">
 		select distinct nvl(g.sg_no,a.sg_no) as sg_no, sg_name, sg_status, study_name, g.id, nick,
 		      (case when a.id = #{userId} then to_date(substr(asg_date,0,10),'YYYY.MM.DD')
-		            when g.id = #{userId} then SG_INSERT_DATE end) as sort_date, asg_status
+		            when g.id = #{userId} then SG_INSERT_DATE end) as sort_date, 
+		      (case when a.id = #{userId} then asg_status
+		            when g.id = #{userId} then null end) as asg_status
 		from ap_sgroup a
 		    right join sgroup g on(a.sg_no = g.sg_no)
 		    join study_category s on(g.study_no = s.study_no)
