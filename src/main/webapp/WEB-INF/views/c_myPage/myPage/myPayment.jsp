@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>결제 내역</title>
 <style>
 	div.content ul.nav-tabs {
 		border-bottom-color: transparent;

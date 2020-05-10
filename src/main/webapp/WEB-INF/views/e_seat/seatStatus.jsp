@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>예약 현황</title>
 </head>
 <style>
 	.seatstatus{text-align:center !important; width:100%; border:"1px solid black;"}
@@ -60,6 +60,7 @@
 					  	<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
 						<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
 						<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
+						<li role="presentation"><a href="lectureManage.ap">강연 관리</a></li>
 						<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
 					</ul>
 					<table border="1" class="seatstatus">

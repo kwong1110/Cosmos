@@ -200,7 +200,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 상세보기</title>
+<title>관리자 상세보기</title>
 <style>
 	/* 소메뉴 */
 	div.content ul.nav-tabs {
@@ -276,6 +276,7 @@
 					  		<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
 							<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
 							<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
+							<li role="presentation"><a href="lectureManage.ap">강연 관리</a></li>
 							<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
 						</ul>
 					<table class="inner table table-hover">

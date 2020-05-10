@@ -84,21 +84,22 @@
 	.adminList{
 		width:600px;padding-top:50px;
 	}
-	div.adminList ul.nav-tabs {
+	/* 소메뉴 */
+	div.content ul.nav-tabs {
 		border-bottom-color: transparent;
 	}
 	
-	div.adminList ul.nav-tabs {
-		margin-bottom :30px;
+	div.content ul.nav-tabs {
+		margin-bottom :70px;
 		display:flex;
 		justify-content: space-between;
 	}
 	
-	div.adminList ul.nav-tabs>li {
+	div.content ul.nav-tabs>li {
 		flex : 2 1 auto;
 	}
 	
-	div.adminList ul.nav-tabs>li>a {
+	div.content ul.nav-tabs>li>a {
 	    margin-right: 3px;
 	    line-height: 1.42857143;
 	    background-color: rgba(255, 255, 255, 0.5);
@@ -108,12 +109,12 @@
 	    text-align : center;
 	}
 	
- 	div.adminList ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
+/* 	div.content ul.nav-tabs>li.active>a:focus, div.content ul.nav-tabs>li.active>a:hover {
 	    color: #555;
 	    cursor: default;
 	    background-color: #fff;
 	    border: 1px solid #ddd;
-	} 
+	} */
 	
 	.nav>li>a {
 	    position: relative;
@@ -126,26 +127,19 @@
 	<div class="total-wrapper">
 		<c:import url="../a_common/menubar.jsp"/>
 		<div class="wrapper">
-			<div  align="center">	
-				<div class="adminList" style="margin-bottom:0px;">
-				<c:if test="${loginUser.name eq '본점관리자' }">
-					<ul class="nav nav-tabs">
-						<li role="presentation"><a href="adminPage.ap">본점관리자</a></li>
-						<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
-						<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
-						<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
-						<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
-					</ul>
-				</c:if>
-				</div>
-			</div>
-			<hr>
-			
 			<div class="main">
 				<div class="pageTitle">
 					<h1>강연관리</h1>
 				</div>
 				<div class="content">
+							<ul class="nav nav-tabs">
+								<li role="presentation"><a href="adminPage.ap">본점관리자</a></li>
+								<li role="presentation"><a href="reportList.ap">신고 목록</a></li>
+								<li role="presentation"><a href="branchList.ap">지점 목록</a></li>
+								<li role="presentation"><a href="enrollBranch.ap">지점 등록</a></li>
+								<li role="presentation"><a href="lectureManage.ap">강연 관리</a></li>
+								<li role="presentation"><a href="allSeat.se">예약 현황</a></li>
+							</ul>
 					<table class="table table-hover inner">
 						<tr>
 							<th>No.</th>
@@ -157,6 +151,7 @@
 							<th>참가비</th>
 							<th>상태</th>
 						</tr>
+						<c:if test="${ !empty lList }">
 						<c:forEach var="l" items="${ lList }">
 							<tr class="contentTR">
 								<td>${ l.lectureNo }</td>
@@ -192,6 +187,10 @@
 								</td>
 							</tr>
 						</c:forEach>
+						</c:if>
+						<c:if test="${ empty lList }">
+						<tr><td colspan="8">신청 온 강연이 없습니다. </td></tr>
+						</c:if>
 					</table>
 					<!-- 페이징 -->
 					<c:if test="${ pi.endPage > 1 }">
