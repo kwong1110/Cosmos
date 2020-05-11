@@ -42,7 +42,7 @@ public class LectureHistoryController {
 
 
 		ArrayList<Lecture> list = lhService.selectList(pi, loginUserId);
-		
+		//System.out.println(list);
 		if(list != null) {
 			model.addAttribute("lList", list);
 			model.addAttribute("pi", pi);
