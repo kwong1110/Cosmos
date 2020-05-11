@@ -503,4 +503,10 @@
 			and TO_DATE(SUBSTR(RSG_TERM, 14), 'YY/MM/DD') < TO_DATE(SYSDATE, 'YY/MM/DD')
         ]]>
 	</select>
+	
+	<select id="getGroup" parameterType="_int" resultMap="groupRecruitResultSet">
+		select sg_status, sg_name, id
+		from sgroup
+		where sg_no = (select distinct sg_no from rec_sgroup where rsg_no = #{recno})
+	</select>
 </mapper>

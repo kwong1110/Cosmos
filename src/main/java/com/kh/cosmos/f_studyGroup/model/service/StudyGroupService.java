@@ -83,4 +83,6 @@ public interface StudyGroupService {
 ArrayList<StudyGroupRecruit> getEndRecList();
 
 ArrayList<StudyGroupRecruit> getMetOnceGroupList();
+
+StudyGroupRecruit getGroup(int sgno);
 }

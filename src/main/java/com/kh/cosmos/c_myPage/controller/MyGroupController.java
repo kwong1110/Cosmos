@@ -35,6 +35,7 @@ import com.kh.cosmos.c_myPage.model.vo.Note;
 import com.kh.cosmos.f_studyGroup.model.service.StudyGroupService;
 import com.kh.cosmos.f_studyGroup.model.vo.MyStudyGroup;
 import com.kh.cosmos.f_studyGroup.model.vo.StudyGroup;
+import com.kh.cosmos.f_studyGroup.model.vo.StudyGroupRecruit;
 
 @Controller
 public class MyGroupController {
@@ -43,6 +44,8 @@ public class MyGroupController {
 	private MyGroupService mgService;
 	@Autowired
 	private NoteService nService;
+	@Autowired
+	private StudyGroupService sgService;
 	
 	@RequestMapping("myGroup.mp")
 	public String myGroupView(HttpServletRequest request, @RequestParam(value="page", required=false) Integer page, ModelAndView mv) {
@@ -185,6 +188,31 @@ public class MyGroupController {
 		int result = mgService.closeRecruit(recno);
 		
 		if(result > 0) {
+			StudyGroupRecruit sg = sgService.getGroup(recno);
+			int partmem = sgService.getPartMemberNum(sg.getSgNo());
+			
+			if(sg.getSgStatus().equals("N")) {
+				if(partmem > 0) { // 모집된 인원이 1인 이상
+					Note n = new Note();
+					n.setNoteFromId("admin00");
+					n.setNoteToId(sg.getId());
+					n.setNoteContent("'" + sg.getSgName() + "' 그룹의 모집이 마감되었습니다.<br>이번 모집에서 모집된 인원은 " + partmem + "명 입니다. 아래 링크를 통해 스터디 룸 예약을 진행하세요.<br><a onclick='window.open(&quot;" + "reservation.se" + "&quot;)'>좌석 예약하러 가기</a>");
+					int messageResult = nService.insertNote(n);
+				} else { // 모집된 인원이 없음
+					Note n = new Note();
+					n.setNoteFromId("admin00");
+					n.setNoteToId(sg.getId());
+					n.setNoteContent("'" + sg.getSgName() + "' 그룹의 모집이 마감되었습니다.<br>이번 모집에서 모집된 인원이 없습니다. 아래 링크를 통해 다시 모집을 등록해보세요.<br><a onclick='window.open(&quot;" + "insertRecView.sg" + "&quot;)'>좌석 예약하러 가기</a>");
+					int messageResult = nService.insertNote(n);
+				}
+			} else if(sg.getSgStatus().equals("Y")) {
+				Note n = new Note();
+				n.setNoteFromId("admin00");
+				n.setNoteToId(sg.getId());
+				n.setNoteContent("'" + sg.getSgName() + "' 그룹의 모집이 마감되었습니다.<br>이번 모집에서 모집된 인원은 " + partmem + "명 입니다.");
+				int messageResult = nService.insertNote(n);
+			}
+			
 			Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
 			gson.toJson("success", response.getWriter());
 		} else {
