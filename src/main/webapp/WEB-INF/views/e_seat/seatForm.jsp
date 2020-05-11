@@ -118,49 +118,49 @@
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-17" id="A-17" class="chair">A - 17
         				</div>
-        				<div class="left-top1-table-cell zchair" style="background:#0F3BBF"><input type="hidden" value="Z-18" id="Z-18" class="chair zSeat" name="z">Z - 18
+        				<div class="left-top1-table-cell" style="background:#0F3BBF"><input type="hidden" value="Z-18" id="Z-18" class="chair zSeat" name="z">Z - 18
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-19" id="A-19" class="chair">A - 19
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-20" id="Z-20" class="chair zSeat" name="z">Z - 20
+        				<div class="left-top1-table-cell"style="background:#0F3BBF"><input type="hidden" value="Z-20" id="Z-20" class="chair zSeat" name="z">Z - 20
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-21" id="A-21" class="chair">A - 21
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-22" id="Z-22" class="chair zSeat" name="z">Z - 22
+        				<div class="left-top1-table-cell"style="background:#0F3BBF"><input type="hidden" value="Z-22" id="Z-22" class="chair zSeat" name="z">Z - 22
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-23" id="A-23" class="chair">A - 23
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-24" id="Z-24" class="chair zSeat" name="z">Z - 24
+        				<div class="left-top1-table-cell"style="background:#0F3BBF"><input type="hidden" value="Z-24" id="Z-24" class="chair zSeat" name="z">Z - 24
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-25" id="A-25" class="chair">A - 25
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-26" id="Z-26" class="chair zSeat" name="z">Z - 26
+        				<div class="left-top1-table-cell"style="background:#0F3BBF"><input type="hidden" value="Z-26" id="Z-26" class="chair zSeat" name="z">Z - 26
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-27" id="A-27" class="chair">A - 27
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-28" id="Z-28" class="chair zSeat" name="z">Z - 28
+        				<div class="left-top1-table-cell"style="background:#0F3BBF"><input type="hidden" value="Z-28" id="Z-28" class="chair zSeat" name="z">Z - 28
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-29" id="A-29" class="chair">A - 29
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-30" id="Z-30" class="chair zSeat" name="z">Z - 30
+        				<div class="left-top1-table-cell"style="background:#0F3BBF"><input type="hidden" value="Z-30" id="Z-30" class="chair zSeat" name="z">Z - 30
         				</div>
         			</div>
         			<div class="left-top1-table-row">
         				<div class="left-top1-table-cell"><input type="hidden" value="A-31" id="A-31" class="chair">A - 31
         				</div>
-        				<div class="left-top1-table-cell zchair"style="background:#0F3BBF"><input type="hidden" value="Z-32" id="Z-32" class="chair zSeat" name="z">Z - 32
+        				<div class="left-top1-table-cell"style="background:#0F3BBF"><input type="hidden" value="Z-32" id="Z-32" class="chair zSeat" name="z">Z - 32
         				</div>
         			</div>
         		</div>
