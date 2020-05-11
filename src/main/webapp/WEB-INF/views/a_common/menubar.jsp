@@ -585,7 +585,7 @@
 		        var popLeft = Math.ceil(( window.screen.width - 700 )/2);
 		        var popTop = Math.ceil(( window.screen.height - 670 )/2);
 		        
-		        var option = "width = 700, height = 670, top =" + popTop + ", left = " + popLeft +", location = no";
+		        var option = "width = 700, height = 720, top =" + popTop + ", left = " + popLeft +", location = no";
 		        
 		        child = window.open(url, name, option); 
 			}

@@ -119,7 +119,8 @@
 					  <c:url var="memberDelete" value="memberDelete.mp">
 					  	<c:param name="id" value="${loginUser.id}"/>
 					  </c:url>
-					  <li role="presentation" class="active"><a href="${memberDelete}">회원 탈퇴하기</a></li>
+					  
+					  <li role="presentation" class="active"><a onclick="deleteMember();" class="dMem">회원 탈퇴하기</a></li>
 					</ul>
 					<table class="inner table">
 						<tr>
@@ -228,21 +229,52 @@
 				$('#pwdViewMODAL').modal("show");
 			});
 			
-			
 			/* $('.dMem').click(function(){
+				e.preventDefault();
 				
-				sweetConfirm('DELETE');
+				var id = ${loginUser.id};
+				//var mstatus = ${loginUser.mstatus};
 				
-				function statusUpdate(state){
-					var id = ${loginUser.id};
-					var mstatus = ${loginUser.mstatus};
-					location.href="memberDelete.mp?mstatus=" + state + "&id=" + id;
-				};
+				console.log("id : " + id);
+				
+				swal({
+					title:"정말 탈퇴하시겠습니까 ?",
+					text:"삭제 후 같은 아이디로 로그인 할 수 없습니다.",
+					type:"warning",
+					showCancelButton: !0,
+					confirmButtonColor:"#DD6B55",
+					confirmButtonText:"삭제",
+					closeOnConfirm: !0
+					},
+					function(){
+						location.href="memberDelete.mp?id=" + id;
+					}
+				)
 				
 			}); */
-			
 		});
 		
+		
+		function deleteMember(){
+			var id = "${loginUser.id}";
+			//var mstatus = ${loginUser.mstatus};
+			
+			console.log("id : " + id);
+			
+			swal({
+				title:"정말 탈퇴하시겠습니까 ?",
+				text:"삭제 후 같은 아이디로 로그인 할 수 없습니다.",
+				type:"warning",
+				showCancelButton: !0,
+				confirmButtonColor:"#DD6B55",
+				confirmButtonText:"탈퇴",
+				closeOnConfirm: !0
+				},
+				function(){
+					location.href="memberDelete.mp?id=" + id;
+				}
+			)
+		};
 	</script>
 	
 	

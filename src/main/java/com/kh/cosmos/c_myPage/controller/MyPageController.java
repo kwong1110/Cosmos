@@ -2,6 +2,8 @@ package com.kh.cosmos.c_myPage.controller;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -11,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.kh.cosmos.b_member.model.service.MemberService;
 import com.kh.cosmos.b_member.model.vo.Member;
 import com.kh.cosmos.b_member.model.vo.Preview;
 import com.kh.cosmos.b_member.model.vo.StudyCategory;
@@ -28,10 +32,15 @@ public class MyPageController {
 	
 	@Autowired
 		private BCryptPasswordEncoder bcryptPasswordEncoder;
-		
+	
+	@Autowired
+	private MemberService mService;
+	
 	// 마이페이지 이동
 	@RequestMapping("myPage.mp")
-	public String myPage(Model model) {
+	public String myPage(@ModelAttribute Member m, Model model) {
+		
+		System.out.println("myPage : " + m);
 		
 		Member loginUser = (Member)model.getAttribute("loginUser");
 		String loginUserId = loginUser.getId();
@@ -39,6 +48,7 @@ public class MyPageController {
 		ArrayList<Preview> pList = mpService.getStudyList(loginUserId);
 		
 		if(pList != null) {
+			
 			model.addAttribute("pList", pList);
 		}
 		
@@ -100,10 +110,11 @@ public class MyPageController {
 	// 회원정보 수정
 	// 회원가입(int[] chkSname 공부 과목 번호, int[] etcSno 기타 과목 번호, String[] t 공부 했던 기간, String[] etcSname 기타 과목 중 사용자가 직접 입력한 항목)
 	@RequestMapping("memberUp.mp")
-	public String updateMember(@ModelAttribute Member m, 
+	public ModelAndView updateMember(@ModelAttribute Member m, 
 							   @RequestParam("studyGroupChk") int[] chkSname, @RequestParam(value="studyEtcNo", required=false) int[] etcSno, 
 							   @RequestParam("term") String[] t, @RequestParam(value="etcTerm", required=false) String[] etcT,
-							   @RequestParam(value="studyEtcName", required=false) String[] etcSname, Model model) {
+							   @RequestParam(value="studyEtcName", required=false) String[] etcSname, 
+							   HttpSession session, RedirectAttributes ra, ModelAndView mv, Model model) {
 		
 		// System.out.println("controller : " + m);
 		
@@ -143,13 +154,20 @@ public class MyPageController {
 		
 		int result = mpService.updateMember(m, pList);
 		
+		Member updateloginUser = mService.memberLogin(m);
+		
 		if(result > 0) {
 
-			return "redirect:myPage.mp";
+			model.addAttribute("loginUser", updateloginUser);
+			System.out.println("memberUp : " + m);
+			ra.addFlashAttribute("successMsg",  "회원 수정");
+			mv.setViewName("redirect:myPage.mp");
 			
 		} else {
 			throw new MyPageException("회원 정보 수정에 실패했습니다.");
 		}
+		
+		return mv;
 	}
 	
 	// 회원탈퇴
