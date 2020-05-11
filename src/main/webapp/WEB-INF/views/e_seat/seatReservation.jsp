@@ -422,6 +422,8 @@
 						            					 
 						            				}) ;
 						            			});
+						            			
+						            			
 					            			</script>
 					            		</div>
 					            		<div class="right-chooseSeat">
@@ -486,24 +488,34 @@
 			        		});
 			        		
 			        		
-			        		
+/* 			        		$(function(){
+		    					$('.seatOn').click(function(){
+				        			 sweetWrong("예약이 되어 있는 좌석 입니다.");
+				        		});
+	    					}); */
 		        		$('.left-top1-table-cell, .big, .six1, .six2, .four1, .four2, .four3, .four4').on('click',function(){
 					    		 
 		        				var chooseSeat = $(this).children().val();
 					    		$("#chooseSeat").text(chooseSeat);
 					    		
-					    		swal({
-					    			title:"자리를 선택하시겠습니까?",
-					    			type:"warning",
-					    			showCancelButton: !0,
-					    			confirmButtonColor:"#DD6B55",
-					    			confirmButtonText:"선택",
-					    			closeOnConfirm: !0
-					    			},
-					    			function(){
-					    				reserConfirm();
-					    			}	
-					    		)
+					    		// console.log($(this).attr('class'));
+					    		
+					    		if($(this).attr('class').includes('seatOn')){
+					    			sweetWrong("예약이 되어 있는 좌석 입니다.");
+					    		} else {
+						    		swal({
+						    			title:"자리를 선택하시겠습니까?",
+						    			type:"warning",
+						    			showCancelButton: !0,
+						    			confirmButtonColor:"#DD6B55",
+						    			confirmButtonText:"선택",
+						    			closeOnConfirm: !0
+						    			},
+						    			function(){
+						    				reserConfirm();
+						    			}	
+						    		)
+					    		}
 					    	});
 					    	 
 					    	function reserConfirm(){
@@ -539,7 +551,9 @@
 		    					
 		    					if($("input:radio[name='reserPeople']:checked").val() == 1){
 					    			$('.big, .six1, .six2, .four1, .four2, .four3, .four4, .zchair').attr('disabled',true);
-					    		}
+					    		};
+		    					
+		    					
 					    </script>
 					    
 		        	</form>
