@@ -53,75 +53,21 @@
 						<table class="inner">
 							<!-- 지점명 -->
 							<tr>
-								<th>지점명</th>
+								<th style="padding-right:10px;">지점명</th>
 								<td>
-									<input type="text" name="branchName" value="${vBranch.branchName}" class="form-control" style="padding:5px; width:50%">
+									<input type="text" name="branchName" value="${vBranch.branchName}" class="form-control" style="padding:5px; width:50%" readonly>
 									<!-- <span class="guide ok" style="color:gray">*이 지점명은 사용 가능합니다.</span>
 									<span class="guide error">*이 지점명은 사용 불가능합니다.</span>
 									<input type="hidden" name="idDuplicateCheck" value="0"> -->
 								</td>
 							</tr>
-							
-							<!-- 우편번호 도로명주소 상세주소-->
-							<%-- <c:forTokens var="addr" items="${vBranch.branchAddress}" delims="/" varStatus="status">
-								<c:if test="${status.index eq 0 && addr >= '0' && addr <= '99999'}">
-									<c:set var="post" value="${addr}"/>
-								</c:if>
-								<c:if test="${status.index eq 0 && !(addr >= '0' && addr <= '99999')}">
-									<c:set var="address1" value="${addr}"/>
-								</c:if>
-								<c:if test="${status.index eq 1}">
-									<c:set var="address1" value="${addr}"/>
-								</c:if>
-								<c:if test="${status.index eq 2}">
-									<c:set var="address2" value="${addr}"/>
-								</c:if>
-							</c:forTokens>
-
-						 	<tr>
-               					<th>우편번호</th>
-               					<td colspan="2">
-                  					<input type="text" name="post" class="postcodify_postcode5" value="${post}">
-                  					<button type="button" id="postcodify_search_button">검색</button>
-               					</td>
-            				</tr>
-							
-							<tr>
-              					 <th>도로명 주소</th>
-             					 <td><input type="text" name="address1" class="postcodify_address" value="${address1}" style="width:50%;"></td>
-            				</tr>
-            				<tr>
-               					<th>상세 주소</th>
-               					<td><input type="text" name="address2" class="postcodify_extra_info" value="${address2}" style="width:50%;"></td>
-            				</tr> --%>
-            				
+							        				
 							<!-- 전화번호 -->
-							<c:forTokens var="tel" items="${vBranch.branchTel}" delims="-" varStatus="telStatus">
-								<c:if test="${telStatus.index eq 0 }">
-									<c:set var="localNum" value="${tel}"/>
-								</c:if>
-								<c:if test="${telStatus.index eq 1}">
-									<c:set var="tel1" value="${tel}"/>
-								</c:if>
-								<c:if test="${telStatus.index eq 2}">
-									<c:set var="tel2" value="${tel}"/>
-								</c:if>
-							</c:forTokens>
-							
 							<tr>
-								<th>지점연락처</th>
+								<th style="padding-right:10px;">지점연락처</th>
 								<td>
-									<select name="localNum" class="brc_tel" value="${localNum}" style="padding:5px;" >
-										<option>지역번호</option>
-										<option>02</option>
-										<option>031</option> <option>032</option> <option>033</option>
-										<option>041</option> <option>042</option> <option>043</option> <option>044</option>
-										<option>051</option> <option>052</option> <option>053</option> <option>054</option> <option>055</option>
-										<option>061</option> <option>062</option> <option>063</option> <option>064</option>
-									</select>
-									- <input type="text" name="tel1" value="${tel1}" numberonly maxlength="4"> 
-									- <input type="text" name="tel2" value="${tel2}" numberonly maxlength="4">
-									<p style="font-size:2; color:gray;">*숫자만 입력 가능합니다.</p>		
+									<input type="text" name="branchTel" value="${vBranch.branchTel}" maxlength="11">
+									<p style="font-size:2; color:gray;">-없이 숫자로 입력하세요.</p>		
 								</td>
 							</tr>
 							
@@ -135,15 +81,15 @@
 								</c:if>
 							</c:forTokens>
 							<tr>
-								<th>이용시간</th>
+								<th style="padding-right:10px;">이용시간</th>
 								<td>
-									<input type="text" name="time1" onKeyup="inputTimeColon(this);" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;" value="${time1}"> ~
-									<input type="text" name="time2" onKeyup="inputTimeColon(this);" class="brc_time" maxlength="5" size=7 style="padding:5px; text-align:center;" value="${time2}">
+									<input type="text" name="time1" onKeyup="inputTimeColon(this);" class="brc_time" maxlength="5" size=10 style="padding:5px; text-align:center;" value="${time1}"> ~
+									<input type="text" name="time2" onKeyup="inputTimeColon(this);" class="brc_time" maxlength="5" size=10 style="padding:5px; text-align:center;" value="${time2}">
 								</td>
 									
 							</tr>
 							<tr>
-								<th>휴무일</th>
+								<th style="padding-right:10px;">휴무일</th>
 								<td>
 									<select style="padding:5px" class="closeday" name="branchRest" value="${vBranch.branchRest}">
 										<option>월요일</option> <option>화요일</option> <option>수요일</option> <option>목요일</option>
@@ -154,7 +100,7 @@
 							
 							<!-- 지점소개 : summernote -->
 							<tr>
-								<th>지점소개</th>
+								<th style="padding-right:10px;">지점소개</th>
 								<td>
 									<textarea id="summernote" style="resize: none;" name="branchContent" value="${vBranch.branchContent}">${vBranch.branchContent}</textarea>
 									<c:import url="../a_common/summernote.jsp"/>

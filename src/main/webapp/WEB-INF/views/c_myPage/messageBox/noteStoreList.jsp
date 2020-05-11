@@ -61,7 +61,7 @@
 						<tr>
 							<th style="width:70px;"><input type="checkbox" name="chkNoAll"> 번호</th>
 							<th style="width:200px;">보낸사람</th>
-							<th style="width:240px;">제목</th>
+							<th style="width:240px;">내용</th>
 							<th>날짜</th>
 						</tr>
 					</thead>
