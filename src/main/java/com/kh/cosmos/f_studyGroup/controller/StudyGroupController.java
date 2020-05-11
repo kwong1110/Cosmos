@@ -577,7 +577,7 @@ public class StudyGroupController {
 						Note n = new Note();
 						n.setNoteFromId("admin00");
 						n.setNoteToId(sg.getId());
-						n.setNoteContent("'" + sg.getSgName() + "' 그룹의 모집이 마감되었습니다.<br>이번 모집에서 모집된 인원이 없습니다. 아래 링크를 통해 다시 모집을 등록해보세요.<br><a onclick='window.open(&quot;" + "insertRecView.sg" + "&quot;)'>좌석 예약하러 가기</a>");
+						n.setNoteContent("'" + sg.getSgName() + "' 그룹의 모집이 마감되었습니다.<br>이번 모집에서 모집된 인원이 없습니다. 아래 링크를 통해 다시 모집을 등록해보세요.<br><a onclick='window.open(&quot;" + "insertRecView.sg" + "&quot;)'>모집 등록하러 가기</a>");
 						int messageResult = nService.insertNote(n);
 					}
 				} else if(sg.getSgStatus().equals("Y")) {
