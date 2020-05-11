@@ -899,6 +899,7 @@
 					if(data == 'success') {
 						$('.modalTitle').text(sgName);
 						openGroupBossModal(e, sgno);
+						sweetSuccess('모집을 마감');
 					} else
 						alert('모집 마감에 실패하였습니다.');
 				}
