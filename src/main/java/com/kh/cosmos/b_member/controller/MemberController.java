@@ -196,10 +196,10 @@ public class MemberController {
 					int result = mService.fakePwd(member);
 					
 					
-					String content = "<div align='center' sytle='background:#fffcda'>"
-									+ "<img src='http://localhost:9280/cosmos/resources/image/FindPwdEmail01.png'>"
+					String content = "<div align='center' sytle='background:#fffcda'>"						
+									+ "<img src='http://192.168.10.232:9280/cosmos/resources/image/FindPwdEmail01.png'>"
 									+ "<h2>회원님의 임시 비밀번호는'" + lastPw +"'입니다.</h2>"
-									+ "<img src='http://localhost:9280/cosmos/resources/image/FindPwdEmail02.png'>";
+									+ "<img src='http://192.168.10.232:9280/cosmos/resources/image/FindPwdEmail02.png'>";
 					if(result > 0) {
 						System.out.println("임시비밀번호로 변경");
 					} else {
