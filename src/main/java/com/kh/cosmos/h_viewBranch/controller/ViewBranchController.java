@@ -119,14 +119,10 @@ public class ViewBranchController {
 	@RequestMapping("viewBranchUpdate.vb")
 	public ModelAndView branchUpdate(@ModelAttribute ViewBranch vb, 
 									 @RequestParam("vbNo") int branchNo, @RequestParam(value="page", required=false) int page, 
-									 /*@RequestParam("post") String post, @RequestParam("address1") String addr1, @RequestParam("address2") String addr2,*/ 
-									 @RequestParam("localNum") String localNum, @RequestParam("tel1") String tel1, @RequestParam("tel2") String tel2,
 									 @RequestParam("time1") String time1, @RequestParam("time2") String time2, 
 									 ModelAndView mv) {
 		
 		vb.setBranchNo(branchNo);
-//		vb.setBranchAddress(post + " / " + addr1 + " / " + addr2);
-		vb.setBranchTel(localNum + "-" + tel1 + "-" + tel2);
 		vb.setBranchTime(time1 + " ~ " + time2);
 		
 		System.out.println(vb);

@@ -29,9 +29,7 @@
         		
         		<div class="form-area clear-fix">
         			<input type="hidden" id="userId" name="userId" value="${loginUser.id}">
-	        		<!-- 드롭다운 + 검색 -->
 					<form method="get" action="" class="category">
-						<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
 						<select class="form-control" id="menuCondition" name="menuCondition"><!--  search-select -->
 							<option value="total" <c:if test="${menuCondition == 'total'}">selected='selected'</c:if>>전체 쪽지</option>
 							<option value="to" <c:if test="${menuCondition == 'to'}">selected='selected'</c:if>>받은 쪽지</option>
@@ -41,22 +39,19 @@
 						</select>
 						
 					</form>
-	        		<!-- 검색창 -->
-				  	<!-- 드롭다운 + 검색 -->
 					<form method="get" action="">
-						<!-- 비율은 본인 스타일대로 수정해서 사용하세요 -->
 						<select class="form-control" id="searchCondition" name="searchCondition"><!--  search-select -->
 							<option>검색</option>
 							<option value="id">아이디</option>
 							<option value="nick">닉네임</option>
 							<option value="content">내용</option>
 						</select>
-						<div class="input-group"><!-- search-text -->
+						<div class="input-group">
 							<input type="text" class="form-control" placeholder="검색어를 입력하세요." id="searchValue" name="searchValue">
 							<span class="input-group-btn">
 								<button class="btn search-submit" style="border:1px solid #ccc" type="button" onclick="searchNote();">검색</button>
 							</span>
-						</div><!-- /input-group -->
+						</div>
 					</form>
 				</div>
 				<table class="table table-hover">
@@ -64,7 +59,7 @@
 						<tr>
 							<th style="width:70px;"><input type="checkbox" name="chkNoAll"> 번호</th>
 							<th style="width:200px;">보낸사람</th>
-							<th style="width:240px;">제목</th>
+							<th style="width:240px;">내용</th>
 							<th>날짜</th>
 						</tr>
 					</thead>
