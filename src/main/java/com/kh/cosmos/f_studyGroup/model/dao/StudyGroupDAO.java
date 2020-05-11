@@ -249,4 +249,8 @@ public class StudyGroupDAO {
 	public ArrayList<StudyGroupRecruit> getMetOnceGroupList(SqlSessionTemplate sqlSession) {
 		return (ArrayList)sqlSession.selectList("studyGroupMapper.getMetOnceGroupList");
 	}
+
+	public StudyGroupRecruit getGroup(SqlSessionTemplate sqlSession, int sgno) {
+		return sqlSession.selectOne("studyGroupMapper.getGroup",sgno);
+	}
 }

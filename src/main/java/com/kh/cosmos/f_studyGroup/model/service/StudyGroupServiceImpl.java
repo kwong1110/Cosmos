@@ -203,4 +203,9 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	public ArrayList<StudyGroupRecruit> getMetOnceGroupList() {
 		return sgDAO.getMetOnceGroupList(sqlSession);
 	}
+
+	@Override
+	public StudyGroupRecruit getGroup(int sgno) {
+		return sgDAO.getGroup(sqlSession, sgno);
+	}
 }
