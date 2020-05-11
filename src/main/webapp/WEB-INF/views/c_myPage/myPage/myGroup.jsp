@@ -374,8 +374,10 @@
 								$sgStatus = $td;
 							}
 							
+							var sgName = decodeURIComponent(data[i].sgName.replace(/\+/g, ' '));
+							
 							$studyName = $('<td>').text(decodeURIComponent(data[i].studyName.replace(/\+/g, ' ')));
-							$sgName = $('<td class="title">').text(decodeURIComponent(data[i].sgName.replace(/\+/g, ' ')));
+							$sgName = $('<td class="title">').text(sgName);
 
 							if(userId == data[i].id) {
 								var $span;
@@ -386,7 +388,7 @@
 								$span.append($img);
 								$td.append($span);
 								$bossNick = $td;
-								$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +');">');
+								$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +', \'' + sgName + '\');">');
 							} else {
 								$bossNick = $('<td>').text(decodeURIComponent(data[i].nick.replace(/\+/g, ' ')));
 							}
@@ -396,19 +398,19 @@
 							if(userId == data[i].id) { //로그인 유저가 그룹장일 때
 								if(data[i].sgStatus == 'D' || data[i].sgStatus == 'E') { //그룹장이 스터디 종료 or 다회로 변경되지 않음
 									print = '스터디 종료';
-									$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +');">');
+									$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +', \'' + sgName + '\');">');
 								} else {
 									print = '스터디 진행 중';
-									$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +');">');
+									$tr = $('<tr onclick="openGroupBossModal(this,' + data[i].sgNo +', \'' + sgName + '\');">');
 								}
 							} else { //그룹원이 해당 그룹에 수락된 경우
 								if(data[i].appStatus == 'Y') {
 									if(data[i].sgStatus == 'D' || data[i].sgStatus == 'E') { //그룹장이 스터디 종료 or 다회로 변경되지 않음
 										print = '스터디 종료';
-										$tr = $('<tr onclick="openGroupModal(this,' + data[i].sgNo +');">');
+										$tr = $('<tr onclick="openGroupModal(this,' + data[i].sgNo +', \'' + sgName + '\');">');
 									} else {
 										print = '스터디 진행 중';
-										$tr = $('<tr onclick="openGroupModal(this,' + data[i].sgNo +');">');
+										$tr = $('<tr onclick="openGroupModal(this,' + data[i].sgNo +', \'' + sgName + '\');">');
 									}
 								} else if(data[i].appStatus == 'E') { //수락 후 스스로 나간 경우
 									print = '스터디 종료 (나감)';
@@ -583,7 +585,7 @@
 			})
 		}
 		
-		function openGroupModal(e, sgno) {
+		function openGroupModal(e, sgno, sgName) {
 			sgNo = sgno;
 			
 			$.ajax({
@@ -597,7 +599,8 @@
 					<th>그룹 참가일</th>
 					*/
 					
-					$('.modalTitle').text($(e).children('.title').text());
+					//$('.modalTitle').text($(e).children('.title').text());
+					$('.modalTitle').text(sgName);
 					
 					$tableBody = $('#modalTable tbody');
 					$tableBody.html('');
@@ -624,8 +627,7 @@
 			});
 		}
 	
-		var modalTitle = "";
-		function openGroupBossModal(e, sgno) {
+		function openGroupBossModal(e, sgno, sgName) {
 			sgNo = sgno;
 			
 			$.ajax({
@@ -633,19 +635,8 @@
 				data:{sgno:sgno},
 				dataType: 'json',
 				success: function(data) {
-					/*
-					<th>No</th>
-					<th>구성원 닉네임</th>
-					<th>그룹 참가일</th>
-					<th style="width:20%;">강퇴</th>
-					*/
 					
-					if(modalTitle == '') {
-						modalTitle = $(e).children('.title').text();
-						$('.modalTitle').text(modalTitle);
-					} else {
-						modalTitle = "";
-					}
+					$('.modalTitle').text(sgName);
 
 					$memberTableBody = $('#modalMemberTable tbody');
 					$memberTableBody.html('');
@@ -660,14 +651,12 @@
 							data[i].nick = decodeURIComponent(data[i].nick.replace(/\+/g, ' '));
 							
 							sendNo = sgno;
-							sendNick = data[i].nick;
-							sendId = data[i].id;
 							
-							$tr.append('<td>' + no + '</td>');
+							$tr.append('<td>' + no + '<input type="hidden" id="hidId" value="' + data[i].id + '"</td>');
 							no--;
 							$tr.append('<td>' + data[i].nick + '</td>');
 							$tr.append('<td>' + data[i].appDlDate + '</td>');
-							$tr.append('<td><input type="button" class="defaultBtn" style="background:#71acf8;" value="강퇴" onclick="deleteMemberAlert();"></td>');
+							$tr.append('<td><input type="button" class="defaultBtn" style="background:#71acf8;" value="강퇴" onclick="deleteMemberAlert(this);"></td>');
 							$memberTableBody.append($tr);
 						}
 					} else {
@@ -681,13 +670,6 @@
 				data:{sgno:sgno},
 				dataType: 'json',
 				success: function(data) {
-					/*
-					<th>No</th>
-					<th>모집 등록 날짜</th>
-					<th>모집 기간</th>
-					<th>모집 인원</th>
-					<th></th>
-					*/
 					
 					$recTableBody = $('#modalRecTable tbody');
 					$recTableBody.html('');
@@ -712,13 +694,9 @@
 					        var endDateArr = endDate.split('-');
 					        var endDateCompare = new Date(endDateArr[0], parseInt(endDateArr[1])-1, endDateArr[2]);
 							
-					        console.log('modalTitle : ' + modalTitle);
-					        console.log('i : ' + i);
-					        console.log('Object.keys(data).length : ' + Object.keys(data).length);
-							if(modalTitle == '' && i == 0) {
+							if(i == 0) {
 								data[i].recTerm = data[i].recTerm.slice(0,21) + dd;
 							}
-					        console.log('data[i].recTerm : ' + data[i].recTerm);
 							
 							$tr = $('<tr>');
 							
@@ -730,7 +708,7 @@
 							
 							if(endDateCompare >= todayCompare) {
 								$tr.append('<td>모집 중</td>');
-								$tr.append('<td><span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="closeRec(this, ' + data[i].recNo + ', ' + sgno + ');"></span></td>');
+								$tr.append('<td><span class="glyphicon glyphicon-remove" aria-hidden="true" onclick="closeRec(this, ' + data[i].recNo + ', ' + sgno + ', \'' + sgName + '\');"></span></td>');
 							} else {
 								$tr.append('<td>모집 마감</td>');
 								$tr.append('<td></td>');
@@ -774,7 +752,10 @@
 		var sendNick;
 		var sendId;
 		var groupName;
-		function deleteMemberAlert() {
+		function deleteMemberAlert(e) {
+			sendNick = $(e).parent().parent().children().eq(1).text();
+			sendId = $(e).parent().parent().find('input').val();
+			
 			sweetCheck("정말 '" + sendNick + "'님을 그룹에서 강퇴시키겠습니까?", "강퇴 후 복구할 수 없습니다.", "강퇴");
 		}
 
@@ -909,14 +890,14 @@
 			getGroupListPage(trigerBox);
 		})
 		
-		function closeRec(e, recno, sgno) {
+		function closeRec(e, recno, sgno, sgName) {
 			$.ajax({
 				url:"closeRec.mp",
 				data:{recno:recno},
 				dataType: 'json',
 				success: function(data) {
 					if(data == 'success') {
-						$('.modalTitle').text(modalTitle);
+						$('.modalTitle').text(sgName);
 						openGroupBossModal(e, sgno);
 					} else
 						alert('모집 마감에 실패하였습니다.');
