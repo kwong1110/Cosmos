@@ -208,4 +208,9 @@ public class StudyGroupServiceImpl implements StudyGroupService{
 	public StudyGroupRecruit getGroup(int sgno) {
 		return sgDAO.getGroup(sqlSession, sgno);
 	}
+
+	@Override
+	public int getRecPartNum(int recno) {
+		return sgDAO.getRecPartNum(sqlSession, recno);
+	}
 }

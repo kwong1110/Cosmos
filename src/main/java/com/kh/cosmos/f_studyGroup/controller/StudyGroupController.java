@@ -564,7 +564,7 @@ public class StudyGroupController {
 		ArrayList<StudyGroupRecruit> endRecList = sgService.getEndRecList();
 		if(endRecList != null) {
 			for(StudyGroupRecruit sg : endRecList) {
-				int partmem = sgService.getPartMemberNum(sg.getSgNo());
+				int partmem = sgService.getRecPartNum(sg.getRecNo());
 				
 				if(sg.getSgStatus().equals("N")) {
 					if(partmem > 0) { // 모집된 인원이 1인 이상

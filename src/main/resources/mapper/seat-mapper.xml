@@ -23,12 +23,10 @@
 	
 	<select id="selectSeatList" resultMap="seatResultSet">
 		<![CDATA[
-			select * 
+				select * 
 			from reser
-			where reser_yn='Y' and reser_day=#{reserDay}  
-				  			   and ((start_time >= #{startTime} and start_time < #{endTime}) 
-        					   or (end_time > #{startTime} and end_time <= #{endTime})) 
-				  			   and branch_no=#{branchNo}
+			where  branch_no=#{branchNo} and reser_yn='Y' and ((reser_day = #{reserDay} and ((start_time >= #{startTime} and start_time < #{endTime}) or (end_time > #{startTime} and end_time <= #{endTime})))
+                               or (reser_day <= #{reserDay} and finish_day = #{finishDay}))
 		]]>
 							  <!--  and ((start_time between #{startTime} and #{endTime}) 
 				  			   or (end_time between #{startTime} and #{endTime}))  -->

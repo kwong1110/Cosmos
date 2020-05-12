@@ -189,7 +189,8 @@ public class MyGroupController {
 		
 		if(result > 0) {
 			StudyGroupRecruit sg = sgService.getGroup(recno);
-			int partmem = sgService.getPartMemberNum(sg.getSgNo());
+			//int partmem = sgService.getPartMemberNum(sg.getSgNo());
+			int partmem = sgService.getRecPartNum(recno);
 			
 			if(sg.getSgStatus().equals("N")) {
 				if(partmem > 0) { // 모집된 인원이 1인 이상
