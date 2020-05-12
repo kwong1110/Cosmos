@@ -526,7 +526,7 @@
 				data.planMenu == 'TODAY' ? $('#today').attr('checked', 'checked') : $('#default').attr('checked', 'checked');
 				$('#categorySelect').val(data.studyNo).prop('selected', true);
 				$('#title').val(decodeURIComponent(data.planTitle.replace(/\+/g, ' ')));
-				$('#planDate').val(data.planStart + "~" + data.planEnd);
+				$('#planDate').val(data.planStart + " - " + data.planEnd);
 				$('#planCreateDate').text(data.createDate);
 				$('#like').text(data.likeCount);
 				$('#hit').text(data.hit);

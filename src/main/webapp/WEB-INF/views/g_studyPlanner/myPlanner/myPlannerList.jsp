@@ -281,6 +281,12 @@
 	}
 </style>
 <script>
+/*
+ *  나중에 고쳐야 할 오류 사항
+ 	
+ 	allday의 드래그 이동
+ 	드래그시 오늘의 할일 추가는 새로고침하여야됨 -> ajax로 바로 처리되게..?
+ */
 document.addEventListener('DOMContentLoaded', function() {
 	 
 	var calendarEl = document.getElementById('calendar');

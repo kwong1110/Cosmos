@@ -299,8 +299,10 @@ public class StrudyPlannerController {
 			int orderResult = spService.updateReplyOrder(r);
 		}
 		
+		//System.out.println("리리플리온 확인 : " + reReplyOn );
 		// 답글에 답글일 경우
 		if(reReplyOn.equals("reReplyOn")) {
+			//System.out.println("리리플리 접속!");
 			// insert시 order를 +1를 해주니까 대댓글에서는 -1을해주어야함
 			int reReplyResult = spService.updateReReplyOrder(r);
 			r.setReGrpOrder(r.getReGrpOrder()-1);

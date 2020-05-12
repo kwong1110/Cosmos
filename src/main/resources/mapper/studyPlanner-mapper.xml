@@ -135,6 +135,7 @@
 		set re_grp_order=re_grp_order+1
 		where re_grp_no=#{ reGrpNo } and re_grp_order > #{ reGrpNo }
 	</update>
+	<!-- re_grp_order > #{ reGrpNo } 이부분 다시한번 고려해볼것..  -->
 	
 	<select id="selectSearchResultCount" resultType="_int">
 		select count(*)
