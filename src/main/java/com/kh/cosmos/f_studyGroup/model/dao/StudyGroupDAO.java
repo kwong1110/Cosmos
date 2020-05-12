@@ -253,4 +253,8 @@ public class StudyGroupDAO {
 	public StudyGroupRecruit getGroup(SqlSessionTemplate sqlSession, int sgno) {
 		return sqlSession.selectOne("studyGroupMapper.getGroup",sgno);
 	}
+
+	public int getRecPartNum(SqlSessionTemplate sqlSession, int recno) {
+		return sqlSession.selectOne("studyGroupMapper.getRecPartNum", recno);
+	}
 }

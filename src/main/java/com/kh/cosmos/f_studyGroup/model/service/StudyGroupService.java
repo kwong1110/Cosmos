@@ -85,4 +85,6 @@ ArrayList<StudyGroupRecruit> getEndRecList();
 ArrayList<StudyGroupRecruit> getMetOnceGroupList();
 
 StudyGroupRecruit getGroup(int sgno);
+
+int getRecPartNum(int recno);
 }
