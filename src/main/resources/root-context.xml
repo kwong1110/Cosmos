@@ -8,9 +8,9 @@
 	<!-- DataSource 등록 -->
 	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
-		<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+		<property name="url" value="jdbc:oracle:thin:@cosmos.cqkxhaiiacir.ap-northeast-2.rds.amazonaws.com:1521:cosmos"/>
 		<property name="username" value="COSMOS"/>
-		<property name="password" value="COSMOS"/>
+		<property name="password" value="COSMOSCOSMOS"/>
 		<property name="defaultAutoCommit" value="false"/>
 	</bean>
 	

@@ -4,6 +4,11 @@
 <html>
 <head>
 <meta charset="UTF-8">
+	<meta property="og:url" content="http://www.cosmos.gq">
+	<meta property="og:title" content="코스모스 (Cosmos)">  
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="http://postfiles6.naver.net/MjAyMDA1MzBfMjk1/MDAxNTkwODE3Nzk0NjI0.O6KVcE683Vvs2i6yLgQit3hv-0fudPVtwezb_oZUSBIg.jf8n5q37SEmDC34OnJQbRUry1EMivKUPRLfCHaKE10Mg.PNG.kwong8535/mainLogo.png?type=w773">
+	<meta property="og:description" content="스터디 커뮤니티 사이트">
 <title>코스모스</title>
 <style>
    div.total-wrapper {

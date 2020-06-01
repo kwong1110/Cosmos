@@ -222,7 +222,7 @@
 	<c:set var="contextPath" value="${ pageContext.servletContext.contextPath }" scope="application"/>
 	
 	<div class="header">
-		<div class="logo imageBox" onclick="location.href='${ contextPath }'"></div>
+		<div class="logo imageBox" onclick="location.href='http://www.cosmos.gq/'"></div>
 		<div class="user-area">
 			<c:if test="${ empty sessionScope.loginUser }">
 				<div class="oneLine">
