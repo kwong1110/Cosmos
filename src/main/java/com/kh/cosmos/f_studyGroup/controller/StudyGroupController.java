@@ -458,7 +458,7 @@ public class StudyGroupController {
 					ArrayList<String> memberList = sgService.getMemList(sg.getSgNo());
 					
 					for(String memId : memberList) {
-						String link = "http://localhost:9280/cosmos/recruitDetailView.sg?sgno=" + sg.getSgNo();
+						String link = "http://cosmos.gq/recruitDetailView.sg?sgno=" + sg.getSgNo();
 						
 						Note n = new Note();
 						n.setNoteFromId("admin00");
